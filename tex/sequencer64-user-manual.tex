@@ -1,0 +1,359 @@
+%-------------------------------------------------------------------------------
+% sequencer64-user-manual
+%-------------------------------------------------------------------------------
+%
+% \file        sequencer64-user-manual.tex
+% \library     Documents
+% \author      Chris Ahlstrom
+% \date        2015-11-01
+% \update      2015-11-02
+% \version     $Revision$
+% \license     $XPC_GPL_LICENSE$
+%
+%     This document provides LaTeX documentation for Sequencer64.
+%
+%-------------------------------------------------------------------------------
+
+\documentclass[
+ 11pt,
+ twoside,
+ a4paper,
+ headinclude,
+ footinclude,
+ final                                 % versus draft
+]{article}
+
+\input{docs-structure}                 % specifies document structure and layout
+
+\makeindex
+
+\begin{document}
+
+\title{Sequencer64 User Manual}
+\author{Chris Ahlstrom \\
+   (\texttt{ahlstromcj@gmail.com})}
+\date{\today}
+\maketitle
+\tableofcontents
+\listoffigures                         % print the list of figures
+\listoftables                          % print the list of tables
+
+% Change the paragraph style to remove indenting and put a line between each
+% paragraph.  This could be moved up into the preamble, but then would
+% affect the spacing of the TOC and LOF, LOT noted above.
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
+
+\section{Introduction}
+\label{sec:introduction}
+
+   This document describes how to use \textsl{Sequencer64}
+   \cite{sequencer64},
+   through version 0.9.9.6, dated approximately November, 2015.
+
+\subsection{Sequencer64: What?}
+\label{subsec:what_is_sequencer64}
+
+   \textsl{Sequencer64} is an continuation of \textsl{Sequencer24}, 
+   which itself is a continuation of \textsl{Seq24},
+   a live-looping sequencer with an interface more like a hardware sequencer
+   than the typical software MIDI sequencer.
+   \textsl{Sequencer64} has many updates and improvements, and a modestly
+   new look, so that a new manual is now a necessity.
+
+   \textsl{Seq24} was, a few years back, a very active project, with a
+   number of contributors, who have created patches, additional
+   functionality, and even ports to Windows.
+   We have been assiduous about searching for all of these updates, and
+   incorporating them into \textsl{Sequencer64} where feasible.
+   There are still some things to be done, including a port to
+   Windows/Portmidi (but that is a low priority).
+
+   \textsl{Sequencer64} is not a synthesizer.  It requires a hardware
+   synthesizer, or a software synthesizer such as Timidity \cite{timidity},
+   FluidSynth \cite{fluidsynth}, ZynAddSubYX \cite{zynaddsubfx}, Yoshimi
+   \cite{yoshimi} \cite{yoshimi2}, AmSynth \cite{amsynth}, Bristol
+   \cite{bristol}, and others (see \cite{linuxsynths} for a fairly
+   comprehensive list of "Linux" synthesizers).
+
+   \textsl{Sequencer64}, like \textsl{Seq24},
+   is meant to work a bit like an Alesis SR16 drum machine,
+   which, for some, is a very intuitive and fast way to do MIDI.
+   If one has worked with trackers like \textsl{SoundTracker} and
+   \textsl{ShakeTracker}, then "you are a tracker guy and it gonna go fast".
+   With \textsl{Sequencer64}, one creates several patterns, and then
+   combines them.
+
+   There are a number of authors of \textsl{Seq24}, and currently only
+   one author of \textsl{Sequencer64},
+   as one can see in \figureref{fig:seq64_menu_help_credits},
+   and in \figureref{fig:seq64_menu_help_doc}.
+   All of these authors have contributed to \textsl{Sequencer64}, whether
+   they know it or not.
+   The original author is Rob C. Buse; where the word "I" occurs, that is
+   probably him.
+
+   Now, unfortunately, \textsl{Seq24} is not under active
+   development (2010 seems to be the last update).  There are a number of
+   minor forks for it on \textsl{GitHub}, and some conversions
+   to code in other languages, and some patches.
+   There is also a fairly extensive port to Windows.
+   So, why would we bother creating yet another fork of \textsl{Seq24}?
+
+\subsection{Sequencer64: Why?}
+\label{subsec:introduction_seq64_vs_others}
+
+   The first reason is consolidation of all the features and fixes that
+   \textsl{Seq24} has accumulated in various forks over the years.
+
+   Also, although "feature-complete", \textsl{Seq24} could use a few more
+   features, such as "infinite patterns" (i.e. "tracks"), better annunciation,
+   uniformity, ease-of-use of keystrokes, ways to work around the need for
+   two mouse buttons, a more up-to-date user-interface framework, a few bug
+   fixes, fix the formatting of the output "rc" configuration file, beef up the
+   support for the "user" configuration file, and a way to edit parts of the
+   MIDI file textually.
+
+   \begin{quotation}
+      \textsl{Seq24} is a real-time MIDI sequencer. It was created to
+      provide a very simple interface for editing and playing MIDI 'loops'.
+      After searching for a software based sequencer that would provide the
+      functionality needed for a live performance, there was little found in
+      the software realm. I set out to create a very minimal sequencer that
+      excludes the bloated features of the large software sequencers, and
+      includes a small subset of features that I have found usable in
+      performing. 
+
+      Written by Rob C. Buse.  I wrote this program to fill a
+      hole.  I figure it would be a waste if I was the only one
+      using it.  So, I released it under the GPL.
+   \end{quotation}
+
+   This project deserves to stay alive!  Taking advantage of Rob's generosity,
+   we've created a continuation, a refactoring, and an improvement (we hope) of
+   \textsl{Seq24}.  It preserves the lean nature of \textsl{Seq24}, and might
+   even make it a bit leaner, while adding a few features we've found useful.
+   Without \textsl{Seq24} and its authors, \textsl{Sequencer64} would never
+   have come into being.
+
+\subsection{Improvements}
+\label{subsec:improvements}
+
+   The following improvements have been made to \textsl{Seq24} for
+   \textsl{Sequencer64}:
+
+   \begin{itemize}
+      \item Additional mouse and keystroke support in the pattern and song
+         editor windows:
+      \begin{itemize}
+         \item Ability to move selected notes or triggers using the arrow keys.
+         \item Better explanation of existing keystroke support for that window.
+         \item Additional keystroke support found by Googling for seq24 all
+            around the Internet.
+         \item Ability to use the Mod4/Super/Windows key to keep editing
+            (painting) mode enabled after releasing the right mouse button,
+            for some of the modern crappy touchpads shipped with
+            laptops.
+      \end{itemize}
+      \item The "user" configuration is now written to disk, and we will be
+         adding settings to it in the near future.
+      \item Support for mapping MIDI events to a single MIDI buss for testing
+         or simple use cases.
+      \item On-going support for handling PPQN values other than the
+         default value of 192.
+      \item Small improvements in appearance:
+      \begin{itemize}
+         \item Support for showing empty (i.e. having only meta events)
+            sequences in a highlighting color.
+         \item Modification of the colors of the scale and background sequence
+            in the sequence editor to make it easier to see them all.
+         \item A new font, enabled at build time, that is bolder and has a
+            more modern, anti-aliased look.
+      \end{itemize}
+      \item Consolidated various patches in forks of the \textsl{Seq24}
+         project found by searching the web.  Fixes to bugs found while
+         refactoring \textsl{Seq24} were also made.  These fixes are noted in
+         detail in the project's ROADMAP file.
+      \item More musical scales (harmonic minor, melodic minor, and
+         whole tone scales) have been added.
+      \item Internal improvements.
+      \begin{itemize}
+         \item Provided a new, more MIDI-compliant output format for the MIDI
+            files.  The old format can still be read, and, with a "legacy" option,
+            be written.
+         \item Changed the type of MIDI event container used, which greatly speeds
+            up the loading of a MIDI file, especially in debug mode.
+            If the new container reduces the maximum output of the sequencer,
+            we will dump the slow container into a vector container for faster
+            playback.
+         \item The code was reformmated using \textsl{astyle} and
+            personal preferences.  Modules were split into smaller units.
+            Header file "includes" were moved into the "cpp" files to reduce
+            header-file dependencies and build times, and to facilitate
+            modularity and understanding of the code.
+         \item Much documentation was added to the code as we figured
+            out how it worked.  Generation of Doxygen output (including a PDF
+            file) provides a developer's reference manual.
+         \item Debian packaging was incorporated into the project to make it
+            easier to install without source code.  Bootstrapping and
+            packing scripts were added so that other developers can rebuild the
+            project from scratch.
+      \end{itemize}
+      \item New minor features.
+      \begin{itemize}
+         \item The size of the Patterns Panel (main windows) is now locked,
+            since enlarging it offers no benefits.
+         \item Support for LASH is now a run-time option (as well as a build
+            option).
+         \item Support for reading and writing configuration files from the
+            user's \texttt{\$HOME/.config/sequencer64} directory.
+      \end{itemize}
+   \end{itemize}
+
+   In the future, version 1.0 will be even more object-oriented, hopefully
+   faster, and easier to modify.  Eventually, we might get it to build
+   for Windows, using MingW, though this is a low priority and a fairly
+   significant task.
+
+\subsection{Document Structure}
+\label{subsec:introduction_document_structure}
+
+   The structure of this document is based on the user-interface of
+   \textsl{Sequencer64}.  The sections are basically provided in the order
+   their contents appear in the user interface of \textsl{Sequencer64}.  To
+   help the reader jump around this document, multiple links, references,
+   and index entries are provided.
+
+   Usage tips
+   \index{tips!documented}
+   for each of the functions provided in
+   \textsl{Sequencer64} are sprinkled throughout this document.
+   Each tip occurs in a section beginning with "\textbf{Tip:}".
+   Each tip is provided with an entry in the index, under the
+   main topic "tips".
+
+   Bug notes
+   \index{bugs!documented}
+   for some of the oddities found in \textsl{Sequencer64} are
+   sprinkled throughout this document.
+   Each bug occurs in a sentence beginning with "\textbf{Bug:}".
+   Each bug is provided with an entry in the index, under the
+   main topic "bugs".  These bugs are items that we will try to
+   fix as time goes on.
+
+   "To-do" items
+   \index{todo!documented}
+   are also present, again in the same vein.
+   Each to-do occurs in a sentence beginning with "\textbf{TODO:}".
+   This document currently has a lot of them!
+
+   "New" items
+   \index{new!documented}
+   are also present, in the same vein.
+   New features (post version 0.9.2) will be noted with the tag
+   "\textbf{New:}".
+
+\subsection{Let's Get Started!}
+\label{subsec:introduction_lets_get_started}
+
+   Let us run \textsl{Sequencer64}, but run it without using \textsl{JACK},
+   which complicates the discussion of \textsl{Sequencer64}.  The first
+   thing to do is make sure one has no other sound application running
+   (unless one wants to risk blocking \textsl{Sequencer64} or hearing two
+    sounds simultaneously, depending on one's sound card and ALSA setup).
+   Then start \textsl{Sequencer64} so that it uses ALSA for MIDI.  Provide a
+   default MIDI file so that all elements of the user interface can come
+   into play.  Also use the "\&" character so that we get back to the
+   command-line prompt.  Finally, on our system the main synthesizer
+   (\textsl{Yoshimi}) comes up on MIDI buss 5, so we add an option to remap
+   all events to that buss:
+
+\begin{verbatim}
+   $ sequencer64 --bus 5 b4uacuse-seq24.midi &
+\end{verbatim}
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{seq64-first-screen.png}
+   \caption{Sequencer64 Main Screen}
+   \label{fig:seq64_main_screen}
+\end{figure}
+
+   Then the \textsl{Sequencer64} main window appears, as shown in
+   \figureref{fig:seq64_main_screen}.  It has a two minor differences
+   from the \textsl{Seq24} main window: the highlighting of
+   empty patterns in yellow; and a different font.
+
+   \textbf{Tip:}
+   \index{tips!tooltips}
+   \index{tooltips}
+   As with most user-interfaces, holding the mouse over any button for a
+   short period will let one view a short description (tooltip)
+   of what it does.
+
+% The following "input" sections are stored in separate files of the same
+% name with ".tex" appended.
+
+% Important Concepts
+
+\input{seq64_concepts}
+
+% Menu
+
+\input{seq64_menu}
+
+% Patterns Panel
+
+\input{seq64_patterns_panel}
+
+% Pattern Editor
+
+\input{seq64_pattern_editor}
+
+% Song Editor
+
+\input{seq64_song_editor}
+
+% Configuration file
+
+\input{seq64_rc_file}
+
+% User file
+
+\input{seq64_usr_file}
+
+% Man page
+
+\input{seq64_manpage}
+
+% Building and debugging Sequencer64
+
+% \input{yum_build}
+
+% Discussion of MIDI formats related to Seq24 and Sequencer64
+
+\input{seq64_midi_formats}
+
+\section{Summary}
+\label{sec:summary}
+
+   In summary, we can say that you will find \textsl{Sequencer64} intriguing.
+
+   There are some topics that this document does not yet treat ...:
+
+   Contact: If you have ideas about \textsl{Sequencer64} or a bug report, please
+   email us (at \url{mailto:ahlstromcj@gmail.com}).
+   If it's a bug report, please add \textbf{[BUG]} to the Subject.
+
+% References
+
+\input{seq64_references}
+
+\printindex
+
+\end{document}
+
+%-------------------------------------------------------------------------------
+% vim: ts=3 sw=3 et ft=tex
+%-------------------------------------------------------------------------------

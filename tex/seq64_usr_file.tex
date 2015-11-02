@@ -1,0 +1,212 @@
+%-------------------------------------------------------------------------------
+% seq64_usr_file
+%-------------------------------------------------------------------------------
+%
+% \file        seq64_usr_file.tex
+% \library     Documents
+% \author      Chris Ahlstrom
+% \date        2015-08-31
+% \update      2015-09-01
+% \version     $Revision$
+% \license     $XPC_GPL_LICENSE$
+%
+%     Provides the usr_file.
+%
+%-------------------------------------------------------------------------------
+
+\section{Sequencer64 User Configuration File}
+\label{sec:seq64_usr_file}
+
+   \index{sequencer64usr}
+   \index{[sequencer64usr]}   % for convenience
+   The \textsl{Sequencer64} configuration file was called
+   \texttt{.seq24usr}, and it was stored in the user's \texttt{\$HOME}
+   directory.
+   This is the same name used by \textsl{Seq24}, so we created an new file
+   to take its place, with a fall-back to the original file-name if the new
+   file does not exist, or if \textsl{Sequencer64} is running in
+   legacy mode.
+
+   After you run \textsl{Sequencer64} for the first time, it will generate a
+   \texttt{sequencer64usr} file in your home directory:
+
+   \begin{verbatim}
+      /home/ahlstrom/.config/sequencer64/sequencer64usr
+   \end{verbatim}
+
+   It allows you to give an alias to 
+   each MIDI bus, MIDI channel, and MIDI control 
+   codes, per channel.
+   The name is a bit misleading... do not confuse this file with the
+   \texttt{sequencer64rc} file.
+
+   The process for setting up the user file is to:
+
+   \begin{enumber}
+      \item Define one or more MIDI busses, the name of each, and what
+         instruments are on which channels.  Each buss is configured in a
+         section of the form "\textbf{[user-midi-bus-X]}", where "X" ranges
+         from 0 on up.
+      \item Define all of the instruments and their control-code
+         names if they have them.  Each instrument is configured in a
+         section of the form "\textbf{[user-instrument-X]}", where "X"
+         ranges from 0 on up.
+   \end{enumber}
+
+\subsection{Sequencer64 User / MIDI Bus Definitions}
+\label{subsec:seq64_usr_file_midi_bus_definitions}
+
+   \index{[user-midi-bus-definitions]}
+   This section begins with an
+   "INI" group marker \texttt{[user-midi-bus-definitions]}.
+   It defines the number of user busses that will be configured in this file.
+
+   \begin{verbatim}
+      [user-midi-bus-definitions]
+      3     # number of user buses
+   \end{verbatim}
+
+   This means that the \texttt{sequencer64usr} file will have three MIDI buss
+   sections: [user-midi-bus-0], [user-midi-bus-1], and [user-midi-bus-2].
+   Here's is an annoted example of one such section:
+
+   \begin{verbatim}
+      [user-midi-bus-0]
+      2x2 A (SuperNova,Q,TX81Z,DrumStation)     # name of the device
+      16                                        # number of channels
+
+      # NOTE: Channels are 0-15, not 1-16.  Instruments set to -1 = GM
+
+      0 1                                       # channel and instrument
+      1 1 
+      2 1
+      3 1
+      4 1
+      5 1
+      6 1
+      7 1
+      8 3
+      9 3
+      10 3
+      11 0
+      12 0
+      13 0
+      14 0
+      15 2
+   \end{verbatim}
+
+   Here's an example of one that needs only one override:
+
+   \begin{verbatim}
+      [user-midi-bus-2]
+      PCR-30 (303)
+      1                                         # number of channels
+      0 8                                       # channel and instrument
+      # The rest default to -1 - General MIDI
+   \end{verbatim}
+
+\subsection{Sequencer64 User / MIDI Instrument Definitions}
+\label{subsec:seq64_usr_file_midi_instrument_definitions}
+
+   \index{[user-instrument-definitions]}
+   This section begins with an
+   "INI" group marker \texttt{[user-instrument-definitions]}.
+   It defines the number of user instruments that will be configured in this
+   file.
+
+   \begin{verbatim}
+      [user-instrument-definitions]
+      9     # number of user instrument
+   \end{verbatim}
+
+   So this "rc" file will define 9 instruments.  We will provide one section
+   as a sample.
+
+   \begin{verbatim}
+      [user-instrument-0]
+      Waldorf Micro Q                     # name of instrument
+      128                                 # number of MIDI controllers
+      0                                   # first controller value, unnamed
+      1 Modulation Wheel
+      2 Breath Control
+      3 
+      4 Foot Control
+      5 Glide Rate
+      6 
+      7 Channel Volume
+      8
+      9
+      10 Pan
+      11 
+      12 Arp Range (0-9) (1-10 octaves)
+      13 Arp Length (0-15) (1-16 steps)
+      14 Arp Active (0-3) (Off,On,One Shot,Hold)
+      15 LFO 1 Shape (0-5) (Sine,Tri,Square,Saw,Rand,S&H)
+         . . .
+      119
+      120 All Sound Off (0)
+      121 Reset All Controllers (0)
+      122 Local Control (0-127) (Off,On)
+      123 All Notes Off (0)
+      124
+      125
+      126
+      127
+   \end{verbatim}
+
+   We assume that an unnamed control number is an unsupported control number.
+
+   Here is an instrument where its synthesis parameters can be controlled:
+
+   \begin{verbatim}
+      [user-instrument-1]
+      SuperNova
+      128
+      0 Bank Select MSB
+      1 Modulation Wheel
+      2 Breath Controller
+      3 Arp Pattern Select
+      4 Ring Modulator 2 * 3 Mix Level
+      5 Portamento Time
+      6 Data Entry
+      7 Part / Program Volume
+      8 Effects Confg Morph Amount
+      9 Arp Speed (Internal Clock Rate) [*]
+      10 Pan
+      11 Osc 1 Fine Tune
+      12 Osc 3 Fine Tune
+      13 Osc 1 Soften
+      14 Osc 2 Soften
+      15 Osc 3 Soften
+      16 LFO 1 Speed
+      17 LFO 1 Delay
+         . . .
+      119 Delay Mod Wheel Depth
+      120 All Sound Off
+      121 Reset Controllers
+      122 Local Control [*]
+      123 All Notes Off
+      124 All Notes Off
+      125 All Notes Off
+      126 All Notes Off
+      127 All Notes Off
+   \end{verbatim}
+
+   Here is an instrument that perhaps has no controllers, or maybe is simply
+   not configured yet.
+
+   \begin{verbatim}
+      [user-instrument-4]
+      WaveStation
+      0
+   \end{verbatim}
+
+   The sample file \texttt{contrib/scripts/dot-seq24usr} contains examples
+   of some other kinds of instruments, such as drum machines.
+
+   Sometime we would like to create a section that sets up the
+   \textsl{Yoshimi} 1.3.5+ software synthesizer as an instrument.
+
+%-------------------------------------------------------------------------------
+% vim: ts=3 sw=3 et ft=tex
+%-------------------------------------------------------------------------------

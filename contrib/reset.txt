@@ -1,0 +1,21 @@
+reset.mid:
+
+   http://www.markheadrick.com/midi.php
+
+   http://www.markheadrick.com/midi/reset.mid
+
+   I created this MIDI file out of frustration when I would play one
+   particular MIDI file and certain ones I played after it sounded wrong
+   (wrong instruments, the absence of some instruments, and so on).  Also,
+   every now and then I would get hold of a MIDI file that had a stuck note
+   at the end of it and the only way to stop it was to reboot the system or
+   load up my copy of Cakewalk Apprentice (by Twelve Tone Systems, Inc.) and
+   hit the Panic Button in it.  What I wanted was a MIDI file version of
+   Cakewalk Apprentice's Panic button.  With some help from their Tech
+   Support and my own investigation, this is what I've come up with.
+
+sade-smooth_operator.mid:
+
+   Also found at that site, included as a ready-made GM-compliant file
+   to test.
+

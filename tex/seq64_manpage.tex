@@ -1,0 +1,135 @@
+%-------------------------------------------------------------------------------
+% seq64_manpage
+%-------------------------------------------------------------------------------
+%
+% \file        seq64_manpage.tex
+% \library     Documents
+% \author      Chris Ahlstrom
+% \date        2015-08-31
+% \update      2015-09-05
+% \version     $Revision$
+% \license     $XPC_GPL_LICENSE$
+%
+%     Provides the man page section of seq24-user-manual.tex.
+%
+%-------------------------------------------------------------------------------
+
+\section{Sequencer64 Man Page}
+\label{sec:seq64_man_page}
+
+   This section presents the contents of the \textsl{Sequencer64} man page, but
+   not exactly in \textsl{man} format.  Also, an item or two are shown that
+   somehow didn't make it into the man page, and minor corrections and
+   formatting tweaks were made.
+
+   \textsl{Sequencer64} is a real-time MIDI sequencer. It was created to
+   provide a very simple interface for editing and playing MIDI 'loops'.
+
+   \begin{verbatim}
+       sequencer64 [OPTIONS] [FILENAME]
+   \end{verbatim}
+
+   \textsl{Sequencer64} accepts the following options, plus an optional name of a
+   MIDI file.
+
+   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \optionpar{-h}{--help}
+      Display a list of all command-line options.
+
+   \optionpar{-v}{--version}
+      Display the program version.
+
+   \optionpar{-l}{--legacy}
+      \textbf{New:}
+      \index{new!legacy mode}
+      Save the MIDI file in the old Seq24 format, as unspecified
+      binary data, instead of as a legal MIDI track with meta events.
+      Also read the configuration, if provided, from the
+      \texttt{~/.seq24rc} and \texttt{~/.seq24usr} files,
+      instead of the new
+      \texttt{~/.config/sequencer64/sequencer64rc} and
+      \texttt{~/.config/sequencer64/sequencer64usr} files.
+      The user-interface will indicate this mode with a small text
+      note.
+      This mode is also used if \textsl{Sequencer64} is invoked as the
+      \texttt{seq24} command (one can create a soft link to the sequencer64
+      binary to make that happen).
+
+   \optionpar{-L}{--lash}
+      \textbf{New:}
+      \index{new!LASH runtime enabling}
+      If LASH support is compiled into the program, this option
+      enables it.
+
+   \optionpar{N/A}{--file [filename]}
+      Load a MIDI file on startup.
+      \textbf{Bug:}
+      \index{bugs!--file option doesn't exist}
+      This option does not exist.
+      Instead, specify the file itself as the last command-line argument.
+
+   \optionpar{-m}{--manual\_alsa\_ports}
+      \textsl{Sequencer64} won't attach ALSA ports.
+
+   \optionpar{-s}{--showmidi}
+      Dumps incoming MIDI to the screen.
+
+   \optionpar{-p}{--priority}
+      Runs at higher priority with FIFO scheduler.
+
+   \optionpar{N/A}{--pass\_sysex}
+      Passes any incoming SYSEX messages to all outputs.
+
+   \optionpar{-i}{--ignore [number]}
+      Ignore ALSA device [number].
+
+   \optionpar{-k}{--show\_keys}
+      Prints pressed key value.
+
+   \optionpar{-x}{--interaction\_method [number]}
+      Select the mouse interaction method.
+      0 = seq24 (the default); and 1 = fruity loops method.
+
+   \optionpar{-j}{--jack\_transport}
+      \textsl{Sequencer64} will sync to JACK transport.
+
+   \optionpar{-J}{--jack\_master}
+      \textsl{Sequencer64} will try to be JACK master.
+
+   \optionpar{-C}{--jack\_master\_cond}
+      JACK master will fail if there is already a master.
+
+   \optionpar{-M}{--jack\_start\_mode [x]}
+      When \textsl{Sequencer64} is synced to JACK, the following play modes
+      are available: 0 = live mode; and 1 = song mode, the default.
+
+   \optionpar{-S}{--stats}
+      Print statistics on the command-line while running.
+
+   \optionpar{-U}{--jack\_session\_uuid [uuid]}
+      Set the UUID for the JACK session.
+
+   \texttt{\$HOME/.seq24rc} holds the user settings for \textsl{Sequencer64}.
+
+   The old project homepage is at
+   \url{http://www.filter24.org/seq24/} the new
+   one is at \url{https://edge.launchpad.net/seq24/}.
+   It is released under the GNU GPL license.
+
+   \textsl{Sequencer64} was written by Chris Ahlstrom <ahlstromcj@gmail.com>.
+   \textsl{Seq24} was written by Rob C. Buse \url{mailto:seq24@filter24.org}
+   and the \textsl{Sequencer64} team.
+
+   This manual page was written by Dana Olson
+   \url{mailto:seq24@ubuntustudio.com} with additions from Guido Scholz
+   \url{mailto:guido.scholz@bayernline.de} and Chris Ahlstrom
+   \url{mailto:ahlstromcj@gmail.com}.
+
+   \begin{verbatim}
+Version 0.9.3                   September 1 2015                  Sequencer64(1)
+   \end{verbatim}
+
+%-------------------------------------------------------------------------------
+% vim: ts=3 sw=3 et ft=tex
+%-------------------------------------------------------------------------------

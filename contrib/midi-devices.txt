@@ -1,0 +1,77 @@
+
+After boot up:
+
+   Default devices:
+
+      $ arecordmidi -l
+       Port    Client name                      Port name
+       14:0    Midi Through                     Midi Through Port-0
+
+      $  aplaymidi -l
+       Port    Client name                      Port name
+       14:0    Midi Through                     Midi Through Port-0
+       128:0    TiMidity                         TiMidity port 0
+       128:1    TiMidity                         TiMidity port 1
+       128:2    TiMidity                         TiMidity port 2
+       128:3    TiMidity                         TiMidity port 3
+
+   Start "yoshimi -a -A":
+
+      The same!  No ports from Yoshimi!!
+      But it shows up in sequencer64's MIDI Clock tab.
+
+   Plug in USB MIDI cable:
+
+      $  arecordmidi -l
+       Port    Client name                      Port name
+       14:0    Midi Through                     Midi Through Port-0
+       24:0    USB2.0-MIDI                      USB2.0-MIDI MIDI 1
+
+
+      $  aplaymidi -l
+       Port    Client name                      Port name
+       14:0    Midi Through                     Midi Through Port-0
+       24:0    USB2.0-MIDI                      USB2.0-MIDI MIDI 1
+       24:1    USB2.0-MIDI                      USB2.0-MIDI MIDI 2
+      128:0    TiMidity                         TiMidity port 0
+      128:1    TiMidity                         TiMidity port 1
+      128:2    TiMidity                         TiMidity port 2
+      128:3    TiMidity                         TiMidity port 3
+
+After running sequencer64 with manual alsa = 1
+
+$ arecordmidi -l
+ Port    Client name                      Port name
+ 14:0    Midi Through                     Midi Through Port-0
+ 24:0    USB2.0-MIDI                      USB2.0-MIDI MIDI 1
+130:0    seq24                            [1] seq24 1
+130:1    seq24                            [2] seq24 2
+130:2    seq24                            [3] seq24 3
+130:3    seq24                            [4] seq24 4
+130:4    seq24                            [5] seq24 5
+130:5    seq24                            [6] seq24 6
+130:6    seq24                            [7] seq24 7
+130:7    seq24                            [8] seq24 8
+130:8    seq24                            [9] seq24 9
+130:9    seq24                            [10] seq24 10
+130:10   seq24                            [11] seq24 11
+130:11   seq24                            [12] seq24 12
+130:12   seq24                            [13] seq24 13
+130:13   seq24                            [14] seq24 14
+130:14   seq24                            [15] seq24 15
+130:15   seq24                            [16] seq24 16
+
+$  aplaymidi -l
+ Port    Client name                      Port name
+ 14:0    Midi Through                     Midi Through Port-0
+ 24:0    USB2.0-MIDI                      USB2.0-MIDI MIDI 1
+ 24:1    USB2.0-MIDI                      USB2.0-MIDI MIDI 2
+128:0    TiMidity                         TiMidity port 0
+128:1    TiMidity                         TiMidity port 1
+128:2    TiMidity                         TiMidity port 2
+128:3    TiMidity                         TiMidity port 3
+130:16   seq24                            seq24 in
+
+
+
+

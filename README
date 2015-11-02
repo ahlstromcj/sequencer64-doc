@@ -1,0 +1,50 @@
+Sequencer64 User Manual
+Chris Ahlstrom
+2015-11-01 to 2015-11-01
+
+This project provides two things:
+
+   1. A user manual for Sequencer64, a continuation of the simple, but
+      powerful, looping sequencer for Linux, Seq24, and our follow-on for it,
+      Sequencer24 (which is now "frozen").
+
+   2. Sample items to accompany the manual.
+
+Sequencer64 is now a lot further along, with many more new features than
+Sequencer24, and a slightly more modern look.  We have scoured the Web for
+important patches to Seq24 to make sure that they are incorporated into
+Sequencer64. Therefore, a whole new version of the manual, specific to
+Sequencer64 is now a necessity.
+
+Here are some of the new features of Sequencer64:
+
+   -  More mouse and keystroke support in the sequence editor window:
+      -  Ability to move selected notes using the arrow keys.
+      -  Better explanation of existing keystroke support for that window.
+      -  Additional keystroke support found by Googling for seq24 all around
+         the Internet.
+      -  Ability to use the Mod4/Super/Windows key to keep editing (painting)
+         mode enabled after release the right mouse button, to better support
+         some of the modern crappy touchpads shipped with laptops.  This
+         support is also present in the Song Editor.
+   -  Created a new font, enabled at build time, that is bolder and has a more
+      modern, anti-aliased look.
+   -  Additional color support:
+      -  Support for showing empty (i.e. having only meta events) sequences in
+         a highlighting color.
+      -  Modification of the colors of the scale and background sequence in the
+         sequence editor to make it easier to see them all.
+
+To recreate the PDF file (the latest version is stored in the "pdf"
+directory), you will need to install GNU make, latexmk, tex-live, pdf2latex,
+and other resources related to LaTeX and PDF support.  If everything is
+in place, then change to the "tex" directory, and a simple "make" command
+will create the document.
+
+"make clean" in the top-level directory or the "tex" directory will remove
+all of the generated products.
+
+Lastly, although this manual is well underway, it needs a lot of work and
+a lot of help!  It is still a work in progress.
+
+# vim: ts=3 sw=3 et ft=text

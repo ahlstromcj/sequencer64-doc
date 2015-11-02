@@ -1,0 +1,54 @@
+This section documents using the Seq24 sequencer with Yoshimi
+over ALSA.
+
+Why Seq24?  It is a smallish looping sequencer without a lot of bloat, but
+still fairly powerful.  Also, it supports ALSA.
+
+Why ALSA?  For demonstration purposes, we don't want to deal with the
+complexities of JACK.  Our demonstration setup is very simple:  Seq24 out to
+Yoshimi in.
+
+The first thing to do make sure there are no instances of seq24 already
+running, and then start seq24.  Once it starts, verify that the input and
+output MIDI ports for Seq24 are present:
+
+   $ killall seq24
+   $ seq24 click_4_4.midi &
+   $ aplaymidi -l
+    Port    Client name                      Port name
+   129:16   seq24                            seq24 in
+   $ arecordmidi -
+    Port    Client name                      Port name
+   129:0    seq24                            [1] seq24 1
+   129:1    seq24                            [2] seq24 2
+   129:2    seq24                            [3] seq24 3
+   129:3    seq24                            [4] seq24 4
+   129:4    seq24                            [5] seq24 5
+   129:5    seq24                            [6] seq24 6
+   129:6    seq24                            [7] seq24 7
+   129:7    seq24                            [8] seq24 8
+   129:8    seq24                            [9] seq24 9
+   129:9    seq24                            [10] seq24 10
+   129:10   seq24                            [11] seq24 11
+   129:11   seq24                            [12] seq24 12
+   129:12   seq24                            [13] seq24 13
+   129:13   seq24                            [14] seq24 14
+   129:14   seq24                            [15] seq24 15
+   129:15   seq24                            [16] seq24 16
+
+This means that there is one input to play MIDI through ALSA
+into Seq24, and that Seq24 can play into 16 MIDI devices using
+ALSA.
+
+Make sure that MPD (or some other audio-hogging application) isn't running,
+if your system isn't problem set up to dmix.  Now run one instance of
+Yoshimi, using ALSA:
+
+   $ killall yoshimi
+   $ yoshimi --alsa-midi=129:seq24 --alsa-audio &
+
+On our setup, running QJackCtl (no JACK running) shows, in the ALSA tab,
+an output ALSA port "129:seq24" and a input ALSA ports "129:seq24" and
+"130:yoshimi".  Yoshimi doesn't appear in the -l (list) option of
+aplaymidi and arecordmidi, oddly enough.
+

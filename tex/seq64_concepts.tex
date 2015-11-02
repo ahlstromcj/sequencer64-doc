@@ -1,0 +1,264 @@
+%-------------------------------------------------------------------------------
+% seq64_concepts
+%-------------------------------------------------------------------------------
+%
+% \file        seq64_concepts.tex
+% \library     Documents
+% \author      Chris Ahlstrom
+% \date        2015-11-01
+% \update      2015-11-02
+% \version     $Revision$
+% \license     $XPC_GPL_LICENSE$
+%
+%     Provides some concepts and terms needed to understand Sequencer64.
+%
+%-------------------------------------------------------------------------------
+
+\section{Concepts}
+\label{sec:concepts}
+
+   The \textsl{Sequencer64} program is basically a loop-playing machine with a 
+   fairly simple interface.  Before we describe this interface, it is useful
+   to present some concepts and definitions of terms as
+   they are used in \textsl{Sequencer64}.  Various terms have been used over
+   the years to mean the same (e.g. "sequence", "pattern", "loop", and "slot"),
+   so it is good to clarify the usage here.
+
+\subsection{Concepts / Terms}
+\label{subsec:concepts_terms}
+
+   This section doesn't provide comprehensive coverage of terms.  It
+   covers terms that puzzled the author at first or that are
+   necessary to understand the \textsl{Sequencer64} program.
+
+\subsubsection{Concepts / Terms / armed}
+\label{subsubsec:concepts_terms_armed}
+
+   \index{armed}
+   An armed sequence is a sequence that will be heard.
+   "Armed" is the opposite of "muted".
+   Performing an \textsl{arm} operation in \textsl{Sequencer64} means clicking on
+   an "unarmed" sequence in the patterns panel (the main window of
+   \textsl{Sequencer64}).  An unarmed sequence will not be heard, and it
+   has a white background.  When the sequence is \textsl{armed},
+   it will be heard, and it has a black background.
+
+   A sequence can be armed or unarmed in three ways:
+
+   \begin{itemize}
+      \item Clicking on the sequence/pattern box.
+      \item Pressing the hot-key for that sequence/pattern box.
+      \item Opening up the Song Editor and starting playback; the
+            sequences arm/unarm depending on the layout of the
+            sequences and triggers in the piano roll of the Song Editor.
+   \end{itemize}
+
+\subsubsection{Concepts / Terms / buss (bus)}
+\label{subsubsec:concepts_terms_buss}
+
+   \index{bus}
+   \index{buss}
+   A \textsl{buss} (also spelled "bus" these days;
+   \url{https://en.wikipedia.org/wiki/Busbar}) is an entity onto which
+   MIDI events can be placed, in order to be heard or to affect the
+   playback.
+
+\subsubsection{Concepts / Terms / group}
+\label{subsubsec:concepts_terms_group}
+
+   \index{group}
+   A \textsl{group} in \textsl{Sequencer64} is one of up to 32
+   previously-defined mute/unmute patterns in the active screen set.
+   A group is a set of patterns that can toggle their playing state
+   together.  Every group contains all 32 sequences in the active screen
+   set.  This concept is similar to mute/unmute groups in hardware
+   sequencers.
+   \index{mute-group}
+   Also known as a "mute-group".
+
+\subsubsection{Concepts / Terms / loop}
+\label{subsubsec:concepts_terms_loop}
+
+   \index{loop}
+   \textsl{Loop}
+   is a synonym for \textsl{pattern} or \textsl{sequence}, when used
+   in existing \textsl{Seq24} documentation.
+   Each loop is represented by a box (pattern slot) in the Pattern (main)
+   Window.
+
+\subsubsection{Concepts / Terms / measures ruler}
+\label{subsubsec:concepts_terms_measures_ruler}
+
+   \index{measures ruler}
+   The \textsl{measures ruler} is the bar at the top of the Song Editor
+   arrangement window that shows the numbering of the measures in the song.
+   Left and right markers can be dropped on this ruler to set durations to
+   be played, looped, expanded, or collapsed.
+
+   Note:
+   \index{bar indicator}
+   The original \textsl{Seq24} documentation calls this item the
+   \textsl{bar indicator}.
+
+\subsubsection{Concepts / Terms / muted}
+\label{subsubsec:concepts_terms_muted}
+
+   \index{muted}
+   The opposite of \sectionref{subsubsec:concepts_terms_armed}.
+
+\subsubsection{Concepts / Terms / MIDI clock}
+\label{subsubsec:concepts_terms_midi_clock}
+
+   \textsl{MIDI clock} is
+   \index{midi clock}
+   a MIDI timing reference signal used to synchronize pieces of equipment
+   together. MIDI clock runs at a rate of 24 ppqn (pulses per quarter note).
+   This means that the actual speed of the MIDI clock varies with the tempo
+   of the clock generator (as contrasted with time code, which runs at a
+   constant rate).
+
+\subsubsection{Concepts / Terms / pattern}
+\label{subsubsec:concepts_terms_pattern}
+
+   A \textsl{Sequencer64} \textsl{pattern}
+   \index{pattern}
+   (also called a "sequence" or "loop")
+   is a short unit of melody or rhythm in \textsl{Sequencer64},
+   extending for a small number of measures (in most cases).
+   Each pattern is represented by a box in the Patterns window.
+
+   Each pattern is editable on its own.  All patterns can be layed out in
+   a particular arrangement to generate a more complex song.
+
+   \textsl{pattern} is a synonym for \textsl{loop} or \textsl{sequence}.
+   It is our preferred term.
+
+\subsubsection{Concepts / Terms / performance}
+\label{subsubsec:concepts_terms_performance}
+
+   In the jargon of \textsl{Sequencer64}, a
+   \index{performance}
+   \textsl{performance} is an organized collection of patterns.
+   This layout of patterns is created using the Song Editor, sometimes
+   called the "performance editor".
+
+\subsubsection{Concepts / Terms / pulses per quarter note}
+\label{subsubsec:concepts_terms_pulses}
+
+   \index{pulses}
+   The concept of "pulses per quarter note", or PPQN, is very important for
+   MIDI timing.  To make it a bit more confusing, sometimes these pulses are
+   referred to as "ticks", "clocks", and "divisions".
+   To make it even more confusing, there are separate timing concepts to
+   understand, such as "tempo", "beats per measure", "beats per minute",
+   "MIDI clocks", and more.
+
+   While a full description of all these terms, and how they are calculated, is
+   beyond the scope of this document, we will try to clarify the discussion
+   when such confusion could be an issue.
+
+\subsubsection{Concepts / Terms / queue mode}
+\label{subsubsec:concepts_terms_queue_mode}
+
+   To "queue" a pattern means to ready it for playback on the next repeat of
+   a pattern.  A pattern can be armed immediately, or it can be queued to
+   play back the next time the pattern restarts.
+
+   A set of queued patterns can be temporarily stored, so that a different
+   set of playbacks can occur, before the original set of playbacks is
+   restored.
+
+   \index{keep queue}
+   \index{queue!keep}
+   The "keep queue" functionality allows the queue to be held without
+   holding down a button the whole time.
+
+\subsubsection{Concepts / Terms / replace}
+\label{subsubsec:concepts_terms_replace}
+
+   Replacement is a form of muting/unmuting.  When the "replace" key is
+   pressed while click a sequence, that sequence is unmuted, and all of the
+   other sequences are muted.
+
+\subsubsection{Concepts / Terms / screen set}
+\label{subsubsec:concepts_terms_screen_set}
+
+   \index{screen set}
+   The \textsl{screen set}
+   is a set of patterns that fit within the 8x4 grid of loops/patterns in the
+   Patterns panel.
+   \textsl{Sequencer64} supports multiple screens sets, up to 32 of them,
+   and a name can be given to each for clarity.
+   Some day \textsl{Sequencer64} will support an 8x8 grid and 64 patterns per
+   screen set.
+
+\subsubsection{Concepts / Terms / sequence}
+\label{subsubsec:concepts_terms_sequence}
+
+   \index{sequence}
+   \textsl{Sequence} is
+   another synonym for \textsl{pattern}, used in some of the \textsl{Seq24}
+   documentation.  \textsl{Loop} is another synonym.
+   Each sequence is represented by a box (pattern slot) in the Patterns window.
+
+\subsubsection{Concepts / Terms / snapshot}
+\label{subsubsec:concepts_terms_snapshot}
+
+   \index{snapshot}
+   A \textsl{Sequencer64} \textsl{snapshot} is simply a briefly preserved
+   state of the patterns.  One can press a snapshot key, change the state of
+   the patterns for live playback, and then release the snapshot key to
+   revert to the state when it was first pressed.  (One might call it a
+   "revert" key, instead.)
+
+\subsubsection{Concepts / Terms / song}
+\label{subsubsec:concepts_terms_song}
+
+   \index{song}
+   A \textsl{song} is a collection of patterns in a specific layout, as
+   assembled via the Song Editor window.
+   Also see \ref{subsubsec:concepts_terms_performance}
+
+\subsection{Concepts / Sound Subsystems}
+\label{subsec:concepts_sound_subsystems}
+
+\subsubsection{Concepts / Sound Subsystems / ALSA}
+\label{subsubsec:concepts_sound_alsa}
+
+   \textsl{ALSA} is a sound and MIDI system for Linux, with components built
+   into the Linux kernel. It is the main subsystem used by
+   \textsl{Sequencer64}.  The name of the library used to build
+   \textsl{ALSA} projects is \texttt{libasound}.
+   See reference \cite{alsa}.
+
+\subsubsection{Concepts / Sound Subsystems / PortMIDI}
+\label{subsubsec:concepts_sound_portmidi}
+
+   \textsl{PortMIDI} is a cross-platform API (applications programming
+   interface) for MIDI.  It seems to be used in the "portmidi" C++ modules
+   included with the base source-code repository of \textsl{Seq24} available
+   (for example) from Debian Linux.  See reference \cite{portmidi}
+   for the PortMIDI home page.  Unfortunately, the code in the Debian
+   package is not quite ready to build on Windows.  We might fix that
+   someday, though Windows is not a high priority.
+
+   The SubatomicGlue Windows port of \textsl{Seq24} (see reference
+   \cite{subatomicglue}) bundles a version of the PortMIDI project with the
+   source code for the port.  It also provides a complete bundle of the
+   other products (e.g. gtkmm 2.4) needed to build and run the project.
+   (By the way, the Windows port is built with
+   MingW, which provides the GNU compilers and tools.  This is a good thing,
+   as Visual Studio Community, though "free", is not "Free".)
+
+\subsubsection{Concepts / Sound Subsystems / JACK}
+\label{subsubsec:concepts_sound_jack}
+
+   \textsl{JACK} is a cross-platform (with an emphasis on Linux)
+   API and infrastructure for making it easier to connect and reroute MIDI
+   and audio event between various applications and hardware ports.
+   See reference \cite{jack}.
+
+
+%-------------------------------------------------------------------------------
+% vim: ts=3 sw=3 et ft=tex
+%-------------------------------------------------------------------------------

@@ -1,0 +1,17 @@
+# Additional ignores.  Note that our global .gitignore also ignores
+# stuff we use:  config and Makefile
+
+*.fls
+tex-stamp
+tex/sequencer64-user-manual.pdf
+!config
+!Makefile
+*.aux
+*.fdb_latexmk
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.out
+*.toc

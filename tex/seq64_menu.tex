@@ -1,0 +1,677 @@
+%-------------------------------------------------------------------------------
+% seq64_menu
+%-------------------------------------------------------------------------------
+%
+% \file        seq64_menu.tex
+% \library     Documents
+% \author      Chris Ahlstrom
+% \date        2015-08-31
+% \update      2015-11-01
+% \version     $Revision$
+% \license     $XPC_GPL_LICENSE$
+%
+%     Provides the Menu section of seq24-user-manual.tex.
+%
+%-------------------------------------------------------------------------------
+
+\section{Menu}
+\label{sec:seq64_menu}
+
+   The \textsl{Sequencer64} menu, as seen at the top of
+   \figureref{fig:seq64_main_screen},
+   is fairly simple, but it is important to understand the
+   structure of the menu entries.
+
+\subsection{Menu / File}
+\label{subsec:seq64_menu_file}
+
+   The \textbf{File} menu is used to save and load standard MIDI files.
+   \textsl{Sequencer64}
+   should be able to handle any Format 1 standard files that any other
+   sequencer is capable of exporting.  
+
+   The \textsl{Sequencer64} menu entry contains the sub-items shown in
+   \figureref{fig:seq64_menu_file_items}.  The next few sub-sections discuss
+   the sub-items in the \textsl{File} sub-menu.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_file.png}
+   \caption{Sequencer64 File Menu Items}
+   \label{fig:seq64_menu_file_items}
+\end{figure}
+
+   \begin{enumber}
+      \item \textbf{New}
+      \item \textbf{Open...}
+      \item \textbf{Save}
+      \item \textbf{Save As...}
+      \item \textbf{Import...}
+      \item \textbf{Options...}
+      \item \textbf{Exit}
+   \end{enumber}
+
+\subsection{Menu / File / New}
+\label{subsec:menu_file_new}
+
+   The \textbf{New} menu entry clears out any current song and patterns,
+   allowing one to create news ones from scratch.
+   If unsaved changes are pending, the user will be prompted to save the
+   changes.
+
+   \index{todo!improve change detection}
+   \textsl{Currently, the detection of situations requiring a save (or not
+   requiring a save) needs a bit of work.}
+
+\subsubsection{Menu / File / Open}
+\label{subsubsec:seq64_menu_file_open}
+
+   The \textbf{Open} menu entry opens a song (MIDI file)
+   that had been saved previously.  It opens up a standard GTK+2 file dialog:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{menu/menu_file_open.png}
+   \caption{File Open}
+   \label{fig:seq64_menu_file_open}
+\end{figure}
+
+   If unsaved changes are pending, the user will (usually)
+   be prompted to save the changes.  When in doubt, save!
+   If still in doubt, keep backups of your tunes!
+
+\subsubsection{Menu / File / Save and Save As}
+\label{subsubsec:menu_file_open_save_as}
+
+   The \textbf{Save} menu entry saves the song under its current file-name.
+   If there is no current file-name, then it opens up a standard GTK+2 file
+   dialog to name and save the file.
+
+   The \textbf{Save As} menu entry saves a song under a different name.
+   It opens up the following standard GTK+2 file dialog:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{menu/menu_file_save_as.png}
+   \caption{File Save As}
+   \label{fig:seq64_menu_file_save_as}
+\end{figure}
+
+   To save a new file, or to save the current existing file to a new name,
+   enter the name in the name field, \textsl{without an extension}.
+   \textsl{Sequencer64} will append a \texttt{.midi} extension to the filename.
+   The file will be saved in a format that the Linux \textsl{file} command
+   will tag as something like:
+
+   \begin{verbatim}
+      myfile.midi: Standard MIDI data (format 1) using 16 tracks at 1/192
+   \end{verbatim}
+
+   It looks like a simple MIDI file, and yet, if one re-opens it in
+   \textsl{Sequencer64}, one sees that all of the labelling, pattern information,
+   and song layout has been preserved in this file.
+   Even the pattern subsections, as discussed in
+   \sectionref{subsubsec:seq64_song_editor_arrangement_panel_roll},
+   have been saved.
+   (But the L and R marker positions are not saved.)
+
+   Compare the sizes of the original project MIDI file,
+   \texttt{contrib/b4uacuse.mid}, and the output MIDI file after
+   \textsl{Sequencer64} saved the patterns and the song layout we created,
+   \texttt{contrib/b4uacuse-seq24.midi}.  The latter is a lot
+   bigger.
+
+   The reason is that, after the last track in the file, a number of
+   sequencer-specific (SeqSpec) items are saved, to preserve this extra
+   information.  In legacy mode, \textsl{Sequencer64} saves this information
+   in the same format as \textsl{Seq24}.  Unfortunately, this format is
+   not quite standard, and a few MIDI applications may produce error
+   messages (as opposed to just ignoring it) when parsing this section. 
+   
+   \textbf{New:}
+   \index{new!seqspec format}
+   Therefore, in its normal mode, \textsl{Sequencer64} saves this
+   information in a more MIDI-compliant format, marking each SeqSpec section
+   as vendor-specific information, and marking this section as a regular
+   MIDI track.
+   The legacy and new formats of the final "track" are explained in
+   \sectionref{subsec:legacy_proprietary_track_format}.
+
+\subsubsection{Menu / File / Import}
+\label{subsubsec:seq64_menu_file_import}
+
+   The \textbf{Import} menu entry allows one to import a Format 1 MIDI file
+   into one or more patterns, one pattern per track in the MIDI file.
+   Even long tracks, that aren't short loops, are read in properly.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{menu/menu_file_import.png}
+   \caption{File Import}
+   \label{fig:seq64_menu_file_import}
+\end{figure}
+
+   When imported, each track, whether a music track or an information track,
+   is entered into its own loop/pattern box.  The import operation can
+   handle reasonably complex files, as shown in the following diagram, which
+   shows an import of the \texttt{contrib/b4uacuse.mid} file, which contains
+   a transcription of an Eric Clapton tune that we'd made over 20 
+   years ago and had uploaded to the \textsl{GEnie} network service.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.90]{menu/imported_midi_song.png}
+   \caption{Imported MIDI Song}
+   \label{fig:seq64_imported_midi_song}
+\end{figure}
+
+   This song has a number of non-event tracks containing labels.
+   \textbf{New:}
+   \index{new!empty tracks}
+   These tracks are treated as "empty", and show up with a yellow
+   background.  They are ignored on playback.   Some of the tracks
+   which look empty, but are not yellow, contain program-change events.
+
+   Unfortunately, this song was created before the days of General MIDI.
+   It was scored for the Yamaha PSS-790 consumer-level synthesizer,
+   definitely not a GM-compliant device.
+   One can use the MIDI-conversion project, \textsl{midicvt}
+   (see reference \cite{midicvt}),
+   to convert it to General MIDI format, including General MIDI drums.
+
+\subsubsection{Menu / File / Options}
+\label{subsubsec:seq64_menu_file_options}
+
+   The \textbf{Options} menu item provides a number of settings in one
+   tabbed dialog, shown in the figure below.
+   This dialog allows one to select which sequence gets the MIDI
+   clock, which incoming MIDI events control the sequencer, what keys are
+   mapped to functions, how the mouse works, and some JACK parameters.
+
+\paragraph{Menu / File / Options / MIDI Clock}
+\label{paragraph:seq64_menu_file_options_midi_clock}
+
+   The \textbf{MIDI Clock} tab provides a way to send the MIDI clock to one
+   or more of the \textsl{Sequencer64} output busses.
+   It is used to configure to what busses the MIDI clock gets dumped.
+   It also shows the devices that one can play music with.
+   The items that appear in this tab depend on three things:
+
+   \begin{itemize}
+      \item What MIDI devices are connected to the computer.  For example,
+         MIDI controllers, USB MIDI cables, and other devices will add MIDI
+         output devices (ports) to the system.
+      \item What MIDI software devices are running on the computer.
+         For example, running MIDI software synthesizers such as
+         \textsl{Timidity} and \textsl{Yoshimi} will add extra output devices
+         (playback ports) to a system.
+      \item The setting of the "manual ALSA ports" option,
+         \texttt{--manual\_alsa\_ports} command-line option or the
+         \texttt{[manual-alsa-ports]} section of the
+         \texttt{sequencer64rc} configuration file, as described in
+         \sectionref{subsec:seq64_rc_file_other_midi}
+   \end{itemize}
+
+   For the current discussion, a USB MIDI cable was plugged into the system,
+   and the \textsl{Timidity} and \textsl{Yoshimi} (in ALSA mode) software
+   synthesizers were running.  \textsl{Sequencer64} was also running, of
+   course.  Here are the devices shown by the ALSA MIDI playback
+   command-line application:
+
+   \begin{verbatim}
+      $ aplaymidi -l
+       Port    Client name                      Port name
+       14:0    Midi Through                     Midi Through Port-0
+       24:0    USB2.0-MIDI                      USB2.0-MIDI MIDI 1
+       24:1    USB2.0-MIDI                      USB2.0-MIDI MIDI 2
+      128:0    TiMidity                         TiMidity port 0
+      128:1    TiMidity                         TiMidity port 1
+      128:2    TiMidity                         TiMidity port 2
+      128:3    TiMidity                         TiMidity port 3
+      130:16   seq24                            seq24 in
+   \end{verbatim}
+
+   (For some reason, the \textsl{Yoshimi} input port is not showing up
+   in the output of \texttt{aplaymidi}, though, as shown in
+   \figureref{fig:seq64_midi_clock_4_devices_manual_0},
+   \textsl{Sequencer64} sees it on port 7.  Perhaps that application is not
+   providing a good ALSA device name.)
+   
+   Note the 16 devices provided by
+   \textsl{Sequencer64}.  Also note that its first value is 1, not 0, due to
+   the MIDI Thru port occupying slot 0.
+
+   The following figure shows the result with the manual ALSA option of
+   \textsl{Sequencer64} turned on:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-1.png}
+   \caption{MIDI Clock, Manual ALSA Option On}
+   \label{fig:seq64_midi_clock_4_devices_manual_1}
+\end{figure}
+
+   It basically shows the 16 MIDI output busses that \textsl{Sequencer64} can
+   drive.  One would have to use an ALSA MIDI connection application to put a
+   device on each of those outputs.  The fact that the the buss names can
+   start with different numbers, depending on the system setup, can complicate
+   the playing of MIDI in this manner.
+
+   The following elements are present in this dialog:
+
+   \begin{enumber}
+      \item \textbf{Buss Name}
+      \item \textbf{Off}
+      \item \textbf{On (Pos)}
+      \item \textbf{On (Mod)}
+      \item \textbf{Clock Start Modulo}
+   \end{enumber}
+
+   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{Buss Name}{midi clock!buss name}
+   \index{port name}
+   \index{midi clock!port name}
+   These labels indicate the output busses (ports) of \textsl{Sequencer64}.
+   They range from \textbf{[1] seq24 1} to \textbf{[16] seq24 16}.
+
+   \itempar{Off}{midi clock!off}
+   This setting disables the MIDI clock for the given output buss.
+   However, note that MIDI output can still be sent to those ports, and
+   each port that has a device connected to it will play music.
+   
+   For feeding \textsl{Yoshimi} with MIDI data, we found that this
+   setting is the one that must be made in order for \textsl{Yoshimi} to
+   produce a sound.
+
+   \itempar{On (Pos)}{midi clock!on (pos)}
+   The MIDI clock will be sent to this buss.
+   MIDI Song Position and MIDI Continue will be sent if playback is starting
+   at greater than tick 0 in Song mode.  Otherwise, MIDI Start will be sent.
+
+   \itempar{On (Mod)}{midi clock!on (mod)}
+   The MIDI clock will be sent to this buss.
+   MIDI Start will be sent and clocking will begin
+   once the Song Position has reached the start modulo of the specified size
+   (see the next item's description).
+   This setting is used for gear that does not respond to Song Position.
+
+   \itempar{Clock Start Modulo}{midi clock!clock start modulo}
+   Clock Start Modulo (1/16 Notes).
+   This value starts at 1 and ranges on upward to 16384.
+   It  defaults to 64.
+   It is used by the \textbf{On (Mod)} setting discussed above.
+   It is the \texttt{[midi-clock-mod-ticks]} option in the \textsl{Sequencer64}
+   "rc" file as described in
+   \sectionref{subsec:seq64_rc_file_other_midi}.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-0.png}
+   \caption{MIDI Clock, Manual ALSA Option Off}
+   \label{fig:seq64_midi_clock_4_devices_manual_0}
+\end{figure}
+
+   As shown by the figure above, with the manual ALSA option turned off,
+   all of the devices that can be driven by MIDI output are shown,
+   including the MIDI Thru port, the two MIDI ports on the USB cable,
+   the four ports provided by \textsl{Timidity}, and the unlabelled
+   port provided by \textsl{Yoshimi}.
+
+   One could theoretically play music through 6 or 7 devices using
+   \textsl{Sequencer64} with this setup.
+
+\paragraph{Menu / File / Options / MIDI Input}
+\label{paragraph:seq64_menu_file_options_midi_input}
+
+   To allow \textsl{Sequencer64} to record MIDI from MIDI devices such as
+   controllers and keyboards, the output of the ALSA MIDI recording
+   command-line application is relevant:
+
+   \begin{verbatim}
+      $ arecordmidi -l
+       Port    Client name                      Port name
+       14:0    Midi Through                     Midi Through Port-0
+       24:0    USB2.0-MIDI                      USB2.0-MIDI MIDI 1
+      130:0    seq24                            [1] seq24 1
+      130:1    seq24                            [2] seq24 2
+      130:2    seq24                            [3] seq24 3
+       . . .   . . .                               . . .
+      130:15   seq24                            [16] seq24 16
+   \end{verbatim}
+
+   We see that we can record MIDI from the MIDI Thru port, from the USB MIDI
+   cable, and MIDI from any of the 16 output ports provided by the manual ALSA
+   port mode of \textsl{Sequencer64}.
+
+   If the "manual ALSA ports" option (see below) is turned on,
+   then the only item in the \textbf{MIDI Input} tab is the single MIDI input
+   buss provided by \textsl{Sequencer64}:  \textbf{[0] seq24 0}, or, since
+   the MIDI Thru port takes slot 0, \textbf{[1] seq24 1}.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/midi-input-4-devices-manual-1.png}
+   \caption{MIDI Input, Manual ALSA Ports On}
+   \label{fig:seq64_midi_input_4_devices_manual_1}
+\end{figure}
+
+   This item, if checked, allows \textsl{Sequencer64} to be used to record MIDI
+   information from another source (which must be connected to this port by
+   another application), or pass it through to the output busses
+   that are configured to allow pass-through
+   (in the Pattern Editor, as discussed in 
+   \sectionref{subsec:seq64_pattern_editor_bottom}.)
+
+   If the "manual ALSA ports" option is turned off, then
+   the input ports from the system are shown:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/midi-input-4-devices-manual-0.png}
+   \caption{MIDI Input, Manual ALSA Ports Off}
+   \label{fig:seq64_midi_input_4_devices_manual_0}
+\end{figure}
+
+   For example, one could check input \#1 to have \textsl{Sequencer64} record
+   MIDI from an old-fashioned MIDI keyboard that is connected to the USB MIDI
+   cable.  If the keyboard didn't have a sound generator, one would also want
+   \textsl{Sequencer64} to pass this MIDI on to a sound generator, such as a
+   software or hardware synthesizer attached to one of the ports shown in
+   \figureref{fig:seq64_menu_file_options_midi_clock_manual_0}.
+
+\paragraph{Menu / File / Options / Keyboard }
+\label{paragraph:seq64_menu_file_options_keyboard}
+
+   \textsl{Sequencer64}, as befits a good application, allows extensive use of
+   keyboard shortcuts to make operations go faster than when using a mouse.
+   The \textbf{Keyboard} tab allows for the configuration of these keyboard
+   shortcuts.
+
+   \textbf{Warning:}
+   Whenever one of the text fields in this dialog has the focus (and that is
+   usually the case), then any keystroke, including keys like Ctrl, Alt,
+   and Super (Mod4 or Windows key), can alter the value of a field to that
+   of the keystroke.  This change is very easy to do accidentally!
+   Use the mouse to move this window and to click its \textbf{OK} button!
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_file_options_keyboard.png}
+   \caption{File / Options / Keyboard}
+   \label{fig:seq64_menu_file_options_keyboard}
+\end{figure}
+
+   We won't attempt to cover every user-interface item in this busy
+   dialog, just the categories.  Some items are discussed in other parts of
+   this manual.
+
+   \begin{enumber}
+      \item \textbf{Show key labels on sequences}
+      \item \textbf{Control keys}
+      \item \textbf{Sequence toggle keys}
+      \item \textbf{Mute-group slots}
+      \item \textbf{Learn}
+      \item \textbf{Disable}
+      \item \textbf{Enable}
+   \end{enumber}
+
+   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{Show key labels on sequence}{keyboard!show labels}
+   This item, if enabled, shows the key labels in the lower-right corner of
+   each loop/pattern in the Patterns window.  This feature is useful
+   for live playback and control of a song.
+
+   \itempar{Control keys}{keyboard!control keys}
+   This block of fields provides shortcut keys for many operations of
+   \textsl{Sequencer64}.
+
+   \begin{enumber}
+      \item \textbf{Start}.
+         Key: \index{keys!space} \textbf{space}.
+      \item \textbf{Stop}.
+         Key: \index{keys!esc} \textbf{Escape}.
+      \item \textbf{Snapshot 1}.
+         Key: \index{keys!alt-l} \textbf{Alt\_L}.
+      \item \textbf{Snapshot 2}.
+         Key: \index{keys!alt-r} \textbf{Alt\_R}.
+      \item \textbf{bpm up}.
+         Key: \index{keys!apostrophe} \textbf{apostrophe}.
+      \item \textbf{bpm down}.
+         Key: \index{keys!semicolon} \textbf{semicolon}.
+      \item \textbf{Replace}.
+         Key: \index{keys!ctrl-l} \textbf{Control\_L}.
+      \item \textbf{Queue}.
+         Key: \index{keys!ctrl-r} \textbf{Control\_R}.
+      \item \textbf{Keep queue}.
+         Key: \index{keys!backslash} \textbf{backslash}.
+      \item \textbf{Screenset down}.
+         Key: \index{keys![} \textbf{bracketleft}.
+      \item \textbf{Screenset up}.
+         Key: \index{keys!]} \textbf{bracketright}.
+      \item \textbf{Set playing screenset}.
+         Key: \index{keys!home} \textbf{Home}.
+   \end{enumber}
+
+   Note that some of the keys have positional mnemonic value.  For example,
+   for BPM control, the semicolon is at the left (down), and the apostrophe
+   is at the right (up).
+
+   Also note that the keys definable in this tab are only a subset of the
+   various keys that can be used, especially keys used with the
+   \texttt{Ctrl} key or other modifier keys.
+
+   \index{snapshot}
+   A \textsl{snapshot} is a briefly preserved state of the patterns.
+   One can press a snapshot key, change the state of the patterns for live
+   playback, and then release the snapshot key to revert to the state when
+   the snapshot key was first pressed.
+
+   \index{queue}
+   To "queue" a pattern means to ready it for playback upon the next repeat
+   of a pattern.  A pattern can be armed immediately, or it can be queued to
+   play back the next time the pattern starts.
+
+   \index{keep queue}
+   \index{queue!keep}
+   The "keep queue" functionality allows the queue to be held without
+   holding down a button the whole time.
+
+   \itempar{Sequence toggle keys}{keyboard!sequence toggle keys}
+   Each of these keys toggles the playing/muting of one of the 32
+   loop/pattern boxes.  These keys are layed out logically on the keyboard,
+   and can also be shown in each loop/pattern box.  No need to list them all
+   here!
+
+   \itempar{Mute-group slots}{keyboard!mute-group slots}
+   Each of these keys operates on the mute-grouping of one of the 32
+   loop/pattern boxes.  These keys are layed out logically on the keyboard,
+   and can also be shown in each loop/pattern box.  No need to list them all
+   here!
+
+   Apparently groups work with the playing screen set only.
+   Change the screenset and give the command to make it the playing one
+   (e.g. set the HOME key for this purpose.)
+
+   \itempar{Learn}{keyboard!learn}
+   Learn (while pressing a mute-group key).
+   This items sets the key used to initiate a learn mode.
+   It is the \textbf{Insert} key by default.
+
+   \itempar{Disable}{keyboard!disable}
+   TODO: \index{todo!keyboard disable} What gets disabled?
+   \index{keys!apostrophe}
+   It is the \textbf{apostrophe} key by default.
+
+   \itempar{Enable}{keyboard!enable}
+   TODO: What gets enabled?
+   \index{keys!igrave}
+   It is the \textbf{igrave} (back-tick) key by default.
+
+   There is much to learn about this learn/enable/disable triad!
+
+\paragraph{Menu / File / Options / Mouse }
+\label{paragraph:seq64_menu_file_options_mouse}
+
+   This item selects the mouse-interaction method.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_file_options_mouse_condensed.png}
+   \caption{File / Options / Mouse (Condensed View)}
+   \label{fig:seq64_menu_file_options_mouse}
+\end{figure}
+
+   The default method is \textbf{seq24 (original style)}.
+   The alternate method is \textbf{fruity (similar to a certain well known
+   sequencer)}.
+
+   The alternate method is presumably that of the \textsl{Fruity Loops}
+   (now \textsl{FL Studio}) sequencer.  The fruity mode seems to involve the
+   following (based on scanning the source code):
+   
+   \begin{itemize}
+      \item \textbf{Left-click left side}.
+         Begin a grow/shrink operation for the left side.
+      \item \textbf{Left-click right side}.
+         Begin a grow/shrink operation for the right side.
+      \item \textbf{Left-click middle}.
+         Move the object.
+      \item \textbf{Left-click}.
+         Add an event if nothing selected.
+      \item \textbf{Middle-click}.
+         Split the note?
+   \end{itemize}
+
+   \textbf{New:}
+   \index{new!Mod4 mode}
+   \index{keys!Mod4}
+   \label{new_mod4_mode}
+   \textbf{The Mod4 Right-Click Mode}.
+   In order to work better with certain trackpads, the
+   "Seq24" mode of mouse interaction can be modified (only in the
+   Pattern Editor at present) so that the Mod4 key (Super or Windows key)
+   can be pressed when releasing the right mouse button.
+   This keeps the mouse in note-add mode.
+   Another right-click, without pressing Mod4, will exit this mode.
+
+   The reason for this feature is the crummy FocalTech touchpad on one of
+   the author's laptops.  This trackpad seems to have only a single button,
+   which the driver interprets as left or right depending where the finger
+   is when it is clicked.  There's no way to click the right and left
+   buttons at the same time.  There's no way to make a middle-click action.
+
+   Note that this option will not interfere with the Mod4 key being set
+   in the \textbf{Keyboard} option tab, since the keys there mainly apply to
+   the Patterns Panel (main window).
+
+   \index{todo:extend mouse support}
+   \textbf{TODO:}
+   This option is currently limited to the pattern editor window, and also
+   needs some more work to see what can be done with the Mod4 key.  But
+   note that some \textsl{Sequencer64} windows can use the ctrl-left-click
+   as a middle click. 
+
+\paragraph{Menu / File / Options / Jack Sync }
+\label{paragraph:seq64_menu_file_options_jack_sync}
+
+   This tab sets up options for JACK synchronization.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_file_options_jack_sync.png}
+   \caption{File / Options / Jack Sync}
+   \label{fig:seq64_menu_file_options_jack_sync}
+\end{figure}
+
+   \begin{enumber}
+      \item \textbf{Transport}
+      \item \textbf{Jack start mode}
+      \item \textbf{Connect}
+      \item \textbf{Disconnect}
+   \end{enumber}
+
+   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{Transport}{jack sync!transport}
+   This items collects the following settings:
+
+   \begin{itemize}
+      \item \textbf{Jack Transport}.
+         \index{JACK!transport}
+         Enables synchronization with JACK Transport.
+      \item \textbf{Transport Master}.
+         \index{JACK!transport master}
+         \textsl{Sequencer64} will attempt to serve as the JACK Master.
+      \item \textbf{Master Conditional}.
+         \index{JACK!master conditional}
+         \textsl{Sequencer64} will fail to serve as the JACK Master if there is
+         already a Master set.
+   \end{itemize}
+
+   \itempar{Transport}{jack sync!transport}
+   This items collects the following settings:
+
+   \begin{itemize}
+      \item \textbf{Live Mode}.
+         \index{JACK!live mode}
+         Playback will be in live mode.  Use this option to allow muting and
+         unmuting of patterns.
+      \item \textbf{Song Mode}.
+         \index{JACK!song mode}
+         Playback will use only the Song Editor's data.
+   \end{itemize}
+
+   \itempar{Connect}{jack sync!connect}
+   Connect to JACK Sync.
+
+   \itempar{Disconnect}{jack sync!disconnect}
+   Disconnect from JACK Sync.
+
+\subsection{Menu / View}
+\label{subsec:seq64_menu_view}
+
+   This menu item has only one entry, \textbf{Song Editor}, 
+   which is already covered by a button at the bottom of the Patterns
+   window.  Selecting this item bring up the Song Editor window.
+   See \figureref{fig:song_editor_window}
+
+\subsection{Menu / Help About...}
+\label{subsec:seq64_menu_about}
+
+   This menu entry shows the "About" dialog.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_help_about.png}
+   \caption{Help About}
+   \label{fig:seq64_menu_help_about}
+\end{figure}
+
+   That dialog provides access to the credits for the program, including the
+   authors and the project documentors.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_help_credits.png}
+   \caption{Help Credits}
+   \label{fig:seq64_menu_help_credits}
+\end{figure}
+
+   Shows who has worked on the program, with the original author at the top
+   of the list.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_help_doc.png}
+   \caption{Help Documentation}
+   \label{fig:seq64_menu_help_doc}
+\end{figure}
+
+   Shows who has documented this project.  Say, maybe "we" can get "our"
+   name there someday!  \texttt{:-)}
+
+%-------------------------------------------------------------------------------
+% vim: ts=3 sw=3 et ft=tex
+%-------------------------------------------------------------------------------

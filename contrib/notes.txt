@@ -1,0 +1,280 @@
+https://answers.launchpad.net/seq24/+question/63587
+
+Seq24
+
+Asked by alte_frequenze on 2009-03-09
+
+I implemented the mute group feature (like group mute key in hw sequencer -
+i have a yamaha rm1x) in seq24 (0.9.0).  Would you like to taste it? I
+love!!
+
+remember: groups work with playing screen set only.  so change the screenset
+and give the command to make it the playing one (i set the HOME key for
+this) Everything is configurable as the original sw with the .seq24rc file.
+
+Mute groups
+
+You can mute-unmute (according to the group definition) all traks in the
+playing screen set, that is the only one who have sequences playing (like
+live sequencer).
+
+BPM The ; and ' keys will increase/decrease tempo
+bpm up and down, screen set up and down.
+
+Holding 'Right Ctrl' will queue a on/off toggle for a sequence when the loop
+ends.
+
+keep queue
+
+Pushing the selected key (see .seq24rc file) you enter in queue mode until
+you press 'Right Ctrl'.
+
+[3b] Options Window
+
+This window allows us to select which sequence gets midi After the list of
+sequences and their midi events, you can set seq24 to handle midi events and
+change the following:
+
+mute in group
+
+This controls 32 group of mutes in the same mode of [midi-control].  A group
+is a set of sequences that can change the playing state together.  Groups
+work with the 32 sequences in the playing screen set (see after).
+
+replace, snapshot, queue, group mute active, group mute in learning mode and
+set the actual screen set as playing ( see the end of 3a )
+
+[mute-group]
+
+Here there are the definitions of the state of the 32 sequeces of the
+playing sreen set when a group is selected.
+
+[midi-clock]
+
+The keyboard control is a dump of the keys that seq24 recognises and its
+corresponding sequence number.
+
+[keyboard-group]
+
+Same as keyboard-control, but to control groups.
+
+There are also the modifier keys: screen set up, down, play, group on, group
+off, learn, replace, snapshot, queue and keep queue ( see the end of 3a ).
+
+To get the correct keys, run seq24 with --show_keys.  (DOES NOT EXIST IN
+SEQ24)
+
+emuse (goemusic) said on 2009-03-18:   #3
+
+is this a windows patch? I'm using linux and I'm not able to apply it. Might
+also be the copy/past into a text editor that causes line end problems?  If
+I'm wrong, which patch options should I use?
+
+emuse (goemusic) said on 2009-03-18:   #4
+
+I have reproduced your patch manually (yes !). and compiled successfully on
+linux. Need to understand now how it works ;) Let me know if you need this
+patch version for your purposes as a file or if you want to post it at the
+seq24 sourceforge mailing list or if you want me to post it. I think there
+are many of us interested in having those features.  To the seq24
+developers: can I deposit this patch somewhere here as a file (I still think
+there were also copy/paste issues that made the original patch fail in my
+case, so a file would be best).
+
+alte_frequenze (alte-frequenze) said on 2009-03-19:   #5
+
+Thanx for the interest.  I would be pleased if you contribute in making
+comprehensible the documentation (SEQ24 file) for changes.  Maybe others can
+appreciate.
+
+emuse (goemusic) said on 2009-03-20:   #6
+
+here are some suggestions for the documentation. Patch is against
+0.9.0original SEQ24 file.  I found that two points needed to be said
+somewhere, at least I was puzzled for a while ;) :
+
+1) Group Learn is a modifier key to be pressed TOGETHER with the toggle key
+and
+
+2) The Group on/off keys are there to enable/disable the whole feature, NOT
+to toggle group states...
+
+Everything works great here, I just noted some strange behavior when using
+the queue function together with groups, still have to find out what exactly
+happens....
+
+It's really nice to have, I actually was waiting for this since a while ago
+(look into the blueprints 'sequence selection patterns....' ;) )
+
+Mute/Unmute patterns (Groups)
+
+You can toggle the playing status of up to 32 previously defined mute/unmute
+patterns (groups) in the active screen set, similar to hardware sequencers.
+This is done either by one of the 'group toggle' keys or by a MIDI
+controller, both assigned in the .seq24rc file .  A Mute/Unmute pattern
+(group) is stored by holding a 'group learn' key while pressing the
+corresponding 'group toggle' key.  There are also keys assigned to turn
+on/off the group functionality.
+
+Replace
+
+Holding down 'Left Ctrl' while selecting a sequence will mute all other
+sequences and turn on the selected
+
+Queue
+
+Holding 'Right Ctrl' will queue a on/off toggle for a sequence when the loop
+ends. Queue also works for mute/unmute patterns (groups), in this case every
+sequence will toggle its status after its individual loop end.
+
+keep queue
+
+Pressing the 'keep queue' key assigned in the .seq24rc file activates
+permanent queue mode until you use the temporary Queue function again
+pressing 'Right Ctrl'.
+
+[3b] Options Window
+
+# mute in group
+
+This section controls 32 groups of mutes in the same way as defined for
+[midi-control]. A group is set of sequences that can toggle their playing
+state together.  Every group contains all 32 sequences in the active screen
+set (see after).
+
+[mute-group]
+
+Here there are the definitions of the state of the 32 sequences in the
+playing screen set when a group is selected.  group [state of the first 8
+sequences] [second 8] [third 8] [fourth 8]
+
+After the list of sequences and their midi events, you can set seq24 to
+handle midi events and change the following:
+
+[keyboard-control]
+
+The keyboard control is a dump of the keys that seq24 recognises and its
+corresponding sequence number.  Note that the first number corresponds to
+the number of sequences in the active screen set.
+
+[keyboard-group]
+
+Same as keyboard-control, but to control groups.
+
+To see the required key codes when pressed, run seq24 with --show_keys.
+
+Seq24 will overwrite the .seq24rc file on quit. You should therefore quit
+seq24 before doing modifications to the .seq24rc file.
+
+Some keys should not be assigned to control sequences in seq24 as they are
+already assigned in the seq24 menu (with ctrl).
+
+ [3f] JACK Transport
+
+Guido Scholz (gscholz) said on 2009-05-28:   #7
+
+your mute group feature was accepted for the seq24 repository. Can you
+please send me your real name and E-Mail address to honour your contribution
+in the changelog file?
+
+http://linuxmusicians.com/viewtopic.php?f=4&t=2443&start=15
+
+I've now managed to get mute groups working via MIDI - which is exactly what
+I need - superb!!
+
+For anyone else who is interested in working with Mute Groups - I'll point
+out here the main problem that I had getting them working (and this applies
+more to using it from the laptop rather than the Midi side of things)...
+
+To set up the Mute Groups you press the 'L' button onthe top of the SEQ24
+window, and then press a key on your keyboard to 'learn' or 'save' the
+preset. Looking at the list of keys assigned for these mute groups (in File,
+Options, Keyboard), the first bank of keys are ! ' ? etc and th second bank
+are Q W E etc...  When you ask the program to 'learn' the key, you can't use
+the SHIFT key, so (on Windows at least) you are not able to use the ! or
+other symbol keys. SImilarly, you need to make sure CAPS LOCK is on before
+you start the 'learn' process (as it won't recognise q only Q)
+
+(I'm sure you could change all the key settings in the Keyboard screen to
+help overcome some of these issues)
+
+Once that is working OK, you can configure the MIDI settings in similar ways
+to assigning midi commands to toggle loops - just note that you have to use
+the 'ON' option in the .seq24rc file (which is the second set of numbers) -
+you can't use the first set (used to 'toggle').
+
+I will try and document in more detail all I've done to set this up on a
+Windows Laptop (mainly for my benefit as I'm bound to forget) - and once
+I've done this I'll post here for all to use in future....
+
+--------------------------------------------------
+
+https://community.ardour.org/node/3165
+
+What I had to do is set seq24's options like this:
+
+Enable Jack Transport
+Enable Transport Master
+Enable Master Conditional
+Enable Son Mode
+
+Then hit connect after firing and setting up ardour the way you did above.
+
+Master Conditional will make it be Master only if no other JACK Transport
+application is running at the moment. For me that worked well, used to be
+offbeat also.
+
+--------------------------------------------------
+
+https://help.ubuntu.com/community/HowToSeq24Introduction
+
+https://bugs.launchpad.net/seq24/+bug/392093
+
+Q:
+
+Now I start Hydrogen, the drum machine, and load a pattern in Hydrogen.
+But I don't connect in jack seq24 to hydrogen.
+
+And now something magical happens... if I hit "play" on seq24, hydrogen
+starts playing its own pattern!
+Isn't it weird?
+
+A:
+
+Two things could be causing the "bugs" you are seeing:
+
+* Seq24 is in "song" mode -> this causes seq24 to play the whole song (see
+  song editor) when play is clicked and not the individual patterns
+* Seq24 is configured to control jack transport -> all other
+  jack-transport-using programs also start to play when you click play in
+  seq24
+
+  Both of the aforementioned things can be configured from
+  File->Options->Jack Sync tab. To fix your problem, unselect "Jack
+  Transport", select "Live mode" and, last but not least, click the
+  Disconnect button.
+
+More:
+
+start seq24 in a console (gnome-terminal) or alt+f2 window with the
+following switch:
+
+seq24 --manual_alsa_ports
+
+JACK:
+
+JACKing the Applications Together
+
+Let's make the JACK audio and MIDI connections.
+
+Open up JACK Control's Connections window by clicking the Connect button.
+On the Audio tab, make sure that Hydrogen and ZynAddSubFX outpus are
+connected to ALSA PCM's input (was most likely done automatically).
+On the ALSA tab, connect Virtual Keyboard's output to seq24's input.
+Connect seq24's first output to ZynAddSubFX's input.
+Connect seq24's second ouput to Hydrogen's input.
+Now close the Connections window, as all of our connections are made and
+ready to go.
+
+(There is a whole lot more setup discussed at the Ubuntu link.
+
