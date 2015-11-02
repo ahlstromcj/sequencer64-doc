@@ -183,7 +183,7 @@
 \label{subsubsec:seq64_menu_file_options}
 
    The \textbf{Options} menu item provides a number of settings in one
-   tabbed dialog, shown in the figure below.
+   tabbed dialog, shown in the figures that follow.
    This dialog allows one to select which sequence gets the MIDI
    clock, which incoming MIDI events control the sequencer, what keys are
    mapped to functions, how the mouse works, and some JACK parameters.
@@ -237,12 +237,12 @@
    \textsl{Sequencer64} sees it on port 7.  Perhaps that application is not
    providing a good ALSA device name.)
    
-   Note the 16 devices provided by
+   Turning to \figureref{fig:seq64_midi_clock_4_devices_manual_1},
+   note the 16 devices provided by
    \textsl{Sequencer64}.  Also note that its first value is 1, not 0, due to
    the MIDI Thru port occupying slot 0.
-
-   The following figure shows the result with the manual ALSA option of
-   \textsl{Sequencer64} turned on:
+   This figure shows the result with the manual ALSA option of
+   \textsl{Sequencer64} turned on.
 
 \begin{figure}[H]
    \centering 
@@ -378,7 +378,7 @@
    cable.  If the keyboard didn't have a sound generator, one would also want
    \textsl{Sequencer64} to pass this MIDI on to a sound generator, such as a
    software or hardware synthesizer attached to one of the ports shown in
-   \figureref{fig:seq64_menu_file_options_midi_clock_manual_0}.
+   \figureref{fig:seq64_midi_clock_4_devices_manual_0}.
 
 \paragraph{Menu / File / Options / Keyboard }
 \label{paragraph:seq64_menu_file_options_keyboard}
@@ -393,7 +393,8 @@
    usually the case), then any keystroke, including keys like Ctrl, Alt,
    and Super (Mod4 or Windows key), can alter the value of a field to that
    of the keystroke.  This change is very easy to do accidentally!
-   Use the mouse to move this window and to click its \textbf{OK} button!
+   \textbf{Use the mouse}
+   to move this window and to click its \textbf{OK} button!
 
 \begin{figure}[H]
    \centering 
@@ -544,6 +545,28 @@
          Split the note?
    \end{itemize}
 
+   The \textsl{Seq24} "original style" is pretty much as expected for basic
+   actions such as selecting and moving notes using the left mouse button.
+   Drawing a note or event is a bit different, in the one must first
+   \textsl{click and hold} the right mouse button, and then
+   \textsl{click and drag} the right mouse button to insert notes,
+   Notes are inserted to be at the current length and grid-snap values for
+   the sequence editor for as long as the left button is pressed.
+   Notes are inserted only up to the boundary of the sequence length.
+   And, once notes are inserted, moving the mouse with the left button still
+   held down simply moves the notes to the new note value of the mouse.
+
+   If one releases the left button, then presses and holds it again,
+   more notes will be added in the same way.
+   This is strange, but it is a powerful way to layer notes into a short
+   sequence.
+   We call it the \index{draw mode} \index{mode!draw } "draw mode" or
+   \index{paint mode} \index{mode!paint } "paint mode".
+
+   Note that drawing/painting can also be done while the sequence is playing,
+   and notes will be added to be played the next time the progress bar crosses
+   them.
+   
    \textbf{New:}
    \index{new!Mod4 mode}
    \index{keys!Mod4}
@@ -566,14 +589,30 @@
    in the \textbf{Keyboard} option tab, since the keys there mainly apply to
    the Patterns Panel (main window).
 
-   \index{todo:extend mouse support}
-   \textbf{TODO:}
-   This option is currently limited to the pattern editor window, and also
-   needs some more work to see what can be done with the Mod4 key.  But
-   note that some \textsl{Sequencer64} windows can use the ctrl-left-click
-   as a middle click. 
+% Move this section to the right place and simply create a section-reference to
+% it here.
 
-\paragraph{Menu / File / Options / Jack Sync }
+   \textbf{New:}
+   \index{new!paint mode}
+   Another way to turn on the paint mode has been added, based on a feature
+   found in a patch that someone posted about in some mailing list somewhere on
+   the internet.
+   To turn on the paint mode, press the
+   \index{keys!p}
+   "p" key while in the sequence editor.
+   This is just like pressing the right mouse button, but the draw/paint mode
+   sticks (as if the Mod4 mode were in force).
+   To get out of the paint mode, press the
+   \index{keys!P}
+   "P" (shift-p) key while in the sequence editor.
+
+   \index{todo:extend mouse support}
+   \textbf{TODO:} These convenience options are currently limited to the
+   pattern/sequence editor window and the performance editor window, and may
+   need some heavier testing But note that some \textsl{Sequencer64} windows
+   can use the ctrl-left-click as a middle click. 
+
+\paragraph{Menu / File / Options / Jack Sync}
 \label{paragraph:seq64_menu_file_options_jack_sync}
 
    This tab sets up options for JACK synchronization.
@@ -581,13 +620,13 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{menu/menu_file_options_jack_sync.png}
-   \caption{File / Options / Jack Sync}
+   \caption{File / Options / JACK Sync}
    \label{fig:seq64_menu_file_options_jack_sync}
 \end{figure}
 
    \begin{enumber}
       \item \textbf{Transport}
-      \item \textbf{Jack start mode}
+      \item \textbf{JACK Start mode}
       \item \textbf{Connect}
       \item \textbf{Disconnect}
    \end{enumber}
@@ -595,33 +634,62 @@
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Transport}{jack sync!transport}
+   These settings are stored in the "rc" file settings group
+   \texttt{[jack-transport]}.
+   See \sectionref{subsec:seq64_rc_file_jack_transport},
+   which describes this configuration option.
    This items collects the following settings:
 
    \begin{itemize}
       \item \textbf{Jack Transport}.
          \index{JACK!transport}
          Enables synchronization with JACK Transport.
+         The command-line option is \texttt{--jack\_transport}.
       \item \textbf{Transport Master}.
          \index{JACK!transport master}
          \textsl{Sequencer64} will attempt to serve as the JACK Master.
+         The command-line option is \texttt{--jack\_master}.
       \item \textbf{Master Conditional}.
          \index{JACK!master conditional}
          \textsl{Sequencer64} will fail to serve as the JACK Master if there is
          already a Master set.
+         The command-line option is \texttt{--jack\_master\_cond}.
    \end{itemize}
 
-   \itempar{Transport}{jack sync!transport}
-   This items collects the following settings:
+   \itempar{JACK Start mode}{jack sync!start mode}
+   This items collects the following settings, also stored in the "rc" file
+   settings group \texttt{[jack-transport]}.
 
    \begin{itemize}
       \item \textbf{Live Mode}.
          \index{JACK!live mode}
+         \index{live mode}
+         \index{non-playback mode}
          Playback will be in live mode.  Use this option to allow muting and
-         unmuting of patterns.
+         unmuting of patterns.  This option might also be called "non-playback
+         mode".
+         The command-line option is \texttt{--jack\_start\_mode 0}.
       \item \textbf{Song Mode}.
          \index{JACK!song mode}
+         \index{song mode}
+         \index{playback mode}
+         \index{performance mode}
          Playback will use only the Song Editor's data.
+         The command-line option is \texttt{--jack\_start\_mode 1}.
    \end{itemize}
+
+   Note that, in ALSA mode, \textsl{Sequencer64} selects the following modes
+   according to which window started the playback.  The main window, or pattern
+   window, causes playback to be in live mode.  The user can arm and mute
+   patterns in that windows, by clicking on sequences, using their hot-keys,
+   and by using the group-mode and learn-mode features (I think!).
+
+   The song editor causes playback to be in performance mode, also known as
+   playback mode.
+
+   (It remains to be determined if this feature also holds in JACK 
+   mode; it shouldn't. One would think that the JACK Start mode
+   is then the arbiter of playback.)
 
    \itempar{Connect}{jack sync!connect}
    Connect to JACK Sync.
@@ -636,6 +704,11 @@
    which is already covered by a button at the bottom of the Patterns
    window.  Selecting this item bring up the Song Editor window.
    See \figureref{fig:song_editor_window}
+
+   The Song Editor window can also be brought up via the
+   \index{song editor!ctrl-e}
+   \index{keys!ctrl-e}
+   Ctrl-E key.
 
 \subsection{Menu / Help About...}
 \label{subsec:seq64_menu_about}
@@ -669,8 +742,7 @@
    \label{fig:seq64_menu_help_doc}
 \end{figure}
 
-   Shows who has documented this project.  Say, maybe "we" can get "our"
-   name there someday!  \texttt{:-)}
+   Shows who has documented this project.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex

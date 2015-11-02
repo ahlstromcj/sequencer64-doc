@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-09-07
+% \update      2015-11-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -37,8 +37,9 @@
    playing, from within this window.
 
    For exposition, we break the Patterns Panel
-   into a top panel, a pattern panel, and a
-   bottom panel.  Note that the \textsl{Sequencer64} main menu is discussed in
+   into a menu bar, a top panel, a pattern panel, and a
+   bottom panel.  Note that the \textsl{Sequencer64} menu bar was
+   already discussed in
    \sectionref{sec:seq64_menu}.
 
 \subsection{Patterns / Top Panel}
@@ -68,19 +69,19 @@
    This bar shows a number of small black cursors ("pills") that show the
    progress of the song through the various patterns.  For short patterns,
    the progress is fast.  For patterns that last longer, the progress is
-   slow.  This field shows that something is going on.  It can also indicate
+   slow.  The whole field flashes in time with the beat.
+   This field shows that something is going on.  It can also indicate
    the relative lengths of the various patterns.
  
-   Note that the individual pattern boxes in the main panel have their own
-   moving progress cursor, a tall thin line in each box.  Unfortunately,
-   this bar moves along even in patterns that have no events, only meta
-   items such as the track name.
+   Note that the individual pattern boxes in the main panel, for
+   patterns that are not empty, have their own
+   moving progress cursor, a tall thin line in each box.
 
    \itempar{Mute Group Learn}{pattern!mute group learn}
    \index{"L" button}
    This button is also known as the "L" button.
    Click this button, and then press a mute-group key
-   to store the mute-state of the patterns in that key.
+   to store the mute-state of the patterns with in that key.
 
    See the \textbf{File / Options / Keyboard} menu entry to bring up the
    dialog showing the available mute-group keys and the corresponding
@@ -130,7 +131,7 @@
    \index{keys!Home}
    (some set the Home key for this purpose).
    \index{rc file}
-   Everything is configurable "rc" file.
+   Everything is configurable in the "rc" file.
 
 \subsection{Patterns / Main Panel}
 \label{subsec:seq64_patterns_panel_main}
@@ -138,8 +139,8 @@
    The main panel of the Patterns window provides a grid of empty boxes,
    each box delimited by brace-like lines at left and right.
    Each filled box represents a loop or pattern.
-   One sees only 32 loops at a time in the main panel (but more 32
-   loops can be supported by \textsl{Sequencer64}.
+   One sees only 32 loops at a time in the main panel (but many more than
+   32 loops can be supported by \textsl{Sequencer64}).
    \index{screen set}
    This group of 32 loops is called a "screen set", as discussed in
    \sectionref{subsubsec:concepts_terms_screen_set}.
@@ -161,6 +162,9 @@
    \caption{Patterns Panel, Main Panel Items}
    \label{fig:pattern_window_main_panel_items}
 \end{figure}
+
+   The individual items annoted in this figure are described in
+   \sectionref{subsubsec:seq64_patterns_pattern_filled}, in more detail.
 
    \begin{enumber}
       \item \textbf{Pattern Slot}
@@ -203,17 +207,25 @@
    \itempar{Song / Mute All Tracks}{pattern!mute all}
    This item is the one item in the \textbf{Song} context menu;
    it mutes all tracks (or loops/patterns).
-   
-   \textsl{(We are not clear
-   on exactly what it does.  There is no change in visible
-   status of any of the patterns in the patterns-panel.)}
+   It works when one has opened the Song Editor window
+   and started playing in playback
+   mode by starting play using that window.
 
+   So, let us assume the song is running in playback mode.  The patterns that
+   are active (unmuted) in by that playback window are shown with a black
+   background in the main patterns window.  If one right clicks on a pattern
+   cell and selects \textbf{Song / Mute All Tracks}, all those patterns
+   will become white and be silenced.  Eventually, the Song Editor window
+   catches up and shows the "M" activated for all tracks.
+   
 \subsubsection{Pattern}
 \label{subsubsec:seq64_patterns_pattern_filled}
 
    A filled pattern slot is referred to informally as a pattern.
    A pattern is shown in the Pattern windows as a filled box with the
-   following items of information in it:
+   following items of information in it.
+   Examine \figureref{fig:pattern_window_main_panel_items}; it shows
+   these items annotated for clarity.
 
    \begin{itemize}
       \item \textbf{Name}.
@@ -228,10 +240,17 @@
          tracks the position of the playback of the pattern or loop; it
          returns to the beginning of the box every time that pattern starts
          over again.
-         \textbf{Bug:}
-         \index{bugs!empty pattern scrolls}
-         However, an imported empty pattern will still (needlessly) scroll;
-         perhaps such patterns can be marked as inactive.
+         \textbf{New:}
+         \index{new!empty pattern}
+         With \textsl{Sequencer64}, an imported empty pattern will no longer
+         needlessly scroll.
+         However, if a pattern has even a single event (say, a program change),
+         it will scroll.
+         \textbf{TODO:}
+         \index{todo:one-shot pattern}
+         It might be good to have some patterns marked as one-shot patterns.
+         They play once at the start of playback, and that is it.
+         They could be marked with a cyan background.
       \item \textbf{Bus-Channel}.
          \index{pattern!bus-channel}
          This pair of numbers shows the the MIDI buss number, a dash, and
@@ -251,6 +270,16 @@
       \item \textbf{Progress Cursor}.
          At the left of each box is a vertical line, waiting for playback to
          start so that it can move through the pattern, again and again.
+      \item \textbf{Armed}.
+         See \figureref{fig:pattern_window_main_panel_items}; it shows a black
+         and grey pattern.  The black color indicates that the pattern is armed
+         (unmuted), and will play if playback is initiated in the pattern
+         window
+         \index{live mode}
+         (i.e. "live mode").
+      \item \textbf{Queued}.
+         That same pattern also shows that it is queued, which means that it
+         will start playing when the pattern next begins again.
    \end{itemize}
 
    \index{pattern!left click}
@@ -260,10 +289,10 @@
    the pattern stop playing or start playing.  Note that the armed status
    can also be toggled using hot-keys.
 
-   Also note that the pattern boxes will toggle between the muted/unmuted
+   Also note that, if the Song Editor is the active window and was used to
+   start the playback, the pattern boxes will toggle between the muted/unmuted
    states as the music plays, and the pattern is active or inactive at the
-   point of playback, if the Song Editor is the active window and was used
-   to start the playback.
+   point of playback.  (The Song Editor acts as a list of triggers).
 
    \index{pattern!right click}
    By right-clicking on an already-filled box, one brings up a menu
@@ -299,11 +328,11 @@
 
    \itempar{Cut}{pattern!cut}
    Deletes and copies an existing loop or pattern.
-
+   Note than one can also drag-and-drop a pattern into another cell.
    \textbf{Bug:}
-   \index{bugs!pattern cut doesn't work}
-   This operation seems to have no effect.  The loop or pattern remains in
-   place.
+   \index{bugs!pattern cut not dirty}
+   Allow this operation works, it does not cause the user to be prompted if the
+   application is exited.
 
    \itempar{Copy}{pattern!copy}
    Copies an existing loop or pattern.
@@ -334,9 +363,9 @@
    be played when the song plays.
 
    \itempar{Mute All Tracks}{pattern!mute all tracks}
-   Selecting this filled-box right-click menu item causes...
-   TODO.  \index{todo!how mute all tracks works}
-   Cannot yet see that this does anything, NEEDS EXPERIMENTATION.
+   Selecting this filled-box right-click menu item causes
+   the tracks in the Song Editor to be muted.  Sometime it takes a few seconds
+   for the user-interfaces to show this big change.
 
    \itempar{Midi Bus}{pattern!midi bus}
    Selecting this filled-box right-click menu item brings up a list
@@ -349,8 +378,17 @@
    \label{fig:pattern_window_right_click_midi_bus}
 \end{figure}
 
+   \textbf{New:}
+   \index{new!--bus option}
+   Note that another way of specifying the busses is to supply the
+   new \texttt{--buss n} option.  This option is currently available
+   only from the command line.  It causes \textsl{every} pattern in the MIDI
+   file to be allocated to that buss number when loaded.  This option is
+   meant for convenience or testing.  If you save the file, it will now
+   have that buss number as part of each track's data.
+
    For each of these buss items, another pop-up menu allows one
-   to specify the MIDI output port for that buss:
+   to specify the MIDI output channel for that buss:
 
 \begin{figure}[H]
    \centering 
@@ -545,6 +583,8 @@
    It is not clear if it also sends MIDI Off messages on all notes.
    \index{keys!esc (stop)}
    The keystroke for stopping playback is the \texttt{Escape} character.
+   It can be changed to \texttt{Space}, so that the space-bar then becomes a
+   playback toggle key.
 
    \itempar{Play}{pattern!Play}
    The green triangular button starts the playback of the whole song.

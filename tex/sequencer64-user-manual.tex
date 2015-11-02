@@ -34,6 +34,14 @@
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
 \maketitle
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.80]{Sequencer64-0_9_9_6.png}
+\end{figure}
+
+\clearpage                             % moves Contents to next page
+
 \tableofcontents
 \listoffigures                         % print the list of figures
 \listoftables                          % print the list of tables
@@ -108,12 +116,14 @@
    \textsl{Seq24} has accumulated in various forks over the years.
 
    Also, although "feature-complete", \textsl{Seq24} could use a few more
-   features, such as "infinite patterns" (i.e. "tracks"), better annunciation,
-   uniformity, ease-of-use of keystrokes, ways to work around the need for
-   two mouse buttons, a more up-to-date user-interface framework, a few bug
-   fixes, fix the formatting of the output "rc" configuration file, beef up the
-   support for the "user" configuration file, and a way to edit parts of the
-   MIDI file textually.
+   features, such as "infinite patterns" (i.e. "tracks"), support for more
+   session managers, better annunciation, uniformity, even more use of
+   keystrokes, work-arounds for the need for two mouse buttons, a more
+   up-to-date user-interface framework, a few bug fixes, beefing up the support
+   for the "user" configuration file, and a way to edit parts of the MIDI file
+   textually.
+
+   The original author:
 
    \begin{quotation}
       \textsl{Seq24} is a real-time MIDI sequencer. It was created to
@@ -154,7 +164,7 @@
          \item Ability to use the Mod4/Super/Windows key to keep editing
             (painting) mode enabled after releasing the right mouse button,
             for some of the modern crappy touchpads shipped with
-            laptops.
+            "gamer" laptops.
       \end{itemize}
       \item The "user" configuration is now written to disk, and we will be
          adding settings to it in the near future.
@@ -164,8 +174,8 @@
          default value of 192.
       \item Small improvements in appearance:
       \begin{itemize}
-         \item Support for showing empty (i.e. having only meta events)
-            sequences in a highlighting color.
+         \item Support for showing empty sequences (i.e. having only meta
+            events) in a highlight color.
          \item Modification of the colors of the scale and background sequence
             in the sequence editor to make it easier to see them all.
          \item A new font, enabled at build time, that is bolder and has a
@@ -187,7 +197,7 @@
             If the new container reduces the maximum output of the sequencer,
             we will dump the slow container into a vector container for faster
             playback.
-         \item The code was reformmated using \textsl{astyle} and
+         \item The code was reformated using \textsl{astyle} and
             personal preferences.  Modules were split into smaller units.
             Header file "includes" were moved into the "cpp" files to reduce
             header-file dependencies and build times, and to facilitate
@@ -225,7 +235,7 @@
    help the reader jump around this document, multiple links, references,
    and index entries are provided.
 
-   Usage tips
+   \textsl{Usage tips}
    \index{tips!documented}
    for each of the functions provided in
    \textsl{Sequencer64} are sprinkled throughout this document.
@@ -233,7 +243,7 @@
    Each tip is provided with an entry in the index, under the
    main topic "tips".
 
-   Bug notes
+   \textsl{Bug notes}
    \index{bugs!documented}
    for some of the oddities found in \textsl{Sequencer64} are
    sprinkled throughout this document.
@@ -242,13 +252,13 @@
    main topic "bugs".  These bugs are items that we will try to
    fix as time goes on.
 
-   "To-do" items
+   \textsl{"To-do" items}
    \index{todo!documented}
    are also present, again in the same vein.
    Each to-do occurs in a sentence beginning with "\textbf{TODO:}".
    This document currently has a lot of them!
 
-   "New" items
+   \textsl{"New" items}
    \index{new!documented}
    are also present, in the same vein.
    New features (post version 0.9.2) will be noted with the tag
