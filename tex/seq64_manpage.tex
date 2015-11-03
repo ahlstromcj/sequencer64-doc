@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-09-05
+% \update      2015-11-03
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -29,8 +29,8 @@
        sequencer64 [OPTIONS] [FILENAME]
    \end{verbatim}
 
-   \textsl{Sequencer64} accepts the following options, plus an optional name of a
-   MIDI file.
+   \textsl{Sequencer64} accepts the following options, plus an optional name of
+   a MIDI file.
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
@@ -48,19 +48,37 @@
       Also read the configuration, if provided, from the
       \texttt{~/.seq24rc} and \texttt{~/.seq24usr} files,
       instead of the new
-      \texttt{~/.config/sequencer64/sequencer64rc} and
-      \texttt{~/.config/sequencer64/sequencer64usr} files.
+      \texttt{~/.config/sequencer64/sequencer64.rc} and
+      \texttt{~/.config/sequencer64/sequencer64.usr} files.
       The user-interface will indicate this mode with a small text
       note.
       This mode is also used if \textsl{Sequencer64} is invoked as the
       \texttt{seq24} command (one can create a soft link to the sequencer64
       binary to make that happen).
 
+   \optionpar{-b}{--bus}
+      \textbf{New:}
+      \index{new!buss number override}
+      Supports modifying the buss number on all tracks when a MIDI file is
+      read.  All tracks are loaded with this buss-number override.  This
+      feature is useful for testing, making it easy to map the MIDI file onto
+      the system's current hardware/software synthesizer setup.
+
+   \optionpar{-q}{--ppqn}
+      \textbf{New:}
+      \index{new!ppqn override}
+      Supports modifying the PPQN value of Sequencer64, which is currently
+      hardwired to a value of 192.  This setting should allow MIDI files to
+      play back at the proper speed, and be written with the new PPQN value.
+      This feature is \textbf{STILL IN PROGRESS}, and undependable.
+
    \optionpar{-L}{--lash}
       \textbf{New:}
       \index{new!LASH runtime enabling}
       If LASH support is compiled into the program, this option
       enables it.
+      If LASH support is not compiled into the program, this option will note
+      be shown in the output of the --help option.
 
    \optionpar{N/A}{--file [filename]}
       Load a MIDI file on startup.
@@ -71,12 +89,13 @@
 
    \optionpar{-m}{--manual\_alsa\_ports}
       \textsl{Sequencer64} won't attach ALSA ports.
+      Instead, it will create is own set of input and output busses/ports.
 
    \optionpar{-s}{--showmidi}
       Dumps incoming MIDI to the screen.
 
    \optionpar{-p}{--priority}
-      Runs at higher priority with FIFO scheduler.
+      Runs at higher priority with a FIFO scheduler.
 
    \optionpar{N/A}{--pass\_sysex}
       Passes any incoming SYSEX messages to all outputs.
@@ -90,6 +109,11 @@
    \optionpar{-x}{--interaction\_method [number]}
       Select the mouse interaction method.
       0 = seq24 (the default); and 1 = fruity loops method.
+      The latter does not completely support all actions supported by the Seq24
+      interaction method, at this time.
+
+      The following options will not be shown by --help if the application is
+      not compiled for JACK support.
 
    \optionpar{-j}{--jack\_transport}
       \textsl{Sequencer64} will sync to JACK transport.
@@ -112,10 +136,17 @@
 
    \texttt{\$HOME/.seq24rc} holds the user settings for \textsl{Sequencer64}.
 
-   The old project homepage is at
+   The current Sequencer64 project homepage is a simple git repository at the
+   https://github.com/ahlstromcj/sequencer64.git URL.
+   Up-to-date instructions can be found in the project at the
+   https://github.com/ahlstromcj/sequencer26-doc.git URL.
+
+   The old Seq24 project homepage is at
    \url{http://www.filter24.org/seq24/} the new
    one is at \url{https://edge.launchpad.net/seq24/}.
    It is released under the GNU GPL license.
+
+   Sequencer64 is also released under the GNU GPL license.
 
    \textsl{Sequencer64} was written by Chris Ahlstrom <ahlstromcj@gmail.com>.
    \textsl{Seq24} was written by Rob C. Buse \url{mailto:seq24@filter24.org}
@@ -127,7 +158,7 @@
    \url{mailto:ahlstromcj@gmail.com}.
 
    \begin{verbatim}
-Version 0.9.3                   September 1 2015                  Sequencer64(1)
+Version 0.9.9.6                 November 3 2015                  sequencer64(1)
    \end{verbatim}
 
 %-------------------------------------------------------------------------------
