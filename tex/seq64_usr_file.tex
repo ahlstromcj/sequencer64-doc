@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-09-01
+% \update      2015-11-04
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -17,21 +17,107 @@
 \section{Sequencer64 User Configuration File}
 \label{sec:seq64_usr_file}
 
-   \index{sequencer64usr}
-   \index{[sequencer64usr]}   % for convenience
-   The \textsl{Sequencer64} configuration file was called
+   The \textsl{Sequencer64} configuration file provides a way to give more
+   informative names to the MIDI busses, MIDI channels, and MIDI controllers of
+   a given system setup.  This configuration will override the default values
+   of some drop-down lists and menu items, and make them reflect your names for
+   them.
+
+   By default, the list of MIDI items that \textsl{Sequencer64} shows depends
+   on one's system setup and whether the manual-alsa-port options is specified
+   or not.  Here's our system, which has Timidity installed and running as a
+   service, and the manual-alsa-port option turned off, shown in a composite
+   view with all menus one can look at for MIDI settings:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{buss/manual-0-buss-dropdown.png}
+   \caption{Sequencer64 Composite View of Native Devices}
+   \label{fig:seq64_manual_0_buss_dropdown}
+\end{figure}
+
+   At the top center, the dropdown menu contains the 5 MIDI busses (also known
+   as "MIDI ports") supported by our system.  At right, the MIDI channel shows
+   the channels numbers that can be picked for buss 0.  At bottom left, we see
+   the default controller values that \textsl{Sequencer64} includes.  We have
+   no idea if these correspond to any controllers that the selected MIDI buss
+   supports.  We \textsl{can} use this dropdown to see if any such controller
+   events are in the loaded MIDI file, of course.
+
+   Now let's assume we have 3 MIDI "buss" devices hooked to our system:
+   two Model "2x2" MIDI port devices, and an old PCR-30 MIDI controller
+   keyboard.  Let's number them:
+
+   \begin{enumerate}
+      \item Model 2x2 A
+      \item Model 2x2 B
+      \item PCR-30
+   \end{enumerate}
+
+   Then assume that we have nine different MIDI instruments in our kit.
+   Let's number them, too:
+
+   \begin{enumerate}
+      \item Waldorf Micro Q
+      \item SuperNova
+      \item DrumStation
+      \item TX81Z
+      \item WaveStation
+      \item ESI-2000
+      \item ES-1
+      \item ER-1
+      \item TB-303
+   \end{enumerate}
+
+   The Waldorf Micro Q, the SuperNova, and the DrumStation all have a large
+   number of special MIDI controller values for affecting the sound they
+   produce.  The DrumStation accepts MIDI controllers that change various
+   features of the sound of each type of drum it supports.
+
+   The buss devices can be configured (apparently) to route certain
+   MIDI channels to certain MIDI devices.  Let's assume we have them
+   set up this way:
+
+   \begin{enumerate}
+      \item Model 2x2 A
+      \begin{itemize}
+         \item SuperNova: channels 1 to 8
+         \item TX81Z: channels 9 to 11
+         \item Waldorf Micro Q: channels 12 to 15
+         \item DrumStation: channel 16
+      \end{itemize}
+      \item Model 2x2 B
+      \begin{itemize}
+         \item WaveStation: channels 1 to 4
+         \item ESI-2000: channels 5 to 14
+         \item ES-1: channel 15
+         \item ER-1: channel 16
+      \end{itemize}
+      \item PCR-30
+      \begin{itemize}
+         \item TB-303: channel 1
+      \end{itemize}
+   \end{enumerate}
+
+   How can we get \textsl{Sequencer64} to show these items with the proper
+   names associated with each device, channel, and controller value?
+   We use the oddly-named \textbf{"user" configuration file}.
+
+   \index{sequencer64.usr}
+   \index{[sequencer64.usr]}   % for convenience
+   The \textsl{Seq24} configuration file was called
    \texttt{.seq24usr}, and it was stored in the user's \texttt{\$HOME}
    directory.
-   This is the same name used by \textsl{Seq24}, so we created an new file
+   For \textsl{Sequencer64}, we created an new file-name
    to take its place, with a fall-back to the original file-name if the new
    file does not exist, or if \textsl{Sequencer64} is running in
    legacy mode.
 
    After you run \textsl{Sequencer64} for the first time, it will generate a
-   \texttt{sequencer64usr} file in your home directory:
+   \texttt{sequencer64.usr} file in your home directory:
 
    \begin{verbatim}
-      /home/ahlstrom/.config/sequencer64/sequencer64usr
+      /home/ahlstrom/.config/sequencer64/sequencer64.usr
    \end{verbatim}
 
    It allows you to give an alias to 
@@ -53,6 +139,19 @@
          ranges from 0 on up.
    \end{enumber}
 
+   So, taking our list of devices and channels we created above,
+   deducting 1 from each device number and channel number (so that numbering
+   starts from 0), and consulting the device manuals to determine the
+   controller values it supports, we can assemble a "user" configuration file
+   that makes the setup visible in \textsl{Sequencer64}.
+
+   Peruse the next couple of sections to understand a bit about the format of
+   this file.  Look at the example file in the \texttt{contrib} directory as
+   well, to see the whole thing put together.
+   Once you're satisfied, go to
+   \sectionref{subsec:seq64_usr_file_midi_bus_results}, and 
+   see what it all looks like.
+
 \subsection{Sequencer64 User / MIDI Bus Definitions}
 \label{subsec:seq64_usr_file_midi_bus_definitions}
 
@@ -66,7 +165,7 @@
       3     # number of user buses
    \end{verbatim}
 
-   This means that the \texttt{sequencer64usr} file will have three MIDI buss
+   This means that the \texttt{sequencer64.usr} file will have three MIDI buss
    sections: [user-midi-bus-0], [user-midi-bus-1], and [user-midi-bus-2].
    Here's is an annoted example of one such section:
 
@@ -204,8 +303,64 @@
    The sample file \texttt{contrib/scripts/dot-seq24usr} contains examples
    of some other kinds of instruments, such as drum machines.
 
-   Sometime we would like to create a section that sets up the
-   \textsl{Yoshimi} 1.3.5+ software synthesizer as an instrument.
+\subsection{Sequencer64 User / Results}
+\label{subsec:seq64_usr_file_midi_bus_results}
+
+   Okay, now we have this file copied to our home directory:
+
+   \begin{verbatim}
+      /home/ahlstrom/.config/sequencer64/sequencer64.usr
+   \end{verbatim}
+
+   If we'd already run \textsl{Sequencer64} at least once, we'd have
+   overwritten the skeleton sample file that \textsl{Sequencer64}
+   writes by default.  We now have a full-fledged "user" file.
+
+   However, because we don't actually have all that equipment (we got the
+   example from the Web, for cryin' out loud), let's see what we end up with
+   when we run \textsl{Sequencer64} this time.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{buss/manual-0-userfile-buss-dropdown.png}
+   \caption{Sequencer64 Composite View of Non-Native Devices}
+   \label{fig:seq64_manual_0_userfile_buss_dropdown}
+\end{figure}
+
+   Compare that diagram to \figureref{fig:seq64_manual_0_buss_dropdown}.
+   If the original figure, we saw the 5 native busses (ports) on our system,
+   their bare-bones channel numbers, and the default controller values.  In
+   this new figure, we see the three buss devices (ports), plus the two
+   Timidity ports.  If we stopped the Timidity service, these would go away.
+
+   Look at the selected buss, "[0]".  It's 16 channels are now associated with
+   the devices to which the channels have been assigned.
+
+   Thus, when we have a new pattern we've created in \textsl{Sequencer64},
+   can assign it to exactly the buss and device we want.
+
+   If we don't have port-mappers installed, and thus have only one playback
+   device plugged into the buss, we can still create a setup that
+   shows the device and a specific program setup.  Doing so would be tedious,
+   but perhaps there's some automated way to do it?
+
+   Lastly, note the following figure.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{buss/manual-0-userfile-seq-buss-dropdowns.png}
+   \caption{The MIDI Bus Menu for a Specific Pattern}
+   \label{fig:seq64_manual_0_userfile_seq_buss_dropdown}
+\end{figure}
+
+   This figure shows that we can also select the desired port and channel
+   directly from the main window.
+
+   There's a lot more to the "user" configuration file than we've exposed here,
+   but finding more information about this file has proven a bit tricky.
+
+   Sometime we would like to create a "user" that sets up the
+   \textsl{Yoshimi} 1.3.5+ software synthesizer as a device and instrument.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
