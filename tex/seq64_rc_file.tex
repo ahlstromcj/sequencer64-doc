@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-09-07
+% \update      2015-11-05
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -82,7 +82,7 @@
 
    \begin{verbatim}
       [midi-control]
-      74
+      74      # MIDI controls count
 
       # pattern group
        0  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]            
@@ -91,40 +91,31 @@
       ...     ...            ...              ...
       31  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]    
 
-      # mute in group
+      # mute in group section:
       32  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
       33  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
       ...     ...            ...              ...
       63  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
 
-      # bpm up
+      # bpm up:
       64  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-
-      # bpm down
+      # bpm down:
       65  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-
-      # screen set up
+      # screen set up:
       66  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-
-      # screen set down
+      # screen set down:
       67  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-
-      # mod replace
+      # mod replace:
       68  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-
-      # mod snapshot
+      # mod snapshot:
       69  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-
-      # mod queue
+      # mod queue:
       70  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-
-      # mod gmute
+      # mod gmute:
       71  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-
-      # mod glearn
+      # mod glearn:
       72  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-
-      # screen set play
+      # screen set play:
       73  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
    \end{verbatim}
 
@@ -138,7 +129,7 @@
    If the incoming MIDI event matches the filter, it will either [toggle],
    [on], or [off] the pattern/sequence, respectively.
 
-   The layout of each filter inside the bracket is as follows:
+   The layout of each filter inside the brackets is as follows:
 
       [OPR INV STAT D1 D2min D2max]
 
@@ -301,10 +292,10 @@
 
    \begin{verbatim}
       [mute-group]
-      1024
-       0 [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0]
-       1 [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0]
-       2 [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0]
+      1024    # group mute value count
+      0 [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0]
+      1 [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0]
+      2 [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0]
       ...      ...               ...               ...               ...
       31 [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0] [0 0 0 0 0 0 0 0]
    \end{verbatim}
@@ -360,6 +351,26 @@
       15 0  # [16] seq24 16
    \end{verbatim}
 
+That sample would be written one had started up \textsl{Sequencer64} in
+manual-alsa-mode.  On our system, where we have Timidity running, and
+erroneously, have also specified 3 MIDI busses that we do not have, in the
+\texttt{sequencer64.usr} file:
+
+   \begin{verbatim}
+      [midi-clock]
+      5    # number of MIDI clocks/busses
+      # Output buss name: [0] 14:0 2x2 A (SuperNova,Q,TX81Z,DrumStation)
+      0 0  # buss number, clock status
+      # Output buss name: [1] 128:0 2x2 B (WaveStation,ESI-2000,MV4,ES-1,ER-1)
+      1 0  # buss number, clock status
+      # Output buss name: [2] 128:1 PCR-30 (303)
+      2 0  # buss number, clock status
+      # Output buss name: [3] 128:2 TiMidity port 2
+      3 0  # buss number, clock status
+      # Output buss name: [4] 128:3 TiMidity port 3
+      4 0  # buss number, clock status
+   \end{verbatim}
+
 \subsection{Sequencer64 / Keyboard Control Section}
 \label{subsec:seq64_rc_file_keyboard_control}
         
@@ -371,8 +382,8 @@
 
    \begin{verbatim}
       [keyboard-control]
-      32
-      # Key #, Sequence # 
+      32     # number of keys
+      # Key #  Sequence #   Key name
       44  31        # comma
       49  0         # 1
       50  4         # 2
@@ -507,23 +518,18 @@
    \begin{verbatim}
       [jack-transport]
 
-      # --jack_transport: Enable sync with JACK Transport.  Sequencer64 will sync
-      # to JACK transport if the JACK server is available.
+      # jack_transport - Enable sync with JACK Transport.
       0
 
-      # --jack_master: Sequencer64 will attempt to serve as JACK Master.
+      # jack_master - Sequencer64 attempts to serve as JACK Master.
       0
 
-      # --jack_master_cond: Sequencer64 will fail to be JACK master if there is
-      # already a JACK master set.
+      # jack_master_cond - Sequencer64 is master if no other master exists.
       0
 
-      # --jack_start_mode n
-      # 0 = Playback will be in live mode.  Use this value to allow muting
-      #     and unmuting of loops.
-      # 1 = Playback will be in performance mode.  Playback will use the song
-      #     editor's data.  When Sequencer64 is synced to JACK, the playback command
-      #     comes from the JACK server.  Sequencer64 is in performance mode by default.
+      # jack_start_mode
+      # 0 = Playback in live mode. Allows muting and unmuting of loops.
+      # 1 = Playback uses the song editor's data.
       1
    \end{verbatim}
 
@@ -552,8 +558,9 @@
 
    \begin{verbatim}
       [midi-input]
-      1
-      0 0            # [0] seq24 0
+      1   # number of MIDI busses
+      # [0] 14:0 2x2 A (SuperNova,Q,TX81Z,DrumStation)
+      0 0
    \end{verbatim}
 
    There is no user-interface item for the following value, but
@@ -602,6 +609,27 @@
    useful for crippled trackpads and trackpad drivers that cannot provide
    two simultaneous button presses.
 
+   \index{[lash-session]}
+   This configuration item is the same as the
+   \texttt{--lash} or \texttt{--no-lash} options described in
+   \sectionref{sec:seq64_man_page}.
+   If set to 0, LASH session support is disabled.
+   If set to 1, LASH session support is enabled.
+   However, if LASH support is not built into the application, neither option
+   has any effect -- there is no LASH support.  
+   To determine if LASH support is built in, run sequencer64 from the command
+   line with the \texttt{--help} option, and see if LASH is mentioned.
+
+   \begin{verbatim}
+      [lash-session]
+      # Set the following value to 0 to disable LASH session management.
+      # Set the following value to 1 to enable LASH session management.
+      # This value will have no effect is LASH support is not built into
+      # the application.  Use the --help option to see if LASH is part of
+      # the options list.
+      1     # LASH session management support flag
+   \end{verbatim}
+
    The following item refers to the last directory in which one opened or
    saved a MIDI file.
 
@@ -610,6 +638,8 @@
       [last-used-dir]
 
       # Last used directory.
+
+      /home/ahlstrom/Home/ca/mls/git/sequencer64/contrib/midi/
    \end{verbatim}
 
 %-------------------------------------------------------------------------------

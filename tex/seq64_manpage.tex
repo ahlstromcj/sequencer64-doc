@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-04
+% \update      2015-11-05
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -86,7 +86,15 @@
       \index{new!LASH runtime enabling}
       If LASH support is compiled into the program, this option
       enables it.
-      If LASH support is not compiled into the program, this option will note
+      If LASH support is not compiled into the program, this option will not
+      be shown in the output of the --help option.
+
+   \optionpar{-n}{--no-lash}
+      \textbf{New:}
+      \index{new!LASH runtime disabling}
+      If LASH support is compiled into the program, this option
+      disables it, even if the default or configuration file set it.
+      If LASH support is not compiled into the program, this option will not
       be shown in the output of the --help option.
 
    \optionpar{N/A}{--file [filename]}

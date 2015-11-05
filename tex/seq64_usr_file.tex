@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-04
+% \update      2015-11-05
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -124,7 +124,7 @@
    each MIDI bus, MIDI channel, and MIDI control 
    codes, per channel.
    The name is a bit misleading... do not confuse this file with the
-   \texttt{sequencer64rc} file.
+   \texttt{sequencer64.rc} file.
 
    The process for setting up the user file is to:
 
@@ -162,7 +162,7 @@
 
    \begin{verbatim}
       [user-midi-bus-definitions]
-      3     # number of user buses
+      3     # number of user-defined MIDI busses
    \end{verbatim}
 
    This means that the \texttt{sequencer64.usr} file will have three MIDI buss
@@ -218,7 +218,7 @@
       9     # number of user instrument
    \end{verbatim}
 
-   So this "rc" file will define 9 instruments.  We will provide one section
+   So this "usr" file will define 9 instruments.  We will provide one section
    as a sample.
 
    \begin{verbatim}
@@ -302,6 +302,96 @@
 
    The sample file \texttt{contrib/scripts/dot-seq24usr} contains examples
    of some other kinds of instruments, such as drum machines.
+
+\subsection{Sequencer64 User / User Interface Settings}
+\label{subsec:seq64_usr_file_user_interface_settings}
+
+   \index{[user-interface-settings]}
+   This section begins with an
+   "INI" group marker \texttt{[user-interface-settings]}.
+
+   It provides for a feature we will hopefully be able to complete some day:
+   the better specificiation of the appearance of the user interface.
+   Currently, these settings are not yet in force... we still have to figure
+   out a fair number of user interface items.
+
+   But, for now, this section shows some of the current values.
+
+   \begin{verbatim}
+      [user-instrument-4]
+      #   ========================================================
+      #   ======== Sequencer64-Specific Variables Section ========
+      #   ========================================================
+
+      [user-interface-settings]
+      # These settings specify the soon-to-be-modifiable sizes of
+      # the Sequencer64 user-interface elements.
+      # Specifies the number of rows in the main window.
+      # At present, only a value of 4 is supportable.
+      # In the future, we hope to support an alternate value of 8.
+      4       # mainwnd_rows
+
+      # Specifies the number of columns in the main window.
+      # At present, only a value of 8 is supportable.
+      8       # mainwnd_cols
+
+      # Specifies the maximum number of sets, which defaults to 1024.
+      # It is currently never necessary to change this value.
+      32      # max_sets
+
+      # Specifies the border width in the main window.
+      0      # mainwid_border
+
+      # Specifies the border spacing in the main window.
+      2      # mainwid_spacing
+
+      # Specifies some quantity, it is not known what it means.
+      0      # control_height
+   \end{verbatim}
+
+\subsection{Sequencer64 User / User MIDI Settings}
+\label{subsec:seq64_usr_file_user_midi_settings}
+
+   \index{[user-midi-settings]}
+   This section begins with an
+   "INI" group marker \texttt{[user-midi-settings]}.
+
+   It provides for a feature we will hopefully be able to complete some day:
+   Being able to support files with different PPQN properly, and to specify the
+   global defaults for tempo, beats per measure, and so on.
+
+   \begin{verbatim}
+      [user-instrument-4]
+      [user-midi-settings]
+
+      # These settings specify MIDI-specific value that might be
+      # better off as variables, rather than constants.
+      # Specifies parts-per-quarter note to use, if the MIDI file.
+      # does not override it.  Default is 192, but we'd like to go
+      # higher than that.  BEWARE:  STILL GETTING IT TO WORK!
+      192       # midi_ppqn
+
+      # Specifies the default beats per measure, or beats per bar.
+      # The default value is 4.
+      4       # midi_beats_per_measure/bar
+
+      # Specifies the default beats per minute.  The default value
+      # is 120, and the legal range is 20 to 500.
+      120       # midi_beats_per_minute
+
+      # Specifies the default beat width. The default value is 4.
+      4       # midi_beat_width
+
+      # Specifies the buss-number override. The default value is -1,
+      # which means that there is no buss override.  If a value
+      # from 0 to 31 is given, then that buss value overrides all
+      # buss values specified in all sequences/patterns.
+      # Change this value from -1 only if you want to use a single
+      # output buss, either for testing or convenience.  And don't
+      # save the MIDI afterwards, unless you really want to change
+      # all of its buss values.
+      -1      # midi_buss_override
+   \end{verbatim}
 
 \subsection{Sequencer64 User / Results}
 \label{subsec:seq64_usr_file_midi_bus_results}
