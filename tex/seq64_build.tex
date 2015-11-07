@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2015-11-06
+% \update      2015-11-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -167,18 +167,23 @@ Steps:
         probably implement dumping the multimap to a vector before playback.
         We shall see!
 
-    \itempar{\texttt{SEQ64\_USE\_GREY\_GRID}}{build!grey grid}
+    \itempar{\texttt{SEQ64\_USE\_GREY\_GRID}}{build!grey/normal grid}
         If defined, this item causes the pattern slots/boxes to be colored
-        grey.  Otherwise, they are colored black.  By default, this value
-        is defined (in the \texttt{mainwid} module).
+        grey (actually, they will be colored normally as per the current GTK
+        them).  Otherwise, they are colored black.  By default, this value is
+        defined (in the \texttt{mainwid} module).
 
-    \itempar{\texttt{SEQ64\_USE\_NORMAL\_GRID}}{build!normal grid}
+    \itempar{\texttt{SEQ64\_USE\_WHITE\_GRID}}{build!white grid}
+        If defined, this item causes the pattern slots/boxes to be colored
+        white.  Also definable(in the \texttt{mainwid} module).
+
+    \itempar{\texttt{SEQ64\_USE\_BRACKET\_GRID}}{build!normal grid}
         If defined, the box that outlines the pattern slots/boxes is
         painted over to convert the box to look like a pair of brackets.
         By default, this value is defined (in the \texttt{mainwid} module).
 
         Defining both of the macros (\texttt{USE\_GREY\_GRID} and
-        \texttt{USE\_NORMAL\_GRID}) gives the normal Seq24 look for the Pattern
+        \texttt{USE\_BRACKET\_GRID}) gives the normal Seq24 look for the Pattern
         Window.  Eventually we might move these definitions into the configure
         script, for easier
         modification.
@@ -192,10 +197,25 @@ Steps:
         least be visible.  There is a little image of this style inside the
         screenshot shown on the first page of this manual.
 
-        If \texttt{SEQ64\_USE\_GREY\_GRID} is not defined, so that the grid
-        slots are black, then the numbering will be yellow on a black
-        background, and match perfectly.  This style is shown in the following
+        If \texttt{SEQ64\_USE\_WHITE\_GRID}
+        are defined, so that the grid cells are white, then the sequence
+        numbering looks a little nicer, as can be seen in the following
         figure:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{pattern-window-white-box-numbering.png}
+   \caption{Pattern Window Built for White Grid with Numbering}
+   \label{fig:seq64_build_white_box_numbering}
+\end{figure}
+
+        There is a little image of this style inside the screenshot shown on
+        the first page of this manual, as well.
+
+        If neither \texttt{SEQ64\_USE\_GREY\_GRID} nor
+        \texttt{SEQ64\_USE\_WHITE\_GRID} are defined, so that the grid slots
+        are black, then the numbering will be yellow on a black background, and
+        match perfectly.  This style is shown in the following figure:
 
 \begin{figure}[H]
    \centering 
@@ -204,8 +224,12 @@ Steps:
    \label{fig:seq64_build_black_box_numbering}
 \end{figure}
 
-        There is a little image of this style inside the screenshot shown on
-        the first page of this manual, as well.
+      There is a little image of this style inside the screenshot shown on
+      the first page of this manual, as well.
+
+      Take your pick, modify the code accordingly before you build it.
+      Perhaps these can eventually be options for the \texttt{configure}
+      script, or even run-time options!  Let us know!
 
     \itempar{\texttt{SEQ64\_USE\_VI\_SEQROLL\_MODE}}{build!vi seqroll}
         Definable in the seqroll module, this macro allows the vi hjkl keys to

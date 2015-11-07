@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-01
+% \update      2015-11-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -157,6 +157,21 @@
    shows an import of the \texttt{contrib/b4uacuse.mid} file, which contains
    a transcription of an Eric Clapton tune that we'd made over 20 
    years ago and had uploaded to the \textsl{GEnie} network service.
+
+   Note the additional file-dialog field,
+   \textbf{Select Screen Offset}.
+   \index{import!select screen offset}
+   \index{select screen offset}
+   This setting lets one place the imported data into a screen-set other than
+   the first screen-set, screen-set 0.
+   This field is not editable.  It requires using the scroll button to move the
+   screen set offset up or down in value.  The legal values range from -31 to 0
+   to +31.
+   
+   When the file is imported, the sequence number for each track read in is
+   adjusted to put the track in the desired screen set.  The negative numbers
+   are probably more useful to move sequences around in an already-created
+   \textsl{Sequencer64} song file with a lot of screen-sets in it.
 
 \begin{figure}[H]
    \centering 
@@ -636,16 +651,19 @@
    pattern/sequence editor window and the performance editor window, and may
    need some heavier testing.  But note that some \textsl{Sequencer64} windows
    can use the ctrl-left-click as a middle click. 
-
-\paragraph{Menu / File / Options / Jack Sync}
+ 
+\paragraph{Menu / File / Options / Jack Sync and LASH}
 \label{paragraph:seq64_menu_file_options_jack_sync}
 
-   This tab sets up options for JACK synchronization.
+   This tab sets up options for JACK synchronization, if \textsl{Sequencer64}
+   was built with JACK support.  (Why wouldn't it be?)
+   This tab also sets up options for using LASH session management, if
+   \textsl{Sequencer64} was build with LASH support.
 
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{menu/menu_file_options_jack_sync.png}
-   \caption{File / Options / JACK Sync}
+   \caption{File / Options / JACK Sync or JACK/LASH}
    \label{fig:seq64_menu_file_options_jack_sync}
 \end{figure}
 
@@ -654,6 +672,7 @@
       \item \textbf{JACK Start mode}
       \item \textbf{Connect}
       \item \textbf{Disconnect}
+      \item \textbf{LASH Options}
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
@@ -721,6 +740,14 @@
 
    \itempar{Disconnect}{jack sync!disconnect}
    Disconnect from JACK Sync.
+
+   \itempar{LASH Options}{lash!option}
+   Currently contains only one item, which enables the usage of LASH session
+   management.
+   Currently, \textsl{Sequencer64} needs to be restarted to complete the
+   enabling or disabling of LASH support.
+   Like the rest of the options, this one is written to the "rc" configuration
+   file.
 
 \subsection{Menu / View}
 \label{subsec:seq64_menu_view}

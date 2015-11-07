@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-02
+% \update      2015-11-06
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -271,9 +271,25 @@
 
    \itempar{Zoom}{pattern editor!zoom}
    Zoom is the relation between MIDI pixels and ticks, written as
-   "pixels:ticks.
+   "pixels:ticks", where "ticks" is really the "pulses" in "PPQN".
    For example, 1:4 = 4 ticks per pixel.
    Supported values are 1:1, 1:2, 1:4, 1:8, 1:16, and 1:32.
+   This is the zoom of the Pattern Editor.  As the right number goes higher,
+   the effect is to zoom out, and show more of the pattern at once.
+   In fact, it is probably better to list them as ticks (pulses) per pixel:
+
+   \begin{itemize}
+      \item 1 pulse per pixel
+      \item 2 pulses per pixel (default value)
+      \item 4 pulses per pixel
+      \item 8 pulses per pixel
+      \item 16 pulses per pixel
+      \item 32 pulses per pixel (same as Song Editor)
+   \end{itemize}
+
+   Note that the Song Editor, which has no zoom functionality,
+   has a resolution of 32 pulses per pixel, so, by default, it has
+   16 times the resolution of the Pattern Editor.
 
    \itempar{Key of Sequence}{pattern editor!key}
    Selects the desired key for the pattern.  The following scales are
