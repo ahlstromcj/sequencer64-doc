@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2015-11-07
+% \update      2015-11-08
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -167,18 +167,32 @@ Steps:
         probably implement dumping the multimap to a vector before playback.
         We shall see!
 
+% Obsolete
+
     \itempar{\texttt{SEQ64\_USE\_GREY\_GRID}}{build!grey/normal grid}
-        If defined, this item causes the pattern slots/boxes to be colored
+        \textbf{This item is no longer defined}.
+        Instead, the option is now part of the "rc" configuration file.  This
+        description will be moved to the correct section eventually.
+
+        This configuration item causes the pattern slots/boxes to be colored
         grey (actually, they will be colored normally as per the current GTK
         them).  Otherwise, they are colored black.  By default, this value is
         defined (in the \texttt{mainwid} module).
 
     \itempar{\texttt{SEQ64\_USE\_WHITE\_GRID}}{build!white grid}
-        If defined, this item causes the pattern slots/boxes to be colored
+        \textbf{This item is no longer defined}.
+        Instead, the option is now part of the "rc" configuration file.  This
+        description will be moved to the correct section eventually.
+
+        This configuration item causes the pattern slots/boxes to be colored
         white.  Also definable(in the \texttt{mainwid} module).
 
     \itempar{\texttt{SEQ64\_USE\_BRACKET\_GRID}}{build!normal grid}
-        If defined, the box that outlines the pattern slots/boxes is
+        \textbf{This item is no longer defined}.
+        Instead, the option is now part of the "rc" configuration file.  This
+        description will be moved to the correct section eventually.
+
+        This configuration box that outlines the pattern slots/boxes is
         painted over to convert the box to look like a pair of brackets.
         By default, this value is defined (in the \texttt{mainwid} module).
 
@@ -189,13 +203,17 @@ Steps:
         modification.
 
     \itempar{\texttt{SEQ64\_SEQNUMBER\_ON\_GRID}}{build!grid numbers}
-        If defined, and if the "show UI keys" option is on, then each of the
-        blank pattern slots in the main window show the would-be sequence
-        number for that slot.  The background color of the numbers will not
-        match the background color of the grid (which matches the chosen GTK
-        theme).  But, no matter what the GTK background color, they will at
-        least be visible.  There is a little image of this style inside the
-        screenshot shown on the first page of this manual.
+        \textbf{This item is no longer defined}.
+        Instead, the option is now part of the "rc" configuration file.  This
+        description will be moved to the correct section eventually.
+
+        If the "show sequence numbers" option is on, then each
+        of the blank pattern slots in the main window show the would-be
+        sequence number for that slot.  The background color of the numbers
+        will not match the background color of the grid (which matches the
+        chosen GTK theme).  But, no matter what the GTK background color, they
+        will at least be visible.  There is a little image of this style inside
+        the screenshot shown on the first page of this manual.
 
         If \texttt{SEQ64\_USE\_WHITE\_GRID}
         are defined, so that the grid cells are white, then the sequence

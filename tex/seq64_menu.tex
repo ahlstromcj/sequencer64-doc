@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-07
+% \update      2015-11-08
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -428,6 +428,7 @@
 
    \begin{enumber}
       \item \textbf{Show key labels on sequences}
+      \item \textbf{Show sequence numbers on sequences}
       \item \textbf{Control keys}
       \item \textbf{Sequence toggle keys}
       \item \textbf{Mute-group slots}
@@ -440,17 +441,15 @@
 
    \itempar{Show key labels on sequence}{keyboard!show labels}
    This item, if enabled, shows the key labels in the lower-right corner of
-   each loop/pattern in the Patterns window.  This feature is useful
-   for live playback and control of a song.
+   each loop/pattern in the Patterns window (the main window).  This feature is
+   useful for live playback and control of a song.
    Note that this option is also available in the "rc" configuration file.
 
+   \itempar{Show sequence numbers on sequence}{keyboard!sequence numbers}
    \textbf{New:}
-   \index{new!grid numbers}
-   If \textsl{Sequencer64} was build with the
-   \texttt{SEQ64\_SEQNUMBER\_ON\_GRID} macro defined,
-   as in \sectionref{subsubsec:seq64_build_macros},
-   and the \textbf{Show key labels on sequence} option is turned on, the
-   empty slots show the prospective sequence number.
+   \index{new!sequence numbers}
+   If this option is turned on, the
+   empty slots in the Patterns window show the prospective sequence number.
    See the following figure for the look.
 
 \begin{figure}[H]
@@ -460,8 +459,11 @@
    \label{fig:seq64_build_with_numbering}
 \end{figure}
 
-   If you don't like it, either turn off the option, or rebuild the code
-   with the \texttt{SEQ64\_SEQNUMBER\_ON\_GRID} macro undefined.
+   If you don't like it, turn off the option, or try other grid options
+   in the "user" configuration file.
+
+   Also note that this option also changes the visibility of sequence numbers
+   in active sequences and in the performance editor's names column.
 
    \itempar{Control keys}{keyboard!control keys}
    This block of fields provides shortcut keys for many operations of

@@ -1,0 +1,10 @@
+Documentation for New Features
+Chris Ahlstrom
+2015-11-08 to 2015-11-08
+
+-  New GUI/"rc" option for [lash-session]
+-  Added "show key labels on sequences" checkbox on Keyboard tab.
+-  Move documentation surrounding grid macros to the proper user interface
+   selections.
+
+

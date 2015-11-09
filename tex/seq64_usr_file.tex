@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-05
+% \update      2015-11-08
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -326,6 +326,23 @@
       [user-interface-settings]
       # These settings specify the soon-to-be-modifiable sizes of
       # the Sequencer64 user-interface elements.
+
+      # Specifies the style of the main-window grid of patterns.
+      # 0 = normal style, matches the GTK theme, has brackets.
+      # 1 = white grid boxes that have brackets.
+      # 2 = black grid boxes.
+
+      2       # grid_style
+
+      # Specifies box style box around a main-window grid of patterns.
+      # 0  = Draw a whole box around the pattern slot.
+      # 1  = Draw brackets on the sides of the pattern slot.
+      # 2 and up = make the brackets thicker and thicker.
+      # -1 = same as 0, draw a box one-pixel thick.
+      # -2 and lower = draw a box, thicker and thicker.
+
+      2       # grid_brackets
+
       # Specifies the number of rows in the main window.
       # At present, only a value of 4 is supportable.
       # In the future, we hope to support an alternate value of 8.
