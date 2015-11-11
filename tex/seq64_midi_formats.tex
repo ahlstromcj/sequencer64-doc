@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-09-03
-% \update      2015-09-05
+% \update      2015-11-10
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -76,8 +76,8 @@
    this information properly in \textsl{Sequencer64}.
    We also need to be able to read legacy Seq24 MIDI files.
 
-   Any way, we have the \textbf{c\_midictrl} information now.  Next, we read
-   a long value, seqs.  It is 0.
+   Anyway, at this point, we have the \textbf{c\_midictrl} information now.
+   Next, we read a long value, seqs.  It is 0.
 
    \begin{verbatim}
       24 24 00 10 00 00 00 00
@@ -91,7 +91,7 @@
       24 24 00 03 00 00 00 00
    \end{verbatim}
 
-   If busscount were greater than 0, then for each value, we would read a
+   If the buss-count was greater than 0, then for each value, we would read a
    byte value represent the bus a clock was on, and setting the clock value
    of the master MIDI buss.
    Another check for more data is made.
@@ -197,7 +197,7 @@ as shown here:
    data.
 
 \subsubsection{MIDI Variable-Length Value}
-\label{subsec:midi_variable_length_value}
+\label{subsubsec:midi_variable_length_value}
 
    \index{VLV}
    A variable-length value (VLV) is a quantity that uses additional bytes
@@ -217,7 +217,7 @@ as shown here:
    \end{verbatim}
 
 \subsubsection{MIDI Track Chunk}
-\label{subsec:midi_track_chunk}
+\label{subsubsec:midi_track_chunk}
 
    \texttt{Track chunk == MTrk + length + track\_event [+ track\_event ...]}
 
@@ -248,7 +248,7 @@ as shown here:
    \end{itemize}
 
 \subsubsection{MIDI Meta Events}
-\label{subsec:midi_meta_events}
+\label{subsubsec:midi_meta_events}
 
    Meta events are non-MIDI data of various sorts consisting of a fixed prefix,
    type indicator, a length field, and actual event data..

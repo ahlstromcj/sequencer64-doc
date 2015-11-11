@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2015-11-08
+% \update      2015-11-10
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -167,7 +167,8 @@ Steps:
         probably implement dumping the multimap to a vector before playback.
         We shall see!
 
-% Obsolete
+   \textbf{Obsolete}:  Still need to replicate the descriptions that follow
+      in the proper sections.
 
     \itempar{\texttt{SEQ64\_USE\_GREY\_GRID}}{build!grey/normal grid}
         \textbf{This item is no longer defined}.
@@ -248,6 +249,44 @@ Steps:
       Take your pick, modify the code accordingly before you build it.
       Perhaps these can eventually be options for the \texttt{configure}
       script, or even run-time options!  Let us know!
+
+    \itempar{\texttt{SEQ64\_SOLID\_PIANOROLL\_GRID}}{build!solid piano-roll}
+        Enabling this macro makes the grid lines for the piano rolls
+        more solid, with about the same perception of lightness.
+        It also calls in some other tweaks, such as the positioning of
+        markers.  We currently like this look a little better, and so it is
+        the default.  See the \texttt{app\_limits.h}
+        header file for the definition of this variable.
+
+        Here is the pattern editor (sequence editor) with this alternate look.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{pattern/pattern-editor-alternate-look.png}
+   \caption{Sequence Pattern Editor Alternate Look}
+   \label{fig:seq64_pattern_editor_alternate_look}
+\end{figure}
+
+        Note the smmoothness of the grid lines, the extra emphasis of the C
+        notes at each octave, the emphasis of the note-drawing snap lines that
+        mark the default length of a click-to-add note, the emphasis of the
+        beat and bars, and, finally, the new location of the
+        \textbf{END} marker.  Also note the dark-cyan background pattern,
+        discussed elsewhere in this document.
+
+        Here is the grid-styling for an 8/4 time signature in the song editor:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{song-editor/song-editor-alternate-look.png}
+   \caption{/Sequence Pattern Editor Alternate Look}
+   \label{fig:seq64_song_editor_alternate_look}
+\end{figure}
+
+      Also note the sequence numbers shown in the bottom left of each pattern
+      name box. This is a new feature, and, as noted elsewhere, is a new
+      option in the \textsl{File / Options / Keyboard} tab and in
+      the "rc" configuration file.
 
     \itempar{\texttt{SEQ64\_USE\_VI\_SEQROLL\_MODE}}{build!vi seqroll}
         Definable in the seqroll module, this macro allows the vi hjkl keys to

@@ -1,0 +1,85 @@
+%-------------------------------------------------------------------------------
+% seq64_metrics
+%-------------------------------------------------------------------------------
+%
+% \file        seq64_metrics.tex
+% \library     Documents
+% \author      Chris Ahlstrom
+% \date        2015-11-10
+% \update      2015-11-10
+% \version     $Revision$
+% \license     $XPC_GPL_LICENSE$
+%
+%     Provides a discussion of the MIDI and GUI metrics and how they work.
+%
+%-------------------------------------------------------------------------------
+
+\section{Sequencer64 Metrics Issues}
+\label{sec:metrics_issues}
+
+   This section goes into the details of MIDI metrics and user-interface
+   metrics.  \textsl{Seqeuencer64} is full of hardwired constants that
+   affect both the playback of MIDI data the display of MIDI data.
+   If we're going to be able to support variation in things like playback time
+   and parts-per-quarter-notes per song, then we have to understand these
+   constants perfectly and pin down all of the effects of modifying them.
+
+   STILL INCOMPLETE AND IN PROGRESS.
+
+\subsection{MIDI Metrics}
+\label{subsec:metrics_issues_midi}
+
+   TODO.
+
+\subsubsection{MIDI Metrics, PPQN}
+\label{subsubsec:metrics_issues_midi_ppqn}
+
+   TODO.
+
+\subsection{User-Interface Metrics}
+\label{subsec:metrics_issues_ui}
+
+   TODO.
+
+\subsubsection{User-Interface Metrics, Sequence Editor}
+\label{subsubsec:metrics_issues_ui_seqedit}
+
+   The sequence or pattern editor (module \texttt{seqedit}) allows for the
+   creations of a sequence with a particular time signature.  Each sequence can
+   have its own time signature.
+
+   TODO.
+
+\subsubsection{User-Interface Metrics, Song Editor}
+\label{subsubsec:metrics_issues_ui_perfedit}
+
+   The song or performance editor (module \texttt{perfedit}) allows for the
+   layout of a number of sequences, each of which can have its own
+   particular time signature.
+   Furthermore, the song editor has a piano roll grid that has its own, single
+   time signature, which can be set to a number of different time signature
+   values.  What are the visible effects of time signature on the appearance
+   and layout of the sequences?  What internal \textsl{Sequencer64}
+   variables control the appearance and layout?
+
+   TODO.
+
+   WE NEED TO MAKE A TABLE, KEEP THIS SAMPLE FOR NOW.
+
+   \begin{table}
+      \centering
+      \caption{BOGUS}
+      \label{table:BOGUS}
+      \begin{tabular}{l l l l}
+         \textbf{Application}  &
+            \textbf{Legacy} &
+            \textbf{New} & 
+            \textbf{Original File} \\
+         ardour       & TBD       & TBD       & TBD \\
+         composite    & TBD       & TBD       & TBD \\
+      \end{tabular}
+   \end{table}
+
+%-------------------------------------------------------------------------------
+% vim: ts=3 sw=3 et ft=tex
+%-------------------------------------------------------------------------------
