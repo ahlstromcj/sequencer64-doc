@@ -21,11 +21,12 @@
 \subsection{Legacy Proprietary Track Format}
 \label{subsec:legacy_proprietary_track_format}
 
-   Before we get to the last, proprietary track, note that the tracks that
+   Before we get to the last, proprietary track, note that the normal MIDI
+   tracks that
    precede it include the SeqSpec ("sequencer-specific", sort of)
    control tags shown in \tableref{table:seqspec_items_normal_tracks}.
    These control tags are global constants in the \textsl{Seq24} source
-   code, ranging from 0x24240001 to 0x24240010..
+   code, ranging from 0x24240001 to 0x24240013..
 
    \begin{table}[htb]
       \centering
@@ -34,13 +35,28 @@
       \begin{tabular}{l l}
          \texttt{c\_midibus}        & \texttt{24 24 00 01 00 00 00 00} \\
          \texttt{c\_midich}         & \texttt{24 24 00 02 00 00 00 00} \\
+         \texttt{c\_triggers}       & \texttt{24 24 00 04 00 00 00 00} \\
          \texttt{c\_timesig}        & \texttt{24 24 00 06 00 00 00 00} \\
          \texttt{c\_triggers\_new}  & \texttt{24 24 00 08 00 00 00 00} \\
+         \texttt{c\_musickey}       & \texttt{24 24 00 11 00 00 00 00} \\
+         \texttt{c\_musicscale}     & \texttt{24 24 00 12 00 00 00 00} \\
+         \texttt{c\_backsequence}   & \texttt{24 24 00 13 00 00 00 00} \\
       \end{tabular}
    \end{table}
 
-   Note that these tags (not created by the application, and not present in
-   the proprietary track, but created by other MIDI applications) are
+   The \texttt{c\_triggers} tag is obsolete.
+
+   \textbf{New:}
+   \index{new!saved control tags}
+   The \texttt{c\_musickey},
+   \texttt{c\_musicscale}, and
+   \texttt{c\_backsequence}
+   control tags are new with \textsl{Sequencer64} v. 0.9.9.7.
+   They are now saved as additional information in each sequence in which they
+   have been specified in the sequence editor.
+
+   Note that these tags (created by the application, but not present in the
+   proprietary track, and perhaps also created by other MIDI applications) are
    preceded by the standard MIDI "FF 7F length" meta-event sequence.
 
    The following discussion applies to the final "proprietary" track as

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2015-11-10
+% \update      2015-11-12
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -166,6 +166,18 @@ Steps:
         limiting factor during playback.  If that is the case, then we would
         probably implement dumping the multimap to a vector before playback.
         We shall see!
+
+    \itempar{\texttt{SEQ64\_USE\_MIDI\_VECTOR}}{build!midi vector}
+        Already defined in the \texttt{midifile} module.
+        It enables the usage of an
+        \texttt{std::vector}, instead of an \texttt{std::list},
+        to store MIDI data bytes.
+        It provides the preferred alternative to the list for storing and
+        counting the bytes of MIDI data.  It is an attempt to stop reversing
+        certain events due to the peculiarities of using \texttt{std::list} to
+        store MIDI bytes from a sequence.  This new implementation uses
+        \texttt{std::vector} and does not use \texttt{pop\_back()} to retrieve
+        the bytes for writing to a file.
 
    \textbf{Obsolete}:  Still need to replicate the descriptions that follow
       in the proper sections.
