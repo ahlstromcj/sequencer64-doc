@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-09-05
+% \update      2015-11-22
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -360,6 +360,21 @@
    can be entered at will with the left mouse button.  Right-click again to
    leave the pattern-adding mode.
 
+   \textbf{New:}
+   \index{new!paint mode}
+   Another way to turn on the paint mode has been added.
+   To turn on the paint mode, first make sure that the piano roll has the
+   keyboard focus by left-clicking in it, then press the
+   \index{keys!p}
+   "p" key while in the performance editor.
+   This is just like pressing the right mouse button, but the draw/paint mode
+   sticks (as if the Mod4 mode were in force).
+   To get out of the paint mode, press the
+   \index{keys!x}
+   "x" key while in the sequence editor, to "x-scape" (get it?  get it?)
+   from the paint mode.
+   These keys, however, do not work (currently) while the sequence is playing.
+
    \index{song editor!left click right hold}
    \index{song editor!insert}
    Then simultaneously left-click the mouse to insert one copy of the
@@ -402,13 +417,15 @@
    indicator".
 
    \index{measures ruler!left-click}
-   Left-click in the measures ruler to drop an
+   Left-click in the measures ruler to move and drop an
    \index{L anchor}
-   \textbf{L anchor} on the measures ruler.
+   \index{L marker}
+   \textbf{L marker} (\textbf{L anchor}) on the measures ruler.
    \index{measures ruler!right-click}
    Right-click in the measures ruler to drop an
    \index{R anchor}
-   \textbf{R anchor} on the measures ruler.
+   \index{R marker}
+   \textbf{L marker} (\textbf{R anchor}) on the measures ruler.
 
    Once these anchors are in place, then use
 	the \textsl{Collapse} and \textsl{Expand} buttons to modify the
@@ -417,6 +434,30 @@
    Note that the \textbf{L marker} serves as the start position for playback
    in the Song Editor.  One can change the start position only when the
    performance is not playing.
+
+   \textbf{New:}
+   \index{new!marker mode}
+   \index{new!movement mode}
+   Another way to move the L and R markers, a so-called "movement mode"
+   has been added.
+   To turn on the movement mode, first make sure that the piano roll (not the
+   bar indicator!) has the
+   keyboard focus by left-clicking in it at a blank spot, then press the
+   \index{keys!l}
+   "l" key or
+   \index{keys!r}
+   "r" key or
+   while in the sequence editor.
+   \textsl{There is no visual feedback that one is in the movement mode.}
+   Then press the left or right arrow key to move the "L" or "R" (depending
+   whether "l" or "r" was used to enter the movement mode) markers by one
+   snap value at a time.
+
+   To get out of the movement mode, press the
+   \index{keys!x}
+   "x" key while in the performance editor, to "x-scape" from the movement mode.
+
+   We're still working on refining that feature.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex

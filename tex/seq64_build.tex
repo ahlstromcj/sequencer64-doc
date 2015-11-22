@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2015-11-12
+% \update      2015-11-14
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -36,7 +36,7 @@
    by using the \texttt{bootstrap} script, as the following instructions make
    clear.
 
-Steps:
+   \textbf{Steps:}
 
    \begin{enumber}
       \item Preload any DEPENDENCIES, as listed in the last section
@@ -150,6 +150,14 @@ Steps:
         \texttt{wen*.xpm}.  The font is slightly
         larger, but changes the user-interface sizes only to an infinitesmal
         degree.  Using this new font is the default.
+
+        \textbf{Obsolete:}
+        \index{obsolete:compile-time font}
+        This option is no longer a compile-time option, but a run-time option.
+        It is now the default, but the usage of the old versus new font can be
+        set in the "user" configuration file.
+        Also, if the legacy mode is specified, the old font becomes the
+        default.
 
     \itempar{\texttt{SEQ64\_USE\_EVENT\_MAP}}{build!event map}
         Already defined in the \texttt{event\_list} module.

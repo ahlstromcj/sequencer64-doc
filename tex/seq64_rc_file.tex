@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-08
+% \update      2015-11-21
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -17,8 +17,8 @@
 \section{Sequencer64 Configuration File}
 \label{sec:seq64_rc_file}
 
-   \index{sequencer64rc}
-   \index{[sequencer64rc]}   % for convenience
+   \index{sequencer64.rc}
+   \index{[sequencer64.rc]}   % for convenience
    The \textsl{Sequencer64} configuration file originally was \texttt{.seq24rc},
    and it was stored in the user's \texttt{\$HOME} directory.
    This is the same name used by \textsl{Seq24}, so we created an new file
@@ -28,20 +28,20 @@
    legacy mode.
 
    After you run \textsl{Sequencer64} for the first time (in non-legacy
-   mode), it will generate a \texttt{sequencer64rc} file in your home
+   mode), it will generate a \texttt{sequencer64.rc} file in your home
    directory:
 
    \begin{verbatim}
-      /home/ahlstrom/.config/sequencer64/sequencer64rc
+      /home/ahlstrom/.config/sequencer64/sequencer64.rc
    \end{verbatim}
 
    It contains the the data for remote MIDI control, keyboard
    control, and MIDI clock.
 
-   \textsl{Sequencer64} will overwrite the \texttt{sequencer64rc} file upon
+   \textsl{Sequencer64} will overwrite the \texttt{sequencer6.4rc} file upon
    quitting.  One should therefore quit \textsl{Sequencer64} before doing
    manual modifications to the
-   \texttt{sequencer64rc} file.
+   \texttt{sequencer64.rc} file.
 
 \subsection{Sequencer64 / MIDI Control Section}
 \label{subsec:seq64_rc_file_midi_control}
@@ -49,7 +49,7 @@
    \index{[midi-control]}
    For each pattern, we can set up MIDI events to turn a 
 	pattern on, off, or to toggle it.  This setup is in the 
-   MIDI Control section of \texttt{sequencer64rc}, and begins with an
+   MIDI Control section of \texttt{sequencer64.rc}, and begins with an
    "INI" group marker \texttt{[midi-control]}.
 	
    THe MIDI Control section is implicitly broken into subsections, though those
@@ -312,7 +312,7 @@
 
    After the list of sequences and their MIDI events, one can 
    set \textsl{Sequencer64} to handle MIDI events and change some more settings
-   in \texttt{sequencer64rc}.
+   in \texttt{sequencer64.rc}.
 
 \subsection{Sequencer64 / MIDI-Clock Section}
 \label{subsec:seq64_rc_file_midi_clock}

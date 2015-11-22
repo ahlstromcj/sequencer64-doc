@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-07
+% \update      2015-11-21
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -21,8 +21,9 @@
    not exactly in \textsl{man} format.  Also, an item or two are shown that
    somehow didn't make it into the man page, and minor corrections and
    formatting tweaks were made.
-   Note that the legacy Seq24 options, which use underscores or
-   are missing the option hyphen, are still unofficially supported.
+   For example, we replaced the underscore with the hyphen in the names of some
+   options.  The legacy Seq24 options, which use underscores or are missing the
+   option hyphen, are still unofficially supported.
 
    \texttt{\$HOME/.config/sequencer64/sequencer64.rc} holds the "rc" settings
    for \textsl{Sequencer64}.
@@ -63,7 +64,7 @@
       note.
       This mode is also used if \textsl{Sequencer64} is invoked as the
       \texttt{seq24} command (one can create a soft link to the sequencer64
-      binary to make that happen).
+      executable to make that happen).
 
    \optionpar{-b}{--bus}
       \textbf{New:}
@@ -112,7 +113,7 @@
       \textsl{Sequencer64} will attach ALSA ports.
       This variant is useful for overriding the rc configuration file.
 
-   \optionpar{-s}{--showmidi}
+   \optionpar{-s}{--show-midi}
       Dumps incoming MIDI to the screen.
 
    \optionpar{-p}{--priority}
@@ -155,10 +156,15 @@
    \optionpar{-U}{--jack-session-uuid [uuid]}
       Set the UUID for the JACK session.
 
+   \optionpar{-u}{--user-save}
+      Save the "user" configuration file when exiting Sequencer64.
+      Normally, it is saved only if not present in the configuration directory,
+      so as not to get stuck with temporary settings such as the --bus option.
+
    The current Sequencer64 project homepage is a simple git repository at the
    https://github.com/ahlstromcj/sequencer64.git URL.
    Up-to-date instructions can be found in the project at the
-   https://github.com/ahlstromcj/sequencer26-doc.git URL.
+   https://github.com/ahlstromcj/sequencer64-doc.git URL.
 
    The old Seq24 project homepage is at
    \url{http://www.filter24.org/seq24/} the new

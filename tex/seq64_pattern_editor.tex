@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-12
+% \update      2015-11-22
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -299,8 +299,30 @@
 
    \textbf{New:}
    \index{new!save key}
-   With \textsl{Sequencer64 v. 0.9.9.7}, the key that a sequence is set to is
+   With \textsl{Sequencer64 v. 0.9.9.8}, the key that a sequence is set to is
    now saved in the MIDI file along with the rest of the data for the sequence.
+   \textbf{However,},
+   it turns out that a change made to the key, scale, or background sequence in
+   the sequence editor is saved in that editor, so that opening another sequence
+   will apply the same settings to that sequence.  This is a feature.
+   The feature has some quirks, and we have made it optional, and tightened
+   it up so that it is applied globally and immediately upon loading the MIDI
+   file.
+
+   If the global-sequence-feature is enabled, and the user selects
+   a different key, scale, or background sequence in the sequence editor, 
+   then all sequences will share the selected key, scale, or background
+   sequence.  Furthermore, these settings are saved in the "proprietary"
+   section of the MIDI file, where they are available for all sequences.
+
+   If the global-sequence-feature is not enabled, and the user selects
+   a different key, scale, or background sequence in the sequence editor, 
+   then only that sequence will use the selected key, scale, or background.
+   The key, scale, or background sequence change will be saved in the MIDI file
+   only for that sequence.
+
+   The global-sequence-feature setting can be made in the "user" configuration
+   file.
 
    \itempar{Musical Scale}{pattern editor!scale}
    Selects the desired scale for the pattern.
@@ -331,8 +353,9 @@
 
    One can select which \textbf{Musical Scale} and
    \textbf{Key} the piece is in,
-   and \textsl{Sequencer64} will grey out those keys on the piano-roll that
+   and \textsl{Sequencer64} will grey those keys on the piano-roll that
    are \textsl{not} in the selected scale for the selected key.
+   This is purely a visual thing; a user can still add off-key notes.
    This effect is shown for the C Major scale in the following figure:
 
 \begin{figure}[H]
@@ -350,6 +373,13 @@
    \index{new!save scale}
    With \textsl{Sequencer64 v. 0.9.9.7}, the scale that a sequence is set to is
    now saved in the MIDI file along with the rest of the data for the sequence.
+   \textbf{However,},
+   it turns out that a change made to the key, scale, or background sequence in
+   the sequence editor is saved in the editor, so that opening another sequence
+   will apply the same settings to that sequence.  This is a feature.
+   The feature has some quirks, and we will later make it optional, and tighten
+   it up so that it is applied globally and immediately upon loading the MIDI
+   file.
 
    \itempar{Background Sequence}{pattern editor!background sequence}
    One can select another pattern to draw on the background to help with
@@ -383,14 +413,26 @@
    With \textsl{Sequencer64 v. 0.9.9.7}, the background seqeuence that a
    sequence shows is now saved in the MIDI file along with the rest of the
    data for the sequence.
+   \textbf{However,},
+   it turns out that a change made to the key, scale, or background sequence in
+   the sequence editor is saved in the editor, so that opening another sequence
+   will apply the same settings to that sequence.  This is a feature.
+   The feature has some quirks, and we will later make it optional, and tighten
+   it up so that it is applied globally and immediately upon loading the MIDI
+   file.
 
 \subsection{Pattern Editor / Piano Roll}
 \label{subsec:seq64_pattern_editor_piano_roll}
 
+   The piano roll is the center of the pattern editor.  It is accompanied by a
+   thin "event" bar just below it, and a taller "data" bar just below that.
+
    The piano roll is the heart of the pattern (loop, sequence) editor.
    While it is very similar to note editors in other sequencers, it is a bit
    different in feel.  A good mouse with 3 or more buttons is practically a
-   necessity for editing.  We tend to like the Logitech Marble Mouse, an
+   necessity for editing (though we have added some features to make it
+   usable with some pretty crummy trackpads).
+   We tend to like the Logitech Marble Mouse, an
    ambidextrous USB trackball.  It has four bottons, and we use the
    \texttt{contrib/scripts/marblemouse} script to set up the left small
    button as a middle button.  The script merely makes the following call:
@@ -400,7 +442,8 @@
    \end{verbatim}
 
    Editing is much easier after making that setting.   Of course, keystrokes
-   and additional mouse configuration can also make editing easier.
+   and additional mouse configuration have been added to make editing easier
+   even without a good mouse.
 
 \subsubsection{Pattern Editor / Piano Roll Items}
 \label{subsubsec:seq64_pattern_editor_piano_roll_items}
@@ -453,7 +496,9 @@
    items and their values.  We recommend not trying to edit or select events
    in that pane, in general, but it is a good way to add events.  Either
    left-click (to add one event), or left-click-drag horizontally (to add a
-   series of events at the current note resolution.)
+   series of events at the current note resolution.)  One can also
+   click in that section, then hit the "p" key to go into "paint" mode, and hit
+   the "x" key to escape that mode.
 
    \itempar{Event Values}{piano roll!event values}
    The events values for the currently selected category of events are shown
@@ -485,7 +530,7 @@
 
    Note that, if only a middle-button is needed, ctrl-left-button will simulate
    that button.  Also note the "Mod4 mode" for the right-click action, and the
-   "p" and "P" keys for getting in and out of "paint mode", discussed
+   "p" and "x" keys for getting in and out of "paint mode", discussed
    elsewhere.
 
    \index{new!mod4 mode}
@@ -502,15 +547,21 @@
    \textbf{New:}
    \index{new!paint mode}
    Another way to turn on the paint mode has been added.
-   To turn on the paint mode, press the
+   To turn on the paint mode, first make sure that the piano roll has the
+   keyboard focus by left-clicking in it, then press the
    \index{keys!p}
    "p" key while in the sequence editor.
    This is just like pressing the right mouse button, but the draw/paint mode
    sticks (as if the Mod4 mode were in force).
    To get out of the paint mode, press the
-   \index{keys!P}
-   "P" (shift-p) key while in the sequence editor.
+   \index{keys!x}
+   "x" key while in the sequence editor, to "x-scape" (get it?  get it?)
+   from the paint mode.
    These keys, however, do not work (currently) while the sequence is playing.
+
+   The "p" and "x" key also works in the small event-data editing bar just
+   above the white data area.  However, the Mod4-right-click feature does not
+   yet work in that aread of the user interface.
 
 \paragraph{Editing Note Events}
 \label{paragraph:seq64_pattern_editor_note_events}
@@ -857,7 +908,7 @@
    so we won't try to show all of them here.
 
    These sub-menus can be modified, as far as we know, by editing
-   the file \texttt{\$HOME/.config/sequencer64/sequencer64rc}
+   the file \texttt{\$HOME/.config/sequencer64/sequencer64.rc}
    (legacy mode: \texttt{\$HOME/.seq24usr}), to make it match one's
    instrument.  See \sectionref{sec:seq64_usr_file}.
 

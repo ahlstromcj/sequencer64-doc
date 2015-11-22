@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-07
+% \update      2015-11-21
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -117,7 +117,7 @@
 	This toggling is done either by one of the \textsl{group toggle} keys
 	or by a MIDI controller, both assigned in the
    \index{rc file}
-   \texttt{~/.config/sequencer64/sequencer64rc} or \texttt{~/.seq24rc} files.
+   \texttt{~/.config/sequencer64/sequencer64.rc} or \texttt{~/.seq24rc} files.
 
 	A mute/unmute pattern (group) is stored by holding a
    \index{group!learn}
@@ -177,6 +177,7 @@
    \index{pattern!slot}
    An empty box is a slot for a pattern.
    \index{pattern!right click}
+   \index{slot!empty slot right-click}
    By right-clicking on an empty box one brings up a menu to create
    a new loop, as well as some other operations:
 
@@ -200,6 +201,16 @@
    Clicking this menu entry fills in the empty box with an untitled
    pattern, and brings up the Pattern Editor
    so that one can fill in the new pattern.
+
+   \textbf{New:}
+   In addition to right-clicking and selecting \textbf{New}, the user
+   \index{new!empty slot ctrl-left-click}
+   can Ctrl-left-click on the empty slot, or
+   \index{new!empty slot double-click}
+   double-click on the empty slot, to bring up a new instance of the sequence
+   editor.  For the double-click, the effect can be a bit confusing at first,
+   because it currently also toggles the arming/mute status of the slot
+   twice (leaving it as it was), as well.  For now, get used to it.
 
    \itempar{Paste}{pattern!paste}
    Pastes a loop or pattern that was previously copied.
@@ -283,11 +294,15 @@
       \item \textbf{Alternate font}.
          Later builds of \textsl{Sequencer64} are now built with a new font.
          See \figureref{fig:pattern_window_main_panel_items}.  It shows the new
-         font.
+         font. 
+         The old font can be selected in the "user" configuration file, and is
+         also selected automatically if \textsl{Sequencer64} is run in the
+         \textsl{legacy} mode.
       \item \textbf{Sequence number}.
          Later builds of \textsl{Sequencer64} are now built with the option to
-         also show the sequence number in the pattern box, if the "show UI
-         keys" option is on.
+         also show the sequence number in the pattern box, if the "show
+         sequence numbers" option is on.
+         This option can be set in the "user" configuration file.
          See \figureref{fig:pattern_window_main_panel_items}.  It shows an
          example of the sequence number, using the new font.
    \end{itemize}
@@ -335,6 +350,16 @@
    Clicking this menu entry brings up the Pattern Editor
    so that one can modify the existing pattern.
    See \figureref{fig:pattern_edit_window}.
+
+   \textbf{New:}
+   In addition to right-clicking and selecting \textbf{Edit...}, the user
+   \index{new!pattern ctrl-left-click}
+   can Ctrl-left-click on the empty slot, or
+   \index{new!empty slot double-click}
+   double-click on the empty slot, to bring up the sequence
+   editor.  For the double-click, the effect can be a bit confusing at first,
+   because it currently also toggles the arming/mute status of the slot
+   twice (leaving it as it was), as well.  For now, get used to it.
 
    \itempar{Cut}{pattern!cut}
    Deletes and copies an existing loop or pattern.
