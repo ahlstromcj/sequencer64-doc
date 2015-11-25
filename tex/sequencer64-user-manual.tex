@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2015-11-10
+% \update      2015-11-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -37,7 +37,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.80]{Sequencer64-0_9_9_6.png}
+   \includegraphics[scale=0.80]{Sequencer64-0_9_9_10.png}
 \end{figure}
 
 \clearpage                             % moves Contents to next page
@@ -58,7 +58,7 @@
 
    This document describes how to use \textsl{Sequencer64}
    \cite{sequencer64},
-   through version 0.9.9.6, dated approximately November, 2015.
+   through version 0.9.9.10, dated approximately through November, 2015.
 
 \subsection{Sequencer64: What?}
 \label{subsec:what_is_sequencer64}
@@ -154,24 +154,33 @@
    \textsl{Sequencer64}:
 
    \begin{itemize}
+      \item \textsl{Sequencer64} can now read SMF 0 MIDI files.  It splits
+         the file into tracks based on channel number.  Each track becomes one
+         sequence/pattern in the main window grid.
+      \item It is now possible to save the scale, key, and background sequence
+         settings to the \textsl{Sequencer64} MIDI file, either globally or
+         per-sequence.
       \item Additional mouse and keystroke support in the pattern and song
          editor windows:
       \begin{itemize}
          \item Ability to move selected notes or triggers using the arrow keys.
          \item Better explanation of existing keystroke support for that window.
-         \item Additional keystroke support found by Googling for seq24 all
-            around the Internet.
+         \item Additional keystroke support for entering and exiting "paint"
+            mode.
          \item Ability to use the Mod4/Super/Windows key to keep editing
             (painting) mode enabled after releasing the right mouse button,
             for some of the modern crappy touchpads shipped with
             "gamer" laptops.
       \end{itemize}
       \item The "user" configuration is now written to disk, and we will be
-         adding settings to it in the near future.
+         adding more settings to it as time goes on.  It currently offers the
+         long-standing feature of customizable buss, instrument, and controller
+         information, plus some customizations of the user-interface, such as
+         font and display of the main window's pattern grid.
       \item Support for mapping MIDI events to a single MIDI buss for testing
          or simple use cases.
       \item On-going support for handling PPQN values other than the
-         default value of 192.
+         default value of 192.  Still not complete.
       \item Small improvements in appearance:
       \begin{itemize}
          \item Support for showing empty sequences (i.e. having only meta

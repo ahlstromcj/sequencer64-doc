@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-09-03
-% \update      2015-11-10
+% \update      2015-11-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -15,13 +15,93 @@
 %
 %-------------------------------------------------------------------------------
 
-\section{Proprietary Track Format and Other MIDI Notes}
-\label{sec:proprietary_track_and_midi_notes}
+\section{MIDI Format and Other MIDI Notes}
+\label{sec:midi_format_and_midi_notes}
+
+\subsection{Standard MIDI Format 0}
+\label{subsec:midi_format_smf_0}
+
+   \textbf{New:}
+   \index{new!smf 0 support}
+   \index{new!channel split}
+   \textsl{Sequencer64} can now read and import SMF 0 MIDI files, and performs
+   channel splitting automatically.
+
+   When an SMF 0 format is detected, \textsl{Sequencer64}
+   reads the file as if were an SMF 1 file, but puts all of the events into the
+   same sequence/pattern.  While the file is being processed, a list of the
+   channels present in the track is maintained.
+
+   Once the end-of-track is encountered for that sequence, one new empty
+   sequence is created for each channel found in the original (main) sequence.
+   The events in the main sequence are scanned, one by one, and added at the
+   end of the appropriate sequence.  If the event is a channel event,
+   then the event is inserted into the sequence that was created for that
+   channel.  If the event is a non-channel event, then each sequence gets a
+   copy of that event.
+
+   After processing, the MIDI buss information, track name, and other pieces of
+   information are attached to each sequence.  The following figure shows in
+   imported SMF 0 tune, split into tracks.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{smf0/imported-smf-0-song.png}
+   \caption{Imported SMF 0 MIDI Song}
+   \label{fig:imported_smf_0_song}
+\end{figure}
+
+   The original imported SMF 0 track is preserved, intact, in main window
+   pattern slot \#16.  It is highlighted in a dark cyan color to remind the
+   user that it is not a playable sequence.  It has no channel number.  It is
+   assigned the non-existent MIDI channel of 0.  If the original track had no
+   title, this track is named "Untitled".  Normally, one will either delete
+   this track before saving the file, or at least keep it muted.
+
+   Each new, single-channel track is given a title of either the form
+   "N: Track-name" or, if the song was untitled, "Track N".
+   The sequence number of each new track is the internal channel number (which
+   is always the actual MIDI channel number minus one).
+
+   The time-signature of each track is currently set to defaults.
+
+   \textbf{TODO:}
+   \index{todo!tempo events}
+   \index{todo!time signature events}
+   In the future, we will add support for obtaining some of the other
+   information a MIDI SMF 0 track might have, such as the Tempo and the
+   Time Signature.
+
+   The original SMF 0 track is also shown in the song editor, as shown in the
+   following figure.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{smf0/imported-smf-0-song-editor.png}
+   \caption{SMF 0 MIDI Song in the Song Editor}
+   \label{fig:imported_smf_0_song_editor}
+\end{figure}
+
+   One is free to edit the imported tune to heart's content.
+   Here, we added one instance of each track, including the SMF 0 track,
+   to show what the imported song looks like.
 
 \subsection{Legacy Proprietary Track Format}
-\label{subsec:legacy_proprietary_track_format}
+\label{subsec:legacy_midi_format}
 
-   Before we get to the last, proprietary track, note that the normal MIDI
+   The authors of \textsl{Seq24} took the trouble to make sure that the format
+   of the MIDI files it write are compatible with other MIDI applications.
+   \textsl{Seq24} also stores its own information (triggers, MIDI control
+   information, etc) in the file, but marked so that other sequencers can read
+   the file and ignore the \textsl{Seq24}-specific information.
+
+   \textsl{Sequencer64} continues that MIDI-compliant behavior, but has
+   improved the compliance just a little bit. 
+
+   We call that last chunk of sequencer-specific information the "proprietary
+   track".
+
+   Before we discuss that last, proprietary track, note that the normal MIDI
    tracks that
    precede it include the SeqSpec ("sequencer-specific", sort of)
    control tags shown in \tableref{table:seqspec_items_normal_tracks}.
@@ -54,8 +134,9 @@
    control tags are new with \textsl{Sequencer64} v. 0.9.9.7.
    They are now saved as additional information in each sequence in which they
    have been specified in the sequence editor.
-   However, for backward compatibility, these items will eventually be able to
-   be save globally for the MIDI song, as an option.
+   However, for backward compatibility (and because it is probably the more
+   common use case), these items can also be
+   saved globally for the whole MIDI song, as an option.
 
    Note that these tags (created by the application, but not present in the
    proprietary track, and perhaps also created by other MIDI applications) are
