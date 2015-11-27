@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-22
+% \update      2015-11-27
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -754,7 +754,8 @@
 \subsection{Menu / View}
 \label{subsec:seq64_menu_view}
 
-   This menu item has only one entry, \textbf{Song Editor}, 
+   If the "allow two perfedits" option is turned off in the "user"
+   configuration file, this menu item has only one entry, \textbf{Song Editor}, 
    which is already covered by a button at the bottom of the Patterns
    window.  Selecting this item bring up the Song Editor window.
    See \figureref{fig:song_editor_window}
@@ -763,6 +764,25 @@
    \index{song editor!ctrl-e}
    \index{keys!ctrl-e}
    Ctrl-E key.
+
+   If the "allow two perfedits" option is turned on in the "user"
+   configuration file, this menu item has two entries, as shown in the
+   following figure:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_view-dual-song-editors.png}
+   \caption{Dual Song Editor Entries in View Menu}
+   \label{fig:seq64_menu_view_song_editors}
+\end{figure}
+
+   Note that only the first Song Editor has a user-interface button and
+   a hot-key.  Also note that there can be issues bringing up the second
+   song-editor with the hot-key.  The menu entry will always work.
+
+   If two song editors are up, they each track any changes made in the other
+   song editor.  But the main purpose of two song editors is to arrange two
+   different parts of the performance at the same time.
 
 \subsection{Menu / Help About...}
 \label{subsec:seq64_menu_about}

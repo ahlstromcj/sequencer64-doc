@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2015-11-25
+% \update      2015-11-27
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -37,7 +37,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.80]{Sequencer64-0_9_9_10.png}
+   \includegraphics[scale=0.80]{Sequencer64-0_9_9_10-b.png}
 \end{figure}
 
 \clearpage                             % moves Contents to next page
@@ -142,10 +142,12 @@
 
    This project deserves to stay alive!  Taking advantage of Rob's generosity,
    we've created a continuation, a refactoring, and an improvement (we hope) of
-   \textsl{Seq24}.  It preserves the lean nature of \textsl{Seq24}, and might
-   even make it a bit leaner, while adding a few features we've found useful.
-   Without \textsl{Seq24} and its authors, \textsl{Sequencer64} would never
-   have come into being.
+   \textsl{Seq24}.  It preserves, we hope, the lean nature of \textsl{Seq24},
+   while adding a few features we've found useful, making it the "vi of
+   sequencers".
+   
+   Always remember that, without \textsl{Seq24} and its authors,
+   \textsl{Sequencer64} would never have come into being.
 
 \subsection{Improvements}
 \label{subsec:improvements}
@@ -157,6 +159,10 @@
       \item \textsl{Sequencer64} can now read SMF 0 MIDI files.  It splits
          the file into tracks based on channel number.  Each track becomes one
          sequence/pattern in the main window grid.
+      \item One can optionally bring up two song editor windows, to have a view
+         of two different parts of a large sequence while arranging it.
+      \item The Set Tempo and Time Signature events of normal MIDI files are
+         now processed and incorporated into the user-interface.
       \item It is now possible to save the scale, key, and background sequence
          settings to the \textsl{Sequencer64} MIDI file, either globally or
          per-sequence.
@@ -189,6 +195,8 @@
             in the sequence editor to make it easier to see them all.
          \item A new font, enabled at build time, that is bolder and has a
             more modern, anti-aliased look.
+         \item Clean, solid lines to replace the dotted lines in the piano-roll
+            grids.
       \end{itemize}
       \item Consolidated various patches in forks of the \textsl{Seq24}
          project found by searching the web.  Fixes to bugs found while
@@ -221,8 +229,8 @@
       \end{itemize}
       \item New minor features.
       \begin{itemize}
-         \item The size of the Patterns Panel (main windows) is now locked,
-            since enlarging it offers no benefits.
+         \item The size of the Patterns Panel (main windows) is now locked
+            (well, partly anyway), since enlarging it offers no benefits.
          \item Support for LASH is now a run-time option (as well as a build
             option).
          \item Support for reading and writing configuration files from the

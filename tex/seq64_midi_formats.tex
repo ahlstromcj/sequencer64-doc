@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-09-03
-% \update      2015-11-25
+% \update      2015-11-27
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -32,6 +32,9 @@
    same sequence/pattern.  While the file is being processed, a list of the
    channels present in the track is maintained.
 
+   Tempo and time-signature events are also read, if present in the file.
+   (This new feature also holds for SMF 1 songs.)
+
    Once the end-of-track is encountered for that sequence, one new empty
    sequence is created for each channel found in the original (main) sequence.
    The events in the main sequence are scanned, one by one, and added at the
@@ -53,7 +56,8 @@
 
    The original imported SMF 0 track is preserved, intact, in main window
    pattern slot \#16.  It is highlighted in a dark cyan color to remind the
-   user that it is not a playable sequence.  It has no channel number.  It is
+   user that it is not a normal, playable \textsl{Sequencer64} 
+   sequence.  It has no channel number.  It is
    assigned the non-existent MIDI channel of 0.  If the original track had no
    title, this track is named "Untitled".  Normally, one will either delete
    this track before saving the file, or at least keep it muted.
@@ -63,12 +67,13 @@
    The sequence number of each new track is the internal channel number (which
    is always the actual MIDI channel number minus one).
 
-   The time-signature of each track is currently set to defaults.
+   The time-signature of each track is currently set to defaults, unless a
+   time-signature event is encountered in the imported file.
 
-   \textbf{TODO:}
-   \index{todo!tempo events}
-   \index{todo!time signature events}
-   In the future, we will add support for obtaining some of the other
+   \textbf{New:}
+   \index{new!tempo events}
+   \index{new!time signature events}
+   \textsl{Sequencer64} adds support for obtaining some of the other
    information a MIDI SMF 0 track might have, such as the Tempo and the
    Time Signature.
 
@@ -131,7 +136,7 @@
    The \texttt{c\_musickey},
    \texttt{c\_musicscale}, and
    \texttt{c\_backsequence}
-   control tags are new with \textsl{Sequencer64} v. 0.9.9.7.
+   control tags are new with \textsl{Sequencer64} version 0.9.9.7 and above.
    They are now saved as additional information in each sequence in which they
    have been specified in the sequence editor.
    However, for backward compatibility (and because it is probably the more
@@ -294,8 +299,7 @@ as shown here:
 \subsection{MIDI Information}
 \label{subsec:midi_information}
 
-   This section just provides some useful, basic information about MIDI
-   data.
+   This section provides some useful, basic information about MIDI data.
 
 \subsubsection{MIDI Variable-Length Value}
 \label{subsubsec:midi_variable_length_value}
@@ -430,6 +434,388 @@ as shown here:
          timidity     & Yes       & Yes       & Yes \\
       \end{tabular}
    \end{table}
+
+\subsection{More MIDI Information}
+\label{subsec:midi_information_more}
+
+   This section goes into even more detail about the MIDI format, especially as
+   it applies to the processing done by \textsl{Sequencer64}.
+   The following sub-sections describe how \textsl{Sequencer64}
+   parses a MIDI file.
+
+\subsubsection{MIDI File Header, MThd}
+\label{subsubsec:midi_format_header}
+
+   The first thing in a MIDI file is The data of the header:
+
+   \begin{verbatim}
+      Header ID:     "MThd"         4 bytes
+      MThd length:     6            4 bytes
+      Format:        0, 1, 2        2 bytes
+      No. of track:  1 or more      2 bytes
+      PPQN:           192           2 bytes
+   \end{verbatim}
+
+   The header ID and it's length are always the same values.  The formats that
+   Sequencer64 supports are 0 or 1.  SMF 0 has only one track, while SMF 1 can
+   support an arbitary number of tracks.  The last value in the header is the
+   PPQN value, which specifies the "pulses per quarter note", which is the
+   basic time-resolution of events in the MIDI file.  Common values are 96 or
+   192, but higher values are also common.  Sequencer64 and its precursor,
+   Seq24, default to 192.
+
+\subsubsection{MIDI Track, MTrk}
+\label{subsubsec:midi_format_track}
+
+   The next part of the MIDI file consists of the tracks specified in the file.
+   In SMF 1 format, each track is assumed to cover a different MIDI channel,
+   but always the same MIDI buss.  (The MIDI buss is not a data item in
+   standard MIDI files, but it is a special data item in the sequencer-specific
+   section of \textsl{Seq24/Sequencer64} MIDI files.)  Each track is tagged by
+   a standard chunk marker, "MTrk".  Other markers are possible, and are to be
+   ignored, if nothing else.  Here are the values read at the beginning of a
+   track:
+
+   \begin{verbatim}
+      Track ID:      "MTrk"         4 bytes
+      Track length:  varies         4 bytes
+   \end{verbatim}
+
+   The track length is the number of bytes that need to be read in order to get
+   all of the data in the track.
+
+   \textbf{Delta time}.
+   The amount time that passes from one event to the next is the
+   \textsl{delta time}.
+   For some events, the time doesn't matter, and is set to 0.
+   This values is a
+   \textsl{variable length value}, also known as a "VLV" or a "varinum".   It
+   provides a way of encoding arbitrarily large values, a byte at a time.
+
+   \begin{verbatim}
+      Delta time:    varies         1 or more bytes
+   \end{verbatim}
+
+   The running-time accumulator is incremented by the delta-time.
+   The current time is adjusted as per the PPQN ratio, if needed, and passed
+   along.
+
+\subsubsection{Channel Events}
+\label{subsubsec:midi_format_channel_events}
+
+   \textbf{Status}.
+   The byte after the delta time is examined by masking it against 0x80 to check
+   the high bit.  If not set, it is a "running status", it is replaced with the
+   "last status", which is 0 at first.
+
+   \begin{verbatim}
+      Status byte:   varies         1 byte
+   \end{verbatim}
+
+   If the high bit is set, it is a status byte.  What does the status mean?  To
+   find out, the channel part of the status is masked out using the 0xF0 mask.
+   If it is a 2-data-byte event (note on, note off, aftertouch, control-change,
+   or pitch-wheel), then the two data bytes are read:
+
+   \begin{verbatim}
+      Data byte 0:   varies         1 byte
+      Data byte 1:   varies         1 byte
+   \end{verbatim}
+
+   If the status is a Note On event, with velocity = data[1] = 0,
+   then it is converted to a Note Off event, a fix for the output quirks of
+   some MIDI devices.
+   If it is a 1-data-btye event (Program Change or Channel Pressure), then only
+   data byte 0 is read.
+   The one or two data bytes are added to the event,
+   the event is added to the current sequence,
+   and the MIDI channel of the sequence is set.
+
+\subsubsection{Meta Events Revisited}
+\label{subsubsec:midi_format_meta_events_revisited}
+
+   If the event status masks off to 0xF0 (0xF0 to 0xFF), then it is a Meta
+   event.  If the Meta event byte is 0xFF, it is called a "Sequencer-specific",
+   or "SeqSpec" event.  For this kind of event, then a type byte and the length
+   of the event are read.
+
+   \begin{verbatim}
+      Meta type:     varies         1 byte
+      Meta length:   varies         1 or more bytes
+   \end{verbatim}
+
+   If the type of the SeqSpec (0xFF) meta event is 0x7F, parsing checks to see
+   if it is one of the Seq24 "proprietary" events.  These events are tagged
+   with various values that mask off to 0x24240000.  The parser reads the
+   tag:
+
+   \begin{verbatim}
+      Prop tag:     0x242400nn      4 bytes
+   \end{verbatim}
+
+   These tags provide a way to save and recover Seq24/Sequencer64 properties
+   from the MIDI file: MIDI buss, MIDI channel, time signature, sequence
+   triggers, and (new), the key, scale, and background sequence to use with the
+   track/sequence.  Any leftover data for the tagged event is let go.  Unknown
+   tags ate skipped.
+
+   If the type of the SeqSpec (0xFF) meta event is 0x2F, then it is the
+   End-of-Track marker.  The current time marks the length (in MIDI pulses) of
+   the sequence.  Parsing is done for that track.
+
+   If the type of the SeqSpec (0xFF) meta event is 0x03, then it is the
+   sequence name.  The "length" number of bytes are read, and loaded as the
+   sequence name.
+
+   If the type of the SeqSpec (0xFF) meta event is 0x00, then it is the
+   sequence number, which is read:
+
+   \begin{verbatim}
+      Seq number:    varies         2 bytes
+   \end{verbatim}
+
+   Note that the sequence number might be modified latter to account for the
+   current \textsl{Seq24} screenset in force for a file import operation.
+
+   Anything other SeqSpec type is simply skipped by reading the "length" number
+   of bytes.
+
+   The remaining sections simply describe MIDI meta events in more detail, for
+   reference.
+
+\subsection{Meta Events}
+\label{subsubsec:midi_format_meta_events_summary}
+
+Here, we summarize the MIDI meta events.
+
+   \begin{enumber}
+      \item \texttt{FF 00 02 ssss}: Sequence Number.
+      \item \texttt{FF 01 len text}: Text Event.
+      \item \texttt{FF 02 len text}: Copyright Notice.
+      \item \texttt{FF 03 len text}: Sequence/Track Name.
+      \item \texttt{FF 04 len text}: Instrument Name.
+      \item \texttt{FF 05 len text}: Lyric.
+      \item \texttt{FF 06 len text}: Marker.
+      \item \texttt{FF 07 len text}: Cue Point.
+      \item \texttt{FF 08 through 0F len text}: Other kinds of  text events.
+      \item \texttt{FF 2F 00}: End of Track.
+      \item \texttt{FF 51 03 tttttt}: Set Tempo, us/qn.
+      \item \texttt{FF 54 05 hr mn se fr ff}: SMPTE Offset.
+      \item \texttt{FF 58 04 nn dd cc bb}: Time Signature.
+      \item \texttt{FF 59 02 sf mi}: Key Signature.
+      \item \texttt{FF 7F len data}: Sequencer-Specific.
+      \item \texttt{FF F0 len data F7}: System-Exclusive
+   \end{enumber}
+
+The next sections describe the events that
+\textsl{Sequencer} tries to handle.
+These are:
+
+   \begin{itemize}
+      \item Sequence Number (0x00)
+      \item Track Name (0x03)
+      \item End-of-Track (0x2F)
+      \item Set Tempo (0x51) (Sequencer64 only)
+      \item Time Signature (0x58) (Sequencer64 only)
+      \item Sequencer-Specific (0x7F) (Handled differently in Sequencer64)
+      \item System Exclusive (0xF0) Sort of handled, functionality incomplete.
+   \end{itemize}
+
+\subsubsection{Sequence Number (0x00)}
+\label{subsubsec:midi_format_meta_sequence_number}
+
+   \begin{verbatim}
+      FF 00 02 ss ss
+   \end{verbatim}
+
+   This optional event must occur at the beginning of a track,
+   before any non-zero delta-times, and before any transmittable MIDI
+   events.  It specifies the number of a sequence.
+
+\subsubsection{Track/Sequence Name (0x03)}
+\label{subsubsec:midi_format_meta_sequence_name}
+
+   \begin{verbatim}
+      FF 03 len text
+   \end{verbatim}
+
+   If in a format 0 track, or the first track in a format 1 file, the name
+   of the sequence.  Otherwise, the name of the track.
+
+\subsubsection{End of Track (0x2F)}
+\label{subsubsec:midi_format_meta_end_of_track}
+
+   \begin{verbatim}
+      FF 2F 00
+   \end{verbatim}
+
+   This event is not optional.  It is included so that an exact ending
+   point may be specified for the track, so that it has an exact length,
+   which is necessary for tracks which are looped or concatenated.
+
+\subsubsection{Set Tempo Event (0x51)}
+\label{subsubsec:midi_format_meta_set_tempo}
+
+   The MIDI Set Tempo meta event sets the tempo of a MIDI sequence in terms of
+   the microseconds per quarter note.  This is a meta message, so this event is
+   never sent over MIDI ports to a MIDI device.
+   After the delta time, this event consists of six bytes of data:
+
+   \begin{verbatim}
+      FF 51 03 tt tt tt
+   \end{verbatim}
+
+   Example:
+
+   \begin{verbatim}
+      FF 51 03 07 A1 20
+   \end{verbatim}
+
+   \begin{enumber}
+      \item 0xFF is the status byte that indicates this is a Meta event.
+      \item 0x51 the meta event type that signifies this is a Set Tempo event.
+      \item 0x03 is the length of the event, always 3 bytes.
+      \item The remaining three bytes carry the number of microseconds per
+         quarter note.  For example, the three bytes above form the hexadecimal
+         value 0x07A120 (500000 decimal), which means that there are 500,000
+         microseconds per quarter note.
+   \end{enumber}
+
+   Since there are 60,000,000 microseconds per minute, the event above
+   translates to: set the tempo to 60,000,000 / 500,000 = 120 quarter notes per
+   minute (120 beats per minute).
+
+   This event normally appears in the first track. If not, the default tempo is
+   120 beats per minute.  This event is important if the MIDI time division is
+   specified in "pulses per quarter note", which does not itself define the
+   length of the quarter note. The length of the quarter note is then
+   determined by the Set Tempo meta event.
+
+   Representing tempos as time per beat instead of beat per time allows
+   absolutely exact DWORD-term synchronization with a time-based sync protocol
+   such as SMPTE time code or MIDI time code.  This amount of accuracy
+   in the tempo resolution allows a four-minute piece at 120 beats per minute
+   to be accurate within 500 usec at the end of the piece.
+
+\subsubsection{Time Signature Event (0x58)}
+\label{subsubsec:midi_format_meta_time_sig}
+
+   After the delta time, this event consists of seven bytes of data:
+
+   \begin{verbatim}
+      FF 58 04 nn dd cc bb
+   \end{verbatim}
+
+   The time signature is expressed as four numbers.
+   \texttt{nn} and \texttt{dd} represent the numerator and denominator of the
+   time signature as it would be notated.  The denominator is a negative power
+   of two:  2 represents a quarter-note, 3 represents an eighth-note, etc.  The
+   \texttt{cc} parameter expresses the number of MIDI clocks in a metronome
+   click.  The \texttt{bb} parameter expresses the number of notated 32nd-notes
+   in a MIDI quarter- note (24 MIDI Clocks).
+
+   Example:
+
+   \begin{verbatim}
+      FF 58 04 04 02 18 08
+   \end{verbatim}
+
+   \begin{enumber}
+      \item 0xFF is the status byte that indicates this is a Meta event.
+      \item 0x58 the meta event type that signifies this is a Time Signature
+         event.
+      \item 0x04 is the length of the event, always 4 bytes.
+      \item 0x04 is the numerator of the time signature, and ranges from 0x00
+         to 0xFF.
+      \item 0x02 is the log base 2 of the denominator, and is the power to
+         which 2 must be raised to get the denominator.  Here, the denominator
+         is 2 to 0x02, or 4, so the time signature is 4/4.
+      \item 0x18 is the metronome pulse in terms of the number of
+         MIDI clock ticks per click.  Assuming 24 MIDI clocks per quarter note,
+         the value here (0x18 = 24) indidicates that the metronome will tick
+         every 24/24 quarter note.  If the value of the sixth byte were 0x30 =
+         48, the metronome clicks every two quarter notes, i.e. every
+         half-note.
+      \item 0x08 defines the number of 32nd notes per beat. This byte is
+         usually 8 as there is usually one quarter note per beat, and one
+         quarter note contains eight 32nd notes.
+   \end{enumber}
+
+   If a time signature event is not present in a MIDI sequence, a 4/4 signature
+   is assumed.
+
+   In \textsl{Sequencer64},
+   the \texttt{c\_timesig} SeqSpec event is given priority.  The
+   conventional time signature is used only if the \texttt{c\_timesig}
+   SeqSpec is not present in the file.
+
+\subsubsection{SysEx Event (0xF0)}
+\label{subsubsec:midi_format_meta_sysex_event}
+
+   If the meta event status value is 0xF0, it is called a "System-exclusive",
+   or "SysEx" event.
+
+   \textsl{Sequencer64} has some code in place to store these messages, but the
+   data is currently not actually stored or used.  Although there is some
+   infrastructure to support storing the SysEx event within a sequence, the
+   SysEx information is simply skipped.  \textsl{Sequencer64} warns if the
+   terminating 0xF7 SysEx terminator is not found at the expected length.
+   Also, some malformed SysEx events have been encountered, and those are
+   detected and skipped as well.
+
+\subsubsection{Sequencer Specific (0x7F)}
+\label{subsubsec:midi_format_meta_sequencer_specific}
+
+   This data, also known as SeqSpec data, provides a way to encode information
+   that a specific sequencer application needs, while marking it so that other
+   sequences can safely ignore the information.
+
+   \begin{verbatim}
+      FF 7F len data
+   \end{verbatim}
+
+   In \textsl{Seq24</i> and <i>Sequencer64},
+   the data portion starts with four bytes
+   that indicate the kind of data for a particular SeqSpec event:
+
+   \begin{verbatim}
+      c_midibus        ^  0x24240001  Track buss number
+      c_midich         ^  0x24240002  Track channel number
+      c_midiclocks     *  0x24240003  Track clocking
+      c_triggers       ^  0x24240004  See c_triggers_new
+      c_notes          *  0x24240005  Song data, notes
+      c_timesig        ^  0x24240006  Track time signature
+      c_bpmtag         *  0x24240007  Song beats/minute
+      c_triggers_new   ^  0x24240008  Track trigger data
+      c_mutegroups     *  0x24240009  Song mute group data
+      c_midictrl       *  0x24240010  Song MIDI control
+      c_musickey       +  0x24240011  Track key (Sequencer64 only)
+      c_musicscale     +  0x24240012  Track scale (Sequencer64 only)
+      c_backsequence   +  0x24240013  Track background sequence (Sequencer64 only)
+
+      * = global only; ^ = track only; + = both
+   \end{verbatim}
+
+   In \textsl{Seq24}, these events are placed at the end of the song, but are
+   not marked as SeqSpec data.  Most MIDI applications handle this situation
+   fine, but some (e.g. midicvt) do not.  Therefore, \textsl{Sequencer64} makes
+   sure to wrap each data item in the 0xFF 0x7F wrapper.
+
+   Also, the last three items above (key, scale, and background sequence) can
+   also be stored (by \textsl{Sequencer64}) with a particular sequence/track,
+   as well as at the end of the song.  Not sure if this bit of extra
+   flexibility is useful, but it is there.
+
+\subsubsection{Non-Specific End of Sequence}
+\label{subsubsec:midi_format_meta_sequence_ends}
+
+   Any other statuses are deemed unsupportable in \textsl{Sequencer64}, and
+   abort parsing with an error.
+
+   If the --bus option is in force, it overrides the buss number (if any)
+   stored with the sequence.  This option is useful for testing a setup.
+
+   At the end, \textsl{Sequencer64} adds the sequence to the encoded tune.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
