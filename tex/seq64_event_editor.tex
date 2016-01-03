@@ -1,0 +1,295 @@
+%-------------------------------------------------------------------------------
+% seq64_event_editor
+%-------------------------------------------------------------------------------
+%
+% \file        seq64_event_editor.tex
+% \library     Documents
+% \author      Chris Ahlstrom
+% \date        2016-01-02
+% \update      2016-01-02
+% \version     $Revision$
+% \license     $XPC_GPL_LICENSE$
+%
+%-------------------------------------------------------------------------------
+
+\section{Event Editor}
+\label{sec:seq64_event_editor}
+
+   The \textsl{Sequencer64 Event Editor} is used to view and edit,
+   in detail, the events present in a sequence/pattern/track.
+
+   \textbf{Warning:}
+   \index{warning!event editor}
+   This dialog is a new feature of \textsl{Sequencer64}, and is
+   still a work-in-progress.  Basic viewing and scrolling generally work well,
+   and editing, deleting, and inserting events does work.
+   But this dialog has not yet had rigorous testing, and it surely
+   has some nasty bugs lurking in it.
+   If anything bad happens, do \textsl{not} press the
+   \textbf{Save to Sequence} button!
+
+   Also note that this editor is not very sophisticated.  It requires the user
+   to know about MIDI events and data values.  It does not present handy
+   dropdown lists for various items.
+   It does not detect any changes made to the sequence in the pattern editor.
+   If, some day, we find ourselves missing
+   that kind of functionality, then we can add it.
+
+   For now, the event editor is a good way to see the events in a sequence.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{event-editor/preliminary-event-editor.png}
+   \caption{Event Editor Window}
+   \label{fig:event_editor_window}
+\end{figure}
+
+   This dialog is fairly complex.
+   For exposition, we break it into a few parts:
+
+   \begin{enumber}
+      \item \textbf{Event Frame}
+      \item \textbf{Info Panel}
+      \item \textbf{Edit Fields}
+      \item \textbf{Bottom Buttons}
+   \end{enumber}
+
+   The event frame consists of a list of events, which can be
+   viewed, traversed, and edited.  The info fields show the name of the
+   sequence containing the events, and some other information about the
+   sequence.  The edit fields provide four text fields for viewing and entering
+   information about an event, and buttons to delete, insert, and modify
+   events.  The bottom buttons allow changes to be saved and the editor to be
+   closed.  
+
+   The following sections described these items in detail.
+
+\subsection{Event Editor / Event Frame}
+\label{subsec:seq64_event_editor_frame}
+
+\subsubsection{Event Frame / Data Items}
+\label{subsec:seq64_event_frame_data}
+
+   The event frame is the event-list shown on the left side of the
+   event editor.  It shows a list of numbered events, one per line.
+   The currently-selected event is highlighted in cyan text on a black
+   background.  Here is an example of the data line for a MIDI event:
+
+   \begin{verbatim}
+      17-003:3:128 Note On   Chan 3    Key 66 Vel 107
+   \end{verbatim}
+
+   This line consists of the following parts:
+
+   \begin{enumber}
+      \item \textbf{Index Number}
+      \item \textbf{Time Stamp}
+      \item \textbf{Event Name}
+      \item \textbf{Channel Number}
+      \item \textbf{Data Bytes}
+   \end{enumber}
+
+   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{Index Number}{event editor!index number}
+   Displays the index number of the event.
+   This number is purely for the reference of the user, and is not part
+   of the event.  Events in the pattern are numbered from 0 to the number of
+   events in the pattern.  They serve as a way to better know where one is in
+   the sequence.
+
+   \itempar{Time Stamp}{event editor!time stamp}
+   Displays the time stamp of the event.
+   This value indicates the cumulative time of the event in the pattern.
+   It is displayed in the format of "measure:beat:divisions".
+   The measure values start from 1, and range up to the number of measures in
+   the pattern.
+   The beat values start from 1, and range up to the number of beats in the
+   measure.
+   The division values range from 0 up to one less than the
+   \index{ppqn}
+   PPQN (pulses per quarter note) value for the whole song.
+
+   \itempar{Event Name}{event editor!event name}
+   Displays the name of the event.
+   The event name indicates what kind of MIDI event it is. 
+   The following event names are supported:
+
+   \begin{enumber}
+      \item \textbf{Note Off}
+      \item \textbf{Note On}
+      \item \textbf{Aftertouch}
+      \item \textbf{Control Change}
+      \item \textbf{Program Change}
+      \item \textbf{Channel Pressure}
+      \item \textbf{Pitch Wheel}
+   \end{enumber}
+
+   \textbf{Note that these are all MIDI \textsl{channel events}.
+   Support for MIDI \textsl{system events} is in place, but is not
+   ready for exposure to the user.}
+
+   \itempar{Channel Number}{event editor!channel number}
+   Shows the channel number (for channel-events only).
+   Be sure to note that, for the user, MIDI channels always range from
+   1 to 16.  (Internally, they range from 0 to 15).
+
+   \itempar{Data Bytes}{event editor!data bytes}
+   Shows the one or two data bytes for the event.
+
+   Note Off, Note On, and Aftertouch events requires a byte for the key (0 to
+   127) and a byte for the velocity (also 0 to 127).
+   Control Change events require a control code and a value for that control
+   code.  Pitch wheel events require two bytes to encode the full range of
+   pitch changes.
+
+   Program change events require only a byte value to pick the patch or program
+   (instrument) to be used for the sequence.  The Channel Pressure event
+   requires only a one-byte value.
+
+\subsubsection{Event Frame / Navigation}
+\label{subsec:seq64_event_frame_navigation}
+
+   Moving about in the event frame is fairly straightforward, but has some
+   wrinkles to note.  (It was more difficult to get working than expected!)
+
+   Navigation with the mouse is done by moving to the desired event and
+   clicking on it.  The event becomes highlighted, and its data items are shown
+   in the "info panel" (discussed in the next section).
+   There is currently no support for dragging and dropping events in the event
+   frame.
+
+   The scrollbar can be used to move within the frame, either by one line at a
+   time, or by a page at a time.  A page is defined as one frame's worth of
+   lines, minus 5 lines, for some overlap in paging.
+
+   Navigation with keystrokes is also supported, for the Up and Down arrows and
+   the Page-Up and Page-Down keys.  Note that using the Up and Down arrows by
+   holding them down for awhile causes autorepeat to kick in, and the updates
+   become very erratic and annoying.  Use the scrollbar or page keys to
+   move through multiple pages.
+
+   \textbf{Bug:}
+   \index{bugs!home/end keys}
+   We still need to implement the Home and End keys!
+
+\subsection{Event Editor / Info Panel}
+\label{subsec:seq64_event_editor_info}
+
+   The "info panel" is simply a read-only list of properties on the top right
+   of the event editor.  It serves to remind the used of the sequence being
+   edited and some characteristics of the sequence and the whole song.
+   Currently, five items are shown:
+
+   \begin{enumber}
+      \item \textbf{Sequence Name}.
+         This item is redundant, as the window caption for the event editor
+         also shows the sequence name.  It can be set in the pattern editor.
+      \item \textbf{Time Signature}.
+         This item is a sequence property.  It can be set in the pattern
+         editor.
+      \item \textbf{PPQN}
+         This item shows the "parts per quarter note", or resolution of the
+         whole song.  The default PPQN of \textsl{Sequencer64} is 192.
+      \item \textbf{Sequence Channel}
+         In \textsl{Sequencer64}, the channel number is a property of the
+         sequence.  All channel events in the sequence get routed to the same
+         channel, even if somehow the event itself specifies a different
+         channel.
+      \item \textbf{Sequence Count}
+         Displays the current number of events in the sequence.
+         This number changes as events are inserted or deleted.
+   \end{enumber}
+
+\subsection{Event Editor / Edit Fields}
+\label{subsec:seq64_event_editor_fields}
+
+   The edit fields show the values of the currently-selected event.  They allow
+   changing an event, adding a new event, or deleting the currently-selected
+   event.
+
+   \begin{enumber}
+      \item \textbf{Event Category} (read-only)
+      \item \textbf{Event Timestamp}
+      \item \textbf{Event Name}
+      \item \textbf{Data Byte 1}
+      \item \textbf{Data Byte 2}
+      \item \textbf{Delete Current Event}
+      \item \textbf{Insert New Event}
+      \item \textbf{Modify Current Event}
+   \end{enumber}
+
+   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{Event Category}{event editor!event category}
+   Displays the event category of the event.  Currently, only channel events
+   can be handled, but someday we hope to handle the wide array of system
+   events, and perhap even system-exclusive events.
+
+   \itempar{Event Timestamp}{event editor!event timestamp}
+   Displays the timestamp of the event.  Currently only the
+   "measure:beat:division" format is fully supported.
+   We allow editing (but not display) of the timestamp in
+   pulse (divisions) format and "hour:minute:second.fraction" format, but
+   there are bugs to work out.
+
+   If one wants to delete or modify an event, this field does not need to be
+   modified.  If this field is modified, and the \textbf{Modify Current Event}
+   button is pressed, then the event will be moved.  This field can also locate
+   a new event at a specific time.  If the time is not in the current frame,
+   the frame will move to the location of the current event.
+
+   \textbf{Bug:}
+   \index{bugs!event timestamp change}
+   Although the frame will move to the location of a new event, the location of
+   a timestamp-modified event will not change.  Not sure that the delete/insert
+   sequence works at all.
+
+   \itempar{Event Name}{event editor!event name}
+   Displays the name of the event, and allows entry of an event name.
+   The event name indicates what kind of MIDI event it is. 
+   The following event names are supported:
+
+   \begin{enumber}
+      \item \textbf{Note Off}
+      \item \textbf{Note On}
+      \item \textbf{Aftertouch}
+      \item \textbf{Control Change}
+      \item \textbf{Program Change}
+      \item \textbf{Channel Pressure}
+      \item \textbf{Pitch Wheel}
+   \end{enumber}
+
+   Typing in one of these names should change the kind of event if the event is
+   modified.  Abbreviations and case-insensitivity can be used to reduce the
+   effort of typing.
+
+   \textbf{Bug:}
+   \index{bugs!event name change}
+   Currently, the handling of the editing of the event name is severely broken!
+   Also, it would be better to provide a drop-down list for more painless
+   selection of events.
+
+   \itempar{Data Byte 1}{event editor!data byte 1}
+   Allows the modification of the first data byte of the event.
+   One must know what one is doing.
+   The scanning of the digits is very simple:  start with the first digit, and
+   convert until a non-digit is encountered.  The data-byte value can be
+   entered in decimal notation, or, if prepended with "0x", in hexadecimal
+   notation.
+
+   \itempar{Data Byte 2}{event editor!data byte 2}
+   Allows the modification of the second data byte of the event (if applicable
+   to the event).
+   One must know what one is doing.
+   The scanning of the digits is very simple:  start with the first digit, and
+   convert until a non-digit is encountered.  The data-byte value can be
+   entered in decimal notation, or, if prepended with "0x", in hexadecimal
+   notation.
+
+\subsection{Event Editor / Bottom Buttons}
+\label{subsec:seq64_event_editor_buttons}
+
+%-------------------------------------------------------------------------------
+% vim: ts=3 sw=3 et ft=tex
+%-------------------------------------------------------------------------------

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-21
+% \update      2016-01-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -337,19 +337,21 @@
    
    \begin{enumber}
       \item \textbf{Edit...}
+      \item \textbf{Event Edit...}
       \item \textbf{Cut}
       \item \textbf{Copy}
       \item \textbf{Song/}
-      \item \textbf{Midi Bus/}
+      \item \textbf{MIDI Bus/}
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
-   \itempar{Edit}{pattern!edit}
+   \itempar{Edit...}{pattern!edit}
    Edits an existing loop or pattern.
    Clicking this menu entry brings up the Pattern Editor
    so that one can modify the existing pattern.
    See \figureref{fig:pattern_edit_window}.
+   Also known as the "sequence editor".
 
    \textbf{New:}
    In addition to right-clicking and selecting \textbf{Edit...}, the user
@@ -359,7 +361,19 @@
    double-click on the empty slot, to bring up the sequence
    editor.  For the double-click, the effect can be a bit confusing at first,
    because it currently also toggles the arming/mute status of the slot
-   twice (leaving it as it was), as well.  For now, get used to it.
+   twice (leaving it as it was), as well.  For now, one must get used to it.
+
+   \itempar{Event Edit...}{pattern!event edit}
+   Edits an existing loop or pattern, but using a detailed event editor.
+   Clicking this menu entry brings up the Event Editor
+   so that one can view and modify the events in the existing pattern.
+   See \figureref{fig:pattern_edit_window}.
+
+   There are two things to note about this editor.
+   First, this editor is not the same as the event editor pane in the pattern
+   editor -- it shows all events at once, and shows them only in text format.
+   Second, this editor is still a work in progress.
+   See \sectionref{sec:seq64_event_editor} for more information.
 
    \itempar{Cut}{pattern!cut}
    Deletes and copies an existing loop or pattern.

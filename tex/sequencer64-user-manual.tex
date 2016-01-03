@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2015-11-27
+% \update      2016-01-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -58,7 +58,11 @@
 
    This document describes how to use \textsl{Sequencer64}
    \cite{sequencer64},
-   through version 0.9.9.10, dated approximately through November, 2015.
+   through version 0.9.9.12, dated approximately through early January, 2016.
+   However, the final version of the "events" branch has not yet been merged
+   into the "master" branch, and so this document is a little ahead of the
+   master branch at this time.  Grab the "events" branch to get the latest
+   code!
 
 \subsection{Sequencer64: What?}
 \label{subsec:what_is_sequencer64}
@@ -156,6 +160,10 @@
    \textsl{Sequencer64}:
 
    \begin{itemize}
+      \item A new \textsl{event editor} dialog is now supported.
+         It allows for the viewing and editing of MIDI channel events.
+         The user is able to see all types of events in the sequence at
+         once.  This editor is still a work-in-progress.
       \item \textsl{Sequencer64} can now read SMF 0 MIDI files.  It splits
          the file into tracks based on channel number.  Each track becomes one
          sequence/pattern in the main window grid.
@@ -342,6 +350,10 @@
 
 \input{seq64_song_editor}
 
+% Event Editor
+
+\input{seq64_event_editor}
+
 % Configuration file
 
 \input{seq64_rc_file}
@@ -371,8 +383,6 @@
 \label{sec:summary}
 
    In summary, we can say that you will find \textsl{Sequencer64} intriguing.
-
-   There are some topics that this document does not yet treat ...:
 
    Contact: If you have ideas about \textsl{Sequencer64} or a bug report, please
    email us (at \url{mailto:ahlstromcj@gmail.com}).
