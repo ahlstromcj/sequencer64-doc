@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-01-02
-% \update      2016-01-02
+% \update      2016-01-03
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -24,7 +24,7 @@
    still a work-in-progress.  Basic viewing and scrolling generally work well,
    and editing, deleting, and inserting events does work.
    But this dialog has not yet had rigorous testing, and it surely
-   has some nasty bugs lurking in it.
+   has some nasty bugs lurking in it, as we note below.
    If anything bad happens, do \textsl{not} press the
    \textbf{Save to Sequence} button!
 
@@ -35,7 +35,8 @@
    If, some day, we find ourselves missing
    that kind of functionality, then we can add it.
 
-   For now, the event editor is a good way to see the events in a sequence.
+   For now, the event editor is a good way to see the events in a sequence,
+   and to delete problematic events.
 
 \begin{figure}[H]
    \centering 
@@ -167,11 +168,7 @@
    the Page-Up and Page-Down keys.  Note that using the Up and Down arrows by
    holding them down for awhile causes autorepeat to kick in, and the updates
    become very erratic and annoying.  Use the scrollbar or page keys to
-   move through multiple pages.
-
-   \textbf{Bug:}
-   \index{bugs!home/end keys}
-   We still need to implement the Home and End keys!
+   move through multiple pages.  Home and End also work.
 
 \subsection{Event Editor / Info Panel}
 \label{subsec:seq64_event_editor_info}
@@ -219,6 +216,11 @@
       \item \textbf{Modify Current Event}
    \end{enumber}
 
+   It is important to note that changes made in the event editor
+   are \textsl{not} written to the sequence unti the \textbf{Save to Sequence}
+   button is clicked.  If one messes up an edit field, just click on the event
+   again; all the fields will be filled in again.
+
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Event Category}{event editor!event category}
@@ -242,8 +244,8 @@
    \textbf{Bug:}
    \index{bugs!event timestamp change}
    Although the frame will move to the location of a new event, the location of
-   a timestamp-modified event will not change.  Not sure that the delete/insert
-   sequence works at all.
+   the current-event highlighting will not change.  Considered too minor to fix
+   at this time.
 
    \itempar{Event Name}{event editor!event name}
    Displays the name of the event, and allows entry of an event name.
@@ -287,8 +289,72 @@
    entered in decimal notation, or, if prepended with "0x", in hexadecimal
    notation.
 
+   \itempar{Delete Current Event}{event editor!delete event}
+   Causes the currently-selected event to be deleted.
+   The frame display is updated to move following events upward.
+
+   \index{bugs!event delete key}
+   \index{bugs!event insert key}
+   \textsl{Sequencer64} would support using the Delete and Insert keys to
+   supplement the buttons, but the Delete key is needed for editing the event
+   data fields.  The current structure of the dialog prevents using it for both
+   the frame and the edit fields.  So, one can only use the button to do the
+   deletion.
+
+   \itempar{Insert New Event}{event editor!insert event}
+   Inserts a new event, described by the 
+   \textbf{Event Timestamp},
+   \textbf{Event Name},
+   \textbf{Data Byte 1}, and
+   \textbf{Data Byte 2} fields.
+   The new event is placed in the appropriate location for the given timestamp.
+   If the timestamp is at a time that is not visible in the frame, the frame
+   moves to show the new event, so be careful.
+
+   \itempar{Modify Current Event}{event editor!modify event}
+   Deletes the current event, and inserts a new event.
+   The modified event is placed in the appropriate location for the given
+   timestamp.
+
 \subsection{Event Editor / Bottom Buttons}
 \label{subsec:seq64_event_editor_buttons}
+
+   The buttons at the bottom of the event editor round out the functionality of
+   this dialog.
+
+   \begin{enumber}
+      \item \textbf{Save to Sequence}
+      \item \textbf{Close}
+   \end{enumber}
+
+   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{Save to sequence}{event editor!save to sequence}
+   Saves the current state of the event container back to the sequence from
+   whence the events came.  This button does not close the dialog; further
+   editing can be performed.
+
+   Note that there are still some extant bugs in the dialog editor, so be
+   careful about pressing this button.
+
+   Also note that any sequence/pattern editor that is open should be reflected
+   in the pattern editor once this button is pressed.
+
+   \index{bugs!event delete segfault}
+   If both the event editor and the pattern editor are open for a sequence, and
+   some events are deleted in the event editor, and the
+   \textbf{Save to Sequence} button is pressed, the pattern editor crashes and
+   takes down \textsl{Sequencer64} with it.  Therefore, when either editor is
+   open for a given sequence, the right-click menu entries that bring them up
+   are not shown.
+
+   \itempar{Close}{event editor!close}
+   Closes the event editor.
+   Any unsaved event changes are discarded.
+   Currently, there is no "modification indicator" to show that the events have
+   been modified.
+
+   Again, good luck with the dialog.  We have bugs to fix!
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex

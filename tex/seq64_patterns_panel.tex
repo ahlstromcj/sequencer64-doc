@@ -348,8 +348,9 @@
 
    \itempar{Edit...}{pattern!edit}
    Edits an existing loop or pattern.
-   Clicking this menu entry brings up the Pattern Editor
-   so that one can modify the existing pattern.
+   Clicking this menu entry brings up the \textbf{Pattern Editor}
+   so that one can modify the existing pattern by click-dragging new notes in a
+   piano roll user-interface.
    See \figureref{fig:pattern_edit_window}.
    Also known as the "sequence editor".
 
@@ -363,9 +364,14 @@
    because it currently also toggles the arming/mute status of the slot
    twice (leaving it as it was), as well.  For now, one must get used to it.
 
+
    \itempar{Event Edit...}{pattern!event edit}
-   Edits an existing loop or pattern, but using a detailed event editor.
-   Clicking this menu entry brings up the Event Editor
+   \textbf{New:}
+   \index{new!pattern event edit}
+   Edits an existing loop or pattern, but using a detailed event editor that
+   shows events as text and numbers, and allows editing them as text and
+   numbers.
+   Clicking this menu entry brings up the \textbf{Event Editor}
    so that one can view and modify the events in the existing pattern.
    See \figureref{fig:pattern_edit_window}.
 
@@ -374,6 +380,22 @@
    editor -- it shows all events at once, and shows them only in text format.
    Second, this editor is still a work in progress.
    See \sectionref{sec:seq64_event_editor} for more information.
+
+   Now, in order to simplify the application, and avoid editing a pattern in
+   two different dialogs, if either the pattern editor or the event editor is
+   active for a given seqeuence, the right-click sequence-slot menu leaves out
+   the \textbf{Edit...} and \textbf{Event Edit...} menu entries.
+   This trimmed menu looks like this:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{pattern/pattern-right-click-menu-no-edit.png}
+   \caption{Existing Pattern, Right-Click Menu Without Edit Entries}
+   \label{fig:pattern_window_right_click_no_edit}
+\end{figure}
+
+   The old functionality was to have the \textbf{Edit...} menu entry simply
+   raise the existing pattern editor to the top of the windows.
 
    \itempar{Cut}{pattern!cut}
    Deletes and copies an existing loop or pattern.
