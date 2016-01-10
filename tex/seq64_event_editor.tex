@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-01-02
-% \update      2016-01-03
+% \update      2016-01-10
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -23,20 +23,35 @@
    This dialog is a new feature of \textsl{Sequencer64}, and is
    still a work-in-progress.  Basic viewing and scrolling generally work well,
    and editing, deleting, and inserting events does work.
-   But this dialog has not yet had rigorous testing, and it surely
-   has some nasty bugs lurking in it, as we note below.
+   But there are many possible interactions between event links (Note Off
+   events linked to Note On events), performance triggers, and the pattern,
+   performance, and event editor dialogs.
+   Surely some bugs still lurk.
    If anything bad happens, do \textsl{not} press the
    \textbf{Save to Sequence} button!
+   If the application aborts, let the programmer know!
 
-   Also note that this editor is not very sophisticated.  It requires the user
-   to know about MIDI events and data values.  It does not present handy
-   dropdown lists for various items.
-   It does not detect any changes made to the sequence in the pattern editor.
-   If, some day, we find ourselves missing
+   Also note that this editor is not very sophisticated:
+
+   \begin{enumerate}
+      \item It requires the user to know the details
+         about MIDI events and data values.
+      \item It does not present handy dropdown lists for various items.
+      \item It does not detect any changes made to the sequence in the
+         pattern editor.
+      \item It does not have any undo function.
+      \item It cannot mark more than one event for deletion or modification.
+      \item There is no support for dragging and dropping of events.
+   \end{enumerate}
+
+   If, some day, we find ourselves needing
    that kind of functionality, then we can add it.
-
+   There may also be issues with interactions between the event editor and
+   things like the performance editor and triggers.
    For now, the event editor is a good way to see the events in a sequence,
-   and to delete problematic events.
+   and to delete or modify problematic events.
+   Unlike the event pane in the pattern editor, this dialog shows all types of
+   events at once.
 
 \begin{figure}[H]
    \centering 
@@ -45,8 +60,8 @@
    \label{fig:event_editor_window}
 \end{figure}
 
-   This dialog is fairly complex.
-   For exposition, we break it into a few parts:
+   The event-editor dialog is fairly complex.
+   For exposition, we break it down into a few sections:
 
    \begin{enumber}
       \item \textbf{Event Frame}
@@ -55,24 +70,27 @@
       \item \textbf{Bottom Buttons}
    \end{enumber}
 
-   The event frame consists of a list of events, which can be
-   viewed, traversed, and edited.  The info fields show the name of the
-   sequence containing the events, and some other information about the
+   The event frame consists of a list of events, which can be viewed,
+   traversed, and edited.  The info fields in the info panel show the name of
+   the sequence containing the events, and some other information about the
    sequence.  The edit fields provide four text fields for viewing and entering
-   information about an event, and buttons to delete, insert, and modify
-   events.  The bottom buttons allow changes to be saved and the editor to be
-   closed.  
+   information about the current event, and buttons to delete, insert, and
+   modify events.  The bottom buttons allow changes to be saved and the editor
+   to be closed.  
 
    The following sections described these items in detail.
 
 \subsection{Event Editor / Event Frame}
 \label{subsec:seq64_event_editor_frame}
 
+   The event frame is the event-list shown on the left side of the
+   event editor.  It is accompanied by a vertical scroll-bar, for moving one
+   line or one page at a time.
+
 \subsubsection{Event Frame / Data Items}
 \label{subsec:seq64_event_frame_data}
 
-   The event frame is the event-list shown on the left side of the
-   event editor.  It shows a list of numbered events, one per line.
+   The event frame shows a list of numbered events, one per line.
    The currently-selected event is highlighted in cyan text on a black
    background.  Here is an example of the data line for a MIDI event:
 
@@ -217,9 +235,11 @@
    \end{enumber}
 
    It is important to note that changes made in the event editor
-   are \textsl{not} written to the sequence unti the \textbf{Save to Sequence}
+   are \textsl{not} written to the sequence until the \textbf{Save to Sequence}
    button is clicked.  If one messes up an edit field, just click on the event
    again; all the fields will be filled in again.
+   That's as much "undo" as the event-editor offers at this time, other than
+   closing without saving.
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
@@ -237,15 +257,10 @@
 
    If one wants to delete or modify an event, this field does not need to be
    modified.  If this field is modified, and the \textbf{Modify Current Event}
-   button is pressed, then the event will be moved.  This field can also locate
+   button is pressed, then the event will be moved.  This field can locate
    a new event at a specific time.  If the time is not in the current frame,
-   the frame will move to the location of the current event.
-
-   \textbf{Bug:}
-   \index{bugs!event timestamp change}
-   Although the frame will move to the location of a new event, the location of
-   the current-event highlighting will not change.  Considered too minor to fix
-   at this time.
+   the frame will move to the location of the new event and make it the current
+   event.
 
    \itempar{Event Name}{event editor!event name}
    Displays the name of the event, and allows entry of an event name.
@@ -268,7 +283,7 @@
 
    \textbf{Bug:}
    \index{bugs!event name change}
-   Currently, the handling of the editing of the event name is severely broken!
+   Currently, the handling of the editing of the event name is a bit clumsy.
    Also, it would be better to provide a drop-down list for more painless
    selection of events.
 
@@ -298,7 +313,8 @@
    \textsl{Sequencer64} would support using the Delete and Insert keys to
    supplement the buttons, but the Delete key is needed for editing the event
    data fields.  The current structure of the dialog prevents using it for both
-   the frame and the edit fields.  So, one can only use the button to do the
+   the frame and the edit fields.  Therefore, \textsl{Sequencer64} allows the
+   usage of the asterisk keys (both regular and keypad) for
    deletion.
 
    \itempar{Insert New Event}{event editor!insert event}
@@ -332,29 +348,33 @@
    \itempar{Save to sequence}{event editor!save to sequence}
    Saves the current state of the event container back to the sequence from
    whence the events came.  This button does not close the dialog; further
-   editing can be performed.
+   editing can be performed.  The Save button is enabled only if
+   some unsaved changes to the events still exist.
 
-   Note that there are still some extant bugs in the dialog editor, so be
+   Note that there may still be some subtle bugs in the dialog editor, so be
    careful about pressing this button.
 
    Also note that any sequence/pattern editor that is open should be reflected
-   in the pattern editor once this button is pressed.
+   in the pattern editor once this button is pressed.  However, at present,
+   simultaneous use of the pattern editor and event editor has been disabled.
 
    \index{bugs!event delete segfault}
-   If both the event editor and the pattern editor are open for a sequence, and
+   If both the event editor and the pattern editor are open for a sequence
+   (currently disabled), and
    some events are deleted in the event editor, and the
-   \textbf{Save to Sequence} button is pressed, the pattern editor crashes and
+   \textbf{Save to Sequence} button is pressed, the pattern editor would
+   crash and
    takes down \textsl{Sequencer64} with it.  Therefore, when either editor is
    open for a given sequence, the right-click menu entries that bring them up
-   are not shown.
+   are hidden.
 
    \itempar{Close}{event editor!close}
    Closes the event editor.
    Any unsaved event changes are discarded.
-   Currently, there is no "modification indicator" to show that the events have
+   There is a "modification indicator" to show that the events have
    been modified.
 
-   Again, good luck with the dialog.  We have bugs to fix!
+   Again, good luck with the dialog.  Bug reports are appreciated.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
