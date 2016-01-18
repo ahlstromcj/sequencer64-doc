@@ -519,7 +519,7 @@ erroneously, have also specified 3 MIDI busses that we do not have, in the
    \begin{verbatim}
       [jack-transport]
 
-      # jack_transport - Enable sync with JACK Transport.
+      # jack_transport - Enable slave sync with JACK Transport.
       0
 
       # jack_master - Sequencer64 attempts to serve as JACK Master.
@@ -533,6 +533,10 @@ erroneously, have also specified 3 MIDI busses that we do not have, in the
       # 1 = Playback uses the song editor's data.
       1
    \end{verbatim}
+
+   Please note that only \textsl{one} of
+   jack\_transport, jack\_master, and jack\_master\_cond should be selected
+   (set to 1) at a time.
 
 \subsection{Sequencer64 / Other Sections}
 \label{subsec:seq64_rc_file_other_midi}

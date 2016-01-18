@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-01-02
+% \update      2016-01-18
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -31,10 +31,15 @@
    manages the configuration, and opens the pattern or song editors.
 
    \index{live mode}
+   \textsl{Obsolete behavior}:
    When the Patterns Panel has the application focus, it puts
    \textsl{Sequencer64} in "live mode".  The musician can
    control the playback and muting/unmuting of the song, while it is
    playing, from within this window.
+
+   Instead of the behavior described above, live versus song mode is controlled
+   by the JACK start mode option.  Do we want to make the old behavior a new
+   option?
 
    For exposition, we break the Patterns Panel
    into a menu bar, a top panel, a pattern panel, and a
@@ -285,9 +290,8 @@
          See \figureref{fig:pattern_window_main_panel_items}; it shows a black
          and grey pattern.  The black color indicates that the pattern is armed
          (unmuted), and will play if playback is initiated in the pattern
-         window
          \index{live mode}
-         (i.e. "live mode").
+         window in live mode.
       \item \textbf{Queued}.
          That same pattern also shows that it is queued, which means that it
          will start playing when the pattern next begins again.

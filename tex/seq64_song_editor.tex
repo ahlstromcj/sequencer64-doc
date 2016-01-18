@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-27
+% \update      2016-01-18
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -33,16 +33,23 @@
    In \textsl{Sequencer64} parlance, the Song Editor creates a
    \textsl{performance}.
    \index{song mode}
+
+   \textsl{Obsolete behavior}:
    It also provides the "song mode" of \textsl{Sequencert64},
    as opposed to the "live mode" provided by the Patterns Panel.
 
-   \index{song editor!takeover}
+   Currently, the live versus song mode is controlled by the JACK start-mode
+   flag.  Do we want to revert to the old behavior, or offer it as another
+   option?
+
+   \index{song editor!takeover obsolete}
+
+   \textsl{Obsolete behavior}:
    When the Song Editor has the
    focus of the application, it takes over control from the Patterns Panel.
    The Song Editor controls now control playback.  Once playback is
    started in the Song Editor, some actions in the Patterns Panel no longer
    have effect, effectively disabling live mode.
-
    The Song Editor takes over the arming/unarming (unmuting/muting)
    shown in the Patterns Panel.  The highlighting of armed/unarmed patterns
    changes according to whether the pattern is playing in the Song Editor,
@@ -50,7 +57,9 @@
    click) in the Patterns Panel, the Song Editor immediately returns the
    pattern to the state it has in the Song Editor.  The only way to manually
    change the muting then is to click the pattern's label in the Song
-   Editor.  Both the Song Editor and the Patterns Panel both reflect the
+   Editor.
+   
+   Both the Song Editor and the Patterns Panel both reflect the
    change in muting in the user interface.
 
 \begin{figure}[H]
