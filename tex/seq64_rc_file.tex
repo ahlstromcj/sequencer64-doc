@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-21
+% \update      2016-01-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -632,6 +632,25 @@ erroneously, have also specified 3 MIDI busses that we do not have, in the
       # the application.  Use the --help option to see if LASH is part of
       # the options list.
       1     # LASH session management support flag
+   \end{verbatim}
+
+   \index{[auto-option-save]}
+   This new item determines if the "rc" configuration file is saved
+   upon exit of \textsl{Sequencer64}.  The legacy behavior is to save it,
+   which can sometimes be inconvenient when one is just trying out some
+   command-line options.
+
+   \begin{verbatim}
+      [auto-option-save]
+      # Set the following value to 0 to disable the automatic saving of the
+      # current configuration to the 'rc' file.  Set it to 1 to
+      # follow legacy seq24 behavior of saving the configuration at exit.
+      # Note that, if auto-save is set, many of the command-line settings,
+      # such as the JACK/ALSA settings, are then saved to the configuration,
+      # which can confuse one at first.  Also note that one currently needs
+      # this option set to 1 to save the configuration, as there is not a
+      # user-interface control for it at present.
+      0     # auto-save-options-on-exit support flag
    \end{verbatim}
 
    The following item refers to the last directory in which one opened or

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-21
+% \update      2016-01-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -80,7 +80,12 @@
       Supports modifying the PPQN value of Sequencer64, which is currently
       hardwired to a value of 192.  This setting should allow MIDI files to
       play back at the proper speed, and be written with the new PPQN value.
-      This feature is \textbf{STILL IN PROGRESS}, and undependable.
+      This feature is \textbf{STILL IN PROGRESS}.
+      It seems to work -- one can load MIDI files of arbitrary PPQN, and they
+      play normally and look normal in the editor windows.  They can also be
+      saved, and load with the new PPQN value. 
+      But use the feature carefully for now, and save your work.
+      We'll have more to say on this topic in the future.
 
    \optionpar{-L}{--lash}
       \textbf{New:}
@@ -112,6 +117,11 @@
    \optionpar{-a}{--auto-alsa-ports}
       \textsl{Sequencer64} will attach ALSA ports.
       This variant is useful for overriding the rc configuration file.
+
+   \optionpar{-A}{--alsa}
+      \textsl{Sequencer64} will not run the JACK support, even if specified
+      in the configuration file.  The configuration options are sticky (they
+      are saved), and sometimes they aren't what you want to run.
 
    \optionpar{-s}{--show-midi}
       Dumps incoming MIDI to the screen.
@@ -160,6 +170,9 @@
       Save the "user" configuration file when exiting Sequencer64.
       Normally, it is saved only if not present in the configuration directory,
       so as not to get stuck with temporary settings such as the --bus option.
+      Note that the "rc" configuration option are generally also saved.
+      But see the "auto-option-save" directive in the "rc" file.
+      It is new with version 0.9.9.15.
 
    The current Sequencer64 project homepage is a simple git repository at the
    https://github.com/ahlstromcj/sequencer64.git URL.
