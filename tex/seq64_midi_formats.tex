@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-09-03
-% \update      2016-01-18
+% \update      2016-02-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -32,8 +32,12 @@
    same sequence/pattern.  While the file is being processed, a list of the
    channels present in the track is maintained.
 
-   Tempo and time-signature events are also read, if present in the file.
-   (This new feature also holds for SMF 1 songs.)
+   Tempo and Time Signature events are also read, if present in the file.
+   (This new feature also holds for SMF 1 songs.
+   In addition, when saving a \textsl{Sequencer64} MIDI file, in non-legacy
+   mode, the Tempo and Time Signature events are also saved as MIDI events.
+   This allows other sequencers to more thoroughly read a \textsl{Sequencer64}
+   MIDI file.)
 
    Once the end-of-track is encountered for that sequence, one new empty
    sequence is created for each channel found in the original (main) sequence.
@@ -75,7 +79,8 @@
    \index{new!time signature events}
    \textsl{Sequencer64} adds support for obtaining some of the other
    information a MIDI SMF 0 track might have, such as the Tempo and the
-   Time Signature.
+   Time Signature.  It also now will save this information in the first track
+   of the MIDI file.
 
    The original SMF 0 track is also shown in the song editor, as shown in the
    following figure.
@@ -384,9 +389,9 @@ as shown here:
          0x2F	& End of track \\
          0x51	& Tempo setting \\
          0x54	& SMPTE offset \\
-         0x58	& Time signature \\
-         0x59	& Key signature \\
-         0x7F	& Sequencer specific event \\
+         0x58	& Time Signature \\
+         0x59	& Key Signature \\
+         0x7F	& Sequencer-Specific event \\
       \end{tabular}
    \end{table}
 
@@ -605,8 +610,7 @@ Here, we summarize the MIDI meta events.
       \item \texttt{FF F0 len data F7}: System-Exclusive
    \end{enumber}
 
-The next sections describe the events that
-\textsl{Sequencer} tries to handle.
+The next sections describe the events that \textsl{Sequencer} tries to handle.
 These are:
 
    \begin{itemize}

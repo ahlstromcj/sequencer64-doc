@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2016-01-18
+% \update      2016-02-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,13 +50,14 @@
       $ ./bootstrap
       $ ./configure
 \end{verbatim}
-      \item For debugging without libtool getting in the way, just run the
-         following command, which will run the
+      \item For debugging without libtool getting in the way, just run
+         one of the following commands, which will run the
          \texttt{configure} script, adding the
          \texttt{--enable-debug} and
          \texttt{--disable-shared} options to it.
 \begin{verbatim}
       $ ./bootstrap --enable-debug
+      $ ./bootstrap -ed
 \end{verbatim}
       \item Run the make command:
 \begin{verbatim}
@@ -70,13 +71,46 @@
 \end{verbatim}
    \end{enumber}
 
+   Please note that there are other things you can do to speed up the build
+   process.  Already noted above is the \texttt{--enable-debug} option.
+   The following command will bootstrap the code and then configure
+   for release mode, and greatly reduce the amount of compiler output:
+      
+\begin{verbatim}
+   $ ./bootstrap --enable-release
+   $ ./bootstrap -er
+\end{verbatim}
+
+   This option will run the following command for you:
+
+\begin{verbatim}
+   $ ./configure --enable-silent-rules
+\end{verbatim}
+
+   This anti-verbosity option can be overridden at "make" time:
+
+\begin{verbatim}
+   $ make V=1
+\end{verbatim}
+
+   (Using \texttt{V=0} is another way to quiet down the build.)
+
+   Also note that the build can be sped up by telling make to use more cores.
+   For example, if you have an 8-core system:
+
+\begin{verbatim}
+   $ make -j 9
+\end{verbatim}
+
+   Of course, you can use fewer than the number of cores, if desired.
+
 \subsection{Options for Sequencer64 Features}
 \label{subsec:seq64_build_options}
 
    \textsl{Sequencer64} comes with options for the \texttt{configure} command
    and options represented by definable macros in the source code.
 
-\subsubsection{Using the "configure" Options}
+\subsubsection{Using More "configure" Options}
 \label{subsubsec:seq64_build_configure}
 
    The following \texttt{configure} options can be specified on the command
@@ -110,7 +144,7 @@
         command-line or turn them on in the "rc" configuration file,
         \texttt{~/.config/sequencer64/sequencer64.rc}.
 
-    \itempar{\texttt{--disable-jack-session}}{build!xxxx}
+    \itempar{\texttt{--disable-jack-session}}{build!disable jack session}
         This option undefines the \texttt{SEQ64\_JACK\_SESSION} macro, which is
         defined if JACK support is defined, and the jack/session.h file is
         found.  Again, this option, if left defined, can be affected by

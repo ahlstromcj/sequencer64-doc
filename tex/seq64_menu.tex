@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-01-18
+% \update      2016-02-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -742,21 +742,19 @@
    \end{itemize}
 
    Note that, in ALSA mode (non-JACK mode), \textsl{Sequencer64} 
-   currently \textsl{does not} select the playback modes
+   now \textsl{does} select the playback modes
    according to which window started the playback.
-   It selects them according to the chosen live/song mode as discussed above.
-   Do we want to re-enabled this functionality for ALSA mode?:
+   We have reverted back to legacy \textsl{Seq24} behavior.
    
    \textsl{The main window, or pattern
    window, causes playback to be in live mode.  The user can arm and mute
    patterns in that windows, by clicking on sequences, using their hot-keys,
-   and by using the group-mode and learn-mode features (I think!).
+   and by using the group-mode and learn-mode features (we think).
    The song editor causes playback to be in performance mode, also known as
-   playback mode.}
+   "playback mode", or "song mode".}
 
-   (It remains to be determined if this feature also holds in JACK 
-   mode; it shouldn't. One would think that the JACK Start mode
-   is then the arbiter of playback.)
+   Of course, in JACK mode,
+   it selects them according to the chosen live/song mode as discussed above.
 
    \itempar{Connect}{jack sync!connect}
    Connect to JACK Sync.

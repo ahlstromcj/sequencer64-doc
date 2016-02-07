@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-01-28
-% \update      2016-01-28
+% \update      2016-02-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -27,7 +27,47 @@
       \item Exposing the ALSA MIDI ports to JACK.
       \item Fixes to JACK Master mode.
       \item Interactions with the Klick and Hydrogen applications.
+      \item Patches from the new (!) version of Seq24, 0.9.3, to correct
+         for MIDI Clock drift.  It seems to have some issues, so that support
+         is currently commented out.
    \end{enumerate}
+
+   First, if \textsl{Sequencer64} is run in JACK mode without JACK running on
+   the system, it will take awhile to come up (in ALSA mode).  If run from the
+   console, one will see:
+
+\begin{verbatim}
+   Cannot connect to server socket err = No such file or directory
+   Cannot connect to server request channel
+   jackdmp 1.9.11
+   Copyright 2001-2005 Paul Davis and others.
+   Copyright 2004-2014 Grame.
+   jackdmp comes with ABSOLUTELY NO WARRANTY
+   This is free software, and you are welcome to redistribute it
+   under certain conditions; see the file COPYING for details
+   JACK server starting in realtime mode with priority 10
+   self-connect-mode is "Don't restrict self connect requests"
+   audio_reservation_init
+   Acquire audio card Audio1
+   creating alsa driver ... hw:PCH|hw:PCH|1024|3|48000|0|0|nomon|swmeter|-|32bit
+   ATTENTION: The playback device "hw:PCH" is already in use. Please stop the
+   application using it and run JACK again
+   JackTemporaryException : now quits...
+   Cannot initialize driver
+   JackServer::Open failed with -1
+   Failed to open server
+   Cannot connect to server socket err = No such file or directory
+   Cannot connect to server request channel
+    . . .
+   jack server is not running or cannot be started
+   JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for 4294967295,
+   skipping unlock
+   JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for 4294967295,
+   skipping unlock
+   [JACK server not running, JACK sync disabled]
+\end{verbatim}
+
+
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
