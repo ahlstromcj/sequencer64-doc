@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-02-07
+% \update      2016-02-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -58,20 +58,25 @@
 
    This document describes how to use \textsl{Sequencer64}
    \cite{sequencer64},
-   through version 0.9.9.15, dated approximately through January, 2016.
+   through version 0.9.9.17, dated approximately through Feburary, 2016.
    The biggest new work has been getting the JACK support to work properly,
    in the "fixups" branch, now merged into "master".
+   Some additional work has been added to the \texttt{fixups} branch for
+   pending version 0.9.9.18, and some of that is also documented here.
 
    We thought we had broken JACK support in our refactoring of the program, but
    it turns out there was a long-standing bug in \textsl{Seq24}, where the JACK
    position structure was not being initialized.  But the position values were
    good enough on most computers to allow the JACK support to set itself up and
-   run.  Anyway, this bug had us hustling for quite a few days.
+   run.  Anyway, this bug had us hustling for quite a few days.  Not too
+   mention some other tricky bugs revolving around MIDI clocking.
 
    Also made some fixes to JACK Master mode, replacing the existing timebase
    callback with code adopted from the SooperLooper project.  This code
    allows the klick metronome application to be driven by
    \textsl{Sequencer64}.
+
+   So, overall, JACK and clocking are improved over \textsl{Seq24} now.
 
 \subsection{Sequencer64: What?}
 \label{subsec:what_is_sequencer64}

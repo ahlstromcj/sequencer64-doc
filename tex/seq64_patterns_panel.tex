@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-01-18
+% \update      2016-02-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -81,6 +81,14 @@
    Note that the individual pattern boxes in the main panel, for
    patterns that are not empty, have their own
    moving progress cursor, a tall thin line in each box.
+   By default, this short progress line is black, but it can be changed to
+   red via a "user" configuration file entry in the 
+   \texttt{[user-interface-settings]} section.
+   See the \texttt{progress\_bar\_colored} item to 1 to enable this item.
+
+   Even if not enabled, the currently-selected pattern will show the bar as
+   red.  (We may change this to a different color at some point, or try to
+   highlight the pattern box in dark cyan.)
 
    \itempar{Mute Group Learn}{pattern!mute group learn}
    \index{"L" button}
@@ -215,7 +223,20 @@
    double-click on the empty slot, to bring up a new instance of the sequence
    editor.  For the double-click, the effect can be a bit confusing at first,
    because it currently also toggles the arming/mute status of the slot
-   twice (leaving it as it was), as well.  For now, get used to it.
+   twice (leaving it as it was), as well.  For now, please get used to it.
+
+   \textbf{New:}
+   When a pattern is first brough up for sequence editing (or event
+   editing), the slot in the main window is now highlighted, using black
+   text on a cyan background, as being the "current" slot.
+   \index{new!current slot highlight}
+   (This is the same background used to indicate the original track in an
+    SMF 0 to SMF 1 conversion.)
+   This highlighting is merely a convenience, and a minor one at that.
+   It goes away when another slot is clicked, but it does not go away just
+   because the editor that was brought up is closed.  If more than one
+   sequence or event editor is brought up, only the slot
+   for the last one is highlighted.
 
    \itempar{Paste}{pattern!paste}
    Pastes a loop or pattern that was previously copied.

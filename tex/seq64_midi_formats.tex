@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-09-03
-% \update      2016-02-07
+% \update      2016-02-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -35,9 +35,15 @@
    Tempo and Time Signature events are also read, if present in the file.
    (This new feature also holds for SMF 1 songs.
    In addition, when saving a \textsl{Sequencer64} MIDI file, in non-legacy
-   mode, the Tempo and Time Signature events are also saved as MIDI events.
+   mode, the Tempo and Time Signature events are now also saved as MIDI events.
+   \index{new!time/tempo saved}
    This allows other sequencers to more thoroughly read a \textsl{Sequencer64}
    MIDI file.)
+   
+   This addition of Tempo can also fix imported tracks that don't have a
+   measure value (e.g. it has 0 instead of at least one measure) associated
+   with them; unfixed, these tracks have racing progress bars that don't
+   reflect the actually progresss through the track.
 
    Once the end-of-track is encountered for that sequence, one new empty
    sequence is created for each channel found in the original (main) sequence.

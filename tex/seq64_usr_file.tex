@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-27
+% \update      2016-02-14
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -311,11 +311,13 @@
    "INI" group marker \texttt{[user-interface-settings]}.
 
    It provides for a feature we will hopefully be able to complete some day:
-   the better specificiation of the appearance of the user interface.
-   Currently, these settings are not yet in force... we still have to figure
-   out a fair number of user interface items.
+   the absolute specificiation of the appearance of the user interface.
+   Currently, these settings are not yet fully in force... we still have to
+   figure out some of the user interface items.
 
    But, for now, this section shows some of the current values.
+   And there is plenty of room to change the appearance of
+   \textsl{Sequencer64} already!  Please try them and see what you like!
 
    \begin{verbatim}
 
@@ -415,6 +417,21 @@
       # 18 is about the height of the whole performance piano roll view.
 
       8      # perf_v_page_increment
+
+		# Specifies if the progress bar is colored black, or a different
+		# color.  Currently, the different color is hardwired, and is
+		# red.  The other colors are washed out compared to red. Set this
+		# value to 1 to enable the feature, 0 to disable it.
+
+		0      # progress_bar_colored
+
+		# Specifies if the progress bar is thicker.  The default is 1
+		# pixel.  The 'thick' value is 2 pixels.  (More than that is not
+		# useful.  Set this value to 1 to enable the feature, 0 to disable
+		# it.
+
+		1      # progress_bar_thick
+
    \end{verbatim}
 
 \subsection{Sequencer64 User / User MIDI Settings}
