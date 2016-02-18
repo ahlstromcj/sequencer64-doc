@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2015-11-27
+% \update      2016-02-17
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -28,14 +28,15 @@
 \end{figure}
 
    This dialog is quite complex.
-   For exposition, we break it into a first panel, a second panel, a
-   bottom panel, and a piano-roll/events section.
+   For exposition, we break it into some common actions, a first panel, a
+   second panel, a bottom panel, and a piano-roll/events section.
 
    \begin{enumber}
       \item \textbf{First Panel}
       \item \textbf{Second Panel}
       \item \textbf{Piano-Roll/Events Panel}
       \item \textbf{Bottom Panel}
+      \item \textbf{Common Actions}
    \end{enumber}
 
 \subsection{Pattern Editor / First Panel}
@@ -960,11 +961,56 @@
 \end{figure}
 
    The values provided are:
-   Free (record incoming volumes),
-   Fixed 8, Fixed 7, Fixed 6, Fixed 5, Fixed 4, Fixed 3,
-   Fixed 2, and Fixed 1.
+
+   \begin{itemize}
+      \item Free (record incoming volumes),
+      \item Fixed 8, Fixed 7, Fixed 6, Fixed 5, Fixed 4, Fixed 3,
+      \item Fixed 2, and Fixed 1.
+   \end{itemize}
+
    These values correspond to MIDI volume levels from 127 down to 16, as
    shown in the figure.
+
+\subsection{Pattern Editor / Common Actions}
+\label{subsec:seq64_pattern_editor_common}
+
+   This section is a catch-all for actions not described above.
+
+\subsubsection{Pattern Editor / Common Actions / Scrolling}
+\label{subsec:seq64_pattern_editor_scrolling}
+
+   Let us describe the actions that can be performed with a
+   scroll wheel, or with the scrolling features of multi-touch touchpads.
+   There are three major scrolling actions available when using mouse
+   scrolling:
+
+   \begin{itemize}
+      \item \textbf{Vertical Panning (Notes Panning)}
+         \index{scroll!normal scroll}
+         \index{scroll!vertical pan}
+         \index{scroll!notes pan}
+         \index{pan!seqroll notes}
+         Using the vertical scroll action of a mouse or touchpad moves the
+         view of the sequence/pattern notes up and down.
+      \item \textbf{Horizontal Panning (Timeline Panning)}
+         \index{scroll!shift scroll}
+         \index{scroll!horizontal pan}
+         \index{scroll!timeline pan}
+         \index{pan!seqroll time}
+         Holding the Shift key, and then using the vertical scroll action of a
+         mouse or touchpad moves the view of the sequence/pattern time forward
+         and backward.
+      \item \textbf{Horizontal Zoom (Timeline Zoom)}
+         \index{scroll!ctrl scroll}
+         \index{scroll!horizontal zoom}
+         \index{scroll!timeline zoom}
+         \index{zoom!seqroll time}
+         Holding the Ctrl key, and then using the vertical scroll action of a
+         mouse or touchpad zooms the view of the sequence/pattern time to
+         compress it or expand it.
+   \end{itemize}
+
+   The actions of scrolling are surprisingly smooth and fast.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
