@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-02-14
+% \update      2016-02-20
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -341,7 +341,9 @@
       # -1 = same as 0, draw a box one-pixel thick.
       # -2 and lower = draw a box, thicker and thicker.
       2       # grid_brackets
+   \end{verbatim}
 
+   \begin{verbatim}
       # Specifies the number of rows in the main window.
       # At present, only a value of 4 is supportable.
       # In the future, we hope to support an alternate value of 8.
@@ -366,9 +368,10 @@
 
       # Specifies the initial zoom for the piano rolls.  Ranges from 1.
       # to 32, and defaults to 2 unless changed here.
-
       2      # zoom
+   \end{verbatim}
 
+   \begin{verbatim}
       # Specifies if the key, scale, and background sequence are to be
       # applied to all sequences, or to individual sequences.  The
       # behavior of Seq24 was to apply them to all sequences.  But
@@ -383,7 +386,6 @@
       #     Settings are saved with each sequence.
       # 1 = Apply these settings globally (similar to seq24).
       #     Settings are saved in the global final section of the file.
-
       1      # global_seq_feature
 
       # Specifies if the old, console-style font, or the new anti-
@@ -392,7 +394,6 @@
       #
       # 0 = Use the old-style font.
       # 1 = Use the new-style font.
-
       1      # use_new_font
 
       # Specifies if the user-interface will support two song editor
@@ -401,38 +402,42 @@
       #
       # 0 = Allow only one song editor (performance editor).
       # 1 = Allow two song editors.
-
       1      # allow_two_perfedits
 
       # Specifies the number of 4-measure blocks for horizontal page
       # scrolling in the song editor.  The old default, 1, is a bit
       # small.  The new default is 4.  The legal range is 1 to 6, where
       # 6 is the width of the whole performance piano roll view.
-
       4      # perf_h_page_increment
 
       # Specifies the number of 1-track blocks for vertical page
       # scrolling in the song editor.  The old default, 1, is a bit
       # small.  The new default is 8.  The legal range is 1 to 18, where
       # 18 is about the height of the whole performance piano roll view.
-
       8      # perf_v_page_increment
-
-		# Specifies if the progress bar is colored black, or a different
-		# color.  Currently, the different color is hardwired, and is
-		# red.  The other colors are washed out compared to red. Set this
-		# value to 1 to enable the feature, 0 to disable it.
-
-		0      # progress_bar_colored
-
-		# Specifies if the progress bar is thicker.  The default is 1
-		# pixel.  The 'thick' value is 2 pixels.  (More than that is not
-		# useful.  Set this value to 1 to enable the feature, 0 to disable
-		# it.
-
-		1      # progress_bar_thick
-
    \end{verbatim}
+
+   \begin{verbatim}
+      # Specifies if the progress bar is colored black, or a different
+      # color.  Currently, the different color is hardwired, and is
+      # red.  The other colors are washed out compared to red. Set this
+      # value to 1 to enable the feature, 0 to disable it.
+      0      # progress_bar_colored
+
+      # Specifies if the progress bar is thicker.  The default is 1
+      # pixel.  The 'thick' value is 2 pixels.  (More than that is not
+      # useful.  Set this value to 1 to enable the feature, 0 to disable
+      # it.
+      1      # progress_bar_thick
+
+      # Specifies the window redraw rate for all windows that support
+      # that concept.  The default is 40 ms.  Some windows used 25 ms.
+      40     # window_redraw_rate
+   \end{verbatim}
+
+   Note that the window-redraw rate option is meant more for experimentation
+   than anything else.  It probably doesn't affect CPU usage much, but might
+   provide a smoother-running cursor on some systems.
 
 \subsection{Sequencer64 User / User MIDI Settings}
 \label{subsec:seq64_usr_file_user_midi_settings}
@@ -446,7 +451,6 @@
    global defaults for tempo, beats per measure, and so on.
 
    \begin{verbatim}
-      [user-instrument-4]
       [user-midi-settings]
 
       # These settings specify MIDI-specific value that might be

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-02-17
+% \update      2016-02-20
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -982,7 +982,7 @@
    Let us describe the actions that can be performed with a
    scroll wheel, or with the scrolling features of multi-touch touchpads.
    There are three major scrolling actions available when using mouse
-   scrolling:
+   scrolling, with the mouse hovering in the piano-roll area:
 
    \begin{itemize}
       \item \textbf{Vertical Panning (Notes Panning)}
@@ -1010,7 +1010,26 @@
          compress it or expand it.
    \end{itemize}
 
-   The actions of scrolling are surprisingly smooth and fast.
+   The actions of this scrolling are surprisingly smooth and fast.
+   If an event is selected in the piano-roll area or the (thin) event area,
+   then the scrolling action increases or decreases the value of the event.
+   In the case of a note, this increases or decreases the velocity of the note.
+   For all events, this increases or decreases the length of the vertical line
+   that represents the value of the event.
+
+\subsubsection{Pattern Editor / Common Actions / Close}
+\label{subsec:seq64_pattern_editor_close}
+
+   There is no \textbf{Close} button in the pattern editor.  One can use
+   window-manager actions, such as clicking on the X button of the window
+   frame, or pressing the exit key defined in the window manager.
+
+   \textsl{Sequencer64} also provides the Ctrl-W key to close the pattern
+   editor window.
+   \index{window!close}
+
+   However, be aware that this convention does not apply to the other
+   application windows of \textsl{Sequencer64}.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex

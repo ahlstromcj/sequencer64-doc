@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2016-02-07
+% \update      2016-02-20
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -220,6 +220,14 @@
         store MIDI bytes from a sequence.  This new implementation uses
         \texttt{std::vector} and does not use \texttt{pop\_back()} to retrieve
         the bytes for writing to a file.
+
+    \itempar{\texttt{SEQ64\_FOLLOW\_PROGRESS\_BAR}}{build!follow progress bar}
+        Already defined in the \texttt{seqroll} module.
+        It enables the automatic scrolling (horizontal paging) of the pattern
+        editor piano roll to keep the progress bar in view at all times.
+        This feature is useful for patterns that are longer than the span of
+        the pattern editor.  Also, such scrolling is a common feature of
+        software MIDI sequencers.
 
    \textbf{Obsolete}:  Still need to replicate the descriptions that follow
       in the proper sections.
