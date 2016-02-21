@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-02-15
+% \update      2016-02-21
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -58,11 +58,11 @@
 
    This document describes how to use \textsl{Sequencer64}
    \cite{sequencer64},
-   through version 0.9.9.17, dated approximately through Feburary, 2016.
+   through version 0.9.9.18, dated approximately through Feburary, 2016.
    The biggest new work has been getting the JACK support to work properly,
    in the "fixups" branch, now merged into "master".
    Some additional work has been added to the \texttt{fixups} branch for
-   pending version 0.9.9.18, and some of that is also documented here.
+   version 0.9.9.18, and that work is also documented here.
 
    We thought we had broken JACK support in our refactoring of the program, but
    it turns out there was a long-standing bug in \textsl{Seq24}, where the JACK
@@ -76,7 +76,7 @@
    allows the klick metronome application to be driven by
    \textsl{Sequencer64}.
 
-   So, overall, JACK and clocking are improved over \textsl{Seq24} now.
+   So, overall, JACK and clocking are notably improved over \textsl{Seq24}.
 
 \subsection{Sequencer64: What?}
 \label{subsec:what_is_sequencer64}
@@ -191,6 +191,9 @@
       \item It is now possible to save the scale, key, and background sequence
          settings to the \textsl{Sequencer64} MIDI file, either globally or
          per-sequence.
+      \item In the sequence/pattern editor, the window now scrolls to keep up
+         with the progress bar for sequences that are longer than the width of
+         the sequence editor window.
       \item Additional mouse and keystroke support in the pattern and song
          editor windows:
       \begin{itemize}
@@ -207,21 +210,29 @@
          adding more settings to it as time goes on.  It currently offers the
          long-standing feature of customizable buss, instrument, and controller
          information, plus some customizations of the user-interface, such as
-         font and display of the main window's pattern grid.
+         font and display of the main window's pattern grid.  It also supports
+         colored and thicker progress bars and modification of the default 40
+         millisecond window redraw rate.
       \item Support for mapping MIDI events to a single MIDI buss for testing
          or simple use cases.
       \item On-going support for handling PPQN values other than the
-         default value of 192.  Still not complete.
+         default value of 192.  Still not complete, but very use-able.
       \item Small improvements in appearance:
       \begin{itemize}
          \item Support for showing empty sequences (i.e. having only meta
             events) in a highlight color.
+         \item Sequences that are shorter than a quarter note are now padded to
+            one full measure, for smoother scrolling on the patterns panel.
          \item Modification of the colors of the scale and background sequence
             in the sequence editor to make it easier to see them all.
-         \item A new font, enabled at build time, that is bolder and has a
+         \item The last sequence brought up for editing is highlighted in the
+            patterns panel.
+         \item A new font, enabled at run time, that is bolder and has a
             more modern, anti-aliased look.
          \item Clean, solid lines to replace the dotted lines in the piano-roll
             grids.
+         \item Additional zoom values have been added to support the display
+            of high PPQN sequences.
       \end{itemize}
       \item Consolidated various patches in forks of the \textsl{Seq24}
          project found by searching the web.  Fixes to bugs found while

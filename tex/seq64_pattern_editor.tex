@@ -82,9 +82,21 @@
    The whole time signature is display at the bottom center of a pattern
    box/slot.
 
-   \itempar{Pattern Length}{pattern editor!progress}
+   \itempar{Pattern Length}{pattern editor!length}
    Sets the length of the current pattern, in measures.
    The possible values range from 1 to 16, then 32, and 64.
+
+   Note that bringing up a short sequence (one less than one measure or bar in
+   length) in the pattern editor will adjust the sequence to pad it to the
+   length of one measure.  For example, a sequence contain just one program
+   change will be padded to the size of a full measure.
+   This adjustment makes it show progress more smoothly in the main window when
+   the sequence is playing.
+   \index{pattern editor!progress bar}
+   And \textsl{Sequencer64} will, when it reads such a short sequence
+   from a MIDI file (whether foreign or native to \textsl{Sequencer64}),
+   pre-pad it to the length of a measure, so that it will always show smooth
+   progress.
 
    \textsl{(It would sure be nice to have a value that represents
    "indefinite", so that the loop or pattern would be more like a track,
