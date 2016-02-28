@@ -31,15 +31,15 @@
    manages the configuration, and opens the pattern or song editors.
 
    \index{live mode}
-   \textsl{Obsolete behavior}:
-   When the Patterns Panel has the application focus, it puts
+   When the Patterns Panel has the application focus, and \textsl{Sequencer64}
+   is \textsl{not} running in JACK mode, it puts
    \textsl{Sequencer64} in "live mode".  The musician can
    control the playback and muting/unmuting of the song, while it is
    playing, from within this window.
 
-   Instead of the behavior described above, live versus song mode is controlled
-   by the JACK start mode option.  Do we want to make the old behavior a new
-   option?
+   If \textsl{Sequencer64} is using JACK transport, then, Instead of the
+   behavior described above, live versus song mode is controlled by the JACK
+   start mode option.  option?
 
    For exposition, we break the Patterns Panel
    into a menu bar, a top panel, a pattern panel, and a
@@ -86,9 +86,8 @@
    \texttt{[user-interface-settings]} section.
    See the \texttt{progress\_bar\_colored} item to 1 to enable this item.
 
-   Even if not enabled, the currently-selected pattern will show the bar as
-   red.  (We may change this to a different color at some point, or try to
-   highlight the pattern box in dark cyan.)
+   Even if not enabled, the currently-selected pattern will show as highlight
+   in dark-cyan.
 
    \itempar{Mute Group Learn}{pattern!mute group learn}
    \index{"L" button}
