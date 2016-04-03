@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-02-21
+% \update      2016-04-03
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -85,11 +85,14 @@
    red via a "user" configuration file entry in the 
    \texttt{[user-interface-settings]} section.
    See the \texttt{progress\_bar\_colored} item to 1 to enable this item.
+   There is also a \texttt{progress\_bar\_thick} item to enable a thicker
+   progress bar, for better visibility.
 
-   Even if not enabled, the currently-selected pattern will show as highlight
-   in dark-cyan.
+%  Even if not enabled, the currently-selected pattern will show as highlighted
+%  in dark-cyan.
 
    \itempar{Mute Group Learn}{pattern!mute group learn}
+   \index{L button}
    \index{"L" button}
    This button is also known as the "L" button.
    Click this button, and then press a mute-group key
@@ -312,6 +315,11 @@
          (unmuted), and will play if playback is initiated in the pattern
          \index{live mode}
          window in live mode.
+         An item is armed/disarmed by left-clicking on it.
+         \index{shift left click}
+         If the Shift key is held while left-clicking on a pattern, then
+         the armed/unarmed state of every other active pattern is toggled.
+         This feature is useful for isolating a single track or pattern.
       \item \textbf{Queued}.
          That same pattern also shows that it is queued, which means that it
          will start playing when the pattern next begins again.
@@ -668,7 +676,8 @@
    \begin{enumber}
       \item \textbf{Stop}
       \item \textbf{Play}
-      \item \textbf{bpm}
+      \item \textbf{Pause} (new)
+      \item \textbf{BPM}
       \item \textbf{Name}
       \item \textbf{Set}
       \item \textbf{Toggle Song Editor}
@@ -689,7 +698,23 @@
    \index{keys!space (play)}
    The keystroke for starting playback is the \texttt{Space} character.
 
-   \itempar{bpm}{pattern!bpm}
+   \itempar{Pause}{pattern!Pause}
+   \index{new!pause}
+   A new feature is that the Play button can be used as a Pause button.
+   When the Play button is clicked, the button icon changes to a Pause icon:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=1.0]{new/stop_pause_buttons.png}
+   \caption{Patterns Panel, Pause Button}
+   \label{fig:pattern_window_pause_button}
+\end{figure}
+
+   Note that a corresponding Pause key (by default, the period) has also been
+   defined.  The pause feature can be removed by rebuilding the application
+   after configuring with the \texttt{--disable-pause} option.
+
+   \itempar{BPM}{pattern!BPM}
    The spin widget adjusts the "Beats Per Minute" or BPM value.  The
    range of this field is from 20 bpm to 500 bpm, with a default value of
    120 bpm.
@@ -698,6 +723,9 @@
    However, the following keys can also modify the BPM in small increments:
    \index{keys!semicolon} The \texttt{semicolon} reduces the BPM;
    \index{keys!apostrophe} The \texttt{apostrophe} increases the BPM.
+   Also, if one right-clicks on the Up button, the BPM advances to its largest
+   supported value, and if one right-clicks on the Down button, the BPM
+   advances to its lowest value.  The legal range is from 1 to 500 BPM.
 
    \itempar{Name}{pattern!set name}
    Each of the 32 available screen sets can be given a name by entering it

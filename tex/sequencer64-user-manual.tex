@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-02-28
+% \update      2016-04-03
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual}
+\title{Sequencer64 User Manual 0.9.10.1-rc}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -58,7 +58,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.70]{Sequencer64-0_9_9_12.png}
+   \includegraphics[scale=0.75]{Sequencer64-0_9_10_1.png}
 \end{figure}
 
 \clearpage                             % moves Contents to next page
@@ -67,7 +67,7 @@
 \listoffigures                         % print the list of figures
 \listoftables                          % print the list of tables
 
-% Change the paragraph style to remove indenting and put a line between each
+% Changes the paragraph style to remove indenting and put a line between each
 % paragraph.  This could be moved up into the preamble, but then would
 % affect the spacing of the TOC and LOF, LOT noted above.
 
@@ -79,11 +79,13 @@
 
    This document describes how to use \textsl{Sequencer64}
    \cite{sequencer64},
-   through version 0.9.9.18, dated approximately through Feburary, 2016.
-   The biggest new work has been getting the JACK support to work properly,
-   in the "fixups" branch, now merged into "master".
+   through version 0.9.9.18, dated approximately through Feburary, 2016,
+   and now through 0.9.10.1, April 2016.
+   The lastest work has been getting the JACK support to work properly,
+   in the \texttt{fixups} branch, now merged into \texttt{master}.
    Some additional work has been added to the \texttt{fixups} branch for
-   version 0.9.9.18, and that work is also documented here.
+   version 0.9.9.18 and for 0.9.10.1 (pending),
+   and that work is also documented here.
 
    We thought we had broken JACK support in our refactoring of the program, but
    it turns out there was a long-standing bug in \textsl{Seq24}, where the JACK
@@ -91,29 +93,47 @@
    good enough on most computers to allow the JACK support to set itself up and
    run.  Anyway, this bug had us hustling for quite a few days.  Not too
    mention some other tricky bugs revolving around MIDI clocking.
-
    Also made some fixes to JACK Master mode, replacing the existing timebase
-   callback with code adopted from the SooperLooper project.  This code
-   allows the klick metronome application to be driven by
+   callback with code adopted from the \textsl{SooperLooper} project.
+   This code allows the \textsl{klick} metronome application to be driven by
    \textsl{Sequencer64}.
-
    So, overall, JACK and clocking are notably improved over \textsl{Seq24}.
+
+   Version 0.9.10.1 adds a few features to make song editing slightly more
+   convenient for the authoer, who uses ALSA for basic work.
+   There is now a Pause button and a configuration Pause
+   keystroke, which defaults to a period (".").
+   There are still a few quirks to the Pause feature...
+   are they bugs of features?
+   Also, now a Shift-Left-Click on a pattern slot (pattern editor, main window)
+   or on a pattern's name or M button (song editor) toggles the armed or
+   mute status of all of the \textsl{other} active patterns.
+   We also fixed a bug where the space-bar and the main window's Stop button
+   interacted badly, and where the timing pills would not appear until the song
+   started.  Some more optimizations have been done.
+
+   In the future, we hope to make a command-line/headless version of
+   \textsl{Sequencer}, an LV2 plugin to run it in modern DAW applications,
+   and a scripting language and plugin support for it.
 
 \subsection{Sequencer64: What?}
 \label{subsec:what_is_sequencer64}
 
-   \textsl{Sequencer64} is an continuation of \textsl{Sequencer24}, 
+   \textsl{Sequencer64} is an continuation of
+   \textsl{Sequencer24} (now obsolete), 
    which itself is a continuation of \textsl{Seq24},
    a live-looping sequencer with an interface more like a hardware sequencer
    than the typical software MIDI sequencer.
    \textsl{Sequencer64} has many updates and improvements, and a modestly
-   new look, so that a new manual is now a necessity.
+   new look, so that a new manual is a necessity.
+   We lengthened the name because \textsl{Seq64} is actually a sequencer
+   project for the N64 game system.
 
    \textsl{Seq24} was, a few years back, a very active project, with a
    number of contributors, who have created patches, additional
    functionality, and even ports to Windows.
-   We have been assiduous about searching for all of these updates, and
-   incorporating them into \textsl{Sequencer64} where feasible.
+   We searched assiduously for all of these updates, and
+   incorporated them into \textsl{Sequencer64} where feasible.
    There are still some things to be done, including a port to
    Windows/Portmidi (but that is a low priority).
 
@@ -151,9 +171,9 @@
 \subsection{Sequencer64: Why?}
 \label{subsec:introduction_seq64_vs_others}
 
-   The first reason is consolidation of all the features and fixes that
-   \textsl{Seq24} has accumulated in various forks over the years.
-
+   The first reason to reboot \textsl{Seq24}
+   is consolidation of many of the features and fixes that
+   it has accumulated in various forks over the years.
    Also, although "feature-complete", \textsl{Seq24} could use a few more
    features, such as "infinite patterns" (i.e. "tracks"), support for more
    session managers, better annunciation, uniformity, even more use of
@@ -162,7 +182,7 @@
    for the "user" configuration file, and a way to edit parts of the MIDI file
    textually.
 
-   The original author:
+   From the original author:
 
    \begin{quotation}
       \textsl{Seq24} is a real-time MIDI sequencer. It was created to
@@ -183,9 +203,9 @@
    (And it is alive!  A new version, 0.9.3, has come out from the LaunchPad
    group!  It corrects a problem with MIDI Clock drift).
    Taking advantage of Rob's generosity,
-   we've created a continuation, a refactoring, and an improvement (we hope) of
-   \textsl{Seq24}.  It preserves, we hope, the lean nature of \textsl{Seq24},
-   while adding a few features we've found useful, making it the "vi of
+   we've created a reboot, a refactoring, an improvement (we hope) of
+   \textsl{Seq24}.  It preserves (we hope) the lean nature of \textsl{Seq24},
+   while adding a few features we've found useful, to make it the "vi of
    sequencers".
    
    Always remember that, without \textsl{Seq24} and its authors,
@@ -226,6 +246,8 @@
             (painting) mode enabled after releasing the right mouse button,
             for some of the modern crappy touchpads shipped with
             "gamer" laptops.
+         \item Shift-Left-Click on a pattern slot, pattern name, or M (mute)
+            area now toggles the status of all of the other active slots.
       \end{itemize}
       \item The "user" configuration is now written to disk, and we will be
          adding more settings to it as time goes on.  It currently offers the
@@ -261,6 +283,8 @@
          detail in the project's ROADMAP file.
       \item More musical scales (harmonic minor, melodic minor, and
          whole tone scales) have been added.
+      \item A pause feature has been added to ALSA-mode playback.  It works,
+         but still has some minor quirks.
       \item Internal improvements.
       \begin{itemize}
          \item Provided a new, more MIDI-compliant output format for the MIDI

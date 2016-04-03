@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-03-15
+% \update      2016-04-03
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -68,6 +68,27 @@
    \caption{Song Editor Window}
    \label{fig:song_editor_window}
 \end{figure}
+
+   \textbf{New:}
+   There are some new features for the song editor as of the
+   pending version 0.9.10.1, as seen in the following
+   figure:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/song-editor-0_9_10_1.png}
+   \caption{Song Editor Window, New Features}
+   \label{fig:song_editor_window_new_features}
+\end{figure}
+
+   This figure illustrates the following new features:
+   the toggling of the mute state of multiple patterns by holding the
+   \index{shift left click}
+   Shift key while left-clicking on the M or a pattern name;
+   \index{pause}
+   the new Pause button functionality;
+   \index{progress bar}
+   and the optional coloring and thickening of the progress bar.
 
    \index{new!empty pattern}
    \textbf{New:} 
@@ -259,6 +280,13 @@
          \index{song editor!mute indicator}
          The letter M is in a black box if the track/pattern is muted, and a
          white box if it is unmuted.
+         Left-clicking on the "M" (or the name of the pattern)
+         will mute/unmute the pattern.
+         \index{shift left click}
+         If the Shift key is held while left-clicking on the M or the pattern
+         name, then
+         the mute/unmute state of every other active pattern is toggled.
+         This feature is useful for isolating a single track or pattern.
       \item \textbf{Empty Track}.
          Completely empty tracks (no track events or meta events)
          are indicated by a dark-gray filling in the pattern column.

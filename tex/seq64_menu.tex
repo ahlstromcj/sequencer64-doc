@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-02-07
+% \update      2016-04-03
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -426,6 +426,26 @@
    dialog, just the categories.  Some items are discussed in other parts of
    this manual.
 
+   \textbf{New:}
+   \index{new!pause}
+   \index{pause}
+   Also, if the application has been built with the pause option, an
+   additional key definition is shown, as in the following figure:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/keyboard-options-0_9_10_1.png}
+   \caption{File / Options / Keyboard, with Pause}
+   \label{fig:seq64_menu_file_options_keyboard_pause}
+\end{figure}
+
+   By default, the Pause key is the period (".").  An old version of
+   the "rc" file is automatically fixed to include this new option.
+   The pause feature can be removed by rebuilding the application
+   after configuring with the \texttt{--disable-pause} option.
+
+   To continue with a listing of the keyboard options:
+
    \begin{enumber}
       \item \textbf{Show key labels on sequences}
       \item \textbf{Show sequence numbers on sequences}
@@ -474,6 +494,8 @@
          Key: \index{keys!space} \textbf{space}.
       \item \textbf{Stop}.
          Key: \index{keys!esc} \textbf{Escape}.
+      \item \textbf{Pause}. (new)
+         Key: \index{keys!period} \textbf{period}.
       \item \textbf{Snapshot 1}.
          Key: \index{keys!alt-l} \textbf{Alt\_L}.
       \item \textbf{Snapshot 2}.

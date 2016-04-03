@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2016-02-20
+% \update      2016-04-03
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -24,7 +24,7 @@
 \subsection{INSTALL}
 \label{subsec:seq64_build_install}
 
-   There are many build options.  Some of modifiable via the normal GNU
+   There are many build options.  Some are modifiable via the normal GNU
    \texttt{configure} script method.  Many more are modifiable by
    editing the source code to \textbf{define} and \textbf{undefine} certain
    macros.  If you don't care about options, start here.  If you want to
@@ -39,8 +39,8 @@
    \textbf{Steps:}
 
    \begin{enumber}
-      \item Preload any DEPENDENCIES, as listed in the last section
-         of this document.
+      \item Preload any dependencies, as listed in
+         \sectionref{subsec:seq64_build_dependencies}.
           However, if some are missing, the configure script will tell you,
           or, at worst, a build error will tell you.
       \item Check-out the branch you want; normally you will be happy to
@@ -87,6 +87,8 @@
    $ ./configure --enable-silent-rules
 \end{verbatim}
 
+   It results in abbreviated out, which makes it easier to see
+   any warnings that might pop up
    This anti-verbosity option can be overridden at "make" time:
 
 \begin{verbatim}
@@ -119,6 +121,7 @@
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{\texttt{--disable-highlight}}{build!disable highlight}
+        \index{SEQ64\_HIGHLIGHT\_EMPTY\_SEQS}
         This option undefines the \texttt{SEQ64\_HIGHLIGHT\_EMPTY\_SEQS}
         macro, which is otherwise defined by default.  If defined, the
         application will
@@ -128,6 +131,7 @@
         played.
 
     \itempar{\texttt{--disable-lash}}{build!disable lash}
+        \index{SEQ64\_LASH\_SUPPORT}
         This option undefines the \texttt{SEQ64\_LASH\_SUPPORT} macro, which is
         otherwise defined by default.  Even if this option is left defined,
         however, \textsl{Sequencer64} will still not use LASH support unless
@@ -137,6 +141,7 @@
         \texttt{~/.config/sequencer64/sequencer64.rc}.
 
     \itempar{\texttt{--disable-jack}}{build!disable jack}
+        \index{SEQ64\_JACK\_SUPPORT}
         This option undefines the \texttt{SEQ64\_JACK\_SUPPORT} macro, which is
         otherwise defined by default.  Even if this option is left defined,
         however, \textsl{Sequencer64} will still not use JACK support unless
@@ -145,10 +150,19 @@
         \texttt{~/.config/sequencer64/sequencer64.rc}.
 
     \itempar{\texttt{--disable-jack-session}}{build!disable jack session}
+        \index{SEQ64\_JACK\_SESSION}
         This option undefines the \texttt{SEQ64\_JACK\_SESSION} macro, which is
         defined if JACK support is defined, and the jack/session.h file is
         found.  Again, this option, if left defined, can be affected by
         command-line options and options in the "rc" configuration file.
+
+    \itempar{\texttt{--disable-pause}}{build!disable pause support}
+        \index{SEQ64\_PAUSE\_SUPPORT}
+        This option undefines the \texttt{SEQ64\_PAUSE\_SUPPORT} macro,
+        which is defined by default, and provides support for toggling between
+        a Play button and a Pause button, for actually pausing playback
+        in Live mode, and for a new Pause key, which defaults to a
+        period (".").
 
     To summarize, these options undefine the following build macros:
 
@@ -157,19 +171,19 @@
         \item \texttt{SEQ64\_LASH\_SUPPORT}
         \item \texttt{SEQ64\_JACK\_SUPPORT}
         \item \texttt{SEQ64\_JACK\_SESSION}
+        \item \texttt{SEQ64\_PAUSE\_SUPPORT}
       \end{itemize}
 
 \subsubsection{Manually-defined Macros in the Code}
 \label{subsubsec:seq64_build_macros}
 
    As we have explored what \textsl{Seq24} does while we add improvements to
-   \textsl{Sequencer64}, we've found a lot of things that might change
-   the code for the worse in some people's minds.  So we've been careful to
-   mark those changes with macros.  And sometimes we tried a change, but left
-   it disabled.
-
-   You are free to look at those macros, modify them, and build the source code
-   to your preferences.
+   \textsl{Sequencer64}, we've found a lot of things that might change the code
+   for the worse in some people's minds.  So we've been careful to mark those
+   changes with macros.  And sometimes we tried a change, but left it
+   disabled.  You are free to look at those macros, modify them, and build
+   the source code to your preferences.  If you do not see a macro described
+   below, it means we need to catch up with our documentation.
 
    The following items are not yet part of the configure script, but can
    be edited manually to achieve the desired settings:
@@ -244,7 +258,7 @@
 
     \itempar{\texttt{SEQ64\_USE\_WHITE\_GRID}}{build!white grid}
         \textbf{This item is no longer defined}.
-        Instead, the option is now part of the "rc" configuration file.  This
+        Instead, the option is now part of the "user" configuration file.  This
         description will be moved to the correct section eventually.
 
         This configuration item causes the pattern slots/boxes to be colored
@@ -252,18 +266,11 @@
 
     \itempar{\texttt{SEQ64\_USE\_BRACKET\_GRID}}{build!normal grid}
         \textbf{This item is no longer defined}.
-        Instead, the option is now part of the "rc" configuration file.  This
+        Instead, the option is now part of the "user" configuration file.  This
         description will be moved to the correct section eventually.
-
         This configuration box that outlines the pattern slots/boxes is
         painted over to convert the box to look like a pair of brackets.
         By default, this value is defined (in the \texttt{mainwid} module).
-
-        Defining both of the macros (\texttt{USE\_GREY\_GRID} and
-        \texttt{USE\_BRACKET\_GRID}) gives the normal Seq24 look for the Pattern
-        Window.  Eventually we might move these definitions into the configure
-        script, for easier
-        modification.
 
     \itempar{\texttt{SEQ64\_SEQNUMBER\_ON\_GRID}}{build!grid numbers}
         \textbf{This item is no longer defined}.
@@ -368,11 +375,6 @@
            \item \texttt{optionsfile}
            \item \texttt{user\_settings}
         \end{itemize}
-
-    \itempar{\texttt{USE\_SEQ42\_PATCHES}}{build!seq42}
-        This macro, in \texttt{globals.h}, currently merely marks a couple
-        places where we found potentially useful code in the seq42 fork of
-        seq24.
 
 \subsection{Sequencer64 Build Dependencies}
 \label{subsec:seq64_build_dependencies}
