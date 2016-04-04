@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-01-28
+% \update      2016-04-04
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -117,6 +117,10 @@
    \optionpar{-a}{--auto-alsa-ports}
       \textsl{Sequencer64} will attach ALSA ports.
       This variant is useful for overriding the rc configuration file.
+
+   \optionpar{-r}{--reveal-alsa-ports}
+      \textsl{Sequencer64} will show the names of the ALSA port that the system
+      defines, rather than the names defined in the 'user' configuration file.
 
    \optionpar{-A}{--alsa}
       \textsl{Sequencer64} will not run the JACK support, even if specified

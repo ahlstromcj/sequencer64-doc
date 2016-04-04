@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-02-20
+% \update      2016-04-04
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -203,6 +203,17 @@
       0 8                                       # channel and instrument
       # The rest default to -1 - General MIDI
    \end{verbatim}
+
+   Please note that, as of version 0.9.10.1, these section are read from the
+   "user" configuration file only if
+   the manual-alsa-ports option is on, which is necessary if one
+   wants to use \textsl{Sequencer64} with JACK.
+   The \texttt{user-midi-bus-definitions} and \texttt{user-midi-bus-N} sections
+   are misleading if one wants to have access to the
+   actual ALSA ports that exist on the system.
+   Therefore, if the reveal-alsa-ports option is turned on, then the
+   definitions in the "user" configuration file are \textsl{not} read from that
+   file.
 
 \subsection{Sequencer64 User / MIDI Instrument Definitions}
 \label{subsec:seq64_usr_file_midi_instrument_definitions}

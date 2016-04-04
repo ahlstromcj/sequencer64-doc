@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-01-28
+% \update      2016-04-04
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -40,8 +40,7 @@
 
    \textsl{Sequencer64} will overwrite the \texttt{sequencer6.4rc} file upon
    quitting.  One should therefore quit \textsl{Sequencer64} before doing
-   manual modifications to the
-   \texttt{sequencer64.rc} file.
+   manual modifications to the \texttt{sequencer64.rc} file.
 
 \subsection{Sequencer64 / MIDI Control Section}
 \label{subsec:seq64_rc_file_midi_control}
@@ -353,7 +352,7 @@
 
 That sample would be written one had started up \textsl{Sequencer64} in
 manual-alsa-mode.  On our system, where we have Timidity running, and
-erroneously, have also specified 3 MIDI busses that we do not have, in the
+erroneously have also specified 3 MIDI busses that we do not have, in the
 \texttt{sequencer64.usr} file:
 
    \begin{verbatim}
@@ -584,6 +583,31 @@ erroneously, have also specified 3 MIDI busses that we do not have, in the
    \index{jack!manual-alsa-ports}
    Turning on the manual-alsa-ports option is necessary if one
    wants to use \textsl{Sequencer64} with JACK.
+   It will create ports as per the settings in the "user" configuration file's
+   \texttt{user-midi-bus-definitions} and \texttt{user-midi-bus-N} sections.
+   These definitions can be used by JACK for connection, and these definitions
+   can be used to specifically rename the ports that exist in the system.
+   However, this option is misleading if one wants to have access to the
+   actual ALSA ports that exist on the system.
+   The next option gets around that issue.
+
+   \index{[reveal-alsa-ports]}
+   \begin{verbatim}
+      # Set to 1 to have sequencer64 ignore any system port names
+      # declared in the 'user' configuration file.  Use this option if
+      # you want to be able to see the port names as detected by ALSA.
+
+      [reveal-alsa-ports]
+      1   # flag for reveal ALSA ports
+   \end{verbatim}
+
+   \index{jack!reveal-alsa-ports}
+   Turning on the reveal-alsa-ports option is necessary if one
+   wants to see the actual ALSA port names defined by the system.
+   It will ignore the settings in the "user" configuration file's
+   \texttt{user-midi-bus-definitions} and \texttt{user-midi-bus-N} sections.
+   If this option is turned on, the definitions in the
+   "user" configuration file are \textsl{not} read from that file.
 
    \index{[interaction-method]}
    This configuration item is the same as the 
