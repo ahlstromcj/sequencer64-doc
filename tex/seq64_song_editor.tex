@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-04-03
+% \update      2016-04-05
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -21,18 +21,17 @@
    into a complete tune.  It works by showing one row per
    pattern/loop/sequence in numbered columns, and the placement of each
    pattern at various musical bars in the song.
+   \index{performance}
+   In \textsl{Sequencer64} parlance, the Song Editor creates a
+   \textsl{performance}.
+   \index{song mode}
 
    \textbf{New:}
    \index{new!dual song editors}
    As an option in the \texttt{[user-interface]}
    section of the "user" configuration file, two song editor windows can be
-   brought onscreen, as a convenience for arrange projects with a large number
-   of sequences.
-
-   \index{performance}
-   In \textsl{Sequencer64} parlance, the Song Editor creates a
-   \textsl{performance}.
-   \index{song mode}
+   brought onscreen, as a convenience for arranging projects with a large
+   number of sequences/patterns.
 
    \textsl{Obsolete behavior}:
    It also provides the "song mode" of \textsl{Sequencert64},
@@ -99,7 +98,7 @@
    information tracks.
    
    The Song Editor is not too complex, but for exposition, we break it into
-   the top panel and the rest of the window.
+   the top panel, the bottom panel, and the rest of the window.
 
 \subsection{Song Editor / Top Panel}
 \label{subsec:seq64_song_editor_top}
@@ -509,6 +508,21 @@
    "x" key while in the performance editor, to "x-scape" from the movement mode.
 
    We're still working on refining that feature.
+
+\subsection{Song Editor / Bottom Panel}
+\label{subsec:seq64_song_editor_bottom}
+
+   The bottom panel is simple, consisting of a stock horizontal scroll bar
+   and a small button, called the \textbf{Grow} button.
+
+   \index{grow button}
+   \index{song editor!grow}
+   The \textbf{Grow} button adds to the number of measures that exist
+   in the song editor.    The visual effect is very subtle, resulting only
+   in a small change in the thumb of the horizontal scroll-bar, unless one
+   is at the right end of the piano roll.  Then, one can see the added
+   measures.  Usually about 128 at a time are added, but this depends on the
+   value of PPQN in force.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
