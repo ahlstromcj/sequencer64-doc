@@ -40,15 +40,27 @@
    \end{verbatim}
 
    \textsl{Sequencer64} accepts the following options, plus an optional name of
-   a MIDI file.
+   a MIDI file.  Please note that many of the options are 'sticky'.  If they
+   are used on the command-line, their settings are saved to the configuration
+   files when \textsl{Sequencer64} exits.
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \optionpar{-h}{--help}
-      Display a list of all command-line options.
+      Display a list of all command-line options, then exit.
 
    \optionpar{-v}{--version}
-      Display the program version.
+      Display the program version, then exit.
+
+   \optionpar{-H}{--home [directory]}
+      \textbf{New:}
+      \index{new!home directory}
+      Change the "home" directory from \texttt{.contrib/sequencer64}
+      (always relative to \texttt{\$HOME}.
+      This option causes the \texttt{sequencer64.rc}
+      and \texttt{sequencer64.usr} files to be loaded from or
+      saved to a different directory.
+      Format: \texttt{--home dirname}.
 
    \optionpar{-l}{--legacy}
       \textbf{New:}
@@ -66,15 +78,16 @@
       \texttt{seq24} command (one can create a soft link to the sequencer64
       executable to make that happen).
 
-   \optionpar{-b}{--bus}
+   \optionpar{-b}{--bus [buss]}
       \textbf{New:}
       \index{new!buss number override}
       Supports modifying the buss number on all tracks when a MIDI file is
       read.  All tracks are loaded with this buss-number override.  This
       feature is useful for testing, making it easy to map the MIDI file onto
       the system's current hardware/software synthesizer setup.
+      Format: \texttt{--bus bussnumber}.
 
-   \optionpar{-q}{--ppqn}
+   \optionpar{-q}{--ppqn [ppqn]}
       \textbf{New:}
       \index{new!ppqn override}
       Supports modifying the PPQN value of Sequencer64, which is currently
@@ -86,6 +99,7 @@
       saved, and load with the new PPQN value. 
       But use the feature carefully for now, and save your work.
       We'll have more to say on this topic in the future.
+      Format: \texttt{--ppqn ppqnnumber}.
 
    \optionpar{-L}{--lash}
       \textbf{New:}
@@ -119,8 +133,15 @@
       This variant is useful for overriding the rc configuration file.
 
    \optionpar{-r}{--reveal-alsa-ports}
+      \textbf{New:}
+      \index{new!reveal ALSA ports}
       \textsl{Sequencer64} will show the names of the ALSA port that the system
       defines, rather than the names defined in the 'user' configuration file.
+
+   \optionpar{-R}{--hide-alsa-ports}
+      \index{new!hide ALSA ports}
+      \textsl{Sequencer64} will show the names of the ALSA port that the 'user'
+      configuration file define, rather than the names defined by ALSA.
 
    \optionpar{-A}{--alsa}
       \textsl{Sequencer64} will not run the JACK support, even if specified
