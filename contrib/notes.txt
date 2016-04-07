@@ -278,3 +278,65 @@ ready to go.
 
 (There is a whole lot more setup discussed at the Ubuntu link.
 
+
+=======================================
+ KEYSTROKE AND MOUSE ACTIONS
+=======================================
+
+Doesn't cover the "fruity interaction" modes at all.  Any volunteers?
+
+mainwnd/mainwid:
+
+   Keyboard tab (covers a lot)
+
+                        Normal         Double         Shift          Ctrl                 Alt         Drag
+
+      Left-click        Mute/Unmute    New/Edit       Toggle Other   Edit                 N/A         Move Pattern
+      Right-click       Edit Menu      N/A            Edit Menu      Edit & Edit Menu     N/A
+
+perfedit:
+perfroll:
+
+                        Normal         Double         Shift          Ctrl                 Alt         Drag
+
+      Del               Cut Trigger
+      c                                                              Copy
+      v                                                              Paste
+      x                 Escape Move                                  Cut
+      z                                                              Undo
+      Z
+      0
+      Left Arrow
+      Right Arrow
+      Up Arrow
+      Down Arrow
+      Left-click        
+      Middle-click      
+      Right-click       
+      Scroll up         Scroll Up      N/A            Scroll Left    (Normal) 
+      Scroll down       Scroll Down    N/A            Scroll Right   (Normal) 
+
+      Also handles start/stop/pause keys.
+
+      All scrolling is done by the internal horizontal and vertical step increments.
+
+perftime:
+
+                        Normal         Double         Shift          Ctrl                 Alt         Drag
+
+      l                 Move L [1]
+      r                 Move R [1]
+      x                 Escape Move                                  Cut
+      Left-click        Set L [2]
+      Middle-click      TODO  [2]
+      Right-click       Set R [2]
+
+[1] Activates movement of this marker using the left and right arrow keys.  Movement is in increments of the
+    snap value.  This mode is exited by pressing the 'x' key.  Also see note [2].
+[2] Controlled in the perftime section.
+
+
+
+
+
+
