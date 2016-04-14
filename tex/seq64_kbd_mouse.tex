@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-04-07
-% \update      2016-04-08
+% \update      2016-04-09
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -232,9 +232,9 @@
             ---            & ---             & ---                \\
          Z                 & Zoom In         & ---                &
             ---            & Undo?           & ---                \\
-         Left-Arrow        & Move Earlier    & ---                &
+         Left-Arrow        & Move Earlier [1] & ---               &
             ---            & ---             & ---                \\
-         Right-Arrow       & Move Later      & ---                &
+         Right-Arrow       & Move Later [1]  & ---                &
             ---            & ---             & ---                \\
          Up-Arrow          & Increase Pitch  & ---                &
             ---            & ---             & ---                \\
@@ -252,6 +252,16 @@
             Scroll Right   & Zoom Time Out   & ---                \\
       \end{tabular}
    \end{table}
+
+   Notes:
+
+      \begin{enumerate}
+         \item Once selected (and thus rendered in grey), a pattern segment
+            can be moved by the mouse.  To move it using the left or right
+            arrow keys, the paint mode must be entered, but only via the "p"
+            key -- the right mouse button deselects the greyed pattern.
+            Too tricky, we might try fixing it later.
+      \end{enumerate}
 
    The new features of this window section for \textsl{Sequencer64},
    as noted in

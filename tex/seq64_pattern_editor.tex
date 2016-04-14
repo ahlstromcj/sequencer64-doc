@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-04-07
+% \update      2016-04-10
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -815,17 +815,36 @@
    the note using a keystroke.
 
    \itempar{Copy/Paste}{pattern editor!copy/paste}
+   Copying, cutting, and pasting is supported by selecting a number of events
+   or notes, and using the
    \index{pattern editor!cut}
-   \index{keys!ctrl-x} cut (\texttt{Ctrl-X}), 
+   \index{keys!ctrl-x} Cut (\texttt{Ctrl-X}), 
    \index{pattern editor!copy}
-   \index{keys!ctrl-c} copied (\texttt{Ctrl-C}),
+   \index{keys!ctrl-c} Copy (\texttt{Ctrl-C}),
    \index{pattern editor!paste}
-   \index{keys!ctrl-v} or pasted (\texttt{Ctrl-V}).
+   \index{keys!ctrl-v} and Paste (\texttt{Ctrl-V}) keys.
    When the notes are selected,
    \index{pattern editor!delete}
    \index{keys!del}
    \index{keys!backspace}
    one can delete them with the \texttt{Delete} or \texttt{Backspace} key.
+   If the events are \textsl{cut}, using the \texttt{Ctrl-X} key, then
+   they can be pasted, using the \texttt{Ctrl-V} key.  However,
+   once \texttt{Ctrl-V} is struck, then one must \textsl{move} the mouse
+   pointer to see where to paste the events.  A box representing the
+   selected-and-cut notes appears.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{pattern/selection-paste-box.png}
+   \caption{Piano Roll, Paste-Box for Cut Notes}
+   \label{fig:pattern_editor_selection_paste_box}
+\end{figure}
+   
+   Move this box to where pasting is
+   desired, and left-click.  The moved notes appear, still selected,
+   and they can then be moved further, if desired, by using the arrow keys, or
+   cut and move them again.
 
    For the appearance of selected events (orange), see
    \figureref{fig:pattern_editor_selected_events}.
