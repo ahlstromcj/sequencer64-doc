@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-04-08
+% \update      2016-04-16
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -394,7 +394,7 @@
    associated with the row in which one is dragging.  The longer one drags,
    the more copies of the pattern that are inserted.
 
-   \index{song editor!right click hold}
+   \index{song editor!right-click-hold}
    \index{song editor!draw}
 	Right-click on the arrangement panel (roll) to enter
    draw mode, and hold the button.
@@ -425,19 +425,32 @@
    from the paint mode.
    These keys, however, do not work (currently) while the sequence is playing.
 
-   \index{song editor!left click right hold}
+   \textbf{New:}
+   \index{new!zoom keys}
+   \index{keys!0}
+   \index{keys!z}
+   \index{keys!shift-z}
+   \textsl{Sequencer64}, as of version 0.9.10, now supports zoom in the song
+   editor's piano roll.  This feature is not accessible via a button or a menu
+   entry -- it is accessible only via keystrokes.
+   After one has left-clicked in the piano roll, the "z", "Z", and "0"
+   can be used to zoom the piano-roll view.  The "z" key zooms out, the "Z" key
+   zooms in, and the "0" key resets the zoom to the default value.
+   The zoom feature also modifies the time-line (measures indicator).
+
+   \index{song editor!left-click-right-hold}
    \index{song editor!insert}
    Then simultaneously left-click the mouse to insert one copy of the
    pattern.  The inserted pattern will show up as a box with a tiny
    representation of the notes visible inside.  (Some patterns, however, can
    be less than a measure in length, resulting in a tiny box.)
 
-   \index{song editor!right left hold drag}
+   \index{song editor!right-left-hold-drag}
    \index{song editor!multiple insert}
    To keep adding more copies of the pattern, continue to hold both buttons
    and drag the mouse rightward.
 
-   \index{song editor!middle click}
+   \index{song editor!middle-click}
    Middle-click on a pattern to drop a new selection position into the
    pattern,
    \index{song editor!pattern subsection}
@@ -446,7 +459,7 @@
    halving the size of the subsections as more pattern subsections are
    added.
 
-   \index{song editor!left click}
+   \index{song editor!left-click}
    \index{song editor!selection}
    When a pattern or a pattern subsection is left-clicked in the piano
    roll, it is marked with a dark gray filling.
