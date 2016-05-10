@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-05-05
+% \update      2016-05-09
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -575,9 +575,24 @@
    \itempar{Virtual Keyboard}{piano roll!virtual keyboard}
    The virtual keyboard is a fairly powerful interface.  It shows,
    by shadowing, which note on the keyboard one will be drawing. It can be
-   played with a mouse, to preview a short motif.
+   played with a mouse, using left-clicks, to preview a short motif.
    It can show marks to indicate off-scale notes, to make them easy to
-   avoid.
+   avoid.  Every octave, a note letter and octave number are shown, as in
+   "C4".  If there is a difference scale in force, then the letter changes to
+   match, as in "F\#5".
+
+   \index{virtual keyboard!right-click}
+   A right-click anywhere in the virtual keyboard area toggles the display
+   between the octave note letters and the MIDI note numbers (only every other
+   one is displayed due to space, to avoid cramped numbering).
+   The following figure shows both views, superimposed for comparison.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{pattern/pattern-edit-window-key-numbers.png}
+   \caption{Pattern Editor, Virtual Keyboard Number and Note Views}
+   \label{fig:pattern_editor_key_numbers}
+\end{figure}
 
    \itempar{Notes}{piano roll!notes}
    Musical notes are indicated by thick horizontal bars with white
