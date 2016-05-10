@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-04-03
+% \update      2016-05-09
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -228,17 +228,40 @@
    twice (leaving it as it was), as well.  For now, please get used to it.
 
    \textbf{New:}
-   When a pattern is first brough up for sequence editing (or event
-   editing), the slot in the main window is now highlighted, using black
-   text on a cyan background, as being the "current" slot.
+   When an unarmed (muted) pattern is first brough up for sequence editing (or
+   event editing), the slot in the main window is now highlighted, using black
+   text on a cyan background, as being the "currently-edited" slot.
    \index{new!current slot highlight}
    (This is the same background used to indicate the original track in an
-    SMF 0 to SMF 1 conversion.)
-   This highlighting is merely a convenience, and a minor one at that.
-   It goes away when another slot is clicked, but it does not go away just
-   because the editor that was brought up is closed.  If more than one
-   sequence or event editor is brought up, only the slot
-   for the last one is highlighted.
+   SMF 0 to SMF 1 conversion.)
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{pattern-window-current-seq-unarmed.png}
+   \caption{Currently-Edited Pattern, Unarmed}
+   \label{fig:pattern_window_current_seq_unarmed}
+\end{figure}
+
+   If the currently-edited sequence is armed (unmuted), then the highlighting
+   is reversed (cyan text on a black background), and resembles the
+   highlighting for an armed sequence (which is white text on a black
+   background).
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{pattern-window-current-seq-armed.png}
+   \caption{Currently-Edited Pattern, Armed}
+   \label{fig:pattern_window_current_seq_armed}
+\end{figure}
+
+%  It goes away when another slot is clicked, but it does not go away just
+%  because the editor that was brought up is closed.
+%
+%  WE STILL NEED TO CODE UP THE EVENT EDITOR FOR THIS FEATURE!!!
+
+   If more than one sequence or event editor is brought up, only the slot for
+   the last one to have focus is hightlighted.
+   Note that this highlighting also applied to the (new) event editor.
 
    \itempar{Paste}{pattern!paste}
    Pastes a loop or pattern that was previously copied.
