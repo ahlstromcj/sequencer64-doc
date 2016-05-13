@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-04-07
+% \update      2016-05-12
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.9.10-rc}
+\title{Sequencer64 User Manual 0.9.11-rc}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -80,11 +80,13 @@
    This document describes how to use \textsl{Sequencer64}
    \cite{sequencer64},
    through version 0.9.9.18, dated approximately through Feburary, 2016,
-   and now through 0.9.10, April 2016.
+   and now through 0.9.11-rc, May 2016, using the latest commit from
+   the \textbf{fixups} branch.
+   .
    The lastest work has been getting the JACK support to work properly,
    in the \texttt{fixups} branch, now merged into \texttt{master}.
    Some additional work has been added to the \texttt{fixups} branch for
-   version 0.9.9.18 and for 0.9.10 (pending),
+   version 0.9.9.18 and for 0.9.11 (pending),
    and that work is also documented here.
 
    We thought we had broken JACK support in our refactoring of the program, but
@@ -99,7 +101,7 @@
    \textsl{Sequencer64}.
    So, overall, JACK and clocking are notably improved over \textsl{Seq24}.
 
-   Version 0.9.10 adds a few features to make song editing slightly more
+   Version 0.9.11 adds a few features to make song editing slightly more
    convenient for the authoer, who uses ALSA for basic work.
    There is now a Pause button and a configuration Pause
    keystroke, which defaults to a period (".").
@@ -153,7 +155,7 @@
    combines them.
 
    There are a number of authors of \textsl{Seq24}, and currently only
-   one author of \textsl{Sequencer64},
+   one primary author of \textsl{Sequencer64},
    as one can see in \figureref{fig:seq64_menu_help_credits},
    and in \figureref{fig:seq64_menu_help_doc}.
    All of these authors have contributed to \textsl{Sequencer64}, whether
@@ -215,13 +217,13 @@
 \label{subsec:improvements}
 
    The following improvements have been made to \textsl{Seq24} for
-   \textsl{Sequencer64}:
+   \textsl{Sequencer64}.  Note that we might have missed some minor new items.
 
    \begin{itemize}
       \item A new \textsl{event editor} dialog is now supported.
          It allows for the viewing and editing of MIDI channel events.
          The user is able to see all types of events in the sequence at
-         once.  This editor is still a work-in-progress.
+         once.  This editor is still a work-in-progress, but useful.
       \item \textsl{Sequencer64} can now read SMF 0 MIDI files.  It splits
          the file into tracks based on channel number.  Each track becomes one
          sequence/pattern in the main window grid.
@@ -234,7 +236,7 @@
          per-sequence.
       \item In the sequence/pattern editor, the window now scrolls to keep up
          with the progress bar for sequences that are longer than the width of
-         the sequence editor window.
+         the sequence editor window.  Still pending for the song editor.
       \item Additional mouse and keystroke support in the pattern and song
          editor windows:
       \begin{itemize}
@@ -246,8 +248,13 @@
             (painting) mode enabled after releasing the right mouse button,
             for some of the modern crappy touchpads shipped with
             "gamer" laptops.
-         \item Shift-Left-Click on a pattern slot, pattern name, or M (mute)
-            area now toggles the status of all of the other active slots.
+         \item Shift-Left-Click on a pattern slot (in the pattern editor),
+            pattern name or M (mute) (in the song editor)
+            now toggles the status of all of the other active slots.
+            Useful for listening to a single track by itself.
+         \item Right-Click on a the virtual keyboard (in the pattern editor)
+            toggles between showing letters/octaves (e.g. "C4") versus
+            the MIDI note numbers.  
       \end{itemize}
       \item The "user" configuration is now written to disk, and we will be
          adding more settings to it as time goes on.  It currently offers the
@@ -263,7 +270,10 @@
       \item Small improvements in appearance:
       \begin{itemize}
          \item Support for showing empty sequences (i.e. having only meta
-            events) in a highlight color.
+            events) in a highlight color (yellow).
+         \item Support for showing the currently-focussed (for editing in the
+            pattern editor) sequence.  It is highlighted in black-on-cyan if
+            not armed, and in cyan-on-black if armed.
          \item Sequences that are shorter than a quarter note are now padded to
             one full measure, for smoother scrolling on the patterns panel.
          \item Modification of the colors of the scale and background sequence
@@ -283,8 +293,9 @@
          detail in the project's ROADMAP file.
       \item More musical scales (harmonic minor, melodic minor, and
          whole tone scales) have been added.
-      \item A pause feature has been added to ALSA-mode playback.  It works,
-         but still has some minor quirks.
+      \item A pause feature has been added to ALSA-mode playback.  It works
+         almost completely, but is still undergoing testing.  It also includes
+         a pause keystroke (".") and a pause button.
       \item Internal improvements.
       \begin{itemize}
          \item Provided a new, more MIDI-compliant output format for the MIDI
@@ -295,6 +306,7 @@
             If the new container reduces the maximum output of the sequencer,
             we will dump the slow container into a vector container for faster
             playback.
+         \item Note-transpose now also works on aftertouch events.
          \item The code was reformated using \textsl{astyle} and
             personal preferences.  Modules were split into smaller units.
             Header file "includes" were moved into the "cpp" files to reduce
@@ -322,7 +334,9 @@
    In the future, version 1.0 will be even more object-oriented, hopefully
    faster, and easier to modify.  Eventually, we might get it to build
    for Windows, using MingW, though this is a low priority and a fairly
-   significant task.
+   significant task.  We've also been asked to incorporate support for a
+   scripting language, for OSC (Open Sound Control), and for NSM (the Non
+   Session Manager).
 
 \subsection{Document Structure}
 \label{subsec:introduction_document_structure}

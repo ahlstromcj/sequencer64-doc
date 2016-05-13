@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2016-04-03
+% \update      2016-05-13
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -190,6 +190,14 @@
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
    
+    \itempar{\texttt{SEQ64\_EDIT\_SEQUENCE\_HIGHLIGHT}}{build!seq highlight}
+        Already defined in the \texttt{perform} module.
+        Provides the option to highlight the currently-editing sequence in the
+        main window view and in the song editor.  If the sequence is muted, it
+        is highlighted in black text on a cyan background.  If it is unmuted,
+        it is highlighted in cyan text on a black background.  The highlighting
+        follows whichever pattern editor or event editor has the focus.
+
     \itempar{\texttt{SEQ64\_USE\_NEW\_FONT}}{build!new font}
         Already defined in the \texttt{font} module.
         If defined, a new, anti-aliased,

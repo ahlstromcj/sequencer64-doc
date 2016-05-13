@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-04-07
-% \update      2016-04-09
+% \update      2016-05-12
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -38,14 +38,10 @@
       \caption{Main Window Support}
       \label{table:main_window_support}
       \begin{tabular}{l l l l l l}
-         \textbf{Action}   & \textbf{Normal} & \textbf{Double}    & 
-            \textbf{Shift} & \textbf{Ctrl}   & \textbf{Mod4}      \\
-         e                 & ---             & ---                &
-            ---            & Open Song Editor & ---               \\
-         Left-Click        & Mute/Unmute     & New/Edit           &
-            Toggle Other   & Edit            & ---                \\
-         Right-Click       & Edit Menu       & ---                &
-            Edit Menu      & Edit/Edit Menu  & ---                \\
+         \textbf{Action}   & \textbf{Normal} & \textbf{Double}    & \textbf{Shift}      & \textbf{Ctrl}    & \textbf{Mod4}      \\
+         e key             & ---             & ---                & ---                 & Open song editor & ---                \\
+         Left-click slot   & Mute/Unmute     & New/Edit           & Toggle other slots  & Edit             & ---                \\
+         Right-click slot  & Edit menu       & ---                & Edit menu           & Edit/Edit Menu   & ---                \\
       \end{tabular}
    \end{table}
 
@@ -53,14 +49,15 @@
    as noted in \sectionref{sec:seq64_patterns_panel}, are:
 
    \begin{itemize}
-      \item \textsl{Shift-Left-Click}:
-         In one pattern, this action toggles the mute/unmute (armed/unarmed)
-         status of all other patterns (even the patterns in other sets).
-      \item \textsl{Left-Double-Click}:
-         In a pattern, this action quickly toggles the mute/unmute status,
+      \item \textsl{Shift-left-click}:
+         Over one pattern slot, this action toggles the mute/unmute (armed/unarmed)
+         status of all other patterns (even the patterns in other,
+         unseen sets).
+      \item \textsl{Left-double-click}:
+         Over a pattern slot, this action quickly toggles the mute/unmute status,
          which is confusing.  But it ultimately brings up the pattern editor
          (sequence editor) for that pattern.  It acts like
-         Ctrl-Left-Click.
+         Ctrl-left-click.
    \end{itemize}
 
 \subsection{Performance Editor Window}
@@ -85,42 +82,37 @@
       \caption{Performance Window Piano Roll}
       \label{table:perf_window_piano_roll}
       \begin{tabular}{l l l l l l}
-         \textbf{Action}   & \textbf{Normal} & \textbf{Double}    & 
-            \textbf{Shift} & \textbf{Ctrl}   & \textbf{Mod4}      \\
-         Del               & Cut Trigger     & ---                &
-            ---            & ---             & ---                \\
-         c                 & ---             & ---                &
-            ---            & Copy            & ---                \\
-         p                 & Paint Mode      & ---                &
-            ---            & ---             & ---                \\
-         v                 & ---             & ---                &
-            ---            & Paste           & ---                \\
-         x                 & Escape Paint    & ---                &
-            ---            & Cut             & ---                \\
-         z                 & Zoom Out        & ---                &
-            ---            & Undo            & ---                \\
-         0                 & Reset Zoom      & ---                &
-            ---            & ---             & ---                \\
-         Z                 & Zoom In         & ---                &
-            ---            & Undo?           & ---                \\
-         Left-Arrow        & Move Earlier    & ---                &
-            ---            & ---             & ---                \\
-         Right-Arrow       & Move Later      & ---                &
-            ---            & ---             & ---                \\
-         Left-Click        & Deselect        & ---                &
-            ---            & ---             & ---                \\
-         Right-Click       & Paint Mode      & ---                &
-            Edit Menu      & Edit/Edit Menu  & Lock Paint Mode    \\
-         Scroll-Up         & Scroll Up       & ---                &
-            Scroll Left    & Scroll Up       & ---                \\
-         Scroll-Down       & Scroll Down     & ---                &
-            Scroll Right   & Scroll Down     & ---                \\
+         \textbf{Action}   & \textbf{Normal} & \textbf{Double}    & \textbf{Shift}     & \textbf{Ctrl}   & \textbf{Mod4}      \\
+         Space             & Start playback  & ---                & ---                & ---             & ---                \\
+         Esc               & Stop playback   & ---                & ---                & ---             & ---                \\
+         Period (.)        & Pause playback  & ---                & ---                & ---             & ---                \\
+         Del               & Cut section     & ---                & ---                & ---             & ---                \\
+         c key             & ---             & ---                & ---                & Copy            & ---                \\
+         p key             & Paint mode      & ---                & ---                & ---             & ---                \\
+         v key             & ---             & ---                & ---                & Paste           & ---                \\
+         x key             & Escape paint    & ---                & ---                & Cut             & ---                \\
+         z key             & Zoom out        & ---                & ---                & Undo            & ---                \\
+         0 key             & Reset zoom      & ---                & ---                & ---             & ---                \\
+         Z key             & Zoom in         & ---                & ---                & Undo            & ---                \\
+         Left-arrow        & Move earlier    & ---                & ---                & ---             & ---                \\
+         Right-arrow       & Move later      & ---                & ---                & ---             & ---                \\
+         Left-click        & Select section  & ---                & Toggle other slots & ---             & ---                \\
+         Right-click       & Paint mode      & ---                & Paint mode         & Paint mode      & Lock Paint mode    \\
+         Scroll-up         & Scroll up       & ---                & Scroll Left        & Scroll Up       & ---                \\
+         Scroll-down       & Scroll down     & ---                & Scroll Right       & Scroll Down     & ---                \\
       \end{tabular}
    \end{table}
 
    This section of the performance editor also handles the start, stop, and
-   pause keys.
-   Note that Left-Click is used to select performance blocks if clicked within
+   pause keys.  These can be modified in the \textbf{Options / Keyboard} page.
+
+   Note that a "section" in the performance editor is actually a box that
+   specifies a trigger for the pattern in that sequence/pattern slot.
+
+   Note that the "toggle other slots" action occurs only if shift-left-clicked
+   in the "names" area of the performance editor.
+
+   Note that left-click is used to select performance blocks if clicked within
    a block, or to deselect them if clicked in an empty area of the piano roll.
    Also note that all scrolling is done by the internal horizontal and vertical
    step increments.
@@ -145,8 +137,13 @@
          in time) in the performance layout.
       \item \textsl{Right Arrow}:  Moves the selected item to the right (later
          in time) in the performance layout.
-      \item \textsl{Mod4-Right-Click}:  Locks the paint mode, until right-click
+      \item \textsl{Mod4-right-click, release}:  Locks the paint mode, until right-click
          is pressed again later.
+      \item Once selected (and thus rendered in grey), a pattern section (trigger)
+         can be moved by the mouse.  To move it using the left or right
+         arrow keys, the paint mode must be entered, but only via the "p"
+         key -- the right mouse button deselects the greyed pattern.
+         Too tricky, we might try fixing it later.
    \end{itemize}
 
 \subsubsection{Performance Editor Time Section}
@@ -162,31 +159,22 @@
       \caption{Performance Editor Time Section}
       \label{table:performance_editor_time_section}
       \begin{tabular}{l l l l l l}
-         \textbf{Action}   & \textbf{Normal} & \textbf{Double}    & 
-            \textbf{Shift} & \textbf{Ctrl}   & \textbf{Mod4}      \\
-         l                 & Move L [1]      & ---                &
-            ---            & ---             & ---                \\
-         r                 & Move R [1]      & ---                &
-            ---            & ---             & ---                \\
-         x                 & Escape Move     & ---                &
-            ---            & ---             & ---                \\
-         Left-Click        & Set L [2]       & ---                &
-            ---            & ---             & ---                \\
-         Middle-Click      & ---             & ---                &
-            ---            & ---             & ---                \\
-         Right-Click       & Set R [2]       & ---                &
-            ---            & ---             & ---                \\
+         \textbf{Action}   & \textbf{Normal} & \textbf{Double}    & \textbf{Shift} & \textbf{Ctrl}   & \textbf{Mod4}      \\
+         l                 & Move L [1]      & ---                & ---            & ---             & ---                \\
+         r                 & Move R [1]      & ---                & ---            & ---             & ---                \\
+         x                 & Escape Move     & ---                & ---            & ---             & ---                \\
+         Left-Click        & Set L [2]       & ---                & ---            & ---             & ---                \\
+         Middle-Click      & ---             & ---                & ---            & ---             & ---                \\
+         Right-Click       & Set R [2]       & ---                & ---            & ---             & ---                \\
       \end{tabular}
    \end{table}
 
-   Notes:
-
-      \begin{enumerate}
-         \item Activates movement of this marker using the left and right arrow
-            keys.  Movement is in increments of the snap value.  This mode is
-            exited by pressing the 'x' key.  Also see note [2].
-         \item Controlled in the pertime section.
-      \end{enumerate}
+   \begin{enumerate}
+      \item Activates movement of this marker using the left and right arrow
+         keys.  Movement is in increments of the snap value.  This mode is
+         exited by pressing the 'x' key.  Also see note [2].
+      \item Controlled in the pertime section.
+   \end{enumerate}
 
    The new features of this window for \textsl{Sequencer64},
    as noted in
@@ -201,6 +189,18 @@
       \item \textsl{x}:  Exits the marker-movement  mode.
    \end{itemize}
 
+   \begin{table}
+      \centering
+      \caption{Performance Editor Names Section}
+      \label{table:performance_editor_names}
+      \begin{tabular}{l l l l l l}
+         \textbf{Action}   & \textbf{Normal}    & \textbf{Double}    & \textbf{Shift}        & \textbf{Ctrl}   & \textbf{Mod4}      \\
+         Left-Click        & Toggle track       & ---                & Toggle other tracks   & ---             & ---                \\
+         Middle-Click      & ---                & ---                & ---                   & ---             & ---                \\
+         Right-Click       & New/Edit menu      & ---                & ---                   & ---             & ---                \\
+      \end{tabular}
+   \end{table}
+
 \subsubsection{Pattern Editor Piano Roll}
 \label{subsubsec:kbd_mouse_pattern_editor_piano_roll}
 
@@ -214,54 +214,34 @@
       \caption{Pattern Editor Piano Roll}
       \label{table:pattern_editor_piano_roll}
       \begin{tabular}{l l l l l l}
-         \textbf{Action}   & \textbf{Normal} & \textbf{Double}    & 
-            \textbf{Shift} & \textbf{Ctrl}   & \textbf{Mod4}      \\
-         Del               & Delete Selected & ---                &
-            ---            & ---             & ---                \\
-         c                 & ---             & ---                &
-            ---            & Copy            & ---                \\
-         p                 & Paint Mode      & ---                &
-            ---            & ---             & ---                \\
-         v                 & ---             & ---                &
-            ---            & Paste           & ---                \\
-         x                 & Escape Paint    & ---                &
-            ---            & Cut             & ---                \\
-         z                 & Zoom Out        & ---                &
-            ---            & Undo            & ---                \\
-         0                 & Reset Zoom      & ---                &
-            ---            & ---             & ---                \\
-         Z                 & Zoom In         & ---                &
-            ---            & Undo?           & ---                \\
-         Left-Arrow        & Move Earlier [1] & ---               &
-            ---            & ---             & ---                \\
-         Right-Arrow       & Move Later [1]  & ---                &
-            ---            & ---             & ---                \\
-         Up-Arrow          & Increase Pitch  & ---                &
-            ---            & ---             & ---                \\
-         Down-Arrow        & Decrease Pitch  & ---                &
-            ---            & ---             & ---                \\
-         Left-Click        & Deselect        & ---                &
-            ---            & ---             & ---                \\
-         Right-Click       & Paint Mode      & ---                &
-            Edit Menu      & Edit/Edit Menu  & Lock Paint Mode    \\
-         Left-Middle-Click & Grow Selected   & ---                &
-            Stretch Sel.   & ---             & ---                \\
-         Scroll-Up         & Zoom Time In    & ---                &
-            Scroll Left    & Zoom Time In    & ---                \\
-         Scroll-Down       & Zoom Time Out   & ---                &
-            Scroll Right   & Zoom Time Out   & ---                \\
+         \textbf{Action}   & \textbf{Normal} & \textbf{Double}    & \textbf{Shift} & \textbf{Ctrl}   & \textbf{Mod4}      \\
+         Del               & Delete Selected & ---                & ---            & ---             & ---                \\
+         c                 & ---             & ---                & ---            & Copy            & ---                \\
+         p                 & Paint mode      & ---                & ---            & ---             & ---                \\
+         v                 & ---             & ---                & ---            & Paste           & ---                \\
+         x                 & Escape Paint    & ---                & ---            & Cut             & ---                \\
+         z                 & Zoom Out        & ---                & ---            & Undo            & ---                \\
+         0                 & Reset Zoom      & ---                & ---            & ---             & ---                \\
+         Z                 & Zoom In         & ---                & ---            & Undo?           & ---                \\
+         Left-Arrow        & Move Earlier [1] & ---               & ---            & ---             & ---                \\
+         Right-Arrow       & Move Later [1]  & ---                & ---            & ---             & ---                \\
+         Up-Arrow          & Increase Pitch  & ---                & ---            & ---             & ---                \\
+         Down-Arrow        & Decrease Pitch  & ---                & ---            & ---             & ---                \\
+         Left-Click        & Deselect        & ---                & ---            & ---             & ---                \\
+         Right-Click       & Paint mode      & ---                & Edit Menu      & Edit/Edit Menu  & Lock Paint mode    \\
+         Left-Middle-Click & Grow Selected   & ---                & Stretch Sel.   & ---             & ---                \\
+         Scroll-Up         & Zoom Time In    & ---                & Scroll Left    & Zoom Time In    & ---                \\
+         Scroll-Down       & Zoom Time Out   & ---                & Scroll Right   & Zoom Time Out   & ---                \\
       \end{tabular}
    \end{table}
 
-   Notes:
-
-      \begin{enumerate}
-         \item Once selected (and thus rendered in grey), a pattern segment
-            can be moved by the mouse.  To move it using the left or right
-            arrow keys, the paint mode must be entered, but only via the "p"
-            key -- the right mouse button deselects the greyed pattern.
-            Too tricky, we might try fixing it later.
-      \end{enumerate}
+   \begin{enumerate}
+      \item Once selected (and thus rendered in grey), a pattern segment
+         can be moved by the mouse.  To move it using the left or right
+         arrow keys, the paint mode must be entered, but only via the "p"
+         key -- the right mouse button deselects the greyed pattern.
+         Too tricky, we might try fixing it later.
+   \end{enumerate}
 
    The new features of this window section for \textsl{Sequencer64},
    as noted in
@@ -292,6 +272,17 @@
       \item \textsl{Mod4-Right-Click}:  Locks the paint mode, until right-click
          is pressed again later.
    \end{itemize}
+
+   \begin{table}
+      \centering
+      \caption{Pattern Editor Virtual Keyboard}
+      \label{table:pattern_editor_virtual_keyboard}
+      \begin{tabular}{l l l l l l}
+         \textbf{Action}   & \textbf{Normal} & \textbf{Double}    & \textbf{Shift} & \textbf{Ctrl}   & \textbf{Mod4}      \\
+         Left-Click        & Play note       & ---                & ---            & ---             & ---                \\
+         Right-Click       & Toggle labels   & ---                & ---            & ---             & ---                \\
+      \end{tabular}
+   \end{table}
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
