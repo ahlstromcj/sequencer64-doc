@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-05-09
+% \update      2016-05-16
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -26,26 +26,37 @@
    \textsl{Sequencer64}.
    See \figureref{fig:seq64_main_screen}.
    It is also called the "main window" or the "patterns window".
-   It is here one manages a set of patterns
+   It is here one creates a set of patterns
    (see \sectionref{subsubsec:concepts_terms_screen_set}),
    manages the configuration, and opens the pattern or song editors.
 
    \index{live mode}
-   When the Patterns Panel has the application focus, and \textsl{Sequencer64}
+   \index{mode!live}
+   \index{mode!ALSA}
+   When the Patterns Panel has the application focus (in ALSA mode),
+   and \textsl{Sequencer64}
    is \textsl{not} running in JACK mode, it puts
    \textsl{Sequencer64} in "live mode".  The musician can
-   control the playback and muting/unmuting of the song, while it is
-   playing, from within this window.
+   control the playback and muting/unmuting of each pattern in
+   the song, while it is playing, from within this window.
 
-   If \textsl{Sequencer64} is using JACK transport, then, Instead of the
-   behavior described above, live versus song mode is controlled by the JACK
-   start mode option.  option?
+   \index{song mode}
+   \index{mode!song}
+   \index{mode!ALSA}
+   If the song editor
+   (see \sectionref{sec:seq64_song_editor})
+   has the input focus in ALSA mode, then it controls the muting/unmuting of
+   each pattern, and \textsl{Sequencer64} runs in "song mode".
 
-   For exposition, we break the Patterns Panel
-   into a menu bar, a top panel, a pattern panel, and a
-   bottom panel.  Note that the \textsl{Sequencer64} menu bar was
-   already discussed in
-   \sectionref{sec:seq64_menu}.
+   However, if \textsl{Sequencer64} is using JACK transport, then, instead of
+   the behavior described above, live versus song mode is controlled by the
+   JACK start mode option (see the \textbf{JACK Start mode} item in
+   \sectionref{paragraph:seq64_menu_file_options_jack_sync}).
+
+   Back to the patterns panel....  For exposition, we break the Patterns Panel
+   into a menu bar, a top panel, a pattern panel, and a bottom panel.  (Note
+   that the \textsl{Sequencer64} menu bar was already discussed in
+   \sectionref{sec:seq64_menu}.)
 
 \subsection{Patterns / Top Panel}
 \label{subsec:seq64_patterns_panel_top}
@@ -123,16 +134,19 @@
 
    \index{group!toggle}
 	One can toggle the playing status of up to 32 previously
-	defined mute/unmute patterns (groups) in the active screen
-	set, similar to hardware sequencers.
+	defined mute/unmute patterns (groups) in the active screenset,
+   similar to hardware sequencers.
    One can mute-unmute (according to the group definition) all loops in the
-   playing screen set, which is the only one that can have sequences playing
+   playing screenset, which is the only one that can have sequences playing
    (like a live sequencer).
 
 	This toggling is done either by one of the \textsl{group toggle} keys
 	or by a MIDI controller, both assigned in the
    \index{rc file}
-   \texttt{~/.config/sequencer64/sequencer64.rc} or \texttt{~/.seq24rc} files.
+   \texttt{~/.config/sequencer64/sequencer64.rc} or \texttt{~/.seq24rc} files,
+   and easily modified in the \textbf{File / Options / Keyboard} tab.
+   These characters can be shown in each pattern (and in 0.9.11 and above, no
+   matter which screenset is active).
 
 	A mute/unmute pattern (group) is stored by holding a
    \index{group!learn}
@@ -225,13 +239,24 @@
    double-click on the empty slot, to bring up a new instance of the sequence
    editor.  For the double-click, the effect can be a bit confusing at first,
    because it currently also toggles the arming/mute status of the slot
-   twice (leaving it as it was), as well.  For now, please get used to it.
+   quickly twice (leaving it as it was), as well.  It might take some getting
+   used to.
 
    \textbf{New:}
+   \index{new!editing shortcut}
+   \index{keys!=}
+   An experimental new feature is hitting the equals ("=") key, then hitting
+   a shortcut key, to bring up a new sequence or edit an existing one in a
+   pattern editor.  We may add the minus ("-") key for the event editor, and
+   user-interface and configuration file settings for these keys.
+   Still thinking about these features.  We still need a way to edit sequences
+   without requiring a mouse!
+
+   \textbf{New:}
+   \index{new!current slot highlight}
    When an unarmed (muted) pattern is first brough up for sequence editing (or
    event editing), the slot in the main window is now highlighted, using black
    text on a cyan background, as being the "currently-edited" slot.
-   \index{new!current slot highlight}
    (This is the same background used to indicate the original track in an
    SMF 0 to SMF 1 conversion.)
 
@@ -253,11 +278,6 @@
    \caption{Currently-Edited Pattern, Armed}
    \label{fig:pattern_window_current_seq_armed}
 \end{figure}
-
-%  It goes away when another slot is clicked, but it does not go away just
-%  because the editor that was brought up is closed.
-%
-%  WE STILL NEED TO CODE UP THE EVENT EDITOR FOR THIS FEATURE!!!
 
    If more than one sequence or event editor is brought up, only the slot for
    the last one to have focus is hightlighted.
@@ -509,9 +529,11 @@
    Note that another way of specifying the busses is to supply the
    new \texttt{--buss n} option.  This option is currently available
    only from the command line.  It causes \textsl{every} pattern in the MIDI
-   file to be allocated to that buss number when loaded.  This option is
-   meant for convenience or testing.  If you save the file, it will now
-   have that buss number as part of each track's data.
+   file to be allocated to that buss number when loaded, and when a new
+   sequence/pattern is created.  This option is
+   meant for convenience or testing.  If you save the file, it will then
+   have that buss number as part of each track's data, which makes the song
+   file just a little less portable.
 
    For each of these buss items, another pop-up menu allows one
    to specify the MIDI output channel for that buss:

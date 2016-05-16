@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-04-04
+% \update      2016-05-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -80,11 +80,13 @@
 
    \optionpar{-b}{--bus [buss]}
       \textbf{New:}
-      \index{new!buss number override}
+      \index{new!MIDI buss override}
       Supports modifying the buss number on all tracks when a MIDI file is
       read.  All tracks are loaded with this buss-number override.  This
       feature is useful for testing, making it easy to map the MIDI file onto
       the system's current hardware/software synthesizer setup.
+      Also note that this option applies the MIDI buss override to any new
+      sequences, as well.
       Format: \texttt{--bus bussnumber}.
 
    \optionpar{-q}{--ppqn [ppqn]}
