@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-04-08
+% \update      2016-05-20
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -18,21 +18,19 @@
 \label{sec:seq64_menu}
 
    The \textsl{Sequencer64} menu, as seen at the top of
-   \figureref{fig:seq64_main_screen},
-   is fairly simple, but it is important to understand the
-   structure of the menu entries.
+   \figureref{fig:seq64_main_screen}, is fairly simple, but it is important to
+   understand the structure of the menu entries.
 
 \subsection{Menu / File}
 \label{subsec:seq64_menu_file}
 
    The \textbf{File} menu is used to save and load standard MIDI files.
-   \textsl{Sequencer64}
-   should be able to handle any Format 1 standard files that any other
-   sequencer is capable of exporting.  
+   \textsl{Sequencer64} should be able to handle any Format 1 standard files
+   that any other sequencer is capable of exporting.  
 
    The \textsl{Sequencer64} menu entry contains the sub-items shown in
-   \figureref{fig:seq64_menu_file_items}.  The next few sub-sections discuss
-   the sub-items in the \textsl{File} sub-menu.
+   \figureref{fig:seq64_menu_file_items}.  The next few sub-sections discuss the
+   sub-items in the \textsl{File} sub-menu.
 
 \begin{figure}[H]
    \centering 
@@ -61,7 +59,8 @@
 
    \index{todo!improve change detection}
    \textsl{Currently, the detection of situations requiring a save (or not
-   requiring a save) needs a bit of work.}
+   requiring a save) needs a bit of work.  We've made a lot of progress,
+   though.}
 
 \subsubsection{Menu / File / Open}
 \label{subsubsec:seq64_menu_file_open}
@@ -77,8 +76,8 @@
 \end{figure}
 
    If unsaved changes are pending, the user will (usually)
-   be prompted to save the changes.  When in doubt, save!
-   If still in doubt, keep backups of your tunes!
+   be prompted to save the changes.
+   When in doubt, save!  If still in doubt, keep backups of your tunes!
 
 \subsubsection{Menu / File / Save and Save As}
 \label{subsubsec:menu_file_open_save_as}
@@ -210,7 +209,7 @@
    or more of the \textsl{Sequencer64} output busses.
    It is used to configure to what busses the MIDI clock gets dumped.
    It also shows the devices that one can play music with.
-   The items that appear in this tab depend on three things:
+   The items that appear in this tab depend on four things:
 
    \begin{itemize}
       \item What MIDI devices are connected to the computer.  For example,
@@ -225,7 +224,8 @@
          \texttt{[manual-alsa-ports]} section of the
          \texttt{sequencer64.rc} configuration file, as described in
          \sectionref{subsec:seq64_rc_file_other_midi}
-      \item The setting of the "reveal ALSA ports" option,
+      \item The setting of the \textsl{Sequencer64}-specific
+         "reveal ALSA ports" option,
          \texttt{--reveal\_alsa\_ports} command-line option or the
          \texttt{[reveal-alsa-ports]} section of the
          \texttt{sequencer64.rc} configuration file, as described in
@@ -542,17 +542,26 @@
    To "queue" a pattern means to ready it for playback upon the next repeat
    of a pattern.  A pattern can be armed immediately, or it can be queued to
    play back the next time the pattern starts.
+   A pattern can be queued by holding the queue key (defined in
+   \textbf{File / Options / Keyboard / queue}) and pressing a pattern-slot
+   shortcut key.  Instead of the pattern turning on immediately, it turns on at
+   the next repeat of the pattern.
 
    \index{keep queue}
    \index{queue!keep}
-   The "keep queue" functionality allows the queue to be held without
-   holding down a button the whole time.
+   The "keep queue" functionality allows the queue to be held without holding
+   down the queue button the whole time.  First, press the keep-queue key
+   (defined in \textbf{File / Options / Keyboard / Keep queue}).  Now, hitting
+   any of the shortcut keys, no matter how many, sets up the corresponding
+   pattern slot to be queued.  This mode is disabled by hitting the
+   "queue" key (any currently active queues remain active until finished).
 
    \itempar{Sequence toggle keys}{keyboard!sequence toggle keys}
    Each of these keys toggles the playing/muting of one of the 32
    loop/pattern boxes.  These keys are layed out logically on the keyboard,
    and can also be shown in each loop/pattern box.  No need to list them all
-   here!
+   here!  Please note that we often call them "shortcut keys" where the context
+   makes it clear that they apply to the armed/unarmed state of a pattern.
 
    \itempar{Mute-group slots}{keyboard!mute-group slots}
    Each of these keys operates on the mute-grouping of one of the 32
@@ -560,6 +569,9 @@
    and can also be shown in each loop/pattern box.  No need to list them all
    here!
 
+   \index{todo!mute-group}
+   One thing we need to discover is just what this mute-grouping
+   means functionally.
    Apparently groups work with the playing screen set only.
    Change the screenset and give the command to make it the playing one
    (e.g. set the HOME key for this purpose.)

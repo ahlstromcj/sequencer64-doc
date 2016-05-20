@@ -145,7 +145,7 @@
    This settings select the MIDI output channel, or port.
    The possible values range from 1 to 16.
    If instruments are defined in the "user" configuration file
-   to that device and channel.
+   to that device and channel, they will be shown.
 
 \subsection{Pattern Editor / Second Panel}
 \label{subsec:seq64_pattern_editor_second}
@@ -246,6 +246,17 @@
          \end{itemize}
    \end{itemize}
 
+   There are many things that can be done with selected notes, as will be seen
+   in the following paragraphs.
+
+   \index{modify event-data}
+   $\bullet$ \textbf{Modify Event Data} offers a way to change the event data
+   (the lower pane of the pattern editor).  When notes are selected, and the
+   mouse is used to change the values (heights) of the lines in the event-data
+   area, only the events that are selected are changed.  The data-values of
+   selected events are left unchanged.  A cool feature from \textsl{Seq24}.
+
+   \index{modify time}
    $\bullet$ \textbf{Modify Time} offers two ways to tweak the timing of the
    selected note:
    \index{quantize}

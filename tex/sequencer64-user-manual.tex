@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-05-12
+% \update      2016-05-20
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.9.11-rc}
+\title{Sequencer64 User Manual 0.9.12}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -58,7 +58,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{Sequencer64-0_9_10_1.png}
+   \includegraphics[scale=0.75]{Sequencer64-0_9_11.png}
 \end{figure}
 
 \clearpage                             % moves Contents to next page
@@ -79,15 +79,11 @@
 
    This document describes how to use \textsl{Sequencer64}
    \cite{sequencer64},
-   through version 0.9.9.18, dated approximately through Feburary, 2016,
-   and now through 0.9.11-rc, May 2016, using the latest commit from
+   through version 0.9.12, dated approximately through May, 2016,
+   using the latest commit from
    the \textbf{fixups} branch.
-   .
-   The lastest work has been getting the JACK support to work properly,
-   in the \texttt{fixups} branch, now merged into \texttt{master}.
-   Some additional work has been added to the \texttt{fixups} branch for
-   version 0.9.9.18 and for 0.9.11 (pending),
-   and that work is also documented here.
+   If you're impatient to get started mastering \textsl{Sequencer64},
+   proceed to \sectionref{subsec:introduction_lets_get_started}.
 
    We thought we had broken JACK support in our refactoring of the program, but
    it turns out there was a long-standing bug in \textsl{Seq24}, where the JACK
@@ -101,18 +97,17 @@
    \textsl{Sequencer64}.
    So, overall, JACK and clocking are notably improved over \textsl{Seq24}.
 
-   Version 0.9.11 adds a few features to make song editing slightly more
-   convenient for the authoer, who uses ALSA for basic work.
+   Version 0.9.12 adds a few features to make song editing more
+   convenient for the author, who uses ALSA for basic work.
    There is now a Pause button and a configuration Pause
    keystroke, which defaults to a period (".").
-   There are still a few quirks to the Pause feature...
+   There are still a few minor quirks to the Pause feature...
    are they bugs of features?
    Also, now a Shift-Left-Click on a pattern slot (pattern editor, main window)
    or on a pattern's name or M button (song editor) toggles the armed or
    mute status of all of the \textsl{other} active patterns.
-   We also fixed a bug where the space-bar and the main window's Stop button
-   interacted badly, and where the timing pills would not appear until the song
-   started.  Some more optimizations have been done.
+   We've got zoom keys for the editors, current-sequence highlighting,
+   a raft of important bug fixes, some optimization, and much more.
 
    In the future, we hope to make a command-line/headless version of
    \textsl{Sequencer}, an LV2 plugin to run it in modern DAW applications,
@@ -121,9 +116,7 @@
 \subsection{Sequencer64: What?}
 \label{subsec:what_is_sequencer64}
 
-   \textsl{Sequencer64} is an continuation of
-   \textsl{Sequencer24} (now obsolete), 
-   which itself is a continuation of \textsl{Seq24},
+   \textsl{Sequencer64} is an continuation of of \textsl{Seq24},
    a live-looping sequencer with an interface more like a hardware sequencer
    than the typical software MIDI sequencer.
    \textsl{Sequencer64} has many updates and improvements, and a modestly
@@ -155,16 +148,19 @@
    combines them.
 
    There are a number of authors of \textsl{Seq24}, and currently only
-   one primary author of \textsl{Sequencer64},
+   one primary author of \textsl{Sequencer64} (with some contributions and
+   ideas from other \textsl{Seq24} fans),
    as one can see in \figureref{fig:seq64_menu_help_credits},
    and in \figureref{fig:seq64_menu_help_doc}.
-   All of these authors have contributed to \textsl{Sequencer64}, whether
-   they know it or not.
+   All of these authors, and more, have contributed to \textsl{Sequencer64},
+   whether they know it or not.
    The original author is Rob C. Buse; where the word "I" occurs, that is
-   probably him.
+   probably him.  Without his work, we would never have started
+   \textsl{Sequencer64}.
 
-   Now, unfortunately, \textsl{Seq24} is not under active
-   development (2010 seems to be the last update).  There are a number of
+   Now, unfortunately, \textsl{Seq24} spent some time not under active
+   development (2010 seems to be the last major update, though there was a
+   recent update to fix a MIDI clock issue).  There are a number of
    minor forks for it on \textsl{GitHub}, and some conversions
    to code in other languages, and some patches.
    There is also a fairly extensive port to Windows.
@@ -178,9 +174,9 @@
    it has accumulated in various forks over the years.
    Also, although "feature-complete", \textsl{Seq24} could use a few more
    features, such as "infinite patterns" (i.e. "tracks"), support for more
-   session managers, better annunciation, uniformity, even more use of
+   session managers, better annunciation, uniformity, still more use of
    keystrokes, work-arounds for the need for two mouse buttons, a more
-   up-to-date user-interface framework, a few bug fixes, beefing up the support
+   up-to-date user-interface framework, some bug fixes, beefing up the support
    for the "user" configuration file, and a way to edit parts of the MIDI file
    textually.
 
@@ -207,8 +203,9 @@
    Taking advantage of Rob's generosity,
    we've created a reboot, a refactoring, an improvement (we hope) of
    \textsl{Seq24}.  It preserves (we hope) the lean nature of \textsl{Seq24},
-   while adding a few features we've found useful, to make it the "vi of
-   sequencers".
+   while adding a few features we've found useful, to make it the
+   \index{vi}
+   "vi of sequencers".
    
    Always remember that, without \textsl{Seq24} and its authors,
    \textsl{Sequencer64} would never have come into being.
@@ -223,7 +220,7 @@
       \item A new \textsl{event editor} dialog is now supported.
          It allows for the viewing and editing of MIDI channel events.
          The user is able to see all types of events in the sequence at
-         once.  This editor is still a work-in-progress, but useful.
+         once.  This editor is still a work-in-progress, but quite useful.
       \item \textsl{Sequencer64} can now read SMF 0 MIDI files.  It splits
          the file into tracks based on channel number.  Each track becomes one
          sequence/pattern in the main window grid.
@@ -266,7 +263,7 @@
       \item Support for mapping MIDI events to a single MIDI buss for testing
          or simple use cases.
       \item On-going support for handling PPQN values other than the
-         default value of 192.  Still not complete, but very use-able.
+         default value of 192.  Still not comprehensive, but very usable.
       \item Small improvements in appearance:
       \begin{itemize}
          \item Support for showing empty sequences (i.e. having only meta
@@ -299,10 +296,10 @@
       \item Internal improvements.
       \begin{itemize}
          \item Provided a new, more MIDI-compliant output format for the MIDI
-            files.  The old format can still be read, and, with a "legacy" option,
-            be written.
-         \item Changed the type of MIDI event container used, which greatly speeds
-            up the loading of a MIDI file, especially in debug mode.
+            files.  The old format can still be read, and, with a "legacy"
+            option, be written.
+         \item Changed the type of MIDI event container used, which greatly
+            speeds up the loading of a MIDI file, especially in debug mode.
             If the new container reduces the maximum output of the sequencer,
             we will dump the slow container into a vector container for faster
             playback.
