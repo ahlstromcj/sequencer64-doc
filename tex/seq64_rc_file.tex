@@ -254,6 +254,35 @@
    turned, so to speak), patterns 0 through 7 come on one at a time until
    all are running.
 
+   Here is another example from \cite{midicontrol}:
+   The \textsl{Akai MPK Mini} has a Sustain button and we can set the
+   Sustain MIDI event (with MIDI status byte 176 [0xB0] to represent a
+   Controller event, and control/mode change number 64 [0x40] to
+   represent the Sustain or Pedal control) up as the queue modifier in
+   the \texttt{mod queue} entry:
+
+   \begin{verbatim}
+      # mod queue
+      70 [0 0   0   0   0   0] [1 0 176  64 127 127] [1 0 176  64   0   0]
+   \end{verbatim}
+
+   So when the Sustain button is held down, and one presses one of the pads
+   on the \textsl{MPK Mini}, the corresponding sequence gets queued.
+   (STILL NOT CLEAR WHY).
+
+   Here's a little table of the decimal numbers for some commonly-used MIDI
+   controls:
+
+   \begin{verbatim}
+      128 Note On event 
+      129 Note Off event 
+      160 Polyphonic aftertouch event
+      176 Controller event 
+      192 Program change 
+      208 Aftertouch 
+      224 Pitch wheel 
+   \end{verbatim}
+
 \subsubsection{Sequencer64 / MIDI Control Mute In Group}
 \label{subsubsec:seq64_rc_file_midi_control_mute_in_group}
 
