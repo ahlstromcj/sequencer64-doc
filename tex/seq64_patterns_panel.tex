@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-05-16
+% \update      2016-05-19
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -614,16 +614,13 @@
    \index{keys!right ctrl}
    \index{keys!queue}
    \index{queue!temporary}
-	Holding \texttt{Right Ctrl} will queue a on/off toggle for a 
+	Holding \texttt{Right Ctrl} (or better, another key configured in
+   \textbf{Options / Keyboard / Queue} will queue a on/off toggle for a 
 	sequence when the loop ends. This is the "queue" functionality.
    This means that the change in state of the pattern will not take hold
    immediately, but will kick in when the pattern restarts.
-
    This pending state is indicated by coloring the central box of the
    pattern grey, as shown in the following figure.
-
-   Queue also works for mute/unmute patterns (groups). In this case every
-   sequence will toggle its status after its individual loop end.
 
 \begin{figure}[H]
    \centering 
@@ -632,9 +629,11 @@
    \label{fig:seq64_queueing_coloration}
 \end{figure}
 
-   Queue also works for mute/unmute 
-	patterns (groups); in this case every sequence will toggle 
-	its status after its individual loop end. 
+   Note that queueing can also be used to turn a pattern \textsl{off}
+   at the end of a pattern.
+
+   Queue also works for mute/unmute pattern sets ("groups"); in this case,
+   every sequence will toggle its status after its individual loop end. 
 
    Of course, the Ctrl key is used to manage the GUI (e.g. Ctrl-q will
    unceremoniously quit the application), so one will usually want to change
@@ -644,6 +643,9 @@
    replace the right Ctrl key, unless one has (like the author) configured
    the window manager to use the Super key modifier to manipulate windows
    and applications \textsl{(laughter ensues)}.
+   However, we have found that one can also use normal keys to enable queueing.
+   For example, the minus key or the keypad's slash keys can be used, with no
+   noticeable flickering due to the keyboard repeat rate.
 
    \index{keys!replace}
    Note that there is also a "replace" key, which is the left Ctrl key by

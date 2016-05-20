@@ -1,0 +1,73 @@
+http://wiki.linuxaudio.org/wiki/seq24togglemiditutorial
+
+After starting seq24 for the first time it will create a .seq24rc file in your
+home directory. Open it and the first section you'll see, [midi-control], is
+the section we need. The matrix represents the first two screensets (entries 0
+up to and including 63) and some control keys (entries 64 up to and including
+73). The three fields between the brackets on each line correspond to a MIDI
+filter, if the incoming MIDI event matches the filter it will either toggle
+(first field), enable (second field) or disable (third field) the sequence.
+
+The layout of each filter inside the bracket is as follows:
+
+[(on/off) (inverse) (midi status byte (channel ignored)) (data1) (data2 min) (data2 max)]
+
+(on/off): if the on/off is set to 1, it will match the incoming midi to the
+pattern and perform the action (on/off/toggle) if the data falls in the range
+specified. All values are in decimal.
+
+(inverse): the inverse field will make the sequence perform the opposite action
+(off for on, on for off) if the data falls outside the specified range.
+
+(midi status byte (channel ignored)): a MIDI status byte number in decimals.
+You can look them up in the MIDI messages tables, the relevant data is in the
+second table. As the channel on which the events are sent is ignored you should
+always use the values for channel 1.
+
+(data1): the actual MIDI event message number in decimals. This could be a note
+on/off event or a control/mode change event for example.
+
+(data2 min): the minimal value for the filter to match. For note on/off events
+this is the amount of velocity for example.
+
+(data2 max): the maximum value for the filter to match.
+
+An example of the [midi-control] section of my .seq24rc file I use with the MPK
+Mini:
+
+[midi-control]
+74
+0 [0 0 0  0   0 0] [1 0 144  96   0 127] [1 0 128  96   0 127]
+1 [0 0 0  0   0 0] [1 0 144  97   0 127] [1 0 128  97   0 127]
+2 [0 0 0  0   0 0] [1 0 144  98   0 127] [1 0 128  98   0 127]
+3 [0 0 0  0   0 0] [1 0 144  99   0 127] [1 0 128  99   0 127]
+4 [0 0 0  0   0 0] [1 0 144 100   0 127] [1 0 128 100   0 127]
+5 [0 0 0  0   0 0] [1 0 144 101   0 127] [1 0 128 101   0 127]
+6 [0 0 0  0   0 0] [1 0 144 102   0 127] [1 0 128 102   0 127]
+7 [0 0 0  0   0 0] [1 0 144 103   0 127] [1 0 128 103   0 127]
+8 [0 0 0  0   0 0] [1 0 144 104   0 127] [1 0 128 104   0 127]
+9 [0 0 0  0   0 0] [1 0 144 105   0 127] [1 0 128 105   0 127]
+10 [0 0 0  0   0 0] [1 0 144 106   0 127] [1 0 128 106   0 127]
+11 [0 0 0  0   0 0] [1 0 144 107   0 127] [1 0 128 107   0 127]
+12 [0 0 0  0   0 0] [1 0 144 108   0 127] [1 0 128 108   0 127]
+13 [0 0 0  0   0 0] [1 0 144 109   0 127] [1 0 128 109   0 127]
+14 [0 0 0  0   0 0] [1 0 144 110   0 127] [1 0 128 110   0 127]
+15 [0 0 0  0   0 0] [1 0 144 111   0 127] [1 0 128 111   0 127]
+16 [0 0 0  0   0 0] [0 0   0   0   0   0] [0 0   0   0   0   0]
+17 [0 0 0  0   0 0] [0 0   0   0   0   0] [0 0   0   0   0   0]
+18 [0 0 0  0   0 0] [0 0   0   0   0   0] [0 0   0   0   0   0]
+
+
+The Akai MPK Mini has a Sustain button and I've set the Sustain MIDI event
+(with MIDI status byte 176 and control/mode change number 64) up as the
+queue modifier in the 'mod queue' entry:
+
+
+# mod queue
+70 [0 0   0   0   0   0] [1 0 176  64 127 127] [1 0 176  64   0   0]
+
+So when I hold down this button and press one of the pads on my MPK Mini the
+corresponding sequence gets queued.
+
+
+

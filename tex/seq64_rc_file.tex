@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-04-04
+% \update      2016-05-20
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -45,15 +45,32 @@
 \subsection{Sequencer64 / MIDI Control Section}
 \label{subsec:seq64_rc_file_midi_control}
 
+   Like \textsl{Seq24}, \textsl{Sequencer64} provides a way to control the
+   application to some extent via a MIDI controller, such as a MIDI keyboard or
+   a MIDI pad device.  The current section describes this feature;
+   additional resources can be found a \url{linuxaudio.org}
+   (\cite{midicontrol}).
+
    \index{[midi-control]}
    For each pattern, we can set up MIDI events to turn a 
 	pattern on, off, or to toggle it.  This setup is in the 
    MIDI Control section of \texttt{sequencer64.rc}, and begins with an
    "INI" group marker \texttt{[midi-control]}.
+
+% OR is it the current screen set and a set of mute groups???
+
+   The MIDI control setup resembles a matrix.
+   The matrix represents the first two screen-sets
+   (entries are numbered from 0
+   to 63) and some control keys (entries from 64 to 73).  The three fields,
+   each between the brackets, on each line, correspond to a MIDI filter... if
+   the incoming MIDI event matches the filter it will \textsl{toggle} (first
+   field), \textsl{enable} (second field) or \textsl{disable} (third field) the
+   sequence.
 	
-   THe MIDI Control section is implicitly broken into subsections, though those
-   subsections are marked with comment-lines for better comprehensibility.
-   The subsections of the MIDI Control section are:
+   The MIDI Control section is explicitly broken into subsections, though those
+   subsections are marked with comment-lines for better comprehensibility.  The
+   subsections of the MIDI Control section are:
 
    \begin{enumber}
       \item \textbf{pattern group}.  Consists of 32 lines, one for each
@@ -153,7 +170,25 @@
    the data falls outside the specified range.  This is cool because one can
    map several sequences to a knob or fader.
 
+   The \textbf{MIDI status byte} field a MIDI status byte number in decimals.
+   The channel nybble of this byte is ignored.
+   One can look the possible status values up in the MIDI messages tables; the
+   relevant data can be found at \cite{midicontroltable}.
+   As the channel on which the events are sent is ignored, one should
+   always use the values for channel 1.  That is, 0.
+
 	The last three fields describe the range of data that will match.
+   The \textbf{data1} field provides the actual MIDI event message number to
+   detect, in decimal.
+   This item could be a Note On/Off event or a Control/Mode change event,
+   for example.
+
+   The \textbf{data2 min} field is the minimum value of the event
+   for the filter to match. For Note On/Off events,
+   this would be the velocity value, for example.
+
+   The \textbf{data2 max} field is the maximum value of the event
+   for the filter to match.
 
 \subsubsection{Sequencer64 / MIDI Control Pattern Group}
 \label{subsubsec:seq64_rc_file_midi_control_pattern_group}
@@ -162,7 +197,7 @@
    comprise the \textsl{pattern group}.
    The following is an example of responding
    to Note On events for note 0, with any velocity, to turn the pattern on,
-   and Note off events for note 0, and any velocity, to turn the pattern
+   and Note Off events for note 0, and any velocity, to turn the pattern
    off.
 
    \begin{verbatim}
@@ -170,20 +205,31 @@
         1 [0 0 0 0 0 0]      [1 0  144 0 0 127]       [1 0 128 0 0 127]
    \end{verbatim}
 
-   The \textbf{toggle} field is off (inactive).
+   The \textbf{Toggle} field is off (inactive).  All values are 0.
+   There is no way to use MIDI control to toggle sequence 1.
 
-   The \textbf{on} field is on (active).  Inverse is inactive.  The
-   \textbf{MIDI status byte}, 144, is 0x90 (hex), which is a Note On event
-   on channel 0.  However, the channel is ignored.  \textbf{data1} is 0, and
-   \textbf(data2) can range from 0 to 127.
+   The \textbf{On} value is on (1 = active).
+   The \textbf{nverse} value is off (0 = inactive).
+   The \textbf{MIDI status byte}, 144, which is 0x90 (hex), which is a Note On
+   event on channel 0.  However, the channel is ignored.
+   The \textbf{data1} values sets the actual Note value to 0, meaning the
+   lowest possible MIDI note (pitch) value.
+   \textbf{data2 min} value sets
+   the minimum value to 0, and
+   \textbf{data2 max} sets the maximum value to 127.
+   Thus, receiving any Note On velocity for note 0 will turn sequence 1
+   \textsl{on}.
 
-   The \textbf{off} field is on (active).  The \textbf{MIDI status byte},
-   128, is 0x80 (hex), which is a Note Off event on channel 0.  Again, the
-   channel is ignored.  \textbf{data1} is 0, and \textbf{data2} can range
-   from 0 to 127.
+   The \textbf{Off} field is on (active), and it is set up the same way as the
+   \textbf{On} field, except that the status message is
+   128, which is 0x80 (hex), which is a Note Off event on channel 0.
+   Thus, receiving any Note Off velocity for note 0 will turn sequence 1
+   \textsl{off}.
 
-   So, basically, pattern 1 starts when any Note On is received, and
-   it stops when any Note Off is received.
+   So, basically, pattern 1 starts when any Note On for MIDI note 0
+   is received, and it stops when any Note Off for MIDI note 0 is received.  
+   One can easily extend this so that Note On/Off values from 0 to 31
+   control the corresponding pattern slot.
 
    The following example would map a row of sequences to one knob sending
    out changes for Control Code 1:
