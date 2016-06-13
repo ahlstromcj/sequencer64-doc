@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-05-15
+% \update      2016-06-12
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -87,7 +87,8 @@
       the system's current hardware/software synthesizer setup.
       Also note that this option applies the MIDI buss override to any new
       sequences, as well.
-      Format: \texttt{--bus bussnumber}.
+      Format: \texttt{--bus bussnumber} or
+      \texttt{--buss bussnumber}.
 
    \optionpar{-q}{--ppqn [ppqn]}
       \textbf{New:}
@@ -200,6 +201,41 @@
       Note that the "rc" configuration option are generally also saved.
       But see the "auto-option-save" directive in the "rc" file.
       It is new with version 0.9.9.15.
+
+   \optionpar{-f}{--rc filename}
+      Use a different "rc" configuration file.  It must be a file in the user's
+      \$HOME/.config/sequencer64 directory or the directory specified by the
+      --home option.  Not supported by the --legacy mode.  The '.rc' extension
+      is added if no extension is present in the filename.
+
+   \optionpar{-F}{--usr filename}
+      Use a different "usr" configuration file.  It must be a file in the
+      user's \$HOME/.config/sequencer64 directory or the directory specified by
+      the --home option.  Not supported by the --legacy mode.  The '.usr'
+      extension is added if no extension is present in the filename.
+
+   \optionpar{-c}{--config basename}
+      Use a different configuration file base name for the 'rc' and 'usr'
+      files.  For example, one can specify a full configuration for "testing",
+      for "jack", or for "alsa", to set up
+      \texttt{testing.rc} and \texttt{testing.usr},
+      \texttt{jack.rc} and \texttt{jack.usr},
+      \texttt{alsa.rc} and \texttt{alsa.usr}.
+
+   \texttt{\$HOME/.config/sequencer64.rc} holds the main configuration settings
+   for Sequencer64.  If it does not exist, it will be generated when
+   Sequencer64 exits.  If it does exist, it will be rewritten with the
+   current configuration of Sequencer64.  Many, or most, of the command-line
+   options are "sticky", in that they will be written to the configuration
+   file.
+
+   \texttt{\$HOME/.config/sequencer64.usr} stores the MIDI-configuration
+   settings and some of the user-interface settings for Sequencer64.  If it
+   does not exist, it will be generated with a minimal configuration when
+   Sequencer64 exits.  If it does exist, it will be rewritten with the current
+   configuration of Sequencer64.  Note that the
+   \texttt{--legacy} option causes the old
+   configuration-file names to be used.
 
    The current Sequencer64 project homepage is a simple git repository at the
    https://github.com/ahlstromcj/sequencer64.git URL.

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-05-20
+% \update      2016-06-13
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.9.12}
+\title{Sequencer64 User Manual 0.9.13}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -79,9 +79,8 @@
 
    This document describes how to use \textsl{Sequencer64}
    \cite{sequencer64},
-   through version 0.9.12, dated approximately through May, 2016,
-   using the latest commit from
-   the \textbf{fixups} branch.
+   through version 0.9.13,
+   using the latest commit from the \textbf{fixups} branch.
    If you're impatient to get started mastering \textsl{Sequencer64},
    proceed to \sectionref{subsec:introduction_lets_get_started}.
 
@@ -96,14 +95,18 @@
    This code allows the \textsl{klick} metronome application to be driven by
    \textsl{Sequencer64}.
    So, overall, JACK and clocking are notably improved over \textsl{Seq24}.
+   However, as user \textsl{stazed} notes on GitHub, there is more that can be
+   done (and he has done much with his \textsl{seq32} \cite{seq32} project).
 
-   Version 0.9.12 adds a few features to make song editing more
+   Version 0.9.12 added a few features to make song editing more
    convenient for the author, who uses ALSA for basic work.
    There is now a Pause button and a configuration Pause
    keystroke, which defaults to a period (".").
    There are still a few minor quirks to the Pause feature...
-   are they bugs of features?
-   Also, now a Shift-Left-Click on a pattern slot (pattern editor, main window)
+   are they bugs of features?  Please send in any change-requests you feel you
+   need!
+
+   Also, now a Shift-left-click on a pattern slot (pattern editor, main window)
    or on a pattern's name or M button (song editor) toggles the armed or
    mute status of all of the \textsl{other} active patterns.
    We've got zoom keys for the editors, current-sequence highlighting,
@@ -112,6 +115,25 @@
    In the future, we hope to make a command-line/headless version of
    \textsl{Sequencer}, an LV2 plugin to run it in modern DAW applications,
    and a scripting language and plugin support for it.
+
+   Before we continue, we have contributors to acknowledge:
+
+   \begin{itemize}
+      \item Tim Deagan (tdeagan): fixes to the mute-group support.
+      \item 0rel: an important fix to properly add and relink notes after a
+         paste action in the pattern editor.
+      \item Stan Preston (stazed): ideas for some upcoming improvements based
+         on his \textsl{seq32} project.
+   \end{itemize}
+
+   Also some bug-reporters and testers:
+
+   \begin{itemize}
+      \item gimmeapill: testing, bug-reports, and, um, "marketing".
+      \item muranyia: feature request for numbered piano keys and bug-reports.
+      \item F0rth: a request for scripting support, a possible future feature.
+      \item triss: a request for OSC support, a possible future feature.
+   \end{itemize}
 
 \subsection{Sequencer64: What?}
 \label{subsec:what_is_sequencer64}
@@ -245,11 +267,11 @@
             (painting) mode enabled after releasing the right mouse button,
             for some of the modern crappy touchpads shipped with
             "gamer" laptops.
-         \item Shift-Left-Click on a pattern slot (in the pattern editor),
+         \item Shift-left-click on a pattern slot (in the pattern editor),
             pattern name or M (mute) (in the song editor)
             now toggles the status of all of the other active slots.
             Useful for listening to a single track by itself.
-         \item Right-Click on a the virtual keyboard (in the pattern editor)
+         \item Right-click on a the virtual keyboard (in the pattern editor)
             toggles between showing letters/octaves (e.g. "C4") versus
             the MIDI note numbers.  
       \end{itemize}

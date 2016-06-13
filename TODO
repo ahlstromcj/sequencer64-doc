@@ -1,10 +1,9 @@
 Documentation for New Features
 Chris Ahlstrom
-2015-11-08 to 2015-11-08
+2015-11-08 to 2016-06-04
 
--  New GUI/"rc" option for [lash-session]
--  Added "show key labels on sequences" checkbox on Keyboard tab.
--  Move documentation surrounding grid macros to the proper user interface
-   selections.
+-  New visual indicator for the event strip in the sequence editor, to warn
+   about the dangers of editing Note On, Note Off, and Aftertouch events
+   separately.
 
-
+# vim: ts=3 sw=3 et ft=sh

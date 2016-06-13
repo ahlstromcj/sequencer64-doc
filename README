@@ -1,20 +1,17 @@
 Sequencer64 User Manual
 Chris Ahlstrom
-2015-11-01 to 2015-11-10
+2015-11-01 to 2016-06-04
 
 This project provides two things:
 
    1. A user manual for Sequencer64, a continuation of the simple, but
-      powerful, looping sequencer for Linux, Seq24, and our follow-on for it,
-      Sequencer24 (which is now "frozen").
-
+      powerful, looping sequencer for Linux, Seq24.
    2. Sample items to accompany the manual.
 
-Sequencer64 is now a lot further along, with many more new features than
-Sequencer24, and a slightly more modern look.  We have scoured the Web for
-important patches to Seq24 to make sure that they are incorporated into
-Sequencer64. Therefore, a whole new version of the manual, specific to
-Sequencer64 is now a necessity.
+Sequencer64 is now a lot further along, with many new features over Seq24, and
+a slightly more modern look.  We have scoured the Web for important patches to
+Seq24 to make sure that they are incorporated into Sequencer64. Therefore, a
+whole new version of the manual, specific to Sequencer64 is a necessity.
 
 Here are some of the new features of Sequencer64:
 
@@ -34,6 +31,15 @@ Here are some of the new features of Sequencer64:
          a highlighting color.
       -  Modification of the colors of the scale and background sequence in the
          sequence editor to make it easier to see them all.
+      -  Support for showing the sequence which is currently being edited in a
+         different highlight color.
+   -  An event editor that shows all events in an editable event list.
+   -  Support for a "pause" key.
+   -  Full support for expanded "rc" and "usr" configuration files in the
+      ~/.config/sequencer64 directory.
+   -  Many new build-time options, configure-time options, and run-time
+      options.
+   -  A raft of optimizations and bug fixes, with more to come.
 
 To recreate the PDF file (the latest version is stored in the "pdf"
 directory), you will need to install GNU make, latexmk, tex-live, pdf2latex,

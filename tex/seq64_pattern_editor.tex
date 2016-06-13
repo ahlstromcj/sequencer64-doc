@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-05-09
+% \update      2016-05-22
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -52,8 +52,8 @@
    \index{keys!x}
    Press "x" to "eXit" or "eXscape" from that mode.  Also remember
    that notes are drawn only with the length selected by the "notes" button
-   near the top of the pattern window.  There are some other tricks to editing
-   that are described later.
+   near the top of the pattern window.  There are some other tricks to
+   modifying the new notes that are described later.
 
    Also new with \textsl{Sequencer64}, and not in \textsl{Seq64}, is the
    automatic horizontal scrolling of the sequence/pattern editor window when
@@ -550,6 +550,20 @@
    Editing is much easier after making that setting.   Of course, keystrokes
    and additional mouse configuration have been added to make editing easier
    even without a good mouse.
+   For example, one can page up and down vertically in the piano roll using the
+   \index{keys!page-up} Page Up and 
+   \index{keys!page-down} Page Down keys.
+   One can go to the top using the 
+   \index{keys!home} Home key, and
+   to the bottom using the
+   \index{keys!end} End key.
+   One can page left and right horizontally in the piano roll using the
+   \index{keys!shift-page-up} Shift Page Up and 
+   \index{keys!shift-page-down} Shift Page Down keys.
+   One can go to the leftmost position using the 
+   \index{keys!shift-home} Home key,
+   and to the rightmost position using the
+   \index{keys!shift-end} End key,
 
 \subsubsection{Pattern Editor / Piano Roll Items}
 \label{subsubsec:seq64_pattern_editor_piano_roll_items}
@@ -921,8 +935,9 @@
    If the events are \textsl{cut}, using the \texttt{Ctrl-X} key, then
    they can be pasted, using the \texttt{Ctrl-V} key.  However,
    once \texttt{Ctrl-V} is struck, then one must \textsl{move} the mouse
-   pointer to see where to paste the events.  A box representing the
-   selected-and-cut notes appears.
+   pointer to see where to paste the events.  An orange box representing the
+   selected-and-copied notes appears, and the user should move the box (note)
+   to the desired location and then left-click.
 
 \begin{figure}[H]
    \centering 
