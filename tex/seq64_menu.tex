@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-05-22
+% \update      2016-06-24
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -174,7 +174,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.90]{menu/imported_midi_song.png}
+   \includegraphics[scale=0.90]{new/imported_midi_song.png}
    \caption{Imported MIDI Song}
    \label{fig:seq64_imported_midi_song}
 \end{figure}
@@ -186,12 +186,20 @@
    background.  They are ignored on playback.   Some of the tracks
    which look empty, but are not yellow, contain program-change events.
 
-   Unfortunately, this song was created before the days of General MIDI.
-   It was scored for the Yamaha PSS-790 consumer-level synthesizer,
-   definitely not a GM-compliant device.
-   One can use the MIDI-conversion project, \textsl{midicvt}
-   (see reference \cite{midicvt}),
-   to convert it to General MIDI format, including General MIDI drums.
+   Some things to note.
+   First, the look of the main window can be modified by options for numbering
+   the slots (in the "rc" configuration file) and the style of drawing the
+   slots (in the "user" configuration file).
+   Second, the import can placed the imported data into any of the 32 available
+   sets.  Quite large songs can be built up by importing patterns from other
+   MIDI files.
+
+%  Unfortunately, this song was created before the days of General MIDI.
+%  It was scored for the Yamaha PSS-790 consumer-level synthesizer,
+%  definitely not a GM-compliant device.
+%  One can use the MIDI-conversion project, \textsl{midicvt}
+%  (see reference \cite{midicvt}),
+%  to convert it to General MIDI format, including General MIDI drums.
 
 \subsubsection{Menu / File / Options}
 \label{subsubsec:seq64_menu_file_options}
@@ -463,9 +471,12 @@
    given slot to instead bring up the pattern editor.  By default, this key is
    the equals ("=") key.  The second modifier key causes the usual
    pattern-toggle key (hot-key) for a given slot to instead bring up the event
-   editor.  By default, this key is the minus ("-") key.  As with the other
-   keys, these keys can be reconfigured to a different set of keys in the
-   \textbf{File / Options / Keyboard} page.
+   editor.  By default, this key is the minus ("-") key.
+   These keys are currently hard-wired, but we'll make them configurable
+   eventually.
+%  As with the other
+%  keys, these keys can be reconfigured to a different set of keys in the
+%  \textbf{File / Options / Keyboard} page.
 
    To continue with a listing of the keyboard options:
 
@@ -493,7 +504,7 @@
    \index{new!sequence numbers}
    If this option is turned on, the
    empty slots in the Patterns window show the prospective sequence number.
-   See the following figure for the look.
+   See the following figure for one look of this feature.
 
 \begin{figure}[H]
    \centering 
@@ -502,14 +513,14 @@
    \label{fig:seq64_build_with_numbering}
 \end{figure}
 
-   If you don't like it, turn off the option, or try other grid options
-   in the "user" configuration file.
-
-   Also note that this option also changes the visibility of sequence numbers
+   If one doesn't like it, turn off the option in the "rc" configuration file,
+   or try other grid options in the "user" configuration file.
+   Also note that the option also changes the visibility of sequence numbers
    in active sequences and in the performance editor's names column.
 
    \itempar{Control keys}{keyboard!control keys}
-   This block of fields provides shortcut keys for many operations of
+   This block of fields in the \textbf{Options / Keyboard} tab
+   provides shortcut keys for many operations of
    \textsl{Sequencer64}.
 
    \begin{enumber}
@@ -544,7 +555,6 @@
    Note that some of the keys have positional mnemonic value.  For example,
    for BPM control, the semicolon is at the left (down), and the apostrophe
    is at the right (up).
-
    Also note that the keys definable in this tab are only a subset of the
    various keys that can be used, especially keys used with the
    \texttt{Ctrl} key or other modifier keys.
@@ -623,8 +633,8 @@
 \end{figure}
 
    The default method is \textbf{seq24 (original style)}.
-   The alternate method is \textbf{fruity (similar to a certain well known
-   sequencer)}.
+   The alternate method is \textbf{fruity} (similar to a certain well known
+   sequencer).
 
    \index{mouse!fruity}
    The alternate method is presumably that of the \textsl{Fruity Loops}
@@ -677,12 +687,12 @@
    can be pressed when releasing the right mouse button.
    This keeps the mouse in note-add mode.
    Another right-click, without pressing Mod4, will exit this mode.
-
    The reason for this feature is the crummy FocalTech touchpad on one of
    the author's laptops.  This trackpad seems to have only a single button,
    which the driver interprets as left or right depending where the finger
    is when it is clicked.  There's no way to click the right and left
    buttons at the same time.  There's no way to make a middle-click action.
+   What a crock!
 
    Note that this option will not interfere with the Mod4 key being set
    in the \textbf{Keyboard} option tab, since the keys there mainly apply to
@@ -707,9 +717,9 @@
    These keys, however, do not work (currently) while the sequence is playing.
 
    \index{todo:extend mouse support}
-   \textbf{TODO:} These convenience options are currently limited to the
+   These convenience options are limited to the
    pattern/sequence editor window and the performance editor window, and may
-   need some heavier testing.  But note that some \textsl{Sequencer64} windows
+   need some heavier testing.  Also note that some \textsl{Sequencer64} windows
    can use the ctrl-left-click as a middle click. 
  
 \paragraph{Menu / File / Options / Jack Sync and LASH}
@@ -768,8 +778,7 @@
    in spite of some bug fixes.  Generally, if one experiences issues in
    transport control, try making one of the other sequencer applications the
    JACK Master.
-
-   Also be aware that, if one starts \textsl{Sequencer64} without JACK running,
+   If one starts \textsl{Sequencer64} in JACK mode without JACK running,
    it will take a little while for \textsl{Sequencer64} to start up.
 
    Finally, if one makes a change in the JACK settings, it is best to
@@ -810,7 +819,6 @@
    and by using the group-mode and learn-mode features (we think).
    The song editor causes playback to be in performance mode, also known as
    "playback mode", or "song mode".}
-
    Of course, in JACK mode,
    it selects them according to the chosen live/song mode as discussed above.
 
@@ -874,7 +882,8 @@
 \end{figure}
 
    That dialog provides access to the credits for the program, including the
-   authors and the project documentors.
+   authors and the project documentors.  It has recently been updated
+   to show Git version-control information as well.
 
 \begin{figure}[H]
    \centering 

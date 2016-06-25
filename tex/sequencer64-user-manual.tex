@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-06-13
+% \update      2016-06-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.9.13}
+\title{Sequencer64 User Manual 0.9.14}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -58,7 +58,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{Sequencer64-0_9_11.png}
+   \includegraphics[scale=0.75]{Sequencer64-0_9_14.png}
 \end{figure}
 
 \clearpage                             % moves Contents to next page
@@ -78,36 +78,28 @@
 \label{sec:introduction}
 
    This document describes how to use \textsl{Sequencer64}
-   \cite{sequencer64},
-   through version 0.9.13,
+   \cite{sequencer64}, through version 0.9.14,
    using the latest commit from the \textbf{fixups} branch.
    If you're impatient to get started mastering \textsl{Sequencer64},
    proceed to \sectionref{subsec:introduction_lets_get_started}.
+   Otherwise, here are some of the improvements made.
 
-   We thought we had broken JACK support in our refactoring of the program, but
-   it turns out there was a long-standing bug in \textsl{Seq24}, where the JACK
-   position structure was not being initialized.  But the position values were
-   good enough on most computers to allow the JACK support to set itself up and
-   run.  Anyway, this bug had us hustling for quite a few days.  Not too
-   mention some other tricky bugs revolving around MIDI clocking.
-   Also made some fixes to JACK Master mode, replacing the existing timebase
-   callback with code adopted from the \textsl{SooperLooper} project.
-   This code allows the \textsl{klick} metronome application to be driven by
-   \textsl{Sequencer64}.
-   So, overall, JACK and clocking are notably improved over \textsl{Seq24}.
+   We fixed some bugs in JACK support, MIDI clocking, and
+   JACK Master mode (with code from the \textsl{SooperLooper} project).
+%  This code allows the \textsl{klick} metronome application to be driven by
+%  \textsl{Sequencer64}.
+   So, overall, JACK and clocking are improved over \textsl{Seq24}.
    However, as user \textsl{stazed} notes on GitHub, there is more that can be
    done (and he has done much with his \textsl{seq32} \cite{seq32} project).
 
-   Version 0.9.12 added a few features to make song editing more
-   convenient for the author, who uses ALSA for basic work.
+   We've added a few features to make song editing more
+   convenient for those who use ALSA for basic work.
    There is now a Pause button and a configuration Pause
    keystroke, which defaults to a period (".").
-   There are still a few minor quirks to the Pause feature...
-   are they bugs of features?  Please send in any change-requests you feel you
-   need!
+   Much more editing can be done using keystrokes.
 
-   Also, now a Shift-left-click on a pattern slot (pattern editor, main window)
-   or on a pattern's name or M button (song editor) toggles the armed or
+   A shift-left-click on a pattern slot in the pattern window,
+   or on a pattern's name or M button in the song editor toggles the armed or
    mute status of all of the \textsl{other} active patterns.
    We've got zoom keys for the editors, current-sequence highlighting,
    a raft of important bug fixes, some optimization, and much more.
@@ -119,21 +111,29 @@
    Before we continue, we have contributors to acknowledge:
 
    \begin{itemize}
-      \item Tim Deagan (tdeagan): fixes to the mute-group support.
-      \item 0rel: an important fix to properly add and relink notes after a
+      \item \textsl{Tim Deagan (tdeagan)}:
+         fixes to the mute-group support.
+      \item \textsl{0rel}:
+         an important fix to properly add and relink notes after a
          paste action in the pattern editor.
-      \item Stan Preston (stazed): ideas for some upcoming improvements based
+      \item \textsl{Stan Preston (stazed)}:
+         ideas for some upcoming improvements based
          on his \textsl{seq32} project.
    \end{itemize}
 
    Also some bug-reporters and testers:
 
    \begin{itemize}
-      \item gimmeapill: testing, bug-reports, and, um, "marketing".
-      \item muranyia: feature request for numbered piano keys and bug-reports.
-      \item F0rth: a request for scripting support, a possible future feature.
-      \item triss: a request for OSC support, a possible future feature.
-      \item ssj71: a request for an LV2 plugin version, a possible future feature.
+      \item \textsl{gimmeapill}:
+         testing, bug-reports, and, um, "marketing".
+      \item \textsl{muranyia}:
+         feature request for numbered piano keys and bug-reports.
+      \item \textsl{F0rth}:
+         a request for scripting support, a possible future feature.
+      \item \textsl{triss}:
+         a request for OSC support, a possible future feature.
+      \item \textsl{ssj71}:
+         a request for an LV2 plugin version, a possible future feature.
    \end{itemize}
 
 \subsection{Sequencer64: What?}
@@ -157,7 +157,7 @@
 
    \textsl{Sequencer64} is not a synthesizer.  It requires a hardware
    synthesizer, or a software synthesizer such as Timidity \cite{timidity},
-   FluidSynth \cite{fluidsynth}, ZynAddSubYX \cite{zynaddsubfx}, Yoshimi
+   FluidSynth \cite{fluidsynth}, ZynAddSubFX \cite{zynaddsubfx}, Yoshimi
    \cite{yoshimi} \cite{yoshimi2}, AmSynth \cite{amsynth}, Bristol
    \cite{bristol}, and others (see \cite{linuxsynths} for a fairly
    comprehensive list of "Linux" synthesizers).
@@ -195,11 +195,11 @@
    The first reason to reboot \textsl{Seq24}
    is consolidation of many of the features and fixes that
    it has accumulated in various forks over the years.
-   Also, although "feature-complete", \textsl{Seq24} could use a few more
-   features, such as "infinite patterns" (i.e. "tracks"), support for more
-   session managers, better annunciation, uniformity, still more use of
+   Also, although "feature-complete", additional features would be useful,
+   such as support for more
+   session managers, still more use of
    keystrokes, work-arounds for the need for two mouse buttons, a more
-   up-to-date user-interface framework, some bug fixes, beefing up the support
+   up-to-date user-interface framework, bug fixes, beefing up the support
    for the "user" configuration file, and a way to edit parts of the MIDI file
    textually.
 
@@ -227,8 +227,7 @@
    we've created a reboot, a refactoring, an improvement (we hope) of
    \textsl{Seq24}.  It preserves (we hope) the lean nature of \textsl{Seq24},
    while adding a few features we've found useful, to make it the
-   \index{vi}
-   "vi of sequencers".
+   \index{vi} "vi of sequencers".
    
    Always remember that, without \textsl{Seq24} and its authors,
    \textsl{Sequencer64} would never have come into being.
@@ -237,47 +236,54 @@
 \label{subsec:improvements}
 
    The following improvements have been made to \textsl{Seq24} for
-   \textsl{Sequencer64}.  Note that we might have missed some minor new items.
+   \textsl{Sequencer64}.
 
    \begin{itemize}
-      \item A new \textsl{event editor} dialog is now supported.
-         It allows for the viewing and editing of MIDI channel events.
+      \item A new \textsl{event editor} dialog was added.
+         It allows for the viewing and editing of MIDI events.
          The user is able to see all types of events in the sequence at
-         once.  This editor is still a work-in-progress, but quite useful.
+         once.  This editor is still a work-in-progress, but useful.
       \item \textsl{Sequencer64} can now read SMF 0 MIDI files.  It splits
          the file into tracks based on channel number.  Each track becomes one
          sequence/pattern in the main window grid.
+      \item The chord-generation feature of \textsl{Stazed}'s \textsl{Seq32}
+         project has been ported into \textsl{Sequencer64}.  It can be
+         disabled at configure/build time, if desired.
       \item One can optionally bring up two song editor windows, to have a view
-         of two different parts of a large sequence while arranging it.
+         of two different parts of a large song while arranging it.
       \item The Set Tempo and Time Signature events of normal MIDI files are
-         now processed and incorporated into the user-interface.
-      \item It is now possible to save the scale, key, and background sequence
+         now processed and incorporated into the user-interface and are saved
+         as standard MIDI data.
+      \item One can now save the scale, key, and background sequence
          settings to the \textsl{Sequencer64} MIDI file, either globally or
          per-sequence.
-      \item In the sequence/pattern editor, the window now scrolls to keep up
-         with the progress bar for sequences that are longer than the width of
-         the sequence editor window.  Still pending for the song editor.
+      \item In the sequence/pattern and song editors, the window now scrolls to
+         keep up with the progress bar for sequences that are longer than the
+         width of the sequence editor window.
       \item Additional mouse and keystroke support in the pattern and song
          editor windows:
       \begin{itemize}
-         \item Ability to move selected notes or triggers using the arrow keys.
-         \item Better explanation of existing keystroke support for that window.
+         \item Usage of Page Up, Page Down, and Shift Page Up, Shift Page Down,
+            to move vertically and horizontally in the pattern and song
+            windows.
+         \item Moving selected notes or triggers using the arrow keys.
+         \item Pasting selected notes (and other events) using the arrow and
+            Enter keys.
          \item Additional keystroke support for entering and exiting "paint"
             mode.
-         \item Ability to use the Mod4/Super/Windows key to keep editing
-            (painting) mode enabled after releasing the right mouse button,
-            for some of the modern crappy touchpads shipped with
-            "gamer" laptops.
+         \item Usage of the Mod4/Super/Windows key to keep editing
+            (painting) mode enabled after releasing the right mouse button, for
+            some of the modern crappy touchpads shipped with "gamer" laptops.
          \item Shift-left-click on a pattern slot (in the pattern editor),
-            pattern name or M (mute) (in the song editor)
-            now toggles the status of all of the other active slots.
+            or on the pattern name or M (mute) (in the song editor)
+            to toggle the status of all of the other active slots.
             Useful for listening to a single track by itself.
-         \item Right-click on a the virtual keyboard (in the pattern editor)
+         \item Right-click on a the virtual keyboard in the pattern editor
             toggles between showing letters/octaves (e.g. "C4") versus
             the MIDI note numbers.  
       \end{itemize}
-      \item The "user" configuration is now written to disk, and we will be
-         adding more settings to it as time goes on.  It currently offers the
+      \item The "user" configuration is now written to disk, and we will
+         add more settings to it as time goes on.  It currently offers the
          long-standing feature of customizable buss, instrument, and controller
          information, plus some customizations of the user-interface, such as
          font and display of the main window's pattern grid.  It also supports
@@ -293,13 +299,12 @@
             events) in a highlight color (yellow).
          \item Support for showing the currently-focussed (for editing in the
             pattern editor) sequence.  It is highlighted in black-on-cyan if
-            not armed, and in cyan-on-black if armed.
+            not armed, and in cyan-on-black if armed, and the highlighting
+            appears in both the pattern and song editors.
          \item Sequences that are shorter than a quarter note are now padded to
             one full measure, for smoother scrolling on the patterns panel.
          \item Modification of the colors of the scale and background sequence
             in the sequence editor to make it easier to see them all.
-         \item The last sequence brought up for editing is highlighted in the
-            patterns panel.
          \item A new font, enabled at run time, that is bolder and has a
             more modern, anti-aliased look.
          \item Clean, solid lines to replace the dotted lines in the piano-roll
@@ -311,8 +316,8 @@
          project found by searching the web.  Fixes to bugs found while
          refactoring \textsl{Seq24} were also made.  These fixes are noted in
          detail in the project's ROADMAP file.
-      \item More musical scales (harmonic minor, melodic minor, and
-         whole tone scales) have been added.
+      \item More musical scales (harmonic minor, melodic minor,
+         whole tone, etc.) have been added.
       \item A pause feature has been added to ALSA-mode playback.  It works
          almost completely, but is still undergoing testing.  It also includes
          a pause keystroke (".") and a pause button.
@@ -323,15 +328,14 @@
             option, be written.
          \item Changed the type of MIDI event container used, which greatly
             speeds up the loading of a MIDI file, especially in debug mode.
-            If the new container reduces the maximum output of the sequencer,
-            we will dump the slow container into a vector container for faster
-            playback.
+%           If the new container reduces the maximum output of the sequencer,
+%           we will dump the slow container into a vector container for faster
+%           playback.
          \item Note-transpose now also works on aftertouch events.
-         \item The code was reformated using \textsl{astyle} and
-            personal preferences.  Modules were split into smaller units.
-            Header file "includes" were moved into the "cpp" files to reduce
-            header-file dependencies and build times, and to facilitate
-            modularity and understanding of the code.
+         \item Non-note events are now copied, moved, or pasted, even if not
+            visible, in the pattern editor.
+         \item The code was reformatted using \textsl{astyle} and
+            personal preferences, and refactored into smaller modules.
          \item Much documentation was added to the code as we figured
             out how it worked.  Generation of Doxygen output (including a PDF
             file) provides a developer's reference manual.
@@ -342,10 +346,8 @@
       \end{itemize}
       \item New minor features.
       \begin{itemize}
-         \item The size of the Patterns Panel (main windows) is now locked
-            (well, partly anyway), since enlarging it offers no benefits.
-         \item Support for LASH is now a run-time option (as well as a build
-            option).
+         \item The size of the Patterns Panel (main windows) is now locked.
+         \item Support for LASH is a run-time or a build option.
          \item Support for reading and writing configuration files from the
             user's \texttt{\$HOME/.config/sequencer64} directory.
       \end{itemize}
@@ -361,11 +363,11 @@
 \subsection{Document Structure}
 \label{subsec:introduction_document_structure}
 
-   The structure of this document is based on the user-interface of
-   \textsl{Sequencer64}.  The sections are basically provided in the order
+   The structure of this document follows the user-interface of
+   \textsl{Sequencer64}.  The sections are provided in the order
    their contents appear in the user interface of \textsl{Sequencer64}.  To
-   help the reader jump around this document, multiple links, references,
-   and index entries are provided.
+   help the reader jump around this document, it provides
+   multiple links, references, and index entries.
 
    \textsl{Usage tips}
    \index{tips!documented}
@@ -417,15 +419,18 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{seq64-first-screen.png}
+%  \includegraphics[scale=0.75]{seq64-first-screen.png}
+   \includegraphics[scale=0.75]{new/seq64_first_screen.png}
    \caption{Sequencer64 Main Screen}
    \label{fig:seq64_main_screen}
 \end{figure}
 
    Then the \textsl{Sequencer64} main window appears, as shown in
-   \figureref{fig:seq64_main_screen}.  It has a two minor differences
+   \figureref{fig:seq64_main_screen}.  It has some differences
    from the \textsl{Seq24} main window: the highlighting of
-   empty patterns in yellow; and a different font.
+   empty patterns in yellow, a different font, and colored and numbered pattern
+   slots.  All of these items can be configured either at build time or at run
+   time (via the "user" configuration file).
 
    \textbf{Tip:}
    \index{tips!tooltips}

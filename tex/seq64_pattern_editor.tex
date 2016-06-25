@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-06-15
+% \update      2016-06-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -22,7 +22,8 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/pattern-edit-window.png}
+%  \includegraphics[scale=0.75]{pattern/pattern-edit-window.png}
+   \includegraphics[scale=0.75]{new/pattern_editor_chords-0_9_14.png}
    \caption{Pattern Edit Window}
    \label{fig:pattern_edit_window}
 \end{figure}
@@ -156,8 +157,19 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{pattern/pattern-edit-second-panel-items.png}
-   \caption{Pattern Editor, Second Panel Items}
+   \caption{Pattern Editor, Second Panel Items, Legacy}
    \label{fig:pattern_editor_main_panel_items}
+\end{figure}
+
+   If \textsl{Sequencer64} is built with the new chord-generation option
+   built in (the default), then the second panel is wider to make room for an
+   addition user-interface item, shown at the right of the following figure.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/pattern_editor_second_panel-0_9_14.png}
+   \caption{Pattern Editor, Second Panel Items with Chord Button}
+   \label{fig:pattern_editor_main_panel_items_chord}
 \end{figure}
 
    \begin{enumber}
@@ -171,6 +183,7 @@
       \item \textbf{Key of Sequence}
       \item \textbf{Musical Scale}
       \item \textbf{Background Sequence}
+      \item \textbf{Chord Generation}
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
@@ -450,8 +463,9 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/scales-menu.png}
-   \caption{Available Scales}
+%  \includegraphics[scale=0.75]{pattern/scales-menu.png}
+   \includegraphics[scale=1.0]{new/scales-menu.png}
+   \caption{Scales Currently Supported in Sequencer64}
    \label{fig:pattern_editor_available_scales}
 \end{figure}
 
@@ -526,6 +540,23 @@
    will apply the same settings to that sequence.  This is a feature, now
    more rigorously supported, as noted earlier.
 
+   \itempar{Chord Selection}{pattern editor!chord selection}
+   With \textsl{Sequencer64 v. 0.9.9.14}, the ability to insert chords with one
+   click has been added.  This feature comes from user "stazed"
+   and his \textsl{Seq32} project (\cite{seq32}).
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=1.0]{new/chords_menu-0_9_14.png}
+   \caption{Chord Generation Menu}
+   \label{fig:pattern_editor_chords_menu}
+\end{figure}
+
+   The figure shows the menu broken into two pieces.
+   Once a value other than \textbf{Off} is selected, a left-click
+   in drawing mode will add multiple notes representing the chord
+   created, with the click note value as the base of the chord.
+
 \subsection{Pattern Editor / Piano Roll}
 \label{subsec:seq64_pattern_editor_piano_roll}
 
@@ -538,10 +569,11 @@
    The piano roll is the heart of the pattern (loop, sequence) editor.
    While it is very similar to note editors in other sequencers, it is a bit
    different in feel.  A good mouse with 3 or more buttons is practically a
-   necessity for editing (though we have added some features to make it
-   usable with some pretty crummy trackpads now common on modern laptops).
+   necessity for editing, though we have made it more
+   usable with some pretty crummy trackpads now common on modern laptops,
+   and with keystrokes.
    We tend to like the Logitech Marble Mouse, an
-   ambidextrous USB trackball.  It has four bottons, and we use the
+   ambidextrous USB trackball.  It has four buttons, and we use the
    \texttt{contrib/scripts/marblemouse} script to set up the left small
    button as a middle button.  The script merely makes the following call:
 
@@ -705,11 +737,11 @@
    \index{keys!x}
    "x" key while in the sequence editor, to "x-scape" (get it?  get it?)
    from the paint mode.
-   These keys, however, do not work (currently) while the sequence is playing.
+   These keys also work while the sequence is playing.
 
-   The "p" and "x" key also works in the small event-data editing bar just
-   above the white data area.  However, the Mod4-right-click feature does not
-   yet work in that aread of the user interface.
+   The "p" and "x" key also works in the small event strip just
+   above the white data area.  The Mod4-right-click feature does not
+   yet work in that aread of the user interface, but the "p" key does.
 
 \paragraph{Editing Note Events}
 \label{paragraph:seq64_pattern_editor_note_events}
@@ -928,7 +960,11 @@
    \index{pattern editor!copy}
    \index{keys!ctrl-c} Copy (\texttt{Ctrl-C}),
    \index{pattern editor!paste}
-   \index{keys!ctrl-v} and Paste (\texttt{Ctrl-V}) keys.
+   \index{keys!ctrl-v} Paste (\texttt{Ctrl-V}), and
+   "drop" (\texttt{Enter})
+   \index{pattern editor!drop}
+   \index{keys!enter}
+   keys.
    When the notes are selected,
    \index{pattern editor!delete}
    \index{keys!del}
@@ -937,9 +973,17 @@
    If the events are \textsl{cut}, using the \texttt{Ctrl-X} key, then
    they can be pasted, using the \texttt{Ctrl-V} key.  However,
    once \texttt{Ctrl-V} is struck, then one must \textsl{move} the mouse
-   pointer to see where to paste the events.  An orange box representing the
+   pointer to see where to paste the events, or move it with the arrow keys.
+   An orange box representing the
    selected-and-copied notes appears, and the user should move the box (note)
    to the desired location and then left-click.
+
+   \textsl{
+   (Warning:  We've had temporary issues where the selection box flickers, and
+   this seems to be due to updates in the graphics library used by
+   \textsl{Sequencer64}.  This issue might depend on the Linux distro one
+   uses.)
+   }
 
    Additionally, one can move the orange box using the arrow keys, to the
    desired location, and then hit the
@@ -957,6 +1001,7 @@
    \label{fig:pattern_editor_selection_paste_box}
 \end{figure}
    
+   Note that the selection box is now orange, not black.
    Move this box to where pasting is
    desired, and left-click.  The moved notes appear, still selected,
    and they can then be moved further, if desired, by using the arrow keys, or
@@ -967,7 +1012,8 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/pattern-edit-selected-events-0-9-10.png}
+%  \includegraphics[scale=0.75]{pattern/pattern-edit-selected-events-0-9-10.png}
+   \includegraphics[scale=0.75]{new/pattern-edit-selected-events.png}
    \caption{Piano Roll, Selected Notes and Events}
    \label{fig:pattern_editor_selected_events}
 \end{figure}
@@ -985,6 +1031,12 @@
    selecting more events by holding the Ctrl key for the next left-click drag
    action.  The second selection left out some events, which are thus still
    shown as black bars in the data area.
+
+   As an aside, note that the event strip is gray.  \textsl{Sequencer64}
+   now shows this strip as gray when the selected event (the \textbf{Event}
+   button) is Note On, Note Off, or Aftertouch.  This color is purely a
+   reminder that moving these events can really screw up the notes, for example
+   by moving Note Off to before the Note On event.
    
 \paragraph{Editing Other Events}
 \label{paragraph:seq64_pattern_editor_other_events}

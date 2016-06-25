@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-05-20
+% \update      2016-06-24
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -439,6 +439,13 @@
    because it currently also toggles the arming/mute status of the slot
    twice (leaving it as it was), as well.  For now, one must get used to it.
 
+   \textbf{New:}
+   \index{new!pattern =}
+   \index{keys!=}
+   Another way to bring up a pattern in the pattern editor is to
+   click the \textbf{equal} key and then the pattern's shortcut key.
+   For example, "\textbf{= q}" will open up the editor for that pattern.
+   Currently, the equals key is hard-wired as the key that does this action.
 
    \itempar{Event Edit...}{pattern!event edit}
    \textbf{New:}
@@ -449,6 +456,14 @@
    Clicking this menu entry brings up the \textbf{Event Editor}
    so that one can view and modify the events in the existing pattern.
    See \figureref{fig:pattern_edit_window}.
+
+   \textbf{New:}
+   \index{new!pattern -}
+   \index{keys!-}
+   Another way to bring up a pattern in the event editor is to
+   click the \textbf{minus} key and then the pattern's shortcut key.
+   For example, "\textbf{- q}" will open up the event editor for that pattern.
+   Currently, the minus key is hard-wired as the key that does this action.
 
    There are two things to note about this editor.
    First, this editor is not the same as the event editor pane in the pattern
@@ -555,11 +570,13 @@
 \paragraph{Pattern Keys}
 \label{paragraph:seq64_patterns_pattern_keys}
 
-   Each pattern in the patterns panel can have a hot-key associated with it.
-   \index{keys!hot-keys}
+   \index{keys!hot}
+   \index{keys!shortcut}
+   Each pattern in the patterns panel can have a hot-key or shortcut-key
+   associated with it.
 
    \index{keys!pattern toggles}
-   For each pattern, hitting its assigned keyboard key will
+   For each pattern, hitting its assigned shortcut key will
    also toggle its status between muted/unmuted (armed/unarmed).
    Below is the default grid that is
    mapped to the loops/patterns on the screen set.

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2016-05-13
+% \update      2016-06-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -164,6 +164,14 @@
         in Live mode, and for a new Pause key, which defaults to a
         period (".").
 
+    \itempar{\texttt{--disable-chords}}{build!disable chords support}
+        \index{SEQ64\_STAZED\_CHORD\_GENERATOR}
+        This option undefines the \texttt{SEQ64\_STAZED\_CHORD\_GENERATOR}
+        macro.  If this macro is defined,
+        then the application is built with support for a Chord button in the
+        pattern editor, which enables entering whole chords with a single
+        click.  This feature is grabbed from \textsl{Seq32} (\cite{seq32}).
+
     To summarize, these options undefine the following build macros:
 
       \begin{itemize}
@@ -172,6 +180,7 @@
         \item \texttt{SEQ64\_JACK\_SUPPORT}
         \item \texttt{SEQ64\_JACK\_SESSION}
         \item \texttt{SEQ64\_PAUSE\_SUPPORT}
+        \item \texttt{SEQ64\_STAZED\_CHORD\_GENERATOR}
       \end{itemize}
 
 \subsubsection{Manually-defined Macros in the Code}
@@ -244,12 +253,12 @@
         the bytes for writing to a file.
 
     \itempar{\texttt{SEQ64\_FOLLOW\_PROGRESS\_BAR}}{build!follow progress bar}
-        Already defined in the \texttt{seqroll} module.
+        Already defined in the \texttt{app\_limits.h} module.
         It enables the automatic scrolling (horizontal paging) of the pattern
-        editor piano roll to keep the progress bar in view at all times.
-        This feature is useful for patterns that are longer than the span of
-        the pattern editor.  Also, such scrolling is a common feature of
-        software MIDI sequencers.
+        editor and song editor piano rolls, to keep the progress bar in view at
+        all times.  This feature is useful for patterns that are longer than
+        the span of the editor windows.  Such scrolling is a common
+        feature of software MIDI sequencers.
 
    \textbf{Obsolete}:  Still need to replicate the descriptions that follow
       in the proper sections.
