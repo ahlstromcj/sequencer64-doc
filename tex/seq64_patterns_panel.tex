@@ -205,6 +205,41 @@
 
    \index{pattern!slot}
    An empty box is a slot for a pattern.
+
+   A pattern slot can show a number of different statuses based on the coloring
+   of elements in the slot. 
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/slots.png}
+   \caption{Various Status of Pattern Slots}
+   \label{fig:pattern_slots_statuses}
+\end{figure}
+
+   The colors have meaning:
+
+   \begin{itemize}
+      \item \textbf{Empty background}.  Whether the classic gray pattern
+         of \textsl{Seq24}, or the many patterns of \textsl{Sequencer64},
+         including all black with yellow sequence numbers, this
+         slot indicates that it is unused.
+      \item \textbf{White background}.  Unarmed or muted pattern.
+      \item \textbf{Black background}.  Armed or unmuted pattern.
+      \item \textbf{Yellow background}.  A pattern with no MIDI event, just
+         textual MIDI information.
+      \item \textbf{Cyan background, black text}.
+         An unarmed pattern currently being edited in a pattern editor or event
+         editor.
+      \item \textbf{Black background, cyan text}.
+         An armed pattern currently being edited in a pattern editor or event
+         editor.
+      \item \textbf{Red events}.
+         Indicates a pattern for which the new transpose feature is
+         disabled.  The white, black, and cyan background have the same
+         meanings as in the other items for statuses of unarmed, armed, and
+         currently being edited.
+   \end{itemize}
+
    \index{pattern!right click}
    \index{slot!empty slot right-click}
    By right-clicking on an empty box one brings up a menu to create

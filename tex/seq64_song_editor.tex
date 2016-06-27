@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-05-10
+% \update      2016-06-26
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -63,7 +63,8 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{song-editor/song-editor-window-new.png}
+%  \includegraphics[scale=0.75]{song-editor/song-editor-window-new.png}
+   \includegraphics[scale=0.75]{new/song_editor_transpose-0_9_15.png}
    \caption{Song Editor Window}
    \label{fig:song_editor_window}
 \end{figure}
@@ -99,6 +100,22 @@
    
    The Song Editor is not too complex, but for exposition, we break it into
    the top panel, the bottom panel, and the rest of the window.
+
+   \textbf{New:}
+   There are still more features of the song editor in
+   pending version 0.9.15, as seen in the following
+   figure:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/song_editor_top_panel_transpose-0_9_15.png}
+   \caption{Song Editor Window, Another New Feature}
+   \label{fig:song_editor_window_another_new_feature}
+\end{figure}
+
+   We see an additional button that allows the whole song (except for
+   exempt, non-transposable sequences) to be transposed up or down by up to an
+   octave in either direction.
 
 \subsection{Song Editor / Top Panel}
 \label{subsec:seq64_song_editor_top}
@@ -255,8 +272,21 @@
    \label{fig:song_editor_window_full_items}
 \end{figure}
 
+   One new feature of the song editor is that, if the new Transpose feature is
+   built into \textsl{Sequencer64}, any patterns that are marked as exempt from
+   transposition (common with drum tracks) have their events shown in red
+   instead of black.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=1.0]{new/perf-non-transposable.png}
+   \caption{Song Editor for Non-Transposable Patterns}
+   \label{fig:song_editor_non_transposable_items}
+\end{figure}
+
    \index{measures ruler}
-   It consists of a \textsl{measures ruler} (bar indicator) at the top, a
+   The measures ruler (measures strip)
+   consists of a \textsl{measures ruler} (bar indicator) at the top, a
    numbered patterns column at the left with a muting indicator, and the
    grid or roll section.  There are a lot of hidden details in the
    arrangement panel, as the figure shows.  Here are the main sections we

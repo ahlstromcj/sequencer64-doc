@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2016-06-25
+% \update      2016-06-26
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -171,6 +171,17 @@
         then the application is built with support for a Chord button in the
         pattern editor, which enables entering whole chords with a single
         click.  This feature is grabbed from \textsl{Seq32} (\cite{seq32}).
+
+    \itempar{\texttt{--disable-transpose}}{build!disable transpose support}
+        \index{SEQ64\_STAZED\_TRANSPOSE}
+        This option undefines the \texttt{SEQ64\_STAZED\_TRANSPOSE}
+        macro.  If this macro is defined,
+        then the application is built with support for a Transpose button in the
+        pattern editor and the song editor.  The Transpose button in the
+        pattern editor allows a pattern to be exempt from transposition,
+        while the Transpose button in the song editor allows transposing the
+        entire song (except for exempt patterns).
+        This feature is grabbed from \textsl{Seq32} (\cite{seq32}).
 
     To summarize, these options undefine the following build macros:
 

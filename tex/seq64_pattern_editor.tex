@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-06-25
+% \update      2016-06-26
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -18,17 +18,18 @@
    The \textsl{Sequencer64 Pattern Editor} is used to edit and preview a
    pattern, as well as to configure its buss and channel settings.
    In programmer's jargon, this window is represented by the seqroll class (and
-   the other "seq" classes.
+   the other "seq" classes).
 
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{pattern/pattern-edit-window.png}
-   \includegraphics[scale=0.75]{new/pattern_editor_chords-0_9_14.png}
+%  \includegraphics[scale=0.75]{new/pattern_editor_chords-0_9_14.png}
+   \includegraphics[scale=0.75]{new/pattern_editor_transpose-0_9_15.png}
    \caption{Pattern Edit Window}
    \label{fig:pattern_edit_window}
 \end{figure}
 
-   This dialog is quite complex.
+   This dialog is complex.
    For exposition, we break it into some common actions, a first panel, a
    second panel, a bottom panel, and a piano-roll/events section.
 
@@ -56,7 +57,7 @@
    near the top of the pattern window.  There are some other tricks to
    modifying the new notes that are described later.
 
-   Also new with \textsl{Sequencer64}, and not in \textsl{Seq64}, is the
+   Also new with \textsl{Sequencer64}, and not in \textsl{Seq24}, is the
    automatic horizontal scrolling of the sequence/pattern editor window when
    playback moves the progress bar outside of the current frame of data.  This
    feature makes it easier to follow patterns that are longer than a measure or
@@ -82,7 +83,18 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{pattern/pattern-edit-first-panel-items.png}
-   \caption{Pattern Editor, First Panel Items}
+   \caption{Pattern Editor, First Panel Items, Legacy}
+   \label{fig:pattern_editor_first_panel_items_legacy}
+\end{figure}
+
+   In recent versions of \textsl{Sequencer64}, a "sequence-is-transposable"
+   feature has been added, as shown below, and described a bit latter.
+
+\begin{figure}[H]
+   \centering 
+%  \includegraphics[scale=0.75]{pattern/pattern-edit-first-panel-items.png}
+   \includegraphics[scale=0.75]{new/pattern_editor_top_panel-0_9_15.png}
+   \caption{Pattern Editor, First Panel Emphasizing Transposable Button}
    \label{fig:pattern_editor_first_panel_items}
 \end{figure}
 
@@ -91,6 +103,7 @@
       \item \textbf{Beats Per Bar}
       \item \textbf{Beat Unit}
       \item \textbf{Pattern Length}
+      \item \textbf{Transpose Toggle}
       \item \textbf{MIDI Out Device}
       \item \textbf{MIDI Out Port}
    \end{enumber}
@@ -137,6 +150,12 @@
    Also nice would be a "one-shot"
    pattern, useful for live intro patterns, for example.)}
 
+   \itempar{Transpose Toggle}{pattern editor!transpose toggle}
+   This item if enabled, allows the sequence to be transposed by the global
+   transpose selection made in the song editor.  If enabled, the button will be
+   highlighted as per the current desktop theme.  Patterns for drums should,
+   in general, not be transposable.
+
    \itempar{MIDI Out Device (Buss)}{pattern editor!midi out device}
    This setting specifies one of the 16 MIDI output busses provided by
    \textsl{Sequencer64}.  The settings look a lot like
@@ -158,7 +177,7 @@
    \centering 
    \includegraphics[scale=0.75]{pattern/pattern-edit-second-panel-items.png}
    \caption{Pattern Editor, Second Panel Items, Legacy}
-   \label{fig:pattern_editor_main_panel_items}
+   \label{fig:pattern_editor_main_panel_items_legacy}
 \end{figure}
 
    If \textsl{Sequencer64} is built with the new chord-generation option
@@ -168,8 +187,8 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{new/pattern_editor_second_panel-0_9_14.png}
-   \caption{Pattern Editor, Second Panel Items with Chord Button}
-   \label{fig:pattern_editor_main_panel_items_chord}
+   \caption{Pattern Editor, Second Panel Items Emphasizing Chord Button}
+   \label{fig:pattern_editor_main_panel_items}
 \end{figure}
 
    \begin{enumber}
@@ -183,7 +202,7 @@
       \item \textbf{Key of Sequence}
       \item \textbf{Musical Scale}
       \item \textbf{Background Sequence}
-      \item \textbf{Chord Generation}
+      \item \textbf{Chord Selection}
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
@@ -555,7 +574,7 @@
    The figure shows the menu broken into two pieces.
    Once a value other than \textbf{Off} is selected, a left-click
    in drawing mode will add multiple notes representing the chord
-   created, with the click note value as the base of the chord.
+   created, with the clicked note value as the base of the chord.
 
 \subsection{Pattern Editor / Piano Roll}
 \label{subsec:seq64_pattern_editor_piano_roll}
