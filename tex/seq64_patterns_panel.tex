@@ -436,8 +436,9 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/pattern-right-click-menu.png}
-   \caption{Existing Pattern, Right-Click Menu}
+%  \includegraphics[scale=0.75]{pattern/pattern-right-click-menu.png}
+   \includegraphics[scale=0.75]{new/seqmenu-menus-0_9_15.png}
+   \caption{Existing Pattern, Right-Click Menus}
    \label{fig:pattern_window_right_click}
 \end{figure}
 
@@ -451,6 +452,7 @@
       \item \textbf{Cut}
       \item \textbf{Copy}
       \item \textbf{Song/}
+      \item \textbf{Enable or Disable Transpose/}
       \item \textbf{MIDI Bus/}
    \end{enumber}
 
@@ -540,28 +542,40 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/pattern-menu-song.png}
+%  \includegraphics[scale=0.75]{pattern/pattern-menu-song.png}
+   \includegraphics[scale=0.75]{new/seqmenu_song_menu-0_9_15.png}
    \caption{Existing Pattern, Right-Click Menu, Song}
    \label{fig:pattern_window_right_click_song}
 \end{figure}
 
    \begin{enumber}
-      \item \textbf{Clear Song Data}
+      \item \textbf{Clear Track's Song Data}
       \item \textbf{Mute All Tracks}
+      \item \textbf{Unmute All Tracks}
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
-   \itempar{Clear Song Data}{pattern!clear song data}
+   \itempar{Clear Track's Song Data}{pattern!clear song data}
    Selecting this filled-box right-click menu item causes that box's
    loop/pattern to be removed from the song.  This means
    that it disappears from the Song Editor window, and so will not
-   be played when the song plays.
+   be played when the song plays in Song mode.
 
    \itempar{Mute All Tracks}{pattern!mute all tracks}
    Selecting this filled-box right-click menu item causes
    the tracks in the Song Editor to be muted.  Sometime it takes a few seconds
    for the user-interfaces to show this big change.
+
+   \itempar{Unmute All Tracks}{pattern!unmute all tracks}
+   Selecting this filled-box right-click menu item causes
+   the tracks in the Song Editor to be unmuted.
+
+   \itempar{Disable or Enable Transpose}{pattern!transpose}
+   This menu entry changes depending upon whether the new transpose feature is
+   enabled or disabled for the sequence/pattern.  Note that, if the events
+   shown in the slot are red, this denotes that transpose is currently
+   \textsl{disabled} for that pattern.
 
    \itempar{Midi Bus}{pattern!midi bus}
    Selecting this filled-box right-click menu item brings up a list
