@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-06-26
+% \update      2016-07-04
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -263,7 +263,7 @@
          Pressing the \texttt{Ctrl} key and the left button on a note or an
          unselected event \textsl{adds} that event to the selection.
          This is a bit different from conventional selection addition
-         in other applications, which is initiated via the \texttt{Shift} key.
+         in other applications, which tend to use the \texttt{Shift} key.
       \item \index{mouse!left-click-drag}
          \textbf{Left Click Drag}.
          Pressing the left mouse button and dragging also lets one
@@ -285,9 +285,14 @@
 
    \index{modify event-data}
    $\bullet$ \textbf{Modify Event Data} offers a way to change the event data
-   (the lower pane of the pattern editor).  When notes are selected, and the
+   (the lower pane of the pattern editor).
+   By left-dragging the mouse in the data pane across the value lines that are
+   shown, the values are chopped or set to the height of the mouse pointer at
+   each event.
+   When notes are selected, and the
    mouse is used to change the values (heights) of the lines in the event-data
-   area, only the events that are selected are changed.  The data-values of
+   area,
+   \textsl{only the events that are selected} are changed.  The data-values of
    selected events are left unchanged.  A cool feature from \textsl{Seq24}.
 
    \index{modify time}

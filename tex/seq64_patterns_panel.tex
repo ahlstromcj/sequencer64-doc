@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-06-24
+% \update      2016-07-10
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -108,23 +108,62 @@
    This button is also known as the "L" button.
    Click this button, and then press a mute-group key
    to store the mute-state of the patterns with in that key.
+   In addition to clicking this button, one can also press
+   the \texttt{Ctrl-L} combination, analogous to \texttt{Ctrl-E}
+   to bring up the Song Editor.
 
    See the \textbf{File / Options / Keyboard} menu entry to bring up the
    dialog showing the available mute-group keys and the corresponding
    hot-key for the "L" button.
+   This key is usually the \texttt{Insert} key.  Unlike the button or the
+   \texttt{Ctrl-L} key, this key must be held down while pressing the desired
+   mute-group key.
+   This is a clumsy thing on our main keyboard... one must press and hold
+   \texttt{Shift-Fn-Insert} to get the \texttt{Insert} key, and then also
+   press the desired mute-group key.  A real knuckle-buster!
+   We have our own alternate setup (stored in the file
+   \texttt{sequencer64.rc.example}.
 
    Group-learn is a modifier key to be pressed \textsl{together}
    with the toggle key, and the group on/off keys are there to enable/disable
-   the whole feature, \textsl{not} to toggle group states.
+   the each group, \textsl{not} to toggle group states.
 
    To set up the mute groups, press the 'L' button, and then press a key on
    the keyboard to 'learn' or 'save' the preset. Looking at the list of keys
    assigned for these mute groups (in \textbf{File / Options / Keyboard}),
    the first bank of keys are "!", "'", "?", etc., and the second bank are
-   "Q", "W" "E", etc.  When you ask the program to 'learn' the key, one can't
-   use the Shift key, so (on Windows at least) one cannot use the "!" or
-   other symbol keys.  Similarly, make sure Caps Lock is off before starting
-   the 'learn' process (as it won't recognise "q", only "Q").
+   "Q", "W" "E", etc.
+
+   If the key is valid, then the following prompt occurs:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=1.0]{pattern-window-group-learn-confirmation.png}
+   \caption{Group Learn Confirmation Prompt}
+   \label{fig:pattern_window_group_learn_confirmation}
+\end{figure}
+   
+   When you ask the program to 'learn' the key, one can't
+   use the Shift key, so one normally could not use the "!" or
+   other symbol keys.
+
+   In fact, the process stops as soon as the Shift key is pressed:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=1.0]{pattern-window-group-learn-failure.png}
+   \caption{Group Learn Failure Prompt (Shift Key)}
+   \label{fig:pattern_window_group_learn_failure}
+\end{figure}
+
+   \textbf{New:}
+   \index{new!caps lock in learn mode}
+   To avoid this issue with the Shift key, \textsl{Sequencer64} now effectively
+   "Shift-Locks" the keys for you, so that none of the keys, whether letters or
+   the punctuation characters above the numbers, need the Shift key to be held.
+   There is now no need to use the \textbf{Caps Lock} is \textsl{On} before
+   starting the 'learn' process.  We did this because we tend to map the
+   Caps Lock key as the \textsl{true} Control key.
 
    Once that works, one can configure the MIDI settings in similar ways
    by assigning MIDI commands to toggle loops, using 
@@ -139,6 +178,8 @@
    One can mute-unmute (according to the group definition) all loops in the
    playing screenset, which is the only one that can have sequences playing
    (like a live sequencer).
+   
+   (To be verified.)
 
 	This toggling is done either by one of the \textsl{group toggle} keys
 	or by a MIDI controller, both assigned in the
@@ -154,7 +195,7 @@
    corresponding \textsl{group toggle} key.
 	There are also keys assigned to turn on/off the group functionality.
 
-   Remember that groups work with the playing screen set only.
+   Remember that groups work with the playing ("in-view") screen set only.
    One must change the screenset and give it the command to make it the
    playing one
    \index{keys!Home}
@@ -657,20 +698,24 @@
    The left and right Alt keys are, by default, set up in the
    \textbf{File / Options / Keyboard / Snapshot 1} and
    \textbf{Snapshot 2} fields to be used as "snapshot" keys.
+   Our preference is to use something that does not trigger desktop
+   commands, perhaps F11 or F12.
 
    When one of these snapshot keys is pressed, the state of the patterns
    (which ones are armed versus unarmed) is instantly saved.  While the
    snapshot key is held pressed, one can then change the state of the patterns
-   to change how the song plays back.  When the snapshot key is released, the
+   (using the keyboard, \textsl{not} the mouse)
+   to change how the song plays.  When the snapshot key is released, the
    original saved state of the patterns is restored.
 
    \index{keys!alt}
    Holding \texttt{Alt} will save the state of playing patterns and restore
    them when \texttt{Alt} is lifted.
 
-   The handling of \texttt{Alt} is generally taken over by the window
+   The handling of \texttt{Alt} is often taken over by the window
    manager, so there could be a need to change these items to some other
-   keys.
+   keys.  For example, we have Fluxbox set up so that the Alt keys can
+   be used for moving or resizing a window.
 
 %  \index{keys!left ctrl alt}
 %  Holding \texttt{Left Ctrl} and \texttt{Alt} at the same time will enable
@@ -710,14 +755,15 @@
    the window manager to use the Super key modifier to manipulate windows
    and applications \textsl{(laughter ensues)}.
    However, we have found that one can also use normal keys to enable queueing.
-   For example, the minus key or the keypad's slash keys can be used, with no
+   For example, the minus key or the keypad's slash key can be used, with no
    noticeable flickering due to the keyboard repeat rate.
 
    \index{keys!replace}
    Note that there is also a "replace" key, which is the left Ctrl key by
    default.  Replacement is a form of muting/unmuting.  When the "replace"
    key is pressed while click a sequence, that sequence is unmuted, and all
-   of the other sequences are muted.
+   of the other sequences are muted.  Again, this is a very inconvenient
+   default, so an alternative key mapping is provided.
 
    \index{keys!backslash}
    \index{keys!keep queue}
