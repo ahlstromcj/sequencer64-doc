@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-07-10
+% \update      2016-07-14
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -109,8 +109,8 @@
    Click this button, and then press a mute-group key
    to store the mute-state of the patterns with in that key.
    In addition to clicking this button, one can also press
-   the \texttt{Ctrl-L} combination, analogous to \texttt{Ctrl-E}
-   to bring up the Song Editor.
+   the \texttt{Ctrl-L} combination (analogous to the \texttt{Ctrl-E}
+   keystroke that brings up the Song Editor).
 
    See the \textbf{File / Options / Keyboard} menu entry to bring up the
    dialog showing the available mute-group keys and the corresponding
@@ -308,15 +308,13 @@
    so that one can fill in the new pattern.
 
    \textbf{New:}
-   In addition to right-clicking and selecting \textbf{New}, the user
-   \index{new!empty slot ctrl-left-click}
-   can Ctrl-left-click on the empty slot, or
+   In addition to right-clicking and selecting \textbf{New}, the user can
    \index{new!empty slot double-click}
    double-click on the empty slot, to bring up a new instance of the sequence
    editor.  For the double-click, the effect can be a bit confusing at first,
    because it currently also toggles the arming/mute status of the slot
    quickly twice (leaving it as it was), as well.  It might take some getting
-   used to.
+   used to, but we miss it when using \textsl{Seq24}..
 
    \textbf{New:}
    \index{new!editing shortcut}
@@ -508,14 +506,9 @@
    Also known as the "sequence editor".
 
    \textbf{New:}
-   In addition to right-clicking and selecting \textbf{Edit...}, the user
-   \index{new!pattern ctrl-left-click}
-   can Ctrl-left-click on the empty slot, or
+   In addition to right-clicking and selecting \textbf{Edit...}, the user can
    \index{new!empty slot double-click}
-   double-click on the empty slot, to bring up the sequence
-   editor.  For the double-click, the effect can be a bit confusing at first,
-   because it currently also toggles the arming/mute status of the slot
-   twice (leaving it as it was), as well.  For now, one must get used to it.
+   double-click on the empty slot, to bring up the sequence editor.
 
    \textbf{New:}
    \index{new!pattern =}
@@ -695,11 +688,11 @@
    \texttt{]} keys on the keyboard
    switch between sets, either decrementing or incrementing the set number.
 
-   The left and right Alt keys are, by default, set up in the
+   The left and right \texttt{Alt} keys are, by default, set up in the
    \textbf{File / Options / Keyboard / Snapshot 1} and
    \textbf{Snapshot 2} fields to be used as "snapshot" keys.
    Our preference is to use something that does not trigger desktop
-   commands, perhaps F11 or F12.
+   commands, perhaps \texttt{F11} or \texttt{F12}.
 
    When one of these snapshot keys is pressed, the state of the patterns
    (which ones are armed versus unarmed) is instantly saved.  While the
@@ -714,7 +707,7 @@
 
    The handling of \texttt{Alt} is often taken over by the window
    manager, so there could be a need to change these items to some other
-   keys.  For example, we have Fluxbox set up so that the Alt keys can
+   keys.  For example, we have Fluxbox set up so that the \texttt{Alt} keys can
    be used for moving or resizing a window.
 
 %  \index{keys!left ctrl alt}
@@ -725,13 +718,21 @@
    \index{keys!right ctrl}
    \index{keys!queue}
    \index{queue!temporary}
-	Holding \texttt{Right Ctrl} (or better, another key configured in
-   \textbf{Options / Keyboard / Queue} will queue a on/off toggle for a 
+	Holding \texttt{Right Ctrl}
+   will queue a on/off toggle for a 
 	sequence when the loop ends. This is the "queue" functionality.
    This means that the change in state of the pattern will not take hold
    immediately, but will kick in when the pattern restarts.
    This pending state is indicated by coloring the central box of the
    pattern grey, as shown in the following figure.
+
+   \textbf{Warning}:  We do not recommend using \texttt{Ctrl} or \texttt{Alt}
+   keys for pattern control.  They conflict with application or desktop
+   settings.
+   The \texttt{Super} key can be used (if not already used by the desktop
+   environment).  Also available are some of the function keys, and, if
+   available, the keypad keys.  These can be configured in
+   \textbf{Options / Keyboard}.
 
 \begin{figure}[H]
    \centering 
@@ -746,21 +747,21 @@
    Queue also works for mute/unmute pattern sets ("groups"); in this case,
    every sequence will toggle its status after its individual loop end. 
 
-   Of course, the Ctrl key is used to manage the GUI (e.g. Ctrl-q will
-   unceremoniously quit the application), so one will usually want to change
-   this key to something else in the
+   Of course, the \texttt{Ctrl} key is used to manage the GUI (e.g.
+   \texttt{Ctrl-Q} will unceremoniously quit the application), so one will
+   usually want to change this key to something else in the
    \textbf{File / Options / Keyboard / Queue} field.
    The Super key (i.e. the Mod4 or Windows key) is a good candidate to
-   replace the right Ctrl key, unless one has (like the author) configured
-   the window manager to use the Super key modifier to manipulate windows
-   and applications \textsl{(laughter ensues)}.
+   replace the right \texttt{Ctrl} key, unless one has (like the author)
+   configured the window manager to use the Super key modifier to manipulate
+   windows and applications \textsl{(laughter ensues)}.
    However, we have found that one can also use normal keys to enable queueing.
    For example, the minus key or the keypad's slash key can be used, with no
    noticeable flickering due to the keyboard repeat rate.
 
    \index{keys!replace}
-   Note that there is also a "replace" key, which is the left Ctrl key by
-   default.  Replacement is a form of muting/unmuting.  When the "replace"
+   Note that there is also a "replace" key, which is the left \texttt{Ctrl} key
+   by default.  Replacement is a form of muting/unmuting.  When the "replace"
    key is pressed while click a sequence, that sequence is unmuted, and all
    of the other sequences are muted.  Again, this is a very inconvenient
    default, so an alternative key mapping is provided.
@@ -776,7 +777,7 @@
 	queue function again pressing \texttt{Right Ctrl}. 
    After pressing the "keep queue" key, individual pattern
    toggles will occur at the end of the current cycle rather than immediately.
-   “Keep queue” mode is canceled by pressing the Queue key (right Ctrl).
+   “Keep queue” mode is canceled by pressing the Queue key (right \texttt{Ctrl}).
 
    This key can be changed in the
    \textbf{File / Options / Keyboard / Keep queue} field.
@@ -798,11 +799,13 @@
    from muted (white background) to playing (black background) when
    the sequencer is running.
 
-   \index{pattern!left ctrl left click}
-   \index{keys!left ctrl}
-   Holding down \texttt{Left Ctrl} while selecting a pattern
-   with a left click will mute all other patterns and turn on the selected
-   pattern.
+% OBSOLETE:
+%
+%  \index{pattern!left ctrl left click}
+%  \index{keys!left ctrl}
+%  Holding down \texttt{Left Ctrl} while selecting a pattern
+%  with a left click will mute all other patterns and turn on the selected
+%  pattern.
 
    \index{pattern!left click-drag}
    By clicking and holding the left mouse button on a pattern,
