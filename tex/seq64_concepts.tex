@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-06-25
+% \update      2016-08-29
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -64,6 +64,17 @@
    playback.
    A \textsl{buss} is just another name for port.
    See \sectionref{subsubsec:concepts_terms_port}.
+
+\subsubsection{Concepts / Terms / export}
+\label{subsubsec:concepts_terms_export}
+
+   \index{export}
+   A \textsl{export} in \textsl{Sequencer64} is a way of writing a
+   song-performance to a more standard MIDI file, so that it can be played
+   by other sequencers.  An export collects all of the unmuted tracks that have
+   performance information (triggers) associated with them, and creates one
+   larger trigger for each track, repeating the events as indicated by the
+   original performance.
 
 \subsubsection{Concepts / Terms / group}
 \label{subsubsec:concepts_terms_group}
@@ -153,6 +164,8 @@
    This layout of patterns is created using the Song Editor, sometimes
    called the "performance editor".
    This window controls the song playback in "Song Mode".
+   The playback of each track is controlled by a set of triggers created for
+   that track.
 
 \subsubsection{Concepts / Terms / port}
 \label{subsubsec:concepts_terms_port}
@@ -243,6 +256,15 @@
    A \textsl{song} is a collection of patterns in a specific layout, as
    assembled via the Song Editor window.
    Also see \ref{subsubsec:concepts_terms_performance}
+
+\subsubsection{Concepts / Terms / trigger}
+\label{subsubsec:concepts_terms_trigger}
+
+   \index{trigger}
+   A \textsl{trigger} is a small data structure that indicates when a sequence
+   should be played, and how much of the sequence (including repeats) should be
+   played.  A song performance consists of a number of sequences, each
+   triggered in ways that the musician can lay out.
 
 \subsection{Concepts / Sound Subsystems}
 \label{subsec:concepts_sound_subsystems}
