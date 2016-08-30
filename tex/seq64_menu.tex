@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-06-24
+% \update      2016-06-30
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -44,7 +44,8 @@
       \item \textbf{Open...}
       \item \textbf{Save}
       \item \textbf{Save As...}
-      \item \textbf{Import...}
+      \item \textbf{Import MIDI...}
+      \item \textbf{Export song as MIDI...}
       \item \textbf{Options...}
       \item \textbf{Exit}
    \end{enumber}
@@ -59,7 +60,7 @@
 
    \index{todo!improve change detection}
    \textsl{Currently, the detection of situations requiring a save (or not
-   requiring a save) needs a bit of work.  We've made a lot of progress,
+   requiring a save) still needs some work.  We've made a lot of progress,
    though.}
 
 \subsubsection{Menu / File / Open}
@@ -71,7 +72,7 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.50]{menu/menu_file_open.png}
-   \caption{File Open}
+   \caption{File / Open}
    \label{fig:seq64_menu_file_open}
 \end{figure}
 
@@ -87,17 +88,18 @@
    dialog to name and save the file.
 
    The \textbf{Save As} menu entry saves a song under a different name.
-   It opens up the following standard GTK+2 file dialog:
+   It opens up the following standard GTK+2 file dialog, very similar to the 
+   \textbf{File Open} dialog, with an additional \textbf{Name} text-edit field.
 
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.50]{menu/menu_file_save_as.png}
-   \caption{File Save As}
+   \caption{File / Save As}
    \label{fig:seq64_menu_file_save_as}
 \end{figure}
 
    To save a new file, or to save the current existing file to a new name,
-   enter the name in the name field, \textsl{without an extension}.
+   enter the name in the name field, without an extension.
    \textsl{Sequencer64} will append a \texttt{.midi} extension to the filename.
    The file will be saved in a format that the Linux \textsl{file} command
    will tag as something like:
@@ -117,8 +119,7 @@
    Compare the sizes of the original project MIDI file,
    \texttt{contrib/b4uacuse.mid}, and the output MIDI file after
    \textsl{Sequencer64} saved the patterns and the song layout we created,
-   \texttt{contrib/b4uacuse-seq24.midi}.  The latter is a lot
-   bigger.
+   \texttt{contrib/b4uacuse-seq24.midi}.  The latter is bigger.
 
    The reason is that, after the last track in the file, a number of
    sequencer-specific (SeqSpec) items are saved, to preserve this extra
@@ -136,7 +137,7 @@
    The legacy and new formats of the final "track" are explained in
    \sectionref{subsec:legacy_midi_format}.
 
-\subsubsection{Menu / File / Import}
+\subsubsection{Menu / File / Import MIDI}
 \label{subsubsec:seq64_menu_file_import}
 
    The \textbf{Import} menu entry allows one to import a Format 1 MIDI file
@@ -146,16 +147,18 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.50]{menu/menu_file_import.png}
-   \caption{File Import}
+   \caption{File / Import MIDI}
    \label{fig:seq64_menu_file_import}
 \end{figure}
 
    When imported, each track, whether a music track or an information track,
    is entered into its own loop/pattern box.  The import operation can
-   handle reasonably complex files, as shown in the following diagram, which
-   shows an import of the \texttt{contrib/b4uacuse.mid} file, which contains
+   handle reasonably complex files,
+%  as shown in the following diagram, which shows an import of
+   such as the \texttt{contrib/b4uacuse.mid} file, which contains
    a transcription of an Eric Clapton tune that we'd made over 20 
-   years ago and had uploaded to the \textsl{GEnie} network service.
+   years ago.
+%  and had uploaded to the \textsl{GEnie} network service.
 
    Note the additional file-dialog field,
    \textbf{Select Screen Offset}.
@@ -172,25 +175,27 @@
    are probably more useful to move sequences around in an already-created
    \textsl{Sequencer64} song file with a lot of screen-sets in it.
 
-\begin{figure}[H]
-   \centering 
-   \includegraphics[scale=0.90]{new/imported_midi_song.png}
-   \caption{Imported MIDI Song}
-   \label{fig:seq64_imported_midi_song}
-\end{figure}
+% \begin{figure}[H]
+%    \centering 
+%    \includegraphics[scale=0.90]{new/imported_midi_song.png}
+%    \caption{Imported MIDI Song}
+%    \label{fig:seq64_imported_midi_song}
+% \end{figure}
+% 
+%  This song has a number of non-event tracks containing labels.
+%  \textbf{New:}
+%  \index{new!empty tracks}
+%  These tracks are treated as "empty", and show up with a yellow
+%  background.  They are ignored on playback.   Some of the tracks
+%  which look empty, but are not yellow, contain program-change events.
 
-   This song has a number of non-event tracks containing labels.
-   \textbf{New:}
-   \index{new!empty tracks}
-   These tracks are treated as "empty", and show up with a yellow
-   background.  They are ignored on playback.   Some of the tracks
-   which look empty, but are not yellow, contain program-change events.
+%  Some things to note.
+%  First, the look of the main window can be modified by options for numbering
+%  the slots (in the "rc" configuration file) and the style of drawing the
+%  slots (in the "user" configuration file).
+%  Second, the import can placed the imported data into any of the 32 available
 
-   Some things to note.
-   First, the look of the main window can be modified by options for numbering
-   the slots (in the "rc" configuration file) and the style of drawing the
-   slots (in the "user" configuration file).
-   Second, the import can placed the imported data into any of the 32 available
+   The import can placed the imported data into any of the 32 available
    sets.  Quite large songs can be built up by importing patterns from other
    MIDI files.
 
@@ -200,6 +205,22 @@
 %  One can use the MIDI-conversion project, \textsl{midicvt}
 %  (see reference \cite{midicvt}),
 %  to convert it to General MIDI format, including General MIDI drums.
+
+\subsubsection{Menu / File / Export song as MIDI}
+\label{subsubsec:seq64_menu_file_export}
+
+   TODO
+   TODO
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{menu/menu_file_export.png}
+   \caption{File / Export Song as MIDI}
+   \label{fig:seq64_menu_file_export}
+\end{figure}
+
+   TODO
+   TODO
 
 \subsubsection{Menu / File / Options}
 \label{subsubsec:seq64_menu_file_options}
