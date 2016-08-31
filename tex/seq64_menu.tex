@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-06-30
+% \update      2016-08-30
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -34,7 +34,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/menu_file.png}
+   \includegraphics[scale=1.00]{menu/menu_file.png}
    \caption{Sequencer64 File Menu Items}
    \label{fig:seq64_menu_file_items}
 \end{figure}
@@ -71,7 +71,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.50]{menu/menu_file_open.png}
+   \includegraphics[scale=0.75]{menu/menu_file_open.png}
    \caption{File / Open}
    \label{fig:seq64_menu_file_open}
 \end{figure}
@@ -93,7 +93,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.50]{menu/menu_file_save_as.png}
+   \includegraphics[scale=0.75]{menu/menu_file_save_as.png}
    \caption{File / Save As}
    \label{fig:seq64_menu_file_save_as}
 \end{figure}
@@ -146,7 +146,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.50]{menu/menu_file_import.png}
+   \includegraphics[scale=0.75]{menu/menu_file_import.png}
    \caption{File / Import MIDI}
    \label{fig:seq64_menu_file_import}
 \end{figure}
@@ -209,18 +209,86 @@
 \subsubsection{Menu / File / Export song as MIDI}
 \label{subsubsec:seq64_menu_file_export}
 
-   TODO
-   TODO
+   Thanks to the \textsl{Seq32} project, the ability to export songs to MIDI
+   format has been added.
+   "But wait,", you say, "Sequencer64 already saves to a MIDI-compatible
+   format.  Why the need for an Export function?"
+
+   Well, the \textbf{Export song as MIDI} function modifies the song in the
+   following ways:
+
+   \begin{itemize}
+      \item Only tracks (sequences, loops, or patterns)
+         that are "exportable" are written.  To be exportable, a
+         track must be unmuted, and it must have triggers (see
+         \sectionref{subsubsec:concepts_terms_trigger}).  That is,
+         the track must have a layout entry in the \textbf{Song Editor}.
+      \item All of the triggers for a given track are consolidated.  Each
+         trigger is used to generate the events, including repeats and offsets
+         play of the track information.  If there is a gap in the layout (e.g.
+         due to the \textbf{Expand} operation in the Song Editor), then there
+         is a corresponding gap in the events that are played. The result is
+         one trigger that reconstructs the original playback
+         layout.  This trigger is not needed (or even usable) in any other
+         non-Seq24-based MIDI sequencer; the events themselves are sufficient
+         to play the performance exactly.  But the trigger is useful for
+         further editing of the song/performance, as will be seen later.
+      \item All the tracks that are exported are consolidated, so that any
+         empty pattern slots between them are removed.  No matter what set the
+         original track was in, it ends up in the first set.
+      \item Other additions, such as time signature and tempo meta events, are
+         written in the same manner as for a normal \textbf{File / Save}
+         operation.
+   \end{itemize}
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.50]{menu/menu_file_export.png}
+   \includegraphics[scale=0.75]{menu/menu_file_export.png}
    \caption{File / Export Song as MIDI}
    \label{fig:seq64_menu_file_export}
 \end{figure}
 
-   TODO
-   TODO
+   If there are no exportable tracks, the following message is shown:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_file_unexportable.png}
+   \caption{Unexportable MIDI File}
+   \label{fig:seq64_menu_file_unexportable}
+\end{figure}
+
+   Once the file has been exported, it can be opened in order to see
+   the results of the export.  Both the main window view and the
+   song performance view will show the results of the export.
+
+   Here is a short song in two sets shown in a composite view of four windows,
+   showing each set and the performance layout of the sets.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{export/original-song-to-export.png}
+   \caption{Composite View of Exportable Song}
+   \label{fig:seq64_original_song_to_export}
+\end{figure}
+
+   The left column shows the four tracks of the first set (Set 0), the next
+   column shows the four tracks of the second set (Set 1), and the
+   layouts of the two sets are shown in the remainder of the diagram.
+
+   Now let's export this song, and see the result:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{export/song-exported.png}
+   \caption{Composite View of Exported Song}
+   \label{fig:seq64_song_exported}
+\end{figure}
+
+   Once can see that the two sets are now combined into the first set,
+   and all of the track layouts (triggers) have been exported.
+   Had there been gaps in layouts or repeats of layouts in the song/performance
+   data, these would have been reflected in the triggers.
+   Much more complex examples are, of course, possible.
 
 \subsubsection{Menu / File / Options}
 \label{subsubsec:seq64_menu_file_options}
@@ -416,6 +484,17 @@
    (in the Pattern Editor, as discussed in 
    \sectionref{subsec:seq64_pattern_editor_bottom}.)
 
+   \textbf{Warning:}
+   \index{warnings!usr config}
+   \index{usr config}
+   If the 
+   \texttt{[user-midi-bus-definitions]} value in the "user" configuration file
+   is non-zero, and the
+   corresponding number of
+   \texttt{[user-midi-bus-N]} settings are provided, then
+   the list of existing hardware will be ignored, and those values will be
+   shown instead.
+
    If the "manual ALSA ports" option is turned off, then
    the input ports from the system are shown:
 
@@ -432,6 +511,28 @@
    \textsl{Sequencer64} to pass this MIDI on to a sound generator, such as a
    software or hardware synthesizer attached to one of the ports shown in
    \figureref{fig:seq64_midi_clock_4_devices_manual_0}.
+
+   \textbf{Warning:}
+   \index{warnings!usr config}
+   \index{usr config}
+   Again, note that the "user" configuration file can override what is actually
+   displayed as hardware.  If you define these sections, they should match your
+   hardware exactly, and your hardware should not change from session to
+   session.
+
+   Note the two sections of this configuration page.
+   \index{input buses}
+   \textbf{Input Buses} delineates the MIDI input devices as noted above.
+   \index{input options}
+   \textbf{Input Options} adds further refinements to MIDI input.  The current 
+   option present
+   \index{input by channel}
+   \textbf{Record input into sequence according to channel},
+   is a new (and \textsl{untested}) feature ported from \textsl{Seq32}.
+   When enabled, MIDI input with multiple channels is distributed to
+   each sequence according to what MIDI channel the sequence is set to.
+   When disabled, the legacy recording behavior dumps all data into the current
+   sequence, regardless of channel.
 
 \paragraph{Menu / File / Options / Keyboard }
 \label{paragraph:seq64_menu_file_options_keyboard}
@@ -466,19 +567,19 @@
    \index{new!pause}
    \index{pause}
    Also, if the application has been built with the pause option, an
-   additional key definition is shown, as in the following figure:
-
-\begin{figure}[H]
-   \centering 
-   \includegraphics[scale=0.75]{new/keyboard-options-0_9_10_1.png}
-   \caption{File / Options / Keyboard, with Pause}
-   \label{fig:seq64_menu_file_options_keyboard_pause}
-\end{figure}
+   additional key definition is shown for the Pause key.
 
    By default, the Pause key is the period (".").  An old version of
    the "rc" file is automatically fixed to include this new option.
-   The pause feature can be removed by rebuilding the application
-   after configuring with the \texttt{--disable-pause} option.
+   (The pause feature can be removed by rebuilding the application
+   after configuring with the \texttt{--disable-pause} option.)
+
+% \begin{figure}[H]
+%    \centering 
+%    \includegraphics[scale=0.75]{new/keyboard-options-0_9_10_1.png}
+%    \caption{File / Options / Keyboard, with Pause}
+%    \label{fig:seq64_menu_file_options_keyboard_pause}
+% \end{figure}
 
    \textbf{New:}
    \index{new!pattern edit}
