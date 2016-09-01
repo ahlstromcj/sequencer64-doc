@@ -296,7 +296,12 @@
    \begin{enumber}
       \item \textbf{New}
       \item \textbf{Paste}
-      \item \textbf{Song / Mute All Tracks}
+      \item \textbf{Song}
+      \begin{itemize}
+         \item {Mute All Tracks}
+         \item {Unmute All Tracks}
+         \item {Toggle All Tracks}
+      \end{itemize}
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
@@ -307,7 +312,6 @@
    pattern, and brings up the Pattern Editor
    so that one can fill in the new pattern.
 
-   \textbf{New:}
    In addition to right-clicking and selecting \textbf{New}, the user can
    \index{new!empty slot double-click}
    double-click on the empty slot, to bring up a new instance of the sequence
@@ -316,7 +320,6 @@
    quickly twice (leaving it as it was), as well.  It might take some getting
    used to, but we miss it when using \textsl{Seq24}..
 
-   \textbf{New:}
    \index{new!editing shortcut}
    \index{keys!=}
    An experimental new feature is hitting the equals ("=") key, then hitting
@@ -326,7 +329,6 @@
    Still thinking about these features.  We still need a way to edit sequences
    without requiring a mouse!
 
-   \textbf{New:}
    \index{new!current slot highlight}
    When an unarmed (muted) pattern is first brough up for sequence editing (or
    event editing), the slot in the main window is now highlighted, using black
@@ -361,8 +363,7 @@
    Pastes a loop or pattern that was previously copied.
 
    \itempar{Song / Mute All Tracks}{pattern!mute all}
-   This item is the one item in the \textbf{Song} context menu;
-   it mutes all tracks (or loops/patterns).
+   This item mutes all tracks (or loops/patterns).
    It works when one has opened the Song Editor window
    and started playing in playback
    mode by starting play using that window.
@@ -373,6 +374,16 @@
    cell and selects \textbf{Song / Mute All Tracks}, all those patterns
    will become white and be silenced.  Eventually, the Song Editor window
    catches up and shows the "M" activated for all tracks.
+
+   \itempar{Song / Unmute All Tracks}{pattern!unmute all}
+   Provides the opposite functionality, making all tracks armed and audible.
+
+   \itempar{Song / Toggle All Tracks}{pattern!toggle mute all}
+   Toggles the armed/mute status of all tracks.
+
+   Note that there is also a feature where a
+   \texttt{Shift-Left-Click} on a pattern slot toggles the mute
+   status of all of the other \textsl{tracks}.
    
 \subsubsection{Pattern}
 \label{subsubsec:seq64_patterns_pattern_filled}
