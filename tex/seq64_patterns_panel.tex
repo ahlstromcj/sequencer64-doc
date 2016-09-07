@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-07-14
+% \update      2016-09-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -235,6 +235,9 @@
 
    The individual items annoted in this figure are described in
    \sectionref{subsubsec:seq64_patterns_pattern_filled}, in more detail.
+   \textbf{However}, this figure does not show the new feature where the
+   sequence number appears at the bottom left of the slot.  Observe that
+   feature in the first figure of the next section.
 
    \begin{enumber}
       \item \textbf{Pattern Slot}
@@ -263,17 +266,21 @@
       \item \textbf{Empty background}.  Whether the classic gray pattern
          of \textsl{Seq24}, or the many patterns of \textsl{Sequencer64},
          including all black with yellow sequence numbers, this
-         slot indicates that it is unused.
-      \item \textbf{White background}.  Unarmed or muted pattern.
-      \item \textbf{Black background}.  Armed or unmuted pattern.
-      \item \textbf{Yellow background}.  A pattern with no MIDI event, just
-         textual MIDI information.
+         slot coloring indicates that it is unused.
+      \item \textbf{White background}.  Unarmed (muted) pattern.
+      \item \textbf{Black background}.  Armed (unmuted) pattern.  If the text
+      is yellow, it is a pattern with no MIDI events, but is armed.
+      Note that armed/unmuted patterns can be exported if they have a layout
+      in the Song Editor.
+      \item \textbf{Yellow background}.  A pattern with no MIDI events, just
+         textual MIDI information.  I
       \item \textbf{Cyan background, black text}.
          An unarmed pattern currently being edited in a pattern editor or event
-         editor.
+         editor. Or, if an SMF 0 MIDI file was just opened or imported, this
+         color combination indicates the SMF 0 format.
       \item \textbf{Black background, cyan text}.
          An armed pattern currently being edited in a pattern editor or event
-         editor.
+         editor.  Or an armed SMF 0 format MIDI sequence.
       \item \textbf{Red events}.
          Indicates a pattern for which the new transpose feature is
          disabled.  The white, black, and cyan background have the same
@@ -322,12 +329,14 @@
 
    \index{new!editing shortcut}
    \index{keys!=}
-   An experimental new feature is hitting the equals ("=") key, then hitting
-   a shortcut key, to bring up a new sequence or edit an existing one in a
-   pattern editor.  We may add the minus ("-") key for the event editor, and
-   user-interface and configuration file settings for these keys.
-   Still thinking about these features.  We still need a way to edit sequences
-   without requiring a mouse!
+   \index{keys!-}
+   An new feature is hitting the equals ("=") key, then hitting
+   a shortcut key (hotkey), to bring up a new sequence or edit an existing one
+   in a pattern editor.  Another new feature is hitting the minus ("-") key,
+   then the hotkey, to bring up the event editor.
+   We do not yet have a user-interface and
+   configuration file settings for the the '=' and '-' keys.
+   We would still like a way to edit sequences without requiring a mouse!
 
    \index{new!current slot highlight}
    When an unarmed (muted) pattern is first brough up for sequence editing (or
@@ -357,7 +366,7 @@
 
    If more than one sequence or event editor is brought up, only the slot for
    the last one to have focus is hightlighted.
-   Note that this highlighting also applied to the (new) event editor.
+   Note that this highlighting also applies to the (new) Event Editor.
 
    \itempar{Paste}{pattern!paste}
    Pastes a loop or pattern that was previously copied.
@@ -418,6 +427,13 @@
          It might be good to have some patterns marked as one-shot patterns.
          They play once at the start of playback, and that is it.
          They could be marked with a cyan background.
+         Currently, it is easy enough to use the Song Editor for this purpose,
+         but then one cannot play the patterns in live mode.
+      \item \textbf{Sequence Number}.
+         If the option to show the sequencer number is set
+         in the \textbf{File / Options / Keyboard} section
+         (see \sectionref{paragraph:seq64_menu_file_options_keyboard},
+         the this number is shown at the bottom left of the pattern slot.
       \item \textbf{Bus-Channel}.
          \index{pattern!bus-channel}
          This pair of numbers shows the the MIDI buss number, a dash, and
@@ -551,7 +567,7 @@
    First, this editor is not the same as the event editor pane in the pattern
    editor -- it shows all events at once, and shows them only in text format.
    Second, this editor is still a work in progress.
-   See \sectionref{sec:seq64_event_editor} for more information.
+   See \sectionref{sec:seq64_event_editor}, for more information.
 
    Now, in order to simplify the application, and avoid editing a pattern in
    two different dialogs, if either the pattern editor or the event editor is
@@ -574,8 +590,8 @@
    Note than one can also drag-and-drop a pattern into another cell.
    \textbf{Bug:}
    \index{bugs!pattern cut not dirty}
-   Allow this operation works, it does not cause the user to be prompted if the
-   application is exited.
+   Although this operation works, it does not cause the user to be prompted if
+   the application is exited.
 
    \itempar{Copy}{pattern!copy}
    Copies an existing loop or pattern.
@@ -622,7 +638,7 @@
    shown in the slot are red, this denotes that transpose is currently
    \textsl{disabled} for that pattern.
 
-   \itempar{Midi Bus}{pattern!midi bus}
+   \itempar{MIDI Bus}{pattern!midi bus}
    Selecting this filled-box right-click menu item brings up a list
    of the 16 MIDI output busses that \textsl{Sequencer64} supports:
 
@@ -859,7 +875,7 @@
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Stop}{pattern!stop}
-   The red squarebutton stops the playback of the song and all its patterns.
+   The red square button stops the playback of the song and all its patterns.
    It is not clear if it also sends MIDI Off messages on all notes.
    \index{keys!esc (stop)}
    The keystroke for stopping playback is the \texttt{Escape} character.

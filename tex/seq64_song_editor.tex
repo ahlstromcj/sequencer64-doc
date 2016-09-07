@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-06-26
+% \update      2016-09-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -32,47 +32,39 @@
    section of the "user" configuration file, two song editor windows can be
    brought onscreen, as a convenience for arranging projects with a large
    number of sequences/patterns.
-
-   \textsl{Obsolete behavior}:
    It also provides the "song mode" of \textsl{Sequencert64},
-   as opposed to the "live mode" provided by the Patterns Panel.
+   as opposed to the "live mode" provided by the Patterns Panel, when
+   \textsl{Sequencer64} is running in ALSA mode.
+   (In JACK mode, the live versus song mode is controlled by the JACK start-mode
+   flag.)
 
-   Currently, the live versus song mode is controlled by the JACK start-mode
-   flag.  Do we want to revert to the old behavior, or offer it as another
-   option?
-
-   \index{song editor!takeover obsolete}
-
-   \textsl{Obsolete behavior}:
-   When the Song Editor has the
-   focus of the application, it takes over control from the Patterns Panel.
-   The Song Editor controls now control playback.  Once playback is
-   started in the Song Editor, some actions in the Patterns Panel no longer
-   have effect, effectively disabling live mode.
-   The Song Editor takes over the arming/unarming (unmuting/muting)
+   When the Song Editor has the focus of the application, in ALSA mode, it
+   takes over control from the Patterns Panel.  The Song Editor controls now
+   control playback.  Once playback is started in the Song Editor, some actions
+   in the Patterns Panel no longer have effect, effectively disabling live
+   mode.  The Song Editor takes over the arming/unarming (unmuting/muting)
    shown in the Patterns Panel.  The highlighting of armed/unarmed patterns
-   changes according to whether the pattern is playing in the Song Editor,
-   or not.  If one tries to change the muting using a hot-key (or even a
-   click) in the Patterns Panel, the Song Editor immediately returns the
-   pattern to the state it has in the Song Editor.  The only way to manually
-   change the muting then is to click the pattern's label in the Song
-   Editor.
+   changes according to whether the pattern is playing in the Song Editor, or
+   not.  If one tries to change the muting using a hot-key (or even a click) in
+   the Patterns Panel, the Song Editor immediately returns the pattern to the
+   state it has in the Song Editor.  The only way to manually change the muting
+   then is to click the pattern's label in the Song Editor.
    
-   Both the Song Editor and the Patterns Panel both reflect the
-   change in muting in the user interface.
+   Both the Song Editor and the Patterns Panel both reflect the change in
+   muting in the user interface.
 
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{song-editor/song-editor-window-new.png}
-   \includegraphics[scale=0.75]{new/song_editor_transpose-0_9_15.png}
+%  \includegraphics[scale=0.75]{new/song_editor_transpose-0_9_15.png}
+   \includegraphics[scale=0.75]{song-editor/song-editor-window.png}
    \caption{Song Editor Window}
    \label{fig:song_editor_window}
 \end{figure}
 
    \textbf{New:}
-   There are some new features for the song editor as of the
-   pending version 0.9.11, as seen in the following
-   figure:
+   There are some new features for the song editor as of version 0.9.11, as
+   seen in the following figure:
 
 \begin{figure}[H]
    \centering 
@@ -82,13 +74,22 @@
 \end{figure}
 
    This figure illustrates the following new features:
-   the toggling of the mute state of multiple patterns by holding the
-   \index{shift left click}
-   Shift key while left-clicking on the M or a pattern name;
-   \index{pause}
-   the new Pause button functionality;
-   \index{progress bar}
-   and the optional coloring and thickening of the progress bar.
+
+   \begin{itemize}
+      \index{shift left click}
+      \item Toggling of the mute state of multiple patterns by holding the
+         Shift key while left-clicking on the M or a pattern name;
+      \index{pause}
+      \item The new Pause button functionality;
+      \index{progress bar}
+      \item The optional coloring (currently it is dark-cyan, not red, but
+      perhaps we will soon offer more choice) and thickening of the progress
+      bar.
+      \index{redo}
+      \item A new Redo button.
+      \index{transpose}
+      \item A new Transpose button.
+   \end{itemize}
 
    \index{new!empty pattern}
    \textbf{New:} 
@@ -109,11 +110,12 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{new/song_editor_top_panel_transpose-0_9_15.png}
-   \caption{Song Editor Window, Another New Feature}
-   \label{fig:song_editor_window_another_new_feature}
+   \caption{Song Editor Window, Transpose Song}
+   \label{fig:song_editor_window_transpose_song}
 \end{figure}
 
-   We see an additional button that allows the whole song (except for
+   \index{transpose}
+   Notice the additional button that allows the whole song (except for
    exempt, non-transposable sequences) to be transposed up or down by up to an
    octave in either direction.
 
@@ -125,7 +127,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{song-editor/song-editor-top-panel-items.png}
+   \includegraphics[scale=0.55]{song-editor/song-editor-top-panel-items.png}
    \caption{Song Editor / Top Panel Items}
    \label{fig:song_editor_top_panel_items}
 \end{figure}
@@ -137,6 +139,7 @@
       \item \textbf{Beats Per Bar}
       \item \textbf{Beat Unit}
       \item \textbf{Grid Snap}
+      \item \textbf{Redo}
       \item \textbf{Undo}
       \item \textbf{Collapse}
       \item \textbf{Expand}
@@ -148,8 +151,8 @@
    \itempar{Stop}{song editor!stop}
    Stops the playback of the song.
    \index{keys!esc (stop)}
-   The keystroke for stopping playback is the 'Escape' character.
-   It can be configured to be another character (such as 'Space', which
+   The keystroke for stopping playback is the \texttt{Escape} character.
+   It can be configured to be another character (such as \texttt{Space}, which
    would make the space-bar toggle the playback status).
 
    \itempar{Play}{song editor!play}
@@ -159,7 +162,7 @@
    in the Song Editor.  One can change the start position only when the
    performance is not playing.
    \index{keys!space (play)}
-   The keystroke for starting playback is the 'Space' character.
+   The keystroke for starting playback is the \texttt{Space} character.
 
    \itempar{Play Loop}{song editor!play loop}
    \index{loop mode}
@@ -178,6 +181,7 @@
    The possible values range from 1 to 16.
 
    \itempar{Beat Unit}{song editor!beat unit}
+   Also called "beat width".
    Part of the time signature, and specifies the size of the beat unit:
    1 for whole notes; 2 for half notes; 4 for quarter notes; 8 for eight notes;
    and 16 for sixteenth notes.
@@ -188,6 +192,10 @@
    of the Song Editor snap value are in fractions of a measure length.
    The following values are supported:
    1/1, 1/2, 1/4, 1/8, 1/16, and 1/32.
+
+   \itempar{Redo}{song editor!redo}
+   The Redo button will reapply the last change that was "undone" by
+   the Undo button.
 
    \itempar{Undo}{song editor!undo}
    The Undo button will roll back the last change in the layout of a
@@ -256,7 +264,7 @@
    In other words, the patterns used here are very long, and used only once
    in the song.
    
-   We might need to provide an example that shows off \textsl{Sequencer64}'s
+   We will provide an example that shows off \textsl{Sequencer64}'s
    pattern features better, at some point.
 
    Please note that, if playback is started with the Song Editor as the
@@ -272,6 +280,7 @@
    \label{fig:song_editor_window_full_items}
 \end{figure}
 
+   \index{transpose}
    One new feature of the song editor is that, if the new Transpose feature is
    built into \textsl{Sequencer64}, any patterns that are marked as exempt from
    transposition (common with drum tracks) have their events shown in red

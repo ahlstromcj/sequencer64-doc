@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-09-02
+% \update      2016-09-06
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -88,21 +88,21 @@
 \end{figure}
 
    In recent versions of \textsl{Sequencer64}, a "sequence-is-transposable"
-   feature has been added, as shown below, and described a bit latter.
+   feature has been added, as shown above.
 
-\begin{figure}[H]
-   \centering 
-   \includegraphics[scale=0.75]{new/pattern_editor_top_panel-0_9_15.png}
-   \caption{Pattern Editor, First Panel Emphasizing Transposable Button}
-   \label{fig:pattern_editor_first_panel_items}
-\end{figure}
+% \begin{figure}[H]
+%    \centering 
+%    \includegraphics[scale=0.75]{new/pattern_editor_top_panel-0_9_15.png}
+%    \caption{Pattern Editor, First Panel Emphasizing Transposable Button}
+%    \label{fig:pattern_editor_first_panel_transposable}
+% \end{figure}
 
    \begin{enumber}
       \item \textbf{Pattern Name}
       \item \textbf{Beats Per Bar}
-      \item \textbf{Beat Unit}
+      \item \textbf{Beat Unit (Beat Width)}
       \item \textbf{Pattern Length}
-      \item \textbf{Transpose Toggle}
+      \item \textbf{Transposable (toggle)}
       \item \textbf{MIDI Out Device}
       \item \textbf{MIDI Out Port}
    \end{enumber}
@@ -119,7 +119,9 @@
    Part of the time signature, and specifies the number of beat units per bar.
    The possible values range from 1 to 16.
 
-   \itempar{Beat Unit}{pattern editor!beat unit}
+   \itempar{Beat Unit (Beat Width)}{pattern editor!beat unit}
+   \index{pattern editors!beat width}
+   \index{beat width}
    Part of the time signature, and specifies the size of the beat unit:
    1 for whole notes; 2 for half notes; 4 for quarter notes; 8 for eight notes;
    and 16 for sixteenth notes.
@@ -129,6 +131,9 @@
    \itempar{Pattern Length}{pattern editor!length}
    Sets the length of the current pattern, in measures.
    The possible values range from 1 to 16, then 32, and 64.
+   \textsl{However}, when opening or importing a non-\textsl{Sequencer64}
+   MIDI tune the length of each track will be use, and so other values
+   are possible; they just cannot be set via the user-interface.
 
    Note that bringing up a short sequence (one less than one measure or bar in
    length) in the pattern editor will adjust the sequence to pad it to the
@@ -181,14 +186,14 @@
 
    If \textsl{Sequencer64} is built with the new chord-generation option
    built in (the default), then the second panel is wider to make room for an
-   addition user-interface item, shown at the right of the following figure.
+   addition user-interface item, shown at the right of the figure above.
 
-\begin{figure}[H]
-   \centering 
-   \includegraphics[scale=0.75]{new/pattern_editor_second_panel-0_9_14.png}
-   \caption{Pattern Editor, Second Panel Items Emphasizing Chord Button}
-   \label{fig:pattern_editor_main_panel_items}
-\end{figure}
+% \begin{figure}[H]
+%    \centering 
+%    \includegraphics[scale=0.75]{new/pattern_editor_second_panel-0_9_14.png}
+%    \caption{Pattern Editor, Second Panel Items Emphasizing Chord Button}
+%    \label{fig:pattern_editor_main_panel_chord_button}
+% \end{figure}
 
    \begin{enumber}
       \item \textbf{Undo}
@@ -201,7 +206,7 @@
       \item \textbf{Key of Sequence}
       \item \textbf{Musical Scale}
       \item \textbf{Background Sequence}
-      \item \textbf{Chord Selection}
+      \item \textbf{Chord Generation}
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
@@ -367,7 +372,7 @@
    1/3, 1/6, 1/12/, 1/24, 1/48, 1/96, and 1/192.
 
    \itempar{Note Length}{pattern editor!note length}
-   Note Length determines what size they will be.
+   Note Length determines the duration of the inserted notes.
    Like the \textbf{Grid Snap} values,
    the following values are supported:
    1, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64, and 1/128.
@@ -425,7 +430,7 @@
 
    \textbf{New:}
    \index{new!save musical key}
-   With \textsl{Sequencer64 v. 0.9.9.8}, the key that a sequence is set to is
+   As of version 0.9.9.8, the key that a sequence is set to is
    now saved in the MIDI file along with the rest of the data for the sequence.
    \textbf{However},
    it turns out that a change made to the key, scale, or background sequence in
@@ -461,11 +466,10 @@
          exact value of the \textbf{Key of Sequence} setting.
    \end{itemize}
 
-   Originally, only the following scales were supported: Off, Major, and Minor.
-
    \textbf{New:}
    \index{new!musical scales}
-   With \textsl{Sequencer64 v. 0.9.3}, the following scales are supported:
+   Originally, only the following scales were supported: Off, Major, and Minor.
+   Now, the following scales are supported:
 
    \begin{itemize}
       \item \textbf{Off (chromatic)}
@@ -474,10 +478,11 @@
       \item \textbf{Harmonic Minor}
       \item \textbf{Melodic Minor}
       \item \textbf{Whole Tone}
+      \item \textbf{Blues}
+      \item \textbf{Major Pentatonic}
+      \item \textbf{Minor Pentatonic}
    \end{itemize}
 
-   The new scales added in \textsl{Sequencer64} are
-   \textbf{Harmonic Minor}, \textbf{Melodic Minor}, and \textbf{Whole Tone}.
    Please let us know of any mistakes found in the new scales.
    Also please note that the \textbf{Melodic Minor} scale is supposed to
    descend in the same was as the natural \textbf{Minor} scale, but
@@ -512,7 +517,7 @@
 
    \textbf{New:}
    \index{new!save musical scale}
-   With \textsl{Sequencer64 v. 0.9.9.7}, the scale that a sequence is set to is
+   The scale that a sequence is set to is
    now saved in the MIDI file along with the rest of the data for the sequence.
    \textbf{However},
    it turns out that a change made to the key, scale, or background sequence in
@@ -529,7 +534,9 @@
    One can select another pattern to draw on the background to help with
    writing corresponding parts.
    The button brings up a small menu with values of \textbf{Off} and
-   \textbf{[0]}.  Presumably, the 0 is a set number.  Under the \textbf{0}
+   \textbf{[0]}.  The 0 is a set number. Sets are numbered from 0 to 31.
+   Additional set numbers appear in the menu for each set that has data in it.
+   Under the \textbf{0}
    entry, a menu like the following appears:
 
 \begin{figure}[H]
@@ -554,17 +561,16 @@
 
    \textbf{New:}
    \index{new!save background seqeuence}
-   With \textsl{Sequencer64 v. 0.9.9.7}, the background seqeuence that a
-   sequence shows is now saved in the MIDI file along with the rest of the
-   data for the sequence.
+   The background sequence that a sequence shows is now saved in the MIDI file
+   along with the rest of the data for the sequence.
    \textbf{However},
    it turns out that a change made to the key, scale, or background sequence in
    the sequence editor is saved in the editor, so that opening another sequence
    will apply the same settings to that sequence.  This is a feature, now
    more rigorously supported, as noted earlier.
 
-   \itempar{Chord Selection}{pattern editor!chord selection}
-   With \textsl{Sequencer64 v. 0.9.9.14}, the ability to insert chords with one
+   \itempar{Chord Generation}{pattern editor!chord generation}
+   As of version 0.9.9.14, the ability to insert chords with one
    click has been added.  This feature comes from user "stazed"
    and his \textsl{Seq32} project (\cite{seq32}).
 
@@ -723,13 +729,14 @@
 
    Note editing is a bit different with \textsl{Sequencer64}, since it
    requires two mouse buttons in many cases.  There are some new
-   laptop touchpads from FocalTech that have only one mouse button, and
+   laptop touchpads that really have only one mouse button, and
    use positioning to determine if the click is a left-click or a right-click.
-   The Linux drivers for this touchpad aren't sophisticated enough (as far
-   as we know) to handle converting a two-fingered press properly.
-   We've found that a good solution is to use a four-button USB trackball
+   Two-fingered actions are devoted to scrolling, so that there is no way
+   to generate a Linux middle-click.
+   One solution is to use a four-button USB trackball
    configued with an easy middle-button setup.
    It's easier than a touchpad, anyway.
+   So we've coded up a couple of solutions to this middle-click problem.
 
    Note that, if only a middle-button is needed, ctrl-left-button will simulate
    that button.  Also note the "Mod4 mode" for the right-click action, and the
@@ -753,18 +760,18 @@
    To turn on the paint mode, first make sure that the piano roll has the
    keyboard focus by left-clicking in it, then press the
    \index{keys!p}
-   "p" key while in the sequence editor.
+   \texttt{p} key while in the sequence editor.
    This is just like pressing the right mouse button, but the draw/paint mode
    sticks (as if the Mod4 mode were in force).
    To get out of the paint mode, press the
    \index{keys!x}
-   "x" key while in the sequence editor, to "x-scape" (get it?  get it?)
+   \texttt{x} key while in the sequence editor, to "x-scape" (get it? get it?)
    from the paint mode.
    These keys also work while the sequence is playing.
 
-   The "p" and "x" key also works in the small event strip just
+   The \texttt{p} and \texttt{x} keys also works in the small event strip just
    above the white data area.  The Mod4-right-click feature does not
-   yet work in that aread of the user interface, but the "p" key does.
+   yet work in that aread of the user interface, but the \texttt{p} key does.
 
 \paragraph{Editing Note Events}
 \label{paragraph:seq64_pattern_editor_note_events}
@@ -797,8 +804,8 @@
    turn back into an arrow.
 
    Another way to enter paint mode is to make sure the piano roll has focus
-   (left click in it), and then press the "p" key.
-   To exit the draw mode, press the "Shift-p" key.
+   (left click in it), and then press the \texttt{p} key.
+   To exit the draw mode, press the \texttt{Shift-p} key.
 
    \itempar{Add Notes}{pattern editor!add notes}
    \index{pattern editor!right hold left click}
@@ -808,8 +815,8 @@
    find this combination strange at first, but once one gets used to it, it
    becomes a very fast method of note manipulation.  An new option is to
    hold the Mod4 key while releasing the right button, which keeps the mouse
-   in draw mode.  Another new option is to press the "p" to enter draw mode,
-   and stay in it until "Shift-p" is pressed.
+   in draw mode.  Another new option is to press the \texttt{p} to enter draw
+   mode, and stay in it until \texttt{Shift-p} is pressed.
 
    Note that this click will add a single note, and the length of the note will
    be that specified in the note-length setting (e.g. "1/16").
@@ -823,6 +830,8 @@
    \index{auto-note}
    \index{notes!auto}
    We call this the "auto-note" feature.
+   Please note that the auto-note feature does not work with
+   the chord-generation feature.
 
    The draw mode has the following features:
 

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-08-30
+% \update      2016-09-04
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -177,22 +177,34 @@
       \item \textsl{Sequencer64} reads SMF 0 MIDI files.  It splits
          the file into tracks based on channel number.  Each track becomes one
          sequence/pattern in the main window grid.
-      \item Features from \textsl{Stazed}'s \textsl{Seq32} \cite{seq32} project.
-         Some features can be disabled at configure/build time, if desired.
+      \item Some features have been ported from \textsl{Stazed}'s
+      \textsl{Seq32} \cite{seq32} project.  Some features can be disabled at
+      configure/build time, if desired.
       \begin{itemize}
-         \item The chord-generation of \textsl{Seq32}
-            has been ported into \textsl{Sequencer64}.
-         \item The pattern-transposing feature
-            has been ported into \textsl{Sequencer64}.
-         \item MIDI song export has been ported to \textsl{Sequencer64}.
+         \item The chord-generation feature of \textsl{Seq32}.
+         \item The pattern-transposing feature.
+         \item MIDI song export.
             It allows a song/performance to be exported into a MIDI file
             without \textsl{Sequencer64} loops, so that the performance can be
             played in a standard MIDI sequencer.
          \item The extended undo/redo support of \textsl{Seq32} has been
             ported to \textsl{Sequencer64}.
+         \item The ability to split triggers at the nearest snap, instead
+            simply splitting them in half.
          \item A large number of other \textsl{Seq32} features have been
             ported, but they are currently commented out until we can test them
             and make sure they are "perfect".
+         \begin{itemize}
+            \item Enhanced JACK support.
+            \item Diverting multi-channel recorded MIDI so that each channel
+               is stored in the sequence/pattern configured for that channel
+            \item Randomizing MIDI events.
+            \item Selection extensions such as selecting odd/even notes, and
+            handles on data events..
+            \item More feature for controlling transport.
+            \item Support for editing the amplitude of data events using a
+               low-frequency oscillator (LFO).
+         \end{itemize}
       \end{itemize}
       \item One can optionally bring up two song editor windows, to have a view
          of two different parts of a large song while arranging it.
@@ -294,10 +306,11 @@
       \end{itemize}
       \item New minor features.
       \begin{itemize}
-         \item The size of the Patterns Panel (main windows) is now locked.
+         \item The size of the Patterns Panel (main window) is now locked.
          \item Support for LASH is a run-time or a build option.
          \item Support for reading and writing configuration files from the
-            user's \texttt{\$HOME/.config/sequencer64} directory.
+            user's \texttt{\$HOME/.config/sequencer64} directory, or,
+            optionally, other directories.
       \end{itemize}
    \end{itemize}
 

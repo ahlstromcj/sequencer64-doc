@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-08-30
+% \update      2016-09-05
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -54,7 +54,7 @@
 \label{subsec:menu_file_new}
 
    The \textbf{New} menu entry clears out any current song and patterns,
-   allowing one to create news ones from scratch.
+   allowing one to create new ones from scratch.
    If unsaved changes are pending, the user will be prompted to save the
    changes.
 
@@ -75,6 +75,9 @@
    \caption{File / Open}
    \label{fig:seq64_menu_file_open}
 \end{figure}
+
+   This dialog let's one type a file-name, highlighting the first file (if any)
+   that matches the characters typed so far.
 
    If unsaved changes are pending, the user will (usually)
    be prompted to save the changes.
@@ -111,7 +114,7 @@
    It looks like a simple MIDI file, and yet, if one re-opens it in
    \textsl{Sequencer64}, one sees that all of the labelling, pattern information,
    and song layout has been preserved in this file.
-   Even the pattern subsections, as discussed in
+   Even the pattern layout (arrangement), as discussed in
    \sectionref{subsubsec:seq64_song_editor_arrangement_panel_roll},
    have been saved.
    (But the L and R marker positions are not saved.)
@@ -206,6 +209,10 @@
 %  (see reference \cite{midicvt}),
 %  to convert it to General MIDI format, including General MIDI drums.
 
+   The import operation also handles SMF 0 MIDI files.  It parcels out the SMF
+   0 into sequences/patterns for each of the 16 MIDI channel.  It also puts all
+   of the data in the 17th pattern (pattern 16), in case it is needed.
+
 \subsubsection{Menu / File / Export song as MIDI}
 \label{subsubsec:seq64_menu_file_export}
 
@@ -219,10 +226,12 @@
 
    \begin{itemize}
       \item Only tracks (sequences, loops, or patterns)
+         \index{exportable}
          that are "exportable" are written.  To be exportable, a
          track must be unmuted, and it must have triggers (see
          \sectionref{subsubsec:concepts_terms_trigger}).  That is,
          the track must have a layout entry in the \textbf{Song Editor}.
+         A track need not have any playable data to be exported.
       \item All of the triggers for a given track are consolidated.  Each
          trigger is used to generate the events, including repeats and offsets
          play of the track information.  If there is a gap in the layout (e.g.
@@ -261,8 +270,8 @@
    the results of the export.  Both the main window view and the
    song performance view will show the results of the export.
 
-   Here is a short song in two sets shown in a composite view of four windows,
-   showing each set and the performance layout of the sets.
+   Here is a short song, in two sets, shown in a composite view of four windows,
+   showing each set and the performance layout of the tracks in the sets.
 
 \begin{figure}[H]
    \centering 
@@ -348,11 +357,11 @@
       130:16   seq24                            seq24 in
    \end{verbatim}
 
-   (For some reason, the \textsl{Yoshimi} input port is not showing up
-   in the output of \texttt{aplaymidi}, though, as shown in
-   \figureref{fig:seq64_midi_clock_4_devices_manual_0},
-   \textsl{Sequencer64} sees it on port 7.  Perhaps that application is not
-   providing a good ALSA device name.)
+%  (For some reason, the \textsl{Yoshimi} input port is not showing up
+%  in the output of \texttt{aplaymidi}, though, as shown in
+%  \figureref{fig:seq64_midi_clock_4_devices_manual_0},
+%  \textsl{Sequencer64} sees it on port 7.  Perhaps that application is not
+%  providing a good ALSA device name.)
    
    Turning to \figureref{fig:seq64_midi_clock_4_devices_manual_1},
    note the 16 devices provided by
@@ -372,7 +381,8 @@
    drive.  One would have to use an ALSA MIDI connection application to put a
    device on each of those outputs.  The fact that the the buss names can
    start with different numbers, depending on the system setup, can complicate
-   the playing of MIDI in this manner.
+   the playing of MIDI in this manner.  Also, the "user" configuration file
+   can change the names of the ports, causing further confusion.
 
    The following elements are present in this dialog:
 
@@ -506,10 +516,11 @@
 \end{figure}
 
    For example, one could check input \#1 to have \textsl{Sequencer64} record
-   MIDI from an old-fashioned MIDI keyboard that is connected to the USB MIDI
-   cable.  If the keyboard didn't have a sound generator, one would also want
-   \textsl{Sequencer64} to pass this MIDI on to a sound generator, such as a
-   software or hardware synthesizer attached to one of the ports shown in
+   MIDI from an old-fashioned MIDI keyboard that is connected to another
+   USB MIDI cable (the \textsl{E-MU Xmidi}).  If the keyboard didn't have a
+   sound generator, one would also want \textsl{Sequencer64} to pass this MIDI
+   on to a sound generator, such as a software or hardware synthesizer attached
+   to one of the ports shown in
    \figureref{fig:seq64_midi_clock_4_devices_manual_0}.
 
    \textbf{Warning:}
@@ -638,7 +649,7 @@
    If one doesn't like it, turn off the option in the "rc" configuration file,
    or try other grid options in the "user" configuration file.
    Also note that the option also changes the visibility of sequence numbers
-   in active sequences and in the performance editor's names column.
+   in active sequences and in the Song Editor's names column.
 
    \itempar{Control keys}{keyboard!control keys}
    This block of fields in the \textbf{Options / Keyboard} tab
@@ -726,21 +737,24 @@
    (e.g. set the HOME key for this purpose.)
 
    \itempar{Learn}{keyboard!learn}
+   \index{group!learn}
    Learn (while pressing a mute-group key).
    This items sets the key used to initiate a learn mode.
    It is the \textbf{Insert} key by default.
 
    \itempar{Disable}{keyboard!disable}
-   \textbf{TODO:} \index{todo!keyboard disable} What gets disabled?
    \index{keys!apostrophe}
    It is the \textbf{apostrophe} key by default.
+   \index{group!off}
+   \index{keyboard!group off}
+   This key is the \textsl{group off} key.
 
    \itempar{Enable}{keyboard!enable}
-   \textbf{TODO:} What gets enabled?
-   \index{keys!igrave}
+   \index{keyboard!igrave}
    It is the \textbf{igrave} (back-tick) key by default.
-
-   There is much to learn about this learn/enable/disable triad!
+   \index{group!on}
+   \index{keyboard!group on}
+   This key is the \textsl{group on} key.
 
 \paragraph{Menu / File / Options / Mouse }
 \label{paragraph:seq64_menu_file_options_mouse}
@@ -832,7 +846,7 @@
    \index{mouse!split mode}
    \label{new_split_mode}
    \textbf{Middle click splits song triggers at nearest snap (instead of
-   halfway point}
+   halfway point)}
 
 % Move this section to the right place and simply create a section-reference to
 % it here.
@@ -843,12 +857,12 @@
    the internet.
    To turn on the paint mode, press the
    \index{keys!p}
-   "p" key while in the sequence editor.
+   \texttt{p} key while in the sequence editor.
    This is just like pressing the right mouse button, but the draw/paint mode
    sticks (as if the Mod4 mode were in force).
    To get out of the paint mode, press the
    \index{keys!x}
-   "x" key while in the sequence editor.
+   \texttt{x} key while in the sequence editor.
    These keys, however, do not work (currently) while the sequence is playing.
 
    \index{todo:extend mouse support}
@@ -893,19 +907,22 @@
       \item \textbf{Jack Transport}.
          \index{JACK!transport}
          Enables slave synchronization with JACK Transport.
-         The command-line option is \texttt{--jack\_transport}.
+         The command-line option is \texttt{--jack-transport}.
          The behavior of this mode of operation is perhaps not quite
          correct.  Even as a slave, \textsl{Sequencer64} can start and
          stop playback.
       \item \textbf{Transport Master}.
          \index{JACK!transport master}
          \textsl{Sequencer64} will attempt to serve as the JACK Master.
-         The command-line option is \texttt{--jack\_master}.
+         The command-line option is \texttt{--jack-master}.
+         \textbf{Tip}:
+         \textsl{Sequencer64} generally works a little better as JACK
+         master.
       \item \textbf{Master Conditional}.
          \index{JACK!master conditional}
          \textsl{Sequencer64} will fail to serve as the JACK Master if there is
          already a Master set.
-         The command-line option is \texttt{--jack\_master\_cond}.
+         The command-line option is \texttt{--jack-master-cond}.
    \end{itemize}
 
    Note that there are long-standing issues with the JACK support of
