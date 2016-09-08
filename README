@@ -1,6 +1,6 @@
-Sequencer64 User Manual
+Sequencer64 User Manual for version 0.9.17
 Chris Ahlstrom
-2015-11-01 to 2016-06-04
+2015-11-01 to 2016-09-08
 
 This project provides two things:
 
@@ -11,9 +11,9 @@ This project provides two things:
 Sequencer64 is now a lot further along, with many new features over Seq24, and
 a slightly more modern look.  We have scoured the Web for important patches to
 Seq24 to make sure that they are incorporated into Sequencer64. Therefore, a
-whole new version of the manual, specific to Sequencer64 is a necessity.
+whole new version of the manual, specific to Sequencer64, is a necessity.
 
-Here are some of the new features of Sequencer64:
+Here are just some of the new features of Sequencer64:
 
    -  More mouse and keystroke support in the sequence and song editor windows:
       -  Ability to move selected notes using the arrow keys.
