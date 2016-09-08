@@ -82,9 +82,8 @@
       \index{pause}
       \item The new Pause button functionality;
       \index{progress bar}
-      \item The optional coloring (currently it is dark-cyan, not red, but
-      perhaps we will soon offer more choice) and thickening of the progress
-      bar.
+      \item The optional coloring (about 7 color values are selectable)
+      and thickening of the progress bar.
       \index{redo}
       \item A new Redo button.
       \index{transpose}
@@ -372,8 +371,8 @@
    pattern editing menu as discussed in
    \sectionref{subsubsec:seq64_patterns_pattern_filled}.
    Recall that this context menu has the following entries:
-   \textbf{Edit...}, \textbf{Cut}, \textbf{Copy},
-   \textbf{Song}, and \textbf{Midi Bus}.
+   \textbf{Edit...}, \textbf{Event Edit...}, \textbf{Cut}, \textbf{Copy},
+   \textbf{Song}, \textbf{Disable Transpose}, and \textbf{MIDI Bus}.
 
 \subsubsection{Song Editor / Arrangement Panel / Piano Roll}
 \label{subsubsec:seq64_song_editor_arrangement_panel_roll}
@@ -474,12 +473,12 @@
    To turn on the paint mode, first make sure that the piano roll has the
    keyboard focus by left-clicking in it, then press the
    \index{keys!p}
-   "p" key while in the performance editor.
+   \texttt{p} key while in the performance editor.
    This is just like pressing the right mouse button, but the draw/paint mode
    sticks (as if the Mod4 mode were in force).
    To get out of the paint mode, press the
    \index{keys!x}
-   "x" key while in the sequence editor, to "x-scape" (get it?  get it?)
+   \texttt{x} key while in the sequence editor, to "x-scape" (get it?  get it?)
    from the paint mode.
    These keys, however, do not work (currently) while the sequence is playing.
 
@@ -491,10 +490,11 @@
    \textsl{Sequencer64}, as of version 0.9.10, now supports zoom in the song
    editor's piano roll.  This feature is not accessible via a button or a menu
    entry -- it is accessible only via keystrokes.
-   After one has left-clicked in the piano roll, the "z", "Z", and "0"
-   can be used to zoom the piano-roll view.  The "z" key zooms out, the "Z" key
-   zooms in, and the "0" key resets the zoom to the default value.
-   The zoom feature also modifies the time-line (measures indicator).
+   After one has left-clicked in the piano roll, the \texttt{z}, \texttt{Z},
+   and \texttt{0} can be used to zoom the piano-roll view.  The \texttt{z} key
+   zooms out, the \texttt{Z} key zooms in, and the \texttt{0} key resets the
+   zoom to the default value.  The zoom feature also modifies the time-line
+   (measures indicator).
 
    \index{song editor!left-click-right-hold}
    \index{song editor!insert}
@@ -565,19 +565,19 @@
    bar indicator!) has the
    keyboard focus by left-clicking in it at a blank spot, then press the
    \index{keys!l}
-   "l" key or
+   \texttt{l} key or
    \index{keys!r}
-   "r" key or
+   \texttt{r} key or
    while in the sequence editor.
    \textsl{There is no visual feedback that one is in the movement mode.}
    Then press the left or right arrow key to move the "L" or "R" (depending
-   whether "l" or "r" was used to enter the movement mode) markers by one
-   snap value at a time.
+   whether \texttt{l} or \texttt{r} was used to enter the movement mode)
+   markers by one snap value at a time.
 
    To get out of the movement mode, press the
    \index{keys!x}
-   "x" key while in the performance editor, to "x-scape" from the movement
-   mode.  We're still working on refining that feature.
+   \texttt{x} key while in the performance editor, to "x-scape" from the
+   movement mode.
 
 \subsection{Song Editor / Bottom Panel}
 \label{subsec:seq64_song_editor_bottom}

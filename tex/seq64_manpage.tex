@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-06-12
+% \update      2016-09-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -27,13 +27,15 @@
 
    \texttt{\$HOME/.config/sequencer64/sequencer64.rc} holds the "rc" settings
    for \textsl{Sequencer64}.
+
    \texttt{\$HOME/.config/sequencer64/sequencer64.usr} holds the "user" settings
    for \textsl{Sequencer64}.
-   But the old style names are used for the "legacy" mode.  See the
-   \texttt{--legacy} option below.
 
-   \textsl{Sequencer64} is a real-time MIDI sequencer. It was created to
-   provide a very simple interface for editing and playing MIDI 'loops'.
+   But the old style names are used for the "legacy" mode.  See the
+   \texttt{--legacy} option below. Here is the basic command line:
+
+%  \textsl{Sequencer64} is a real-time MIDI sequencer. It was created to
+%  provide a very simple interface for editing and playing MIDI 'loops'.
 
    \begin{verbatim}
        sequencer64 [OPTIONS] [FILENAME]
@@ -67,11 +69,13 @@
       \index{new!legacy mode}
       Save the MIDI file in the old Seq24 format, as unspecified
       binary data, instead of as a legal MIDI track with meta events.
-      Also read the configuration, if provided, from the
-      \texttt{~/.seq24rc} and \texttt{~/.seq24usr} files,
-      instead of the new
-      \texttt{~/.config/sequencer64/sequencer64.rc} and
-      \texttt{~/.config/sequencer64/sequencer64.usr} files.
+      Also read the configuration, if provided, from the "legacy"
+      \texttt{~/.seq24rc} and \texttt{~/.seq24usr} files.
+
+%     instead of the new
+%     \texttt{~/.config/sequencer64/sequencer64.rc} and
+%     \texttt{~/.config/sequencer64/sequencer64.usr} files.
+
       The user-interface will indicate this mode with a small text
       note.
       This mode is also used if \textsl{Sequencer64} is invoked as the
@@ -96,7 +100,7 @@
       Supports modifying the PPQN value of Sequencer64, which is currently
       hardwired to a value of 192.  This setting should allow MIDI files to
       play back at the proper speed, and be written with the new PPQN value.
-      This feature is \textbf{STILL IN PROGRESS}.
+      This feature is basically done.
       It seems to work -- one can load MIDI files of arbitrary PPQN, and they
       play normally and look normal in the editor windows.  They can also be
       saved, and load with the new PPQN value. 
@@ -159,12 +163,20 @@
 
    \optionpar{N/A}{--pass-sysex}
       Passes any incoming SYSEX messages to all outputs.
+		Not yet supported.
 
    \optionpar{-i}{--ignore [number]}
       Ignore ALSA device [number].
 
    \optionpar{-k}{--show-keys}
       Prints pressed key value.
+
+   \optionpar{-K}{--inverse}
+      \index{inverse colors}
+      \index{night mode}
+      Changes the color scheme for the sequence editor and performance editor
+      piano rolls.  It basicially inverts the colors.  It can be considered
+      kind of a "night mode".
 
    \optionpar{-x}{--interaction-method [number]}
       Select the mouse interaction method.
@@ -190,6 +202,8 @@
 
    \optionpar{-S}{--stats}
       Print statistics on the command-line while running.
+      Not available unless this option has been compiled in at build time,
+      which can be determined by using the \texttt{--version} option.
 
    \optionpar{-U}{--jack-session-uuid [uuid]}
       Set the UUID for the JACK session.
@@ -237,19 +251,22 @@
    \texttt{--legacy} option causes the old
    configuration-file names to be used.
 
-   The current Sequencer64 project homepage is a simple git repository at the
-   https://github.com/ahlstromcj/sequencer64.git URL.
-   Up-to-date instructions can be found in the project at the
-   https://github.com/ahlstromcj/sequencer64-doc.git URL.
+   The current Sequencer64 project homepage is a simple git repository at
+
+   \url{https://github.com/ahlstromcj/sequencer64.git}.
+
+   Up-to-date instructions can be found in the project at
+
+   \url{https://github.com/ahlstromcj/sequencer64-doc.git}.
 
    The old Seq24 project homepage is at
    \url{http://www.filter24.org/seq24/} the new
    one is at \url{https://edge.launchpad.net/seq24/}.
    It is released under the GNU GPL license.
-
    Sequencer64 is also released under the GNU GPL license.
 
-   \textsl{Sequencer64} was written by Chris Ahlstrom <ahlstromcj@gmail.com>.
+   \textsl{Sequencer64} was written by Chris Ahlstrom <ahlstromcj@gmail.com>
+   (with a fair amount of help).
    \textsl{Seq24} was written by Rob C. Buse \url{mailto:seq24@filter24.org}
    and the \textsl{Sequencer64} team.
 

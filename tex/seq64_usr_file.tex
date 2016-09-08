@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-04-04
+% \update      2016-09-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -21,13 +21,14 @@
    informative names to the MIDI busses, MIDI channels, and MIDI controllers of
    a given system setup.  This configuration will override the default values
    of some drop-down lists and menu items, and make them reflect your names for
-   them.
+   them.  It now also includes some items that affect the user-interface's
+   look.
 
    By default, the list of MIDI items that \textsl{Sequencer64} shows depends
    on one's system setup and whether the manual-alsa-port options is specified
    or not.  Here's our system, which has Timidity installed and running as a
-   service, and the manual-alsa-port option turned off, shown in a composite
-   view with all menus one can look at for MIDI settings:
+   service, and the \texttt{[manual-alsa-port]} option turned off, shown in a
+   composite view with all menus one can look at for MIDI settings:
 
 \begin{figure}[H]
    \centering 
@@ -323,12 +324,8 @@
 
    It provides for a feature we will hopefully be able to complete some day:
    the absolute specificiation of the appearance of the user interface.
-   Currently, these settings are not yet fully in force... we still have to
-   figure out some of the user interface items.
-
-   But, for now, this section shows some of the current values.
-   And there is plenty of room to change the appearance of
-   \textsl{Sequencer64} already!  Please try them and see what you like!
+   There is plenty of room to change the appearance of
+   \textsl{Sequencer64} already!  Please try them and see what you like.
 
    \begin{verbatim}
 
@@ -430,16 +427,28 @@
 
    \begin{verbatim}
       # Specifies if the progress bar is colored black, or a different
-      # color.  Currently, the different color is hardwired, and is
-      # red.  The other colors are washed out compared to red. Set this
-      # value to 1 to enable the feature, 0 to disable it.
-      0      # progress_bar_colored
+      # color.  The following integer color values are supported:
+      # 
+      # 0 = black
+      # 1 = dark red
+      # 2 = dark green
+      # 3 = dark orange
+      # 4 = dark blue
+      # 5 = dark magenta
+      # 6 = dark cyan
+      6      # progress_bar_colored
 
       # Specifies if the progress bar is thicker.  The default is 1
       # pixel.  The 'thick' value is 2 pixels.  (More than that is not
       # useful.  Set this value to 1 to enable the feature, 0 to disable
       # it.
       1      # progress_bar_thick
+
+		# Specifies using an alternate (darker) color palette.  The
+		# default is the normal palette.  Not all items in the user
+		# interface are altered by this setting, and it's not perfect.
+		# Set this value to 1 to enable the feature, 0 to disable it.
+		0      # inverse_colors
 
       # Specifies the window redraw rate for all windows that support
       # that concept.  The default is 40 ms.  Some windows used 25 ms.

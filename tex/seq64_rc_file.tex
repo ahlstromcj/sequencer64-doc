@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-05-20
+% \update      2016-09-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -36,7 +36,8 @@
    \end{verbatim}
 
    It contains the the data for remote MIDI control, keyboard
-   control, and MIDI clock.
+   control, MIDI clock, and a few other settings.
+   (See \sectionref{sec:seq64_usr_file} for some more settings.)
 
    \textsl{Sequencer64} will overwrite the \texttt{sequencer6.4rc} file upon
    quitting.  One should therefore quit \textsl{Sequencer64} before doing
@@ -55,7 +56,7 @@
    For each pattern, we can set up MIDI events to turn a 
 	pattern on, off, or to toggle it.  This setup is in the 
    MIDI Control section of \texttt{sequencer64.rc}, and begins with an
-   "INI" group marker \texttt{[midi-control]}.
+   "INI-style" group marker \texttt{[midi-control]}.
 
 % OR is it the current screen set and a set of mute groups???
 
@@ -268,8 +269,6 @@
 
    So when the Sustain button is held down, and one presses one of the pads
    on the \textsl{MPK Mini}, the corresponding sequence gets queued.
-   (STILL NOT CLEAR WHY).
-
    Here's a little table of the decimal numbers for some commonly-used MIDI
    controls:
 
@@ -321,39 +320,23 @@
 
    \itempar{mod replace}{[midi-control]!mod replace}
    This item provides a way to automate replacement.
-   TODO.
-   \index{todo!explain replacement}
-   Explain the concept of replacement.
 
    \itempar{mod snapshot}{[midi-control]!mod snapshot}
    This item provides a way to automate snapshots.
-   TODO.
-   \index{todo!explain snapshots}
-   Explain the concept of snapshots.
 
    \itempar{mod queue}{[midi-control]!mod queue}
    This item provides a way to automate queueing.
-   TODO.
-   \index{todo!explain queue}
-   Explain the concept of queue.
 
    \itempar{mod gmute}{[midi-control]!mod gmute}
    \index{group!muting}
    This item provides a way to automate group-muting.
-   Explain the concept of snapshots.
 
    \itempar{mod glearn}{[midi-control]!mod glearn}
    \index{group!learning}
    This item provides a way to automate group-learning.
-   TODO.
-   \index{todo!group learning}
-   Explain the concept of group-learning.
 
    \itempar{screen-set play}{[midi-control]!screen-set play}
    This item provides a way to automate screen set play.
-   TODO.
-   \index{todo!explain queue}
-   Explain the concept of screen set play.
 
 \subsection{Sequencer64 / Mute-Group Section}
 \label{subsec:seq64_rc_file_mute_group}
@@ -375,7 +358,6 @@
    \end{verbatim}
 
    The initial number, 1024 is probably the total count of 32 x 32 sequences.
-
    In this group are the definitions of the state of the 32 sequences
    in the playing screen set when a group is selected.
    Each set of brackets defines a group:
@@ -502,7 +484,7 @@ erroneously have also specified 3 MIDI busses that we do not have, in the
    first number specifies the Key number, and the second number specifies
    the Group number.
 
-   Additional control:
+   Additional control items:
 
    \begin{enumber}
    	\item \textbf{\# bpm up and down}.
@@ -519,10 +501,11 @@ erroneously have also specified 3 MIDI busses that we do not have, in the
    \end{enumber}
 
 	To see the required key codes when pressed, run \texttt{seq24} with
-   the \texttt{--show\_keys}.
+   the \texttt{--show-keys}.
 
-   Some keys should not be assigned to control sequences in \textsl{Sequencer64} as
-   they are already assigned in the \textsl{Sequencer64} menu (with \texttt{Ctrl}). 
+   Some keys should not be assigned to control sequences in
+   \textsl{Sequencer64} as they are already assigned in the
+   \textsl{Sequencer64} menu (with \texttt{Ctrl}). 
 
    This configuration item is the same as the 
    \textbf{Keyboard} tab described in
@@ -586,10 +569,10 @@ erroneously have also specified 3 MIDI busses that we do not have, in the
    \textbf{Jack Sync} tab described in
    \sectionref{paragraph:seq64_menu_file_options_jack_sync}.
 
-   \index{--jack\_transport}
-   \index{--jack\_master}
-   \index{--jack\_master\_cond}
-   \index{--jack\_start\_mode}
+   \index{--jack-transport}
+   \index{--jack-master}
+   \index{--jack-master-cond}
+   \index{--jack-start-mode}
    \begin{verbatim}
       [jack-transport]
 
@@ -643,7 +626,7 @@ erroneously have also specified 3 MIDI busses that we do not have, in the
    \end{verbatim}
 
    There is no user-interface item for the following value, but
-   it does correspond to the \texttt{--manual\_alsa\_ports} command-line
+   it does correspond to the \texttt{--manual-alsa-ports} command-line
    option.
 
    \index{[manual-alsa-ports]}
@@ -713,7 +696,7 @@ erroneously have also specified 3 MIDI busses that we do not have, in the
    two simultaneous button presses.
 
    \index{[lash-session]}
-   This configuration item is the same as the
+   The following configuration item is the same as the
    \texttt{--lash} or \texttt{--no-lash} options described in
    \sectionref{sec:seq64_man_page}.
    If set to 0, LASH session support is disabled.
@@ -721,7 +704,7 @@ erroneously have also specified 3 MIDI busses that we do not have, in the
    However, if LASH support is not built into the application, neither option
    has any effect -- there is no LASH support.  
    To determine if LASH support is built in, run sequencer64 from the command
-   line with the \texttt{--help} option, and see if LASH is mentioned.
+   line with the \texttt{--version} option, and see if LASH is mentioned.
 
    \begin{verbatim}
       [lash-session]
