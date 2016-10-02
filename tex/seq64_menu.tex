@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-09-05
+% \update      2016-10-01
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -25,12 +25,12 @@
 \label{subsec:seq64_menu_file}
 
    The \textbf{File} menu is used to save and load standard MIDI files.
-   \textsl{Sequencer64} should be able to handle any Format 1 standard files
-   that any other sequencer is capable of exporting.  
+   \textsl{Sequencer64} should be able to handle any Format 0 or
+   Format 1 standard files that any other sequencer exports.
 
    The \textsl{Sequencer64} menu entry contains the sub-items shown in
-   \figureref{fig:seq64_menu_file_items}.  The next few sub-sections discuss the
-   sub-items in the \textsl{File} sub-menu.
+   \figureref{fig:seq64_menu_file_items}.  The next few sub-sections discuss
+   the sub-items in the \textsl{File} sub-menu.
 
 \begin{figure}[H]
    \centering 
@@ -56,12 +56,7 @@
    The \textbf{New} menu entry clears out any current song and patterns,
    allowing one to create new ones from scratch.
    If unsaved changes are pending, the user will be prompted to save the
-   changes.
-
-   \index{todo!improve change detection}
-   \textsl{Currently, the detection of situations requiring a save (or not
-   requiring a save) still needs some work.  We've made a lot of progress,
-   though.}
+   changes.  Prompting for changes is more comprehensive than \textsl{Seq24}.
 
 \subsubsection{Menu / File / Open}
 \label{subsubsec:seq64_menu_file_open}
@@ -71,7 +66,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/menu_file_open.png}
+   \includegraphics[scale=0.65]{menu/menu_file_open.png}
    \caption{File / Open}
    \label{fig:seq64_menu_file_open}
 \end{figure}
@@ -87,16 +82,16 @@
 \label{subsubsec:menu_file_open_save_as}
 
    The \textbf{Save} menu entry saves the song under its current file-name.
-   If there is no current file-name, then it opens up a standard GTK+2 file
+   If there is no current file-name, then it opens up a standard file
    dialog to name and save the file.
 
    The \textbf{Save As} menu entry saves a song under a different name.
-   It opens up the following standard GTK+2 file dialog, very similar to the 
+   It opens up the following standard file dialog, very similar to the 
    \textbf{File Open} dialog, with an additional \textbf{Name} text-edit field.
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/menu_file_save_as.png}
+   \includegraphics[scale=0.65]{menu/menu_file_save_as.png}
    \caption{File / Save As}
    \label{fig:seq64_menu_file_save_as}
 \end{figure}
@@ -119,22 +114,20 @@
    have been saved.
    (But the L and R marker positions are not saved.)
 
-   Compare the sizes of the original project MIDI file,
-   \texttt{contrib/b4uacuse.mid}, and the output MIDI file after
-   \textsl{Sequencer64} saved the patterns and the song layout we created,
-   \texttt{contrib/b4uacuse-seq24.midi}.  The latter is bigger.
-
+   Compare the sizes of the original project MIDI file
+   and the output MIDI file after \textsl{Sequencer64} saves them
+   are different.
    The reason is that, after the last track in the file, a number of
    sequencer-specific (SeqSpec) items are saved, to preserve this extra
    information.  In legacy mode, \textsl{Sequencer64} saves this information
-   in the same format as \textsl{Seq24}.  Unfortunately, this format is
-   not quite standard, and a few MIDI applications may produce error
-   messages (as opposed to just ignoring it) when parsing this section. 
+   in the same format as \textsl{Seq24}. Otherwise, it saves it
+   in an even more MIDI-compatible format.  There is also an option to strip
+   this extra information if it is empty.
    
    \textbf{New:}
    \index{new!seqspec format}
-   Therefore, in its normal mode, \textsl{Sequencer64} saves this
-   information in a more MIDI-compliant format, marking each SeqSpec section
+   In its normal mode, \textsl{Sequencer64} saves this
+   information by marking each SeqSpec section
    as vendor-specific information, and marking this section as a regular
    MIDI track.
    The legacy and new formats of the final "track" are explained in
@@ -143,13 +136,14 @@
 \subsubsection{Menu / File / Import MIDI}
 \label{subsubsec:seq64_menu_file_import}
 
-   The \textbf{Import} menu entry allows one to import a Format 1 MIDI file
-   into one or more patterns, one pattern per track in the MIDI file.
-   Even long tracks, that aren't short loops, are read in properly.
+   The \textbf{Import} menu entry allows one to import a Format 0
+   or Format 1 MIDI file into one or more patterns, one pattern per track in
+   the MIDI file.  Even long tracks, that aren't short loops, are read in
+   properly.
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/menu_file_import.png}
+   \includegraphics[scale=0.65]{menu/menu_file_import.png}
    \caption{File / Import MIDI}
    \label{fig:seq64_menu_file_import}
 \end{figure}
@@ -159,8 +153,7 @@
    handle reasonably complex files,
 %  as shown in the following diagram, which shows an import of
    such as the \texttt{contrib/b4uacuse.mid} file, which contains
-   a transcription of an Eric Clapton tune that we'd made over 20 
-   years ago.
+   a transcription of an Eric Clapton tune made over 20 years ago.
 %  and had uploaded to the \textsl{GEnie} network service.
 
    Note the additional file-dialog field,
@@ -168,46 +161,16 @@
    \index{import!select screen offset}
    \index{select screen offset}
    This setting lets one place the imported data into a screen-set other than
-   the first screen-set, screen-set 0.
+   the first screen-set (screen-set 0).
    This field is not editable.  It requires using the scroll button to move the
-   screen set offset up or down in value.  The legal values range from -31 to 0
-   to +31.
+   screen set offset up or down in value.  The legal values range from 0
+   to 31.
    
    When the file is imported, the sequence number for each track read in is
-   adjusted to put the track in the desired screen set.  The negative numbers
-   are probably more useful to move sequences around in an already-created
-   \textsl{Sequencer64} song file with a lot of screen-sets in it.
-
-% \begin{figure}[H]
-%    \centering 
-%    \includegraphics[scale=0.90]{new/imported_midi_song.png}
-%    \caption{Imported MIDI Song}
-%    \label{fig:seq64_imported_midi_song}
-% \end{figure}
-% 
-%  This song has a number of non-event tracks containing labels.
-%  \textbf{New:}
-%  \index{new!empty tracks}
-%  These tracks are treated as "empty", and show up with a yellow
-%  background.  They are ignored on playback.   Some of the tracks
-%  which look empty, but are not yellow, contain program-change events.
-
-%  Some things to note.
-%  First, the look of the main window can be modified by options for numbering
-%  the slots (in the "rc" configuration file) and the style of drawing the
-%  slots (in the "user" configuration file).
-%  Second, the import can placed the imported data into any of the 32 available
-
+   adjusted to put the track in the desired screen-set.
    The import can placed the imported data into any of the 32 available
-   sets.  Quite large songs can be built up by importing patterns from other
-   MIDI files.
-
-%  Unfortunately, this song was created before the days of General MIDI.
-%  It was scored for the Yamaha PSS-790 consumer-level synthesizer,
-%  definitely not a GM-compliant device.
-%  One can use the MIDI-conversion project, \textsl{midicvt}
-%  (see reference \cite{midicvt}),
-%  to convert it to General MIDI format, including General MIDI drums.
+   screen-sets.  Quite large songs can be built up by importing patterns from
+   other MIDI files.
 
    The import operation also handles SMF 0 MIDI files.  It parcels out the SMF
    0 into sequences/patterns for each of the 16 MIDI channel.  It also puts all
@@ -241,7 +204,8 @@
          layout.  This trigger is not needed (or even usable) in any other
          non-Seq24-based MIDI sequencer; the events themselves are sufficient
          to play the performance exactly.  But the trigger is useful for
-         further editing of the song/performance, as will be seen later.
+         further editing of the song/performance, as will be seen later,
+         so it is kept (in a SeqSpec section).
       \item All the tracks that are exported are consolidated, so that any
          empty pattern slots between them are removed.  No matter what set the
          original track was in, it ends up in the first set.
@@ -252,7 +216,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/menu_file_export.png}
+   \includegraphics[scale=0.65]{menu/menu_file_export.png}
    \caption{File / Export Song as MIDI}
    \label{fig:seq64_menu_file_export}
 \end{figure}
@@ -307,6 +271,17 @@
    This dialog allows one to select which sequence gets the MIDI
    clock, which incoming MIDI events control the sequencer, what keys are
    mapped to functions, how the mouse works, and some JACK parameters.
+
+   Note that there is now an extra tab-page for \textbf{Ext Keys}.
+   It is not shown in some of the screenshot; we are too lazy to re-do those
+   screenshot just to show the new tab.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/options-tab-0-9-18.png}
+   \caption{File / Options Tabs for Version 0.9.18}
+   \label{fig:seq64_options_tab_0_9_18}
+\end{figure}
 
 \paragraph{Menu / File / Options / MIDI Clock}
 \label{paragraph:seq64_menu_file_options_midi_clock}
@@ -699,7 +674,8 @@
    the snapshot key was first pressed.
 
    \index{queue}
-   To "queue" a pattern means to ready it for playback upon the next repeat
+   To \textsl{queue}
+   a pattern means to ready it for playback upon the next repeat
    of a pattern.  A pattern can be armed immediately, or it can be queued to
    play back the next time the pattern starts.
    A pattern can be queued by holding the queue key (defined in
@@ -709,7 +685,8 @@
 
    \index{keep queue}
    \index{queue!keep}
-   The "keep queue" functionality allows the queue to be held without holding
+   The \textsl{keep queue}
+   functionality allows the queue to be held without holding
    down the queue button the whole time.  First, press the keep-queue key
    (defined in \textbf{File / Options / Keyboard / Keep queue}).  Now, hitting
    any of the shortcut keys, no matter how many, sets up the corresponding
@@ -755,6 +732,140 @@
    \index{group!on}
    \index{keyboard!group on}
    This key is the \textsl{group on} key.
+
+\paragraph{Menu / File / Options / Ext Keys }
+\label{paragraph:seq64_menu_file_options_ext_keys}
+
+   A number of additional functions have been added to \textsl{Sequencer64},
+   and keystrokes have been provided for those new functions.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_file_options_ext_keys_condensed.png}
+   \caption{File / Options / Ext Keys (Condensed View)}
+   \label{fig:seq64_menu_file_options_ext_keys}
+\end{figure}
+
+   \itempar{Extended keys}{keyboard!extended keys}
+   This block of fields in the \textbf{Options / Ext Keys} tab
+   provides shortcut keys for more operations of \textsl{Sequencer64}.
+   The default values are shown.
+
+   \begin{enumber}
+      \item \textbf{Song/Live toggle}.
+         Key: \index{keys!F1} \textbf{F1}.
+      \item \textbf{Toggle JACK}.
+         Key: \index{keys!F2} \textbf{F2}.
+      \item \textbf{Menu mode}.
+         Key: \index{keys!F3} \textbf{F3}.
+      \item \textbf{Follow transport}.
+         Key: \index{keys!F4} \textbf{F4}.
+      \item \textbf{Fast forward}.
+         Key: \index{keys!F5} \textbf{F5}.
+      \item \textbf{Rewind}.
+         Key: \index{keys!F6} \textbf{F6}.
+      \item \textbf{Pointer}.
+         Key: \index{keys!F7} \textbf{F7}.
+      \item \textbf{Tap BPM}.
+         Key: \index{keys!F9} \textbf{F9}.
+   \end{enumber}
+
+   Most of these extended keys implement operations performed with button
+   presses.  However, some of the new keystrokes do not have a corresponding
+   button (yet).  Also, we still need to clarify the meaning of some of the new
+   functions.
+
+   These values are saved as the \texttt{[extended-keys]} section of the "rc"
+   configuration file.  However, not all builds of \textsl{Sequencer64} will
+   support the new keys.  Some of the new features can be enabled or disabled
+   during the build-configure step, and one's favorite distro may decide to
+   disable some features.  In this case, although the values will still be
+   stored in the "rc" file, they will be disabled in this tab:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{menu/menu_file_options_ext_keys_disabled.png}
+   \caption{File / Options / Ext Keys (Disabled)}
+   \label{fig:seq64_menu_file_options_ext_keys_disabled}
+\end{figure}
+
+   \index{song mode}
+   The \textsl{song mode} normally is in effect only when playback is started
+   from the \textbf{Song Editor}.  Now this mode can be used from any
+   window, if enabled by pressing this key.  There is also
+   a button in the main window for this function, which shows the current state
+   of this flag.  Note that this flag is also stored in the "rc" configuration
+   file, as well as this hotkey value, which defaults to \texttt{F1}.
+
+   \index{toggle JACK}
+   \index{JACK toggle}
+   The \textsl{JACK mode} is normally set via the
+   \textbf{File / Options / JACK / JACK Connect} or 
+   \textbf{JACK Disconnect} buttons.
+   But, if \textsl{Sequencer64} is built for using the \textsl{Seq32} JACK
+   support, then this keystroke will toggle between JACK connect and JACK
+   disconnect.
+   Note that, with this kind of build, the \textbf{Song Editor} will also have
+   a \textbf{JACK} button.
+   The hotkey for this function defaults to \texttt{F2}.
+
+   \index{menu mode}
+   The \textsl{menu mode} simply indicates if the main menu of the
+   main window is accessible or not.  It will be disabled in playback
+   so that more hotkeys can be used without triggering menu function.
+   It can also be disabled by the user; the default hotkey is \texttt{F3}.
+
+   \index{follow transport}
+   The \textsl{follow transport} functionality is a feature ported
+   from \textsl{Seq32}.  We'll have more of a description of it later.
+   The default key is \texttt{F4}.
+
+   \index{fast forward}
+   The \textsl{fast forward} functionality is a feature ported
+   from \textsl{Seq32}.
+   Basically, while this key is held, the song pointer will fast-forward
+   through the song.
+   The default key is \texttt{F5}.
+   This feature does not (yet) have a corresponding button.
+   This feature also requires that the \textsl{Seq32} transport option be
+   enabled at build time.
+
+   \index{rewind}
+   The \textsl{rewind} functionality is a feature ported
+   from \textsl{Seq32}.
+   The default key is \texttt{F6}.
+   Basically, while this key is held, the song pointer will rewind in
+   the song.
+   This feature does not (yet) have a corresponding button.
+   This feature also requires that the \textsl{Seq32} transport option be
+   enabled at build time.
+
+   \index{pointer position}
+   The \textsl{pointer position} functionality is a feature ported
+   from \textsl{Seq32}.
+   The default key is \texttt{F7}.
+   Basically, when this key is pressed, the song pointer will move to the
+   current position of the mouse.
+   This feature does not have a corresponding button.
+   This feature also requires that the \textsl{Seq32} transport option be
+   enabled at build time.
+
+   \index{toggle mutes}
+   The \textsl{toggle mutes} function toggles the mute status of every
+   pattern on every screen-set.  It corresponds to the
+   \textbf{Edit / Toggle mute all tracks} or the 
+   \textbf{Song / Toggle All Tracks}
+   menu entries.  There is also a button in the main window for this function,
+   which shows the current state of this flag.  Note that this flag is also
+   stored in the "rc" configuration file, as well as this hotkey value, which
+   defaults to \texttt{F8}.
+
+   \index{tap bpm}
+   The \textsl{tap bpm} function allows the user to "tap" in time with some
+   other music, and see the tap sequence translated into beats/minute (BPM).
+   There is also a button for this function.
+   After 5 seconds, this feature resets automatically, so the user can try
+   again if not satisfied.
 
 \paragraph{Menu / File / Options / Mouse }
 \label{paragraph:seq64_menu_file_options_mouse}

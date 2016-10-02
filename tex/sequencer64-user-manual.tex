@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-09-04
+% \update      2016-10-01
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.9.17}
+\title{Sequencer64 User Manual 0.9.18}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -78,32 +78,29 @@
 \label{sec:introduction}
 
    This document describes how to use \textsl{Sequencer64}
-   \cite{sequencer64}, through version 0.9.17,
+   \cite{sequencer64}, through version 0.9.18,
    using the latest commit from the
-   \textbf{master} and \textbf{fixups} branches.
+   \textbf{master} or \textbf{fixups} branches.
    If one is impatient to get started mastering \textsl{Sequencer64},
    then proceed to \sectionref{subsec:introduction_lets_get_started}.
 
    \textsl{Sequencer64} fixes some bugs in JACK support, MIDI clocking, and
    JACK Master mode (with code from the \textsl{SooperLooper} 
    and \textsl{Seq32} projects).
-   So, overall, JACK and clocking are improved over \textsl{Seq24}.
    However, as user \textsl{stazed} notes on GitHub, there is more that can be
    done (and he has done much with his \textsl{seq32} \cite{seq32} project).
 
-   We've added a few features to make song editing more
+   We've added a many features to make song editing more
    convenient.
-   There is now a Pause button and a configuration Pause
-   keystroke, which defaults to a period (".").
-   Much more editing can be done using keystrokes.
-
+   There is now a Pause button and keystroke, (defaults to a period, ".").
+   Much more editing and navigation can be done using keystrokes.
    A shift-left-click on a pattern slot in the pattern window,
    or on a pattern's name or M button in the song editor toggles the armed or
    mute status of all of the \textsl{other} active patterns.
    We've got zoom keys for the editors, current-sequence highlighting,
    a raft of important bug fixes, some optimization, and much more.
 
-   We have contributors to acknowledge.  Please see
+   We have many contributors to acknowledge.  Please see
    \sectionref{sec:kudos}.
 
 \subsection{Sequencer64: What?}
@@ -131,7 +128,7 @@
    comprehensive list of "Linux" synthesizers).
 
    \textsl{Sequencer64}, like \textsl{Seq24},
-   is meant to work a bit like an Alesis SR16 drum machine,
+   works a bit like an \textsl{Alesis SR16} drum machine,
    which, for some, is a very intuitive and fast way to do MIDI.
    If one has worked with trackers like \textsl{SoundTracker} and
    \textsl{ShakeTracker}, then "you are a tracker guy and it gonna go fast".
@@ -149,20 +146,18 @@
 \subsection{Sequencer64: Why?}
 \label{subsec:introduction_seq64_vs_others}
 
-   The first reason to reboot \textsl{Seq24}
-   is consolidation of many of the features and fixes that
-   it has accumulated in various forks over the years.
-   Also, although "feature-complete", additional features would be useful,
-   such as support for more
-   session managers, still more use of
-   keystrokes, work-arounds for the need for two mouse buttons, a more
-   up-to-date user-interface framework, bug fixes, beefing up the support
-   for the "user" configuration file, and a way to edit parts of the MIDI file
-   textually.
+   The first reason to reboot \textsl{Seq24} is consolidation of many of the
+   features and fixes that it has accumulated in various forks over the years.
+   Also, although "feature-complete", additional features would be useful, such
+   as support for more session managers, more use of keystrokes, work-arounds
+   for the need for two mouse buttons, a more up-to-date user-interface
+   framework, more comprehensive undo/redo, bug fixes, beefing up the
+   support for the "user" configuration file, and a way to edit parts of the
+   MIDI file textually.
 
    We view \textsl{Seq24} as a kind of "vi" of MIDI editing... spare, lean, and
-   powerful.  Without \textsl{Seq24} and its authors,
-   \textsl{Sequencer64} would never have come into being.
+   powerful.  Without \textsl{Seq24} and its authors, \textsl{Sequencer64}
+   would never have come into being.
 
 \subsection{Improvements}
 \label{subsec:improvements}
@@ -177,6 +172,7 @@
       \item \textsl{Sequencer64} reads SMF 0 MIDI files.  It splits
          the file into tracks based on channel number.  Each track becomes one
          sequence/pattern in the main window grid.
+      \item A "Tap" button for setting the BPM by tapping a button or a key.
       \item Some features have been ported from \textsl{Stazed}'s
       \textsl{Seq32} \cite{seq32} project.  Some features can be disabled at
       configure/build time, if desired.
@@ -200,7 +196,7 @@
                is stored in the sequence/pattern configured for that channel
             \item Randomizing MIDI events.
             \item Selection extensions such as selecting odd/even notes, and
-            handles on data events..
+            handles on data events.
             \item More feature for controlling transport.
             \item Support for editing the amplitude of data events using a
                low-frequency oscillator (LFO).
@@ -321,6 +317,13 @@
    scripting language, for OSC (Open Sound Control), and for NSM (the Non
    Session Manager).
 
+   One more note.  \textsl{Sequencer64} is extremely customizable, and
+   it features can be configured by defining macro names in the source code,
+   by enabling/disabling options at build-configuration time, and by many new
+   command-line arguments.  We cannot show all permutations of setting in this
+   small document, so don't be surprised if some screenshots don't quite match
+   your setup.
+
 \subsection{Document Structure}
 \label{subsec:introduction_document_structure}
 
@@ -380,19 +383,20 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{seq64-first-screen.png}
+%  \includegraphics[scale=0.75]{seq64-first-screen.png}
 %  \includegraphics[scale=0.75]{new/seq64_first_screen.png}
-   \caption{Sequencer64 Main Screen}
+   \includegraphics[scale=0.75]{seq64-first-screen-new-buttons.png}
+   \caption{Sequencer64 Main Screen, 0.9.18}
    \label{fig:seq64_main_screen}
 \end{figure}
 
    Then the \textsl{Sequencer64} main window appears, as shown in
    \figureref{fig:seq64_main_screen}.  It has some differences
    from the \textsl{Seq24} main window: the highlighting of
-   empty patterns in yellow, a different font, and much more that is not shown.
-   All of these items can be configured either at build time or at run
-   time (via the "rc" and "user" configuration files or via command-line
-   options).
+   empty patterns in yellow, a different font, additional control buttons,
+   and much more that is not shown.
+   Most of these items can be configured via the "rc" and "user" configuration
+   files or command-line options.
 
 % This Tip needs to be put elsewhere.
 
