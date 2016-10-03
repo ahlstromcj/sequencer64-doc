@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-09-02
+% \update      2016-10-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -62,21 +62,70 @@
 \label{subsec:seq64_patterns_panel_top}
 
    The top panel of the Pattern window is simple, consisting of the name of
-   the program and a couple of controls.
+   the program and a couple of controls.  The original version looked like
+   this:
 
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{pattern-window-top-panel-items.png}
-   \caption{Patterns Panel, Top Panel Items}
+   \caption{Patterns Panel, Top Panel, Older Version}
    \label{fig:pattern_window_top_panel_items}
 \end{figure}
 
+   But, if compiled with \texttt{SEQ64\_STAZED\_MENU\_BUTTONS} defined,
+   there are some extra buttons available:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{pattern-window-top-panel-items-new.png}
+   \caption{Patterns Panel, New Top Panel Items}
+   \label{fig:pattern_window_new_top_panel_items}
+\end{figure}
+
+   This figure shows the possible appearance of the main window top panel.
+   If \textsl{Sequencer64} was built with
+   \texttt{SEQ64\_MENU\_BUTTON\_PIXMAPS} defined, then the buttons have icons
+   on them; otherwise they have text.  The figure shows what they look like,
+   and how they look with the song/live and toggle-menu functions activated.
+ 
    \begin{enumber}
+      \item \textbf{Song/Live}
+      \item \textbf{Toggle Tracks}
+      \item \textbf{Toggle Menu}
       \item \textbf{Song Progress}
       \item \textbf{Mute Group Learn}
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{Song/Live}{pattern!song/live}
+   \index{song!song/live}
+   This new button allows the Song mode to be in force even if
+   the \textbf{Song Editor} does not have the focus of the application.
+   However, if the \textbf{Song Editor} does have focus, it overrides this
+   button, to preserve expected behavior.
+   There is also a configurable hotkey associated with it,
+   which defaults to \texttt{F1}, and is configurable in the "rc" file and
+   the \textbf{File / Options / Ext Keys} page.
+
+   \itempar{Toggle Tracks}{pattern!toggle tracks}
+   \index{song!toggle tracks}
+   This button changes the status of all of the tracks, reversing the mute
+   status of each pattern.
+   There is also a configurable hotkey associated with it, called
+   \textbf{Toggle mutes},
+   which defaults to \texttt{F8}, and is configurable in the "rc" file and
+   the \textbf{File / Options / Ext Keys} page.
+
+   \itempar{Toggle Menu}{pattern!toggle menu}
+   \index{song!toggle menu}
+   This button enables and disables the main menu of the main window.
+   Disabling it allows additional hotkeys to be used without calling forth menu
+   entries.
+   There is also a configurable hotkey associated with it, called
+   \textbf{Menu mode},
+   which defaults to \texttt{F3}, and is configurable in the "rc" file and
+   the \textbf{File / Options / Ext Keys} page.
 
    \itempar{Song Progress}{pattern!progress}
    \index{song!progress}

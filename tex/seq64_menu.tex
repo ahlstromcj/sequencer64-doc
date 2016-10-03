@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-10-01
+% \update      2016-10-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -523,9 +523,9 @@
 \paragraph{Menu / File / Options / Keyboard }
 \label{paragraph:seq64_menu_file_options_keyboard}
 
-   \textsl{Seq24}, as befits a good application, allows extensive use of
+   \textsl{Seq24} allows extensive use of
    keyboard shortcuts to make operations go faster than when using a mouse,
-   and \textsl{Sequencer64} continues that tradition.
+   and \textsl{Sequencer64} extends that tradition.
    The \textbf{Keyboard} tab allows for the configuration of these keyboard
    shortcuts.
 
@@ -534,7 +534,7 @@
    usually the case), then any keystroke, including keys like Ctrl, Alt,
    and Super (Mod4 or Windows key), can alter the value of a field to that
    of the keystroke.  This change is very easy to do accidentally!
-   \textbf{Use the mouse}
+   \textsf{Use the mouse}
    to move this window and to click its \textbf{OK} button!
 
 \begin{figure}[H]
@@ -746,10 +746,14 @@
    \label{fig:seq64_menu_file_options_ext_keys}
 \end{figure}
 
+% Currently there is only one block of fields.  New blocks should also be
+% marked by "itempar".
+
    \itempar{Extended keys}{keyboard!extended keys}
    This block of fields in the \textbf{Options / Ext Keys} tab
-   provides shortcut keys for more operations of \textsl{Sequencer64}.
-   The default values are shown.
+   provides shortcut keys for more operations of \textsl{Sequencer64}, many of
+   them ported from \textsl{Seq32}.
+   The default keys are shown.
 
    \begin{enumber}
       \item \textbf{Song/Live toggle}.
@@ -764,8 +768,10 @@
          Key: \index{keys!F5} \textbf{F5}.
       \item \textbf{Rewind}.
          Key: \index{keys!F6} \textbf{F6}.
-      \item \textbf{Pointer}.
+      \item \textbf{Pointer Position}.
          Key: \index{keys!F7} \textbf{F7}.
+      \item \textbf{Toggle mutes}.
+         Key: \index{keys!F8} \textbf{F8}.
       \item \textbf{Tap BPM}.
          Key: \index{keys!F9} \textbf{F9}.
    \end{enumber}
@@ -856,8 +862,8 @@
    \textbf{Edit / Toggle mute all tracks} or the 
    \textbf{Song / Toggle All Tracks}
    menu entries.  There is also a button in the main window for this function,
-   which shows the current state of this flag.  Note that this flag is also
-   stored in the "rc" configuration file, as well as this hotkey value, which
+   which shows the current state of this flag.  Note that this
+   hotkey value is stored in the "rc" configuration file, and
    defaults to \texttt{F8}.
 
    \index{tap bpm}
@@ -865,7 +871,8 @@
    other music, and see the tap sequence translated into beats/minute (BPM).
    There is also a button for this function.
    After 5 seconds, this feature resets automatically, so the user can try
-   again if not satisfied.
+   again if not satisfied.  At least two clicks are needed for this
+   functionality to work.
 
 \paragraph{Menu / File / Options / Mouse }
 \label{paragraph:seq64_menu_file_options_mouse}
@@ -1107,13 +1114,12 @@
    which is already covered by a button at the bottom of the Patterns
    window.  Selecting this item bring up the Song Editor window.
    See \figureref{fig:song_editor_window}
-
    The Song Editor window can also be brought up via the
    \index{song editor!ctrl-e}
    \index{keys!ctrl-e}
    Ctrl-E key.
 
-   If the "allow two perfedits" option is turned on in the "user"
+   If the \textbf{allow two perfedits} option is turned on in the "user"
    configuration file, this menu item has two entries, as shown in the
    following figure:
 
