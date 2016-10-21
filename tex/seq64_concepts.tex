@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-08-29
+% \update      2016-10-21
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -82,7 +82,8 @@
    \index{group}
    A \textsl{group} in \textsl{Sequencer64} is one of up to 32
    previously-defined mute/unmute patterns in the active screen set.
-   A group is a set of patterns that can toggle their playing state
+   A group is a set of patterns, in the current screen-set,
+   that can arm (unmute) their playing state
    together.  Every group contains all 32 sequences in the active screen
    set.  This concept is similar to mute/unmute groups in hardware
    sequencers.
@@ -205,7 +206,7 @@
    \index{queue!keep}
    The "keep queue" functionality allows the queue to be held without
    holding down a button the whole time.  Pattern toggles occur at the end of
-   cycle, rather than being set immediately.
+   the pattern, rather than being set immediately.
 
 \subsubsection{Concepts / Terms / replace}
 \label{subsubsec:concepts_terms_replace}

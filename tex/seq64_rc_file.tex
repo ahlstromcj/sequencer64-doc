@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-09-07
+% \update      2016-10-21
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -64,7 +64,8 @@
    The matrix represents the first two screen-sets
    (entries are numbered from 0
    to 63) and some control keys (entries from 64 to 73).  The three fields,
-   each between the brackets, on each line, correspond to a MIDI filter... if
+   each between the brackets, on each line, correspond to a
+   \textsl{MIDI filter}:  if
    the incoming MIDI event matches the filter it will \textsl{toggle} (first
    field), \textsl{enable} (second field) or \textsl{disable} (third field) the
    sequence.
@@ -74,12 +75,23 @@
    subsections of the MIDI Control section are:
 
    \begin{enumber}
-      \item \textbf{pattern group}.  Consists of 32 lines, one for each
+      \item \textbf{Pattern group}.
+         \index{rc!pattern group}
+         Consists of 32 lines, one for each
          pattern box shown in the Pattern window.
-      \item \textbf{mute in group}.  Consists of 32 lines, one for each
+         It provides a way to control the arming/disarming (muting/unmuting) of
+         each pattern shown in the main window.
+      \item \textbf{Mute-in group}.
+         \index{rc!mute-in group}
+         Consists of 32 lines, one for each
          pattern box shown in the Pattern window.
-      \item \textbf{automation group}.  Each item in this group consists of
-         one line.
+         It provides a way to control the mute groups.
+         A group is a set of sequences that can arm their playing state
+         together; every group contains all 32 sequences in the
+         \textsl{active} screen-set.
+      \item \textbf{Automation group}.
+         \index{rc!automation group}
+         Each item in this group consists of one line.
          \begin{enumber}
             \item \textbf{bpm up}. Consists of one line.
             \item \textbf{bpm down}. Consists of one line.
@@ -161,35 +173,35 @@
       \item \textbf{D2max} = \textbf{data2 max}
    \end{itemize}
 
-   If \textbf{on/off} is set to 1, it will match the incoming MIDI against
-   the \textbf{MIDI status byte} pattern and perform the action
-   (on/off/toggle) if the data falls in the range specified.  All values are
-   in decimal.
+   If \textbf{OPR (on/off)} is set to 1, it will match the incoming MIDI
+   against the \textbf{STAT (MIDI status byte)} pattern and perform the action
+   (on/off/toggle) if the data falls in the range specified.  All values are in
+   decimal.
 
-	The \textbf{inverse} field will make the pattern perform the opposite 
-   action (\textsl{off} for \textsl{on}, \textsl{on} for \textsl{off}) if
-   the data falls outside the specified range.  This is cool because one can
-   map several sequences to a knob or fader.
+   The \textbf{INV (inverse)} field will make the pattern perform the opposite
+   action (\textsl{off} for \textsl{on}, \textsl{on} for \textsl{off}) if the
+   data falls outside the specified range.  This is cool because one can map
+   several sequences to a knob or fader.
 
-   The \textbf{MIDI status byte} field a MIDI status byte number in decimals.
-   The channel nybble of this byte is ignored.
-   One can look the possible status values up in the MIDI messages tables; the
-   relevant data can be found at \cite{midicontroltable}.
-   As the channel on which the events are sent is ignored, one should
-   always use the values for channel 1.  That is, 0.
+   The \textbf{STAT (MIDI status byte)} field a MIDI status byte number in
+   decimals.  The channel nybble of this byte is ignored.  One can look the
+   possible status values up in the MIDI messages tables; the relevant data can
+   be found at \cite{midicontroltable}.  As the channel on which the events are
+   sent is ignored, it is sufficient to use the values for channel 1.  That is,
+   0.
 
-	The last three fields describe the range of data that will match.
-   The \textbf{data1} field provides the actual MIDI event message number to
-   detect, in decimal.
-   This item could be a Note On/Off event or a Control/Mode change event,
-   for example.
+   The last three fields describe the range of data that will match.  The
+   \textbf{D1 (data1)} field provides the actual MIDI event message number to
+   detect, in decimal.  This item could be a Note On/Off event or a
+   Control/Mode change event, for example.  The channel nybble is masked off
+   before usage.
 
-   The \textbf{data2 min} field is the minimum value of the event
-   for the filter to match. For Note On/Off events,
-   this would be the velocity value, for example.
+   The \textbf{D2min (data2 min)} field is the minimum value of the event for
+   the filter to match. For Note On/Off events, this would be the velocity
+   value, for example.
 
-   The \textbf{data2 max} field is the maximum value of the event
-   for the filter to match.
+   The \textbf{D2max (data2 max)} field is the maximum value of the event for
+   the filter to match.
 
 \subsubsection{Sequencer64 / MIDI Control Pattern Group}
 \label{subsubsec:seq64_rc_file_midi_control_pattern_group}
@@ -206,26 +218,38 @@
         1 [0 0 0 0 0 0]      [1 0  144 0 0 127]       [1 0 128 0 0 127]
    \end{verbatim}
 
-   The \textbf{Toggle} field is off (inactive).  All values are 0.
+   The \textbf{Toggle} section is off (inactive).  All values are 0.
    There is no way to use MIDI control to toggle sequence 1.
+   
+   On to the \textbf{On} section:
 
-   The \textbf{On} value is on (1 = active).
-   The \textbf{nverse} value is off (0 = inactive).
-   The \textbf{MIDI status byte}, 144, which is 0x90 (hex), which is a Note On
-   event on channel 0.  However, the channel is ignored.
-   The \textbf{data1} values sets the actual Note value to 0, meaning the
-   lowest possible MIDI note (pitch) value.
-   \textbf{data2 min} value sets
-   the minimum value to 0, and
-   \textbf{data2 max} sets the maximum value to 127.
-   Thus, receiving any Note On velocity for note 0 will turn sequence 1
-   \textsl{on}.
+   \begin{itemize}
+      \item The \textbf{On} section starts with 1, so it is on (1 = active).
+      \item The \textbf{inverse} value is off (0 = inactive).
+      \item The \textbf{MIDI status byte}, 144, which is 0x90 (hex), which
+         is a Note On event on channel 0.  However, the channel is ignored.
+      \item The \textbf{data1} values sets the actual Note value to 0,
+         meaning the lowest possible MIDI note (pitch) value.
+      \item \textbf{data2 min} value sets the minimum value to 0.
+      \item \textbf{data2 max} sets the maximum value to 127.
+   \end{itemize}
 
-   The \textbf{Off} field is on (active), and it is set up the same way as the
-   \textbf{On} field, except that the status message is
-   128, which is 0x80 (hex), which is a Note Off event on channel 0.
-   Thus, receiving any Note Off velocity for note 0 will turn sequence 1
-   \textsl{off}.
+   Thus, receiving any Note On velocity for note 0 will turn sequence
+   1 \textsl{on}.  On to the \textbf{Off} section:
+
+   \begin{itemize}
+      \item The \textbf{Off} field is on (active).
+      \item The \textbf{inverse} value is off (0 = inactive).
+      \item The \textbf{MIDI status byte}, 128, which is 0x80 (hex), which
+         128, which is 0x80 (hex), which is a Note Off event on channel 0.
+      \item The \textbf{data1} values sets the actual Note value to 0,
+         meaning the lowest possible MIDI note (pitch) value.
+      \item \textbf{data2 min} value sets the minimum value to 0.
+      \item \textbf{data2 max} sets the maximum value to 127.
+   \end{itemize}
+
+   Thus, receiving any Note Off velocity for note 0 will turn sequence
+   1 \textsl{off}.
 
    So, basically, pattern 1 starts when any Note On for MIDI note 0
    is received, and it stops when any Note Off for MIDI note 0 is received.  
@@ -272,15 +296,14 @@
    Here's a little table of the decimal numbers for some commonly-used MIDI
    controls:
 
-   \begin{verbatim}
-      128 Note On event 
-      129 Note Off event 
-      160 Polyphonic aftertouch event
-      176 Controller event 
-      192 Program change 
-      208 Aftertouch 
-      224 Pitch wheel 
-   \end{verbatim}
+   \begin{itemize}
+      \item \textbf{128} or \textbf{129} for any Note On or Note Off events.
+      \item \textbf{160} Polyphonic aftertouch.
+      \item \textbf{176} Controller event.
+      \item \textbf{192} Program change.
+      \item \textbf{208} Aftertouch.
+      \item \textbf{224} Pitch wheel.
+   \end{itemize}
 
 \subsubsection{Sequencer64 / MIDI Control Mute In Group}
 \label{subsubsec:seq64_rc_file_midi_control_mute_in_group}
@@ -290,13 +313,15 @@
    This section controls 32 groups of mutes in the same way as 
 	defined for \texttt{[midi-control]}, and is in fact placed in the
    \texttt{[midi-control]} section.
-
    A group is a set of patterns that can toggle their playing state
-   together.  Every group contains all 32 sequences in the active screen set
-   (see after).
-
+   together.  Every group contains all 32 sequences in the active screen set.
    So, this part of the MIDI Control section is used for muting and unmuting
    (and toggling) a group of patterns.
+
+   What is the different between the \textbf{mute-in group}
+   section and the \textbf{mute group} section?  The former defines the MIDI
+   control values that can affect the muting of a group, while the latter
+   specifies the armed patterns that are part of a group.
 
 \subsubsection{Sequencer64 MIDI Control Automation Group}
 \label{subsubsec:seq64_rc_file_midi_control_automation_group}
@@ -370,6 +395,11 @@
    set \textsl{Sequencer64} to handle MIDI events and change some more settings
    in \texttt{sequencer64.rc}.
 
+   What is the different between the \textbf{mute-in group}
+   section and the \textbf{mute group} section?  The former defines the MIDI
+   control values that can affect the muting of a group, while the latter
+   specifies the patterns that are part of a group.
+
 \subsection{Sequencer64 / MIDI-Clock Section}
 \label{subsec:seq64_rc_file_midi_clock}
 
@@ -407,10 +437,10 @@
       15 0  # [16] seq24 16
    \end{verbatim}
 
-That sample would be written one had started up \textsl{Sequencer64} in
-manual-alsa-mode.  On our system, where we have Timidity running, and
-erroneously have also specified 3 MIDI busses that we do not have, in the
-\texttt{sequencer64.usr} file:
+   That sample would be written one had started up \textsl{Sequencer64} in
+   manual-alsa-mode.  On our system, where we have Timidity running, and
+   erroneously have also specified 3 MIDI busses that we do not have, in the
+   \texttt{sequencer64.usr} file:
 
    \begin{verbatim}
       [midi-clock]
@@ -479,9 +509,10 @@ erroneously have also specified 3 MIDI busses that we do not have, in the
 
    \index{[keyboard-group]}
    This section is the same as
-   \textbf{[keyboard-control]}, but to control groups.
+   \textbf{[keyboard-control]}, but to control groups of patterns, rather than
+   individual patterns, using keystrokes.
    The keyboard group specifies more automation for the application.  The
-   first number specifies the Key number, and the second number specifies
+   first number specifies the key number, and the second number specifies
    the Group number.
 
    Additional control items:
@@ -557,6 +588,17 @@ erroneously have also specified 3 MIDI busses that we do not have, in the
       65307         # Escape stop sequencer
       0 #  show sequence numbers (1 = true / 0 = false);  ignored in legacy mode
    \end{verbatim}
+
+   Note that most of these group-control keys are shifted versions of the
+   keystrokes that control the individual sequences.
+
+   \index{auto-shift}
+   \index{group-learn!auto-shift}
+   When in group-learn mode, the \texttt{Shift} key cannot be hit, so the
+   group-learn mode automatically converts the keys to their shifted versions.
+   \index{shift-lock}
+   \index{group-learn!shift-lock}
+   This feature known as \textsl{shift-lock} or \textsl{auto-shift}.
 
 \subsection{Sequencer64 / JACK Transport}
 \label{subsec:seq64_rc_file_jack_transport}

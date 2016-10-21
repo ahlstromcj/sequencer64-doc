@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-10-02
+% \update      2016-10-06
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -123,7 +123,7 @@
    in the same format as \textsl{Seq24}. Otherwise, it saves it
    in an even more MIDI-compatible format.  There is also an option to strip
    this extra information if it is empty.
-   
+
    \textbf{New:}
    \index{new!seqspec format}
    In its normal mode, \textsl{Sequencer64} saves this
@@ -165,7 +165,7 @@
    This field is not editable.  It requires using the scroll button to move the
    screen set offset up or down in value.  The legal values range from 0
    to 31.
-   
+
    When the file is imported, the sequence number for each track read in is
    adjusted to put the track in the desired screen-set.
    The import can placed the imported data into any of the 32 available
@@ -337,7 +337,7 @@
 %  \figureref{fig:seq64_midi_clock_4_devices_manual_0},
 %  \textsl{Sequencer64} sees it on port 7.  Perhaps that application is not
 %  providing a good ALSA device name.)
-   
+
    Turning to \figureref{fig:seq64_midi_clock_4_devices_manual_1},
    note the 16 devices provided by
    \textsl{Sequencer64}.  Also note that its first value is 1, not 0, due to
@@ -381,7 +381,7 @@
    This setting disables the MIDI clock for the given output buss.
    However, note that MIDI output can still be sent to those ports, and
    each port that has a device connected to it will play music.
-   
+
    For feeding \textsl{Yoshimi} with MIDI data, we found that this
    setting is the one that must be made in order for \textsl{Yoshimi} to
    produce a sound.
@@ -718,6 +718,13 @@
    Learn (while pressing a mute-group key).
    This items sets the key used to initiate a learn mode.
    It is the \textbf{Insert} key by default.
+   \index{auto-shift}
+   \index{group-learn!auto-shift}
+   When in group-learn mode, the \texttt{Shift} key cannot be hit, so the
+   group-learn mode automatically converts the keys to their shifted versions.
+   \index{shift-lock}
+   \index{group-learn!shift-lock}
+   This feature known as \textsl{shift-lock} or \textsl{auto-shift}.
 
    \itempar{Disable}{keyboard!disable}
    \index{keys!apostrophe}
@@ -820,6 +827,26 @@
    main window is accessible or not.  It will be disabled in playback
    so that more hotkeys can be used without triggering menu function.
    It can also be disabled by the user; the default hotkey is \texttt{F3}.
+   Here is Stazed's explanation of the feature, mildly edited:
+
+   \begin{quotation}
+      \textsl{"why disabling is needed when playing"}
+      The original seq24 had numerous conflicts between the menu key binding
+      and the default seq24 key binding for the mainwind sequence triggers.
+      For example: Ctrl-q (quits the program without prompt). If you place a
+      sequence in the default 'q' slot, you cannot use it with Ctrl-l or Ctrl-r
+      (default replace or queue) because the menu grabs the keys. Same goes for
+      the Alt-l or Alt-r (default snapshot 1 or 2). Try same as above with
+      Alt-f, Alt-v, Alt-h, Ctrl-n, Ctrl-o...  etc. So I just shut off all the
+      menus by default when playing because it seems that they should not be
+      needed then... especially in a live performance.
+
+      \textsl{"why a button?"}
+      On occasion I wanted to use the mainwnd key binding when stopped to set
+      the sequences to be ready before starting. It's also a sort of safety
+      feature as well, just toggle the menus off before going live so that you
+      don't hit Ctrl-q, Ctrl-n etc. forgetting things are not playing....
+   \end{quotation}
 
    \index{follow transport}
    The \textsl{follow transport} functionality is a feature ported
@@ -898,7 +925,7 @@
    The alternate method is presumably that of the \textsl{Fruity Loops}
    (now \textsl{FL Studio}) sequencer.  The fruity mode seems to involve the
    following (based on scanning the source code):
-   
+
    \begin{itemize}
       \item \textbf{Left-click left side}.
          Begin a grow/shrink operation for the left side.
@@ -938,7 +965,7 @@
    \textbf{Sequencer64 Options}
 
    This section currently contains a couple of new options.
-   
+
    \index{keys!Mod4}
    \index{mouse!Mod4}
    \label{new_mod4_mode}
@@ -960,7 +987,7 @@
    Note that this option will not interfere with the Mod4 key being set
    in the \textbf{Keyboard} option tab, since the keys there mainly apply to
    the Patterns Panel (main window).
-   
+
    \index{mouse!split mode}
    \label{new_split_mode}
    \textbf{Middle click splits song triggers at nearest snap (instead of
@@ -1082,11 +1109,11 @@
    now \textsl{does} select the playback modes
    according to which window started the playback.
    We have reverted back to legacy \textsl{Seq24} behavior.
-   
+
    \textsl{The main window, or pattern
    window, causes playback to be in live mode.  The user can arm and mute
    patterns in that windows, by clicking on sequences, using their hot-keys,
-   and by using the group-mode and learn-mode features (we think).
+   and by using the group-mode and learn-mode features.
    The song editor causes playback to be in performance mode, also known as
    "playback mode", or "song mode".}
    Of course, in JACK mode,
@@ -1094,17 +1121,18 @@
 
    \itempar{Connect}{jack sync!connect}
    Connect to JACK Sync.
+   This button is useful to restart JACK sync when making changes to it,
+   or when \textsl{Sequencer64} was started in ALSA mode.
 
    \itempar{Disconnect}{jack sync!disconnect}
    Disconnect from JACK Sync.
+   This button is useful to stop JACK sync when making changes to it.
 
    \itempar{LASH Options}{lash!option}
    Currently contains only one item, which enables the usage of LASH session
-   management.
-   Currently, \textsl{Sequencer64} needs to be restarted to complete the
-   enabling or disabling of LASH support.
-   Like the rest of the options, this one is written to the "rc" configuration
-   file.
+   management.  Currently, \textsl{Sequencer64} needs to be restarted to
+   complete the enabling or disabling of LASH support.  Like the rest of the
+   options, this one is written to the "rc" configuration file.
 
 \subsection{Menu / View}
 \label{subsec:seq64_menu_view}

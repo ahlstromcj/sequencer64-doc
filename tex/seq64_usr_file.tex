@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-09-07
+% \update      2016-10-06
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -453,6 +453,13 @@
       # Specifies the window redraw rate for all windows that support
       # that concept.  The default is 40 ms.  Some windows used 25 ms.
       40     # window_redraw_rate
+
+      # Specifies using icons for some of the user-interface buttons
+      # instead of text buttons.  This is purely a preference setting.
+      # If 0, text is used in some buttons (the main window buttons).
+      # Otherwise, icons are used.  One will have to experiment :-).
+
+      0      # use_more_icons (currently affects only main window)
    \end{verbatim}
 
    Note that the window-redraw rate option is meant more for experimentation

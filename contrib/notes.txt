@@ -29,6 +29,9 @@ keep queue
 Pushing the selected key (see .seq24rc file) you enter in queue mode until
 you press 'Right Ctrl'.
 
+   [CA: More material for notes and explanations can be found at
+   https://github.com/ahlstromcj/sequencer64/issues/2]
+
 [3b] Options Window
 
 This window allows us to select which sequence gets midi After the list of
@@ -277,4 +280,23 @@ Now close the Connections window, as all of our connections are made and
 ready to go.
 
 (There is a whole lot more setup discussed at the Ubuntu link.)
+
+
+Non Session Manager (NSM):
+
+This is from GitHub issue #1 in the sequencer64 project, where NSM support was
+requested.  Here's an idea for a tutorial:
+
+   danielappelt commented on Feb 2
+   Manual NSM support may be achieved using the nsm-proxy helper client.
+   sequencer64 and seq24 both support signals SIGUSR1 (saving) and SIGINT
+   (closing). You just have to provide an initial Midi file to work on in the
+   directory created for the proxy, and specify it's file name as command line
+   argument.
+
+   There is even a helper script to support this scenario in github. Please note
+   that this script expects to find an (empty) Midi file in
+   ~/.local/share/seq24/blank.midi.
+
+   https://github.com/rhetr/nsm-scripts/blob/master/scripts/seq24-nsm
 

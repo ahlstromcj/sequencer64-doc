@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-10-02
+% \update      2016-10-21
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -157,10 +157,18 @@
    \index{"L" button}
    This button is also known as the "L" button.
    Click this button, and then press a mute-group key
-   to store the mute-state of the patterns with in that key.
+   to store the mute-state (whether armed or unarmed)
+   of all the patterns with in that key.
    In addition to clicking this button, one can also press
    the \texttt{Ctrl-L} combination (analogous to the \texttt{Ctrl-E}
    keystroke that brings up the Song Editor).
+   \index{auto-shift}
+   \index{group-learn!auto-shift}
+   When in group-learn mode, the \texttt{Shift} key cannot be hit, so the
+   group-learn mode automatically converts the keys to their shifted versions.
+   \index{shift-lock}
+   \index{group-learn!shift-lock}
+   This feature known as \textsl{shift-lock} or \textsl{auto-shift}.
 
    See the \textbf{File / Options / Keyboard} menu entry to bring up the
    dialog showing the available mute-group keys and the corresponding
@@ -173,17 +181,20 @@
    press the desired mute-group key.  A real knuckle-buster!
    We have our own alternate setup (stored in the file
    \texttt{sequencer64.rc.example}.
+   And we've also added the "shift-lock" feature for this reason.
 
-   Group-learn is a modifier key to be pressed \textsl{together}
-   with the toggle key, and the group on/off keys are there to enable/disable
-   the each group, \textsl{not} to toggle group states.
+   Group-learn is a modifier key to be pressed
+%  \textsl{together} with
+   just before pressing
+   the desired group key, and the group on/off keys are there to enable
+   each group, \textsl{not} to toggle group states.
 
    To set up the mute groups, press the 'L' button, and then press a key on
    the keyboard to 'learn' or 'save' the preset. Looking at the list of keys
    assigned for these mute groups (in \textbf{File / Options / Keyboard}),
    the first bank of keys are "!", "'", "?", etc., and the second bank are
-   "Q", "W" "E", etc.
-
+   "Q", "W" "E", etc.  Note that these keys do not toggle patterns, but simply
+   turn them on (they unmute them, i.e. arm them).
    If the key is valid, then the following prompt occurs:
 
 \begin{figure}[H]
@@ -193,10 +204,9 @@
    \label{fig:pattern_window_group_learn_confirmation}
 \end{figure}
    
-   When you ask the program to 'learn' the key, one can't
+   When you ask the program to 'learn' the key, one cannot
    use the Shift key, so one normally could not use the "!" or
    other symbol keys.
-
    In fact, the process stops as soon as the Shift key is pressed:
 
 \begin{figure}[H]
@@ -208,48 +218,62 @@
 
    \textbf{New:}
    \index{new!caps lock in learn mode}
-   To avoid this issue with the Shift key, \textsl{Sequencer64} now effectively
+   To avoid this issue with the Shift key, \textsl{Sequencer64} now
    "Shift-Locks" the keys for you, so that none of the keys, whether letters or
    the punctuation characters above the numbers, need the Shift key to be held.
    There is now no need to use the \textbf{Caps Lock} is \textsl{On} before
    starting the 'learn' process.  We did this because we tend to map the
-   Caps Lock key as the \textsl{true} Control key.
+   \texttt{Caps Lock} key as the \textsl{true} Control key, so that
+   \texttt{Caps Lock} is no longer available... it is one of the most useless
+   keys every.
 
    Once that works, one can configure the MIDI settings in similar ways
-   by assigning MIDI commands to toggle loops, using 
+   by assigning MIDI commands to arm or toggle loops, using 
    \index{rc file}
    the 'on' option in the "rc" file.
    See \sectionref{subsec:seq64_rc_file_midi_control}.
 
-   \index{group!toggle}
-	One can toggle the playing status of up to 32 previously
-	defined mute/unmute patterns (groups) in the active screenset,
-   similar to hardware sequencers.
-   One can mute-unmute (according to the group definition) all loops in the
-   playing screenset, which is the only one that can have sequences playing
+%  The mute group doesn't toggle... it turns on.
+%  \index{group!toggle}
+   \index{group!arm}
+   \index{group!unmute}
+%  One can toggle the playing status of up to 32 previously
+   One can set the playing status of up to 32 previously
+   defined mute/unmute patterns (groups) in the active screenset, similar to
+   hardware sequencers.  One can mute-unmute (according to the group
+   definition) all loops in the playing screenset, which is the only one that
+   can have sequences playing if a mute group is selected
    (like a live sequencer).
-   
-   (To be verified.)
 
-	This toggling is done either by one of the \textsl{group toggle} keys
-	or by a MIDI controller, both assigned in the
+   This arming is done either by one of the \textsl{group arm} keys
+   or by a MIDI controller, both assigned in the
    \index{rc file}
    \texttt{~/.config/sequencer64/sequencer64.rc} or \texttt{~/.seq24rc} files,
    and easily modified in the \textbf{File / Options / Keyboard} tab.
    These characters can be shown in each pattern (and in 0.9.11 and above, no
    matter which screenset is active).
 
-	A mute/unmute pattern (group) is stored by holding a
+   A mute/unmute pattern (group) is stored by holding a
    \index{group!learn}
    \textsl{group learn} key (\texttt{Insert} by default) while pressing the
-   corresponding \textsl{group toggle} key.
-	There are also keys assigned to turn on/off the group functionality.
+   corresponding \textsl{group arm} key.
+   There are also keys assigned to turn on/off the group functionality.
 
-   Remember that groups work with the playing ("in-view") screen set only.
+   Remember that groups work with the playing ("in-view") screen set.
    One must change the screenset and give it the command to make it the
    playing one
    \index{keys!Home}
-   (some set the Home key for this purpose).
+   (some set the \texttt{Home} key for this purpose).
+   So, for example, if one sets \texttt{A} to turn on the
+   patterns in slots 1 and 2 in set 0 (the first set), then pressing
+   \texttt{A} in another set will arm the patterns in the same relative
+   location in that set.
+   This setup is flexible, but takes some thought.
+   One can set up a number of mute-groups, and decide to use them
+   for all sets, or mentally allocate one mute-group per set.
+   Please note that a mute-group key does \textsl{toggle} the saved
+   armed patterns... it can only turn them on.
+
    \index{rc file}
    Everything is configurable in the "rc" file.
 
@@ -323,11 +347,12 @@
       Note that armed/unmuted patterns can be exported if they have a layout
       in the Song Editor.
       \item \textbf{Yellow background}.  A pattern with no MIDI events, just
-         textual MIDI information.  I
+         textual MIDI information.
       \item \textbf{Cyan background, black text}.
          An unarmed pattern currently being edited in a pattern editor or event
          editor. Or, if an SMF 0 MIDI file was just opened or imported, this
-         color combination indicates the SMF 0 format.
+         color combination indicates the SMF 0 format track with all of the
+         data in the song.
       \item \textbf{Black background, cyan text}.
          An armed pattern currently being edited in a pattern editor or event
          editor.  Or an armed SMF 0 format MIDI sequence.
@@ -375,7 +400,7 @@
    editor.  For the double-click, the effect can be a bit confusing at first,
    because it currently also toggles the arming/mute status of the slot
    quickly twice (leaving it as it was), as well.  It might take some getting
-   used to, but we miss it when using \textsl{Seq24}..
+   used to, but we miss it when using \textsl{Seq24}.
 
    \index{new!editing shortcut}
    \index{keys!=}
@@ -754,8 +779,7 @@
 
    These characters are shown in the lower right corner of each
    pattern, as an aid to memory.
-
-   These hot-keys can be modified
+   These hot-keys can be modified.
 
    \index{keys![}
    \index{keys!decrement set}
@@ -795,9 +819,9 @@
    \index{keys!right ctrl}
    \index{keys!queue}
    \index{queue!temporary}
-	Holding \texttt{Right Ctrl}
+   Holding \texttt{Right Ctrl}
    will queue a on/off toggle for a 
-	sequence when the loop ends. This is the "queue" functionality.
+   sequence when the loop ends. This is the "queue" functionality.
    This means that the change in state of the pattern will not take hold
    immediately, but will kick in when the pattern restarts.
    This pending state is indicated by coloring the central box of the
@@ -847,13 +871,13 @@
    \index{keys!keep queue}
    \index{queue!permanent}
    \index{queue!keep queue}
-	Pressing the "keep queue" key (by default, the backslash key)
+   Pressing the "keep queue" key (by default, the backslash key)
    \index{rc file}
    assigned in the "rc" file.
-	activates permanent queue mode until you use the temporary 
-	queue function again pressing \texttt{Right Ctrl}. 
+   activates permanent queue mode until you use the temporary 
+   queue function again pressing \texttt{Right Ctrl}. 
    After pressing the "keep queue" key, individual pattern
-   toggles will occur at the end of the current cycle rather than immediately.
+   toggles will occur at the end of the current pattern rather than immediately.
    “Keep queue” mode is canceled by pressing the Queue key (right \texttt{Ctrl}).
 
    This key can be changed in the
