@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-04-07
-% \update      2016-09-07
+% \update      2016-10-29
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -26,14 +26,24 @@
    It also does not cover the "fruity" mouse actions.  Any volunteers to fill
    in those tables?
 
+   This section describes the keystrokes that are currently hardwired
+   in \textsl{Sequencer64}.
+   This description only includes
+   items not defined in the \textbf{File / Options}
+   dialog.  That is, hardwired values.
+   Note that "KP" stands for "keypad".
+
 \subsection{Main Window}
 \label{subsec:kbd_mouse_main_window}
 
+   The main window keystrokes are all defined via the options dialog
+   and "rc" configuration file, or are stock Gtk window-management keystrokes.
    The main window has a very complete setup for live control of the MIDI tune
    via keystrokes.  These actions are not included in
    \tableref{table:main_window_support}.
+   There may be some other keystrokes to be documented at some point.
 
-   \begin{table}
+   \begin{table}[H]
       \centering
       \caption{Main Window Support}
       \label{table:main_window_support}
@@ -66,9 +76,40 @@
    The "performance editor" window is also known as the "song editor" window.
    It's main sections are the "piano roll" (perfroll) and the "performance
    time" (perftime) sections, discussed in the following sections.
+   Also, some keystrokes are handled by the frame of the window.
+
+   \begin{itemize}
+      \item \texttt{Ctrl-z}. Undo.
+      \item \texttt{Ctrl-r}. Redo.
+   \end{itemize}
 
 \subsubsection{Performance Editor Piano Roll}
 \label{subsubsec:kbd_mouse_performance_editor_piano_roll}
+
+   \begin{itemize}
+      \item \texttt{Ctrl-x}. Cut.
+      \item \texttt{Ctrl-c}. Copy.
+      \item \texttt{Ctrl-v}. Paste.
+      \item \texttt{Ctrl-z}. Undo.
+      \item \texttt{Ctrl-r}. Redo.
+      \item \texttt{Shift-Up}.   Move backward one small unit (which is...?)
+      \item \texttt{Shift-Down}.   Move forward one small unit (which is...?)
+      \item \texttt{Shift-Page Up}.   Move backward one frame.
+      \item \texttt{Shift-Page Down}.   Move forward one frame.
+      \item \texttt{Shift-Home, Shift-KP Home}.  Move to beginning of piano roll.
+      \item \texttt{Shift-End, Shift-KP End}.  Move to end of piano roll.
+      \item \texttt{Shift-z (Z)}.  Zoom in.
+      \item \texttt{0}.  Set default zoom.
+      \item \texttt{z}.  Zoom out.
+      \item \texttt{Left}.  Move item left one snap unit.
+      \item \texttt{Right}.  Move item right one snap unit.
+      \item \texttt{Up}.  Move frame up one small scroll unit.
+      \item \texttt{Down}.  Move frame down one small scroll unit.
+      \item \texttt{Home}.  Move to top of piano roll.
+      \item \texttt{End}.  Move to bottom of piano roll.
+      \item \texttt{Page Up}.  Move up one frame (page-increment).
+      \item \texttt{Page Down}.  Move down one frame (page-increment).
+   \end{itemize}
 
    Note that the keystrokes in this table
    (see \tableref{table:perf_window_piano_roll})
@@ -77,7 +118,7 @@
    Otherwise, another section of the performance editor might receive the
    keystroke.
 
-   \begin{table}
+   \begin{table}[H]
       \centering
       \caption{Performance Window Piano Roll}
       \label{table:perf_window_piano_roll}
@@ -149,12 +190,20 @@
 \subsubsection{Performance Editor Time Section}
 \label{subsubsec:kbd_mouse_performance_editor_time_section}
 
+   \begin{itemize}
+      \item \texttt{l}.  Set to move L marker.
+      \item \texttt{r}.  Set to move R marker.
+      \item \texttt{x}.  Escape ("x-scape") the movement mode.
+      \item \texttt{Left}.  Move the selected marker left.
+      \item \texttt{Right}.  Move the selected marker right.
+   \end{itemize}
+
    This section of the performance editor is also known as the "measure ruler"
    or the "bar indicator", and is discussed in
    \sectionref{subsubsec:seq64_song_editor_arrangement_panel_measures_ruler}.
    See \tableref{table:performance_editor_time_section}.
 
-   \begin{table}
+   \begin{table}[H]
       \centering
       \caption{Performance Editor Time Section}
       \label{table:performance_editor_time_section}
@@ -189,7 +238,10 @@
       \item \textsl{x}:  Exits the marker-movement  mode.
    \end{itemize}
 
-   \begin{table}
+\subsubsection{Performance Editor Names Section}
+\label{subsubsec:kbd_mouse_performance_editor_names_section}
+
+   \begin{table}[H]
       \centering
       \caption{Performance Editor Names Section}
       \label{table:performance_editor_names}
@@ -201,15 +253,65 @@
       \end{tabular}
    \end{table}
 
-\subsubsection{Pattern Editor Piano Roll}
-\label{subsubsec:kbd_mouse_pattern_editor_piano_roll}
+\subsection{Pattern Editor}
+\label{subsec:kbd_mouse_pattern_editor}
 
    The pattern/sequencer editor piano roll is a complex and powerful event
    editor;
    \tableref{table:pattern_editor_piano_roll},
    doesn't begin to cover its functionality.
+   Here are the keystrokes handle by the main frame of the window:
 
-   \begin{table}
+   \begin{itemize}
+      \item \texttt{Ctrl-W}.  Exit the sequence (pattern) editor.
+      \item \texttt{Ctrl-Page Up}.  Zoom in.
+      \item \texttt{Ctrl-Page Down}.  Zoom out.
+      \item \texttt{Shift-Page Up}.  Scroll leftward.
+      \item \texttt{Shift-Page Down}.  Scroll rightward.
+      \item \texttt{Shift-Home}.  Scroll leftward to the beginning.
+      \item \texttt{Shift-End}.  Scroll rightward to the end.
+      \item \texttt{Shift-z (Z)}.  Zoom in.
+      \item \texttt{0}.  Set default zoom.
+      \item \texttt{z}.  Zoom out.
+      \item \texttt{Page Down}.  Scroll downward.
+      \item \texttt{Page Up}.  Scroll upward.
+      \item \texttt{Home}.  Scroll upward to the beginning.
+      \item \texttt{End}.  Scroll downward to the end.
+   \end{itemize}
+
+   Where is Delete?
+
+\subsubsection{Pattern Editor Piano Roll}
+\label{subsubsec:kbd_mouse_pattern_editor_piano_roll}
+
+   Here are the keystrokes handled by the piano roll:
+   These keystrokes require that the focus be set to the piano roll by clicking
+   in it with the mouse.
+
+   \begin{itemize}
+      \item \texttt{Ctrl-x}. Cut.
+      \item \texttt{Ctrl-c}. Copy.
+      \item \texttt{Ctrl-v}. Paste.
+      \item \texttt{Ctrl-z}. Undo.
+      \item \texttt{Ctrl-r}. Redo.
+      \item \texttt{Ctrl-a}. Select all.
+      \item \texttt{Ctrl-Left}.  Shrink selected notes.
+      \item \texttt{Ctrl-Right}.  Grow selected notes.
+      \item \texttt{Delete}.  Remove selected notes.
+      \item \texttt{Backspade}.  Remove selected notes.
+      \item \texttt{Home.  Set sequence to beginnging of sequence}.  (Verify!)
+      \item \texttt{Left}.  Move selected notes one snap left.
+      \item \texttt{Down}.  Move selected notes one pitch downward.
+      \item \texttt{Up}.  Move selected notes one pitch upward.
+      \item \texttt{Enter, Return}.
+         Paste the selected notes at the current position.
+      \item \texttt{p}.  Enter "paint" (also known as "adding") mode.
+      \item \texttt{x}.  Escape ("x-scape") the paint mode.
+   \end{itemize}
+
+   And here is the table:
+
+   \begin{table}[H]
       \centering
       \caption{Pattern Editor Piano Roll}
       \label{table:pattern_editor_piano_roll}
@@ -273,7 +375,28 @@
          is pressed again later.
    \end{itemize}
 
-   \begin{table}
+\subsubsection{Pattern Editor Event Panel}
+\label{subsubsec:kbd_mouse_pattern_editor_event_panel}
+
+   \begin{itemize}
+      \item \texttt{Ctrl-x}. Cut.
+      \item \texttt{Ctrl-c}. Copy.
+      \item \texttt{Ctrl-v}. Paste.
+      \item \texttt{Ctrl-z}. Undo.
+      \item \texttt{Delete}.  Delete (not cut!) the selected events.
+      \item \texttt{p}.  Enter "paint" (also known as "adding") mode.
+      \item \texttt{x}.  Escape ("x-scape") the paint mode.
+   \end{itemize}
+
+\subsubsection{Pattern Editor Data Panel}
+\label{subsubsec:kbd_mouse_pattern_editor_data_panel}
+
+   TO BE DETERMINED.
+
+\subsubsection{Pattern Editor Virtual Keyboard}
+\label{subsubsec:kbd_mouse_pattern_editor_virtual_keyboard}
+
+   \begin{table}[H]
       \centering
       \caption{Pattern Editor Virtual Keyboard}
       \label{table:pattern_editor_virtual_keyboard}
@@ -283,6 +406,19 @@
          Right-Click       & Toggle labels   & ---                & ---            & ---             & ---                \\
       \end{tabular}
    \end{table}
+
+\subsection{Event Editor}
+\label{subsec:kbd_mouse_event_editor}
+
+   \begin{itemize}
+      \item \texttt{Down}.  Move one slot down.
+      \item \texttt{Up}.  Move one slot up.
+      \item \texttt{Page Down}.  Move one frame down.
+      \item \texttt{Page Up}.  Move one frame up.
+      \item \texttt{Home}.  Move to top frame.
+      \item \texttt{End}.  Move to bottom frame.
+      \item \texttt{Asterisk, KP Multiply}.  Delete the currently-selected event.
+   \end{itemize}
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
