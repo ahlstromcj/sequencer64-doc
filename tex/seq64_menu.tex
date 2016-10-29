@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-10-06
+% \update      2016-10-29
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -71,7 +71,7 @@
    \label{fig:seq64_menu_file_open}
 \end{figure}
 
-   This dialog let's one type a file-name, highlighting the first file (if any)
+   This dialog lets one type a file-name, highlighting the first file (if any)
    that matches the characters typed so far.
 
    If unsaved changes are pending, the user will (usually)
@@ -173,8 +173,10 @@
    other MIDI files.
 
    The import operation also handles SMF 0 MIDI files.  It parcels out the SMF
-   0 into sequences/patterns for each of the 16 MIDI channel.  It also puts all
-   of the data in the 17th pattern (pattern 16), in case it is needed.
+   0 into sequences/patterns for each of the 16 MIDI channels.  It also puts
+   all of the MIDI data into the 17th pattern (pattern 16), in case it is
+   needed.  Note that this slot is used no matter which screen-set one imports
+   the file into.  Bug, or feature?
 
 \subsubsection{Menu / File / Export song as MIDI}
 \label{subsubsec:seq64_menu_file_export}
@@ -183,7 +185,6 @@
    format has been added.
    "But wait,", you say, "Sequencer64 already saves to a MIDI-compatible
    format.  Why the need for an Export function?"
-
    Well, the \textbf{Export song as MIDI} function modifies the song in the
    following ways:
 
@@ -200,12 +201,12 @@
          play of the track information.  If there is a gap in the layout (e.g.
          due to the \textbf{Expand} operation in the Song Editor), then there
          is a corresponding gap in the events that are played. The result is
-         one trigger that reconstructs the original playback
-         layout.  This trigger is not needed (or even usable) in any other
+         one consolidated trigger that reconstructs the original playback
+         layout.  This trigger is not needed (or even usable) in any
          non-Seq24-based MIDI sequencer; the events themselves are sufficient
          to play the performance exactly.  But the trigger is useful for
          further editing of the song/performance, as will be seen later,
-         so it is kept (in a SeqSpec section).
+         so it is kept (in a \textbf{SeqSpec} section).
       \item All the tracks that are exported are consolidated, so that any
          empty pattern slots between them are removed.  No matter what set the
          original track was in, it ends up in the first set.
@@ -273,7 +274,7 @@
    mapped to functions, how the mouse works, and some JACK parameters.
 
    Note that there is now an extra tab-page for \textbf{Ext Keys}.
-   It is not shown in some of the screenshot; we are too lazy to re-do those
+   It is not shown in some of the screenshots; we are too lazy to re-do those
    screenshot just to show the new tab.
 
 \begin{figure}[H]
@@ -323,8 +324,7 @@
       $ aplaymidi -l
        Port    Client name                      Port name
        14:0    Midi Through                     Midi Through Port-0
-       24:0    USB2.0-MIDI                      USB2.0-MIDI MIDI 1
-       24:1    USB2.0-MIDI                      USB2.0-MIDI MIDI 2
+       24:0    E-MU XMidi1X1 Tab                E-MU XMidi1X1 Tab MIDI 1
       128:0    TiMidity                         TiMidity port 0
       128:1    TiMidity                         TiMidity port 1
       128:2    TiMidity                         TiMidity port 2
@@ -347,8 +347,9 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-1.png}
-   \caption{MIDI Clock, Manual ALSA Option On}
+%  \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-1.png}
+   \includegraphics[scale=0.75]{new/midi-clock-4-devices-manual-1.png}
+   \caption{MIDI Clock, Manual ALSA Option On (Condensed View)}
    \label{fig:seq64_midi_clock_4_devices_manual_1}
 \end{figure}
 
@@ -409,23 +410,26 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-0.png}
-   \caption{MIDI Clock, Manual ALSA Option Off}
+%  \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-0.png}
+   \includegraphics[scale=0.75]{new/midi-clock-4-devices-manual-0.png}
+   \caption{MIDI Clock, Manual ALSA Option Off (Condensed View)}
    \label{fig:seq64_midi_clock_4_devices_manual_0}
 \end{figure}
 
    As shown by the figure above, with the manual ALSA option turned off,
    all of the devices that can be driven by MIDI output are shown,
-   including the MIDI Thru port, the two MIDI ports on the USB cable,
+   including the MIDI Thru port, the MIDI port on the
+   \textsl{E-MU XMidi1x1} USB cable,
    the four ports provided by \textsl{Timidity}, and the unlabelled
-   port provided by \textsl{Yoshimi}.
+   port provided by the \textsl{Yoshimi} synthesizer running in ALSA mode.
 
    One could theoretically play music through 6 or 7 devices using
    \textsl{Sequencer64} with this setup.
 
-   \textbf{TODO:} \index{todo!manual alsa gui option}
-   There is currently no user-interface item corresponding to this command-line
-   and "rc" configuration file option.
+   \textbf{TODO:}
+   \index{todo!manual alsa gui option}
+   There is currently no user-interface item corresponding to the "manual ALSA"
+   command-line and "rc" configuration file option.
 
 \paragraph{Menu / File / Options / MIDI Input}
 \label{paragraph:seq64_menu_file_options_midi_input}
@@ -457,8 +461,9 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/midi-input-4-devices-manual-1.png}
-   \caption{MIDI Input, Manual ALSA Ports On}
+%  \includegraphics[scale=0.75]{menu/midi-input-4-devices-manual-1.png}
+   \includegraphics[scale=0.75]{new/midi-input-4-devices-manual-1.png}
+   \caption{MIDI Input, Manual ALSA Ports On (Condensed View)}
    \label{fig:seq64_midi_input_4_devices_manual_1}
 \end{figure}
 
@@ -480,13 +485,17 @@
    the list of existing hardware will be ignored, and those values will be
    shown instead.
 
+   New in \textsl{Sequencer64} is the option to record MIDI input into
+   more than one pattern based on the MIDI channel, as discussed below.
+
    If the "manual ALSA ports" option is turned off, then
    the input ports from the system are shown:
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/midi-input-4-devices-manual-0.png}
-   \caption{MIDI Input, Manual ALSA Ports Off}
+%  \includegraphics[scale=0.75]{menu/midi-input-4-devices-manual-0.png}
+   \includegraphics[scale=0.75]{new/midi-input-4-devices-manual-0.png}
+   \caption{MIDI Input, Manual ALSA Ports Off (Condensed View)}
    \label{fig:seq64_midi_input_4_devices_manual_0}
 \end{figure}
 
@@ -540,11 +549,13 @@
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{menu/menu_file_options_keyboard.png}
-   \includegraphics[scale=0.75]{menu/menu_file_options_keyboard-0_9_12.png}
-   \caption{File / Options / Keyboard}
+%  \includegraphics[scale=0.75]{menu/menu_file_options_keyboard-0_9_12.png}
+   \includegraphics[scale=0.75]{new/menu_file_options_keyboard.png}
+   \caption{File / Options / Keyboard (Condensed View)}
    \label{fig:seq64_menu_file_options_keyboard}
 \end{figure}
 
+   Note the new \textbf{Ext Keys} tab is not shown in this figure.
    We won't attempt to cover every user-interface item in this busy
    dialog, just the categories.  Some items are discussed in other parts of
    this manual.
@@ -616,7 +627,8 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern-window-with-numbering.png}
+%  \includegraphics[scale=0.75]{pattern-window-with-numbering.png}
+   \includegraphics[scale=0.75]{new/pattern-window-with-numbering.png}
    \caption{Pattern Window with Numbering}
    \label{fig:seq64_build_with_numbering}
 \end{figure}
@@ -1026,16 +1038,17 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/menu_file_options_jack_sync.png}
+%  \includegraphics[scale=0.75]{menu/menu_file_options_jack_sync.png}
+   \includegraphics[scale=0.75]{new/menu_file_options_jack_sync.png}
    \caption{File / Options / JACK Sync or JACK/LASH}
    \label{fig:seq64_menu_file_options_jack_sync}
 \end{figure}
 
    \begin{enumber}
-      \item \textbf{Transport}
+      \item \textbf{JACK Transport mode}
       \item \textbf{JACK Start mode}
-      \item \textbf{Connect}
-      \item \textbf{Disconnect}
+      \item \textbf{JACK Connect}
+      \item \textbf{JACK Disconnect}
       \item \textbf{LASH Options}
    \end{enumber}
 

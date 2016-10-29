@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-10-21
+% \update      2016-10-29
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -77,7 +77,8 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.50]{pattern-window-top-panel-items-new.png}
+%  \includegraphics[scale=0.50]{pattern-window-top-panel-items-new.png}
+   \includegraphics[scale=0.50]{new/pattern-window-top-panel-items-new.png}
    \caption{Patterns Panel, New Top Panel Items}
    \label{fig:pattern_window_new_top_panel_items}
 \end{figure}
@@ -90,8 +91,9 @@
  
    \begin{enumber}
       \item \textbf{Song/Live}
-      \item \textbf{Toggle Tracks}
+      \item \textbf{Toggle Playing Tracks}
       \item \textbf{Toggle Menu}
+      \item \textbf{ALSA/JACK Mode}
       \item \textbf{Song Progress}
       \item \textbf{Mute Group Learn}
    \end{enumber}
@@ -110,8 +112,11 @@
 
    \itempar{Toggle Tracks}{pattern!toggle tracks}
    \index{song!toggle tracks}
-   This button changes the status of all of the tracks, reversing the mute
-   status of each pattern.
+   This button changes the status of all of the playing tracks, reversing the
+   mute status of each pattern that is playing.
+   The next click will then unmute those tracks.
+   Because it can be confusing, this button will be disabled (not shown
+   in the figure) in Song mode.
    There is also a configurable hotkey associated with it, called
    \textbf{Toggle mutes},
    which defaults to \texttt{F8}, and is configurable in the "rc" file and
@@ -340,19 +345,22 @@
       \item \textbf{Empty background}.  Whether the classic gray pattern
          of \textsl{Seq24}, or the many patterns of \textsl{Sequencer64},
          including all black with yellow sequence numbers, this
-         slot coloring indicates that it is unused.
-      \item \textbf{White background}.  Unarmed (muted) pattern.
+         slot coloring indicates that the slot is unused.
+      \item \textbf{White background}.  Unarmed (muted) patterns show black
+         text on a white background.
       \item \textbf{Black background}.  Armed (unmuted) pattern.  If the text
-      is yellow, it is a pattern with no MIDI events, but is armed.
-      Note that armed/unmuted patterns can be exported if they have a layout
-      in the Song Editor.
+         is yellow, it is a pattern with no MIDI events, but is armed.  Note
+         that armed/unmuted patterns can be exported if they have a layout in
+         the Song Editor.
       \item \textbf{Yellow background}.  A pattern with no MIDI events, just
-         textual MIDI information.
+         textual MIDI information.  If armed (uselessly), it is yellow text on
+         a black background (not shown).
       \item \textbf{Cyan background, black text}.
          An unarmed pattern currently being edited in a pattern editor or event
          editor. Or, if an SMF 0 MIDI file was just opened or imported, this
          color combination indicates the SMF 0 format track with all of the
-         data in the song.
+         data in the song, which only occurs in slot 16 (unless the user then
+         dragged it to another slot).
       \item \textbf{Black background, cyan text}.
          An armed pattern currently being edited in a pattern editor or event
          editor.  Or an armed SMF 0 format MIDI sequence.
@@ -370,7 +378,8 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/pattern-empty-right-click-menu.png}
+%  \includegraphics[scale=0.75]{pattern/pattern-empty-right-click-menu.png}
+   \includegraphics[scale=0.75]{new/pattern-empty-right-click-menu.png}
    \caption{Empty Pattern, Right-Click Menu}
    \label{fig:pattern_window_empty_right_click}
 \end{figure}
@@ -383,6 +392,7 @@
          \item {Mute All Tracks}
          \item {Unmute All Tracks}
          \item {Toggle All Tracks}
+         \item {Toggle Live Tracks}
       \end{itemize}
    \end{enumber}
 
@@ -405,13 +415,12 @@
    \index{new!editing shortcut}
    \index{keys!=}
    \index{keys!-}
-   An new feature is hitting the equals ("=") key, then hitting
-   a shortcut key (hotkey), to bring up a new sequence or edit an existing one
-   in a pattern editor.  Another new feature is hitting the minus ("-") key,
-   then the hotkey, to bring up the event editor.
-   We do not yet have a user-interface and
-   configuration file settings for the the '=' and '-' keys.
-   We would still like a way to edit sequences without requiring a mouse!
+   A new feature is hitting the equals ("=") key, then hitting
+   a pattern shortcut key (hotkey), to bring up a new sequence or edit an
+   existing one in a pattern editor.  Another new feature is hitting the minus
+   ("-") key, then the hotkey, to bring up the event editor.  The
+   configuration file settings for the the '=' and
+   '-' keys can be altering in the \textbf{File / Options / Keyboard} tab.
 
    \index{new!current slot highlight}
    When an unarmed (muted) pattern is first brough up for sequence editing (or
@@ -462,8 +471,12 @@
    \itempar{Song / Unmute All Tracks}{pattern!unmute all}
    Provides the opposite functionality, making all tracks armed and audible.
 
-   \itempar{Song / Toggle All Tracks}{pattern!toggle mute all}
+   \itempar{Song / Toggle All Tracks}{pattern!toggle all tracks}
    Toggles the armed/mute status of all tracks.
+
+   \itempar{Song / Toggle Live Tracks}{pattern!toggle live tracks}
+   Toggles the armed/mute status of only the armed tracks.
+   Corresponds to the \textbf{Mute} button in the main window.
 
    Note that there is also a feature where a
    \texttt{Shift-Left-Click} on a pattern slot toggles the mute
@@ -472,7 +485,8 @@
 \subsubsection{Pattern}
 \label{subsubsec:seq64_patterns_pattern_filled}
 
-   A filled pattern slot is referred to informally as a pattern.
+   A filled pattern slot is referred to informally as a \textsl{pattern}
+   (or \textsl{loop}, or \textsl{sequence}).
    A pattern is shown in the Pattern windows as a filled box with the
    following items of information in it.
    Examine \figureref{fig:pattern_window_main_panel_items}; it shows
@@ -618,7 +632,7 @@
    Another way to bring up a pattern in the pattern editor is to
    click the \textbf{equal} key and then the pattern's shortcut key.
    For example, "\textbf{= q}" will open up the editor for that pattern.
-   Currently, the equals key is hard-wired as the key that does this action.
+   The Equals key is the default key that does this action.
 
    \itempar{Event Edit...}{pattern!event edit}
    \textbf{New:}
@@ -636,17 +650,17 @@
    Another way to bring up a pattern in the event editor is to
    click the \textbf{minus} key and then the pattern's shortcut key.
    For example, "\textbf{- q}" will open up the event editor for that pattern.
-   Currently, the minus key is hard-wired as the key that does this action.
+   The Minus key is the default key that does this action.
 
-   There are two things to note about this editor.
-   First, this editor is not the same as the event editor pane in the pattern
-   editor -- it shows all events at once, and shows them only in text format.
-   Second, this editor is still a work in progress.
+   There are two things to note about the Event editor.
+   First, this editor is not the same as the \textbf{event} pane in the pattern
+   editor -- the new event editor shows all events at once, and shows them only
+   in text/list format.  Second, this editor is still a work in progress.
    See \sectionref{sec:seq64_event_editor}, for more information.
 
    Now, in order to simplify the application, and avoid editing a pattern in
    two different dialogs, if either the pattern editor or the event editor is
-   active for a given seqeuence, the right-click sequence-slot menu leaves out
+   active for a given sequence, the right-click sequence-slot menu leaves out
    the \textbf{Edit...} and \textbf{Event Edit...} menu entries.
    This trimmed menu looks like this:
 
@@ -663,10 +677,13 @@
    \itempar{Cut}{pattern!cut}
    Deletes and copies an existing loop or pattern.
    Note than one can also drag-and-drop a pattern into another cell.
-   \textbf{Bug:}
-   \index{bugs!pattern cut not dirty}
-   Although this operation works, it does not cause the user to be prompted if
-   the application is exited.
+
+% This bug was fixed:
+%
+%  \textbf{Bug:}
+%  \index{bugs!pattern cut not dirty}
+%  Although this operation works, it does not cause the user to be prompted if
+%  the application is exited.
 
    \itempar{Copy}{pattern!copy}
    Copies an existing loop or pattern.
@@ -829,11 +846,16 @@
 
    \textbf{Warning}:  We do not recommend using \texttt{Ctrl} or \texttt{Alt}
    keys for pattern control.  They conflict with application or desktop
-   settings.
+   settings.  However, one can use the new \textbf{Menu} button in the main
+   window to disable the menu, which makes more operations available.
    The \texttt{Super} key can be used (if not already used by the desktop
    environment).  Also available are some of the function keys, and, if
    available, the keypad keys.  These can be configured in
-   \textbf{Options / Keyboard}.
+   \textbf{File / Options / Keyboard} and
+   \textbf{File / Options / Ext Keys}.
+
+   Note that queueing can also be used to turn a pattern \textsl{off}
+   at the end of a pattern.
 
 \begin{figure}[H]
    \centering 
@@ -842,11 +864,8 @@
    \label{fig:seq64_queueing_coloration}
 \end{figure}
 
-   Note that queueing can also be used to turn a pattern \textsl{off}
-   at the end of a pattern.
-
    Queue also works for mute/unmute pattern sets ("groups"); in this case,
-   every sequence will toggle its status after its individual loop end. 
+   every sequence will toggle its status after its individual loop ends. 
 
    Of course, the \texttt{Ctrl} key is used to manage the GUI (e.g.
    \texttt{Ctrl-Q} will unceremoniously quit the application), so one will
@@ -941,6 +960,7 @@
       \item \textbf{Play}
       \item \textbf{Pause} (new)
       \item \textbf{BPM}
+      \item \textbf{Tap Tempo} (TODO: not yet shown)
       \item \textbf{Name}
       \item \textbf{Set}
       \item \textbf{Toggle Song Editor}
@@ -990,29 +1010,41 @@
    supported value, and if one right-clicks on the Down button, the BPM
    advances to its lowest value.  The legal range is from 1 to 500 BPM.
 
+   \itempar{Tap Tempo}{pattern!tap tempo}
+   This new control allows one to click it in time with a tune and set the
+   tempo based on the tempo of the clicks.  Once clicked, the label of this
+   button increments with every click, and the \textbf{BPM} field updates to
+   display the calculated tempo.  If the user stops tapping for 5 seconds, the
+   label reverts to 0, the BPM value keeps its final value, and the user can
+   try tapping the tempo again.
+
    \itempar{Name}{pattern!set name}
    Each of the 32 available screen sets can be given a name by entering it
    into this field.
 
-   \textbf{Bug:}
-   \index{bugs!set name has side-effect}
-   While one is typing in the name of the set in this field, the keystrokes
-   will affect the panel window, causing playback to start and pattern
-   boxes to be toggled!
+% This bug is fixed, as of 0.9.18, IIRC
+%
+%  \textbf{Bug:}
+%  \index{bugs!set name has side-effect}
+%  While one is typing in the name of the set in this field, the keystrokes
+%  will affect the panel window, causing playback to start and pattern
+%  boxes to be toggled!
 
    \itempar{Set}{pattern!set number}
    This spin widget selects the current screen set.  The values in this
    field range from 0 to 31, and default to 0.
    Although this field looks editable, it is not.
 
-   \textbf{Bug:}
-   \index{bugs!set number has side-effect}
-   While one is typing in the number of the set in this field, the keystrokes
-   will affect the panel window as well.
+% This bug is fixed, as of 0.9.18, IIRC
+%
+%  \textbf{Bug:}
+%  \index{bugs!set number has side-effect}
+%  While one is typing in the number of the set in this field, the keystrokes
+%  will affect the panel window as well.
 
    \itempar{Toggle Song Editor}{pattern!toggle song editor}
    Pressing this button toggles the presence on-screen of the Song
-   Editor.
+   Editor.  The \texttt{Ctrl-E} keystroke can also be used.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex

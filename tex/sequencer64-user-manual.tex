@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-10-01
+% \update      2016-10-29
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.9.18}
+\title{Sequencer64 User Manual 0.9.19}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -78,7 +78,7 @@
 \label{sec:introduction}
 
    This document describes how to use \textsl{Sequencer64}
-   \cite{sequencer64}, through version 0.9.18,
+   \cite{sequencer64}, through version 0.9.19,
    using the latest commit from the
    \textbf{master} or \textbf{fixups} branches.
    If one is impatient to get started mastering \textsl{Sequencer64},
@@ -90,15 +90,13 @@
    However, as user \textsl{stazed} notes on GitHub, there is more that can be
    done (and he has done much with his \textsl{seq32} \cite{seq32} project).
 
-   We've added a many features to make song editing more
-   convenient.
-   There is now a Pause button and keystroke, (defaults to a period, ".").
-   Much more editing and navigation can be done using keystrokes.
-   A shift-left-click on a pattern slot in the pattern window,
-   or on a pattern's name or M button in the song editor toggles the armed or
-   mute status of all of the \textsl{other} active patterns.
+   We've added a many features to make song editing faster.
+   There is now a Pause button/keystroke.
+   More editing and navigation can be done using keystrokes.
+   The armed/mute status of all of the \textsl{other} active patterns can be
+   toggled.  All playing patterns can be muted, then unmuted.
    We've got zoom keys for the editors, current-sequence highlighting,
-   a raft of important bug fixes, some optimization, and much more.
+   important bug fixes, some optimization, and much more.
 
    We have many contributors to acknowledge.  Please see
    \sectionref{sec:kudos}.
@@ -106,14 +104,14 @@
 \subsection{Sequencer64: What?}
 \label{subsec:what_is_sequencer64}
 
-   \textsl{Sequencer64} is an continuation of of \textsl{Seq24},
+   \textsl{Sequencer64} is an continuation/reboot of \textsl{Seq24},
    a live-looping sequencer with an interface more like a hardware sequencer
    than the typical software MIDI sequencer.
    \textsl{Sequencer64} has many updates and improvements, and a modestly
    new look, so that a new manual is a necessity.
 
-   \textsl{Seq24} was, a few years back, a very active project, with a
-   number of contributors, who have created patches, additional
+   \textsl{Seq24} was a very active project, with a
+   number of contributors, who created patches, additional
    functionality, and even ports to Windows.
    We searched assiduously for these updates, and
    incorporated most of them into \textsl{Sequencer64} where feasible.
@@ -397,14 +395,20 @@
    and much more that is not shown.
    Most of these items can be configured via the "rc" and "user" configuration
    files or command-line options.
+   Note that the buttons show icons in the figure, but the application is
+   normally configured to show labels:  "Live" or "Song", "Mute", and "Menu".
+   One new item (v. 0.9.19) not shown is the mode of the application:
+   "JACK", "Master" (i.e. JACK Master), or "ALSA".
+   A new item that \textsl{is} shown is the button with a "0" as its label.
+   This is the new "Tap Tempo" button.
 
 % This Tip needs to be put elsewhere.
 
    \textbf{Tip:}
    \index{tips!tooltips}
    \index{tooltips}
-   As with most user-interfaces, holding the mouse over any button for a
-   short period will let one view a short description (tooltip)
+   As with most user-interfaces, holding the mouse over some user-interface
+   elements for a short period will let one view a short description (tooltip)
    of what it does.
 
 % The following "input" sections are stored in separate files of the same
