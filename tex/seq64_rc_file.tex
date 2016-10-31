@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-10-21
+% \update      2016-10-31
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -193,8 +193,7 @@
    The last three fields describe the range of data that will match.  The
    \textbf{D1 (data1)} field provides the actual MIDI event message number to
    detect, in decimal.  This item could be a Note On/Off event or a
-   Control/Mode change event, for example.  The channel nybble is masked off
-   before usage.
+   Control/Mode change event, for example.
 
    The \textbf{D2min (data2 min)} field is the minimum value of the event for
    the filter to match. For Note On/Off events, this would be the velocity
@@ -714,20 +713,19 @@
    \textbf{Mouse} tab described in
    \paragraphref{paragraph:seq64_menu_file_options_mouse}.
 
-   \index{[interaction-method]}
    \begin{verbatim}
       # 0 - 'seq24' (original seq24 method)
       # 1 - 'fruity' (similar to a certain fruity sequencer we like)
 
       [interaction-method]
-      0
 
-      # Set to 1 to allow seq24 to stay in note-adding mode when
-      # the right-click is released while holding the Mod4 (Super or
-      # Windows) key.
-      0
+      # 0 - 'seq24' (original seq24 method)
+      # 1 - 'fruity' (similar to a certain fruity sequencer we like)
+
+      0   # interaction_method
    \end{verbatim}
 
+   \index{[allow-mod4-mode]}
    \textbf{New:}
    \index{new!Mod4 edit-lock}
    There is now an option to use the Mod4 (Super, or Windows) key in the
@@ -736,6 +734,46 @@
    editing pencil icon remains, and notes can be added.  This feature is
    useful for crippled trackpads and trackpad drivers that cannot provide
    two simultaneous button presses.
+
+   \begin{verbatim}
+      # Set to 1 to allow seq24 to stay in note-adding mode when
+      # the right-click is released while holding the Mod4 (Super or
+      # Windows) key.
+
+      1   # allow_mod4_mode
+   \end{verbatim}
+
+   \index{[allow-snap-split]}
+   \textbf{New:}
+   \index{new!snap-split}
+   This option comes from the \textsl{seq32} project.  It allows for
+   pattern-splitting in the Song editor at snap points, rather than just
+   at the middle of the pattern.
+
+   \begin{verbatim}
+      # Set to 1 to allow Sequencer64 to split performance editor
+      # triggers at the closest snap position, instead of splitting the
+      # trigger exactly in its middle.  Remember that the split is
+      # activated by a middle click.
+
+      0   # allow_snap_split
+   \end{verbatim}
+
+   \index{[allow-click-edit]}
+   \textbf{New:}
+   \index{new!click-edit}
+   This option allows one to enable/disable the ability to double-click
+   in a pattern slot in the main window to bring it up for editing.  This
+   can interfere with a live performance where muting/unmuting come fast enough
+   to be seen as a double-click.
+
+   \begin{verbatim}
+      # Set to 1 to allow a double-click on a slot to bring it up in
+      # the pattern editor.  This is the default.  Set it to 0 if
+      # it interferes with muting/unmuting a pattern.
+
+      1   # allow_click_edit
+   \end{verbatim}
 
    \index{[lash-session]}
    The following configuration item is the same as the

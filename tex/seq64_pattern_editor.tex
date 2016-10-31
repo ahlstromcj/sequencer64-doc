@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-09-07
+% \update      2016-10-31
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -1159,6 +1159,7 @@
    \begin{enumber}
       \item \textbf{Event Selector}
       \item \textbf{Event Selection}
+      \item \textbf{LFO} (if built with LFO support)
       \item \textbf{Time Scroll}
       \item \textbf{Data To MIDI Buss}
       \item \textbf{MIDI Data Pass-Through}
@@ -1191,6 +1192,59 @@
    \itempar{Event Selection}{pattern editor!event selection}
    Shows the selection event, with its number shown in hexadecimal notation,
    and the name of the event shown.
+
+   \textbf{New:}
+   \index{new!LFO control}
+
+   \itempar{LFO}{pattern editor!LFO}
+   If \textsl{Sequencer64} is built with the \texttt{--enable-lfo} option,
+   then a low-frequency oscillator functionality is built so that data events
+   can be modulated by some rudimentary wave functions.
+   This feature is currently disabled by default, so might not be present in a
+   distro's pre-compiled version.
+
+   By clicking on the \textbf{LFO} button or using the \texttt{Ctrl-L} key,
+   the following window appears:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/pattern_editor_with_LFO.png}
+   \caption{Pattern Editor, LFO Support}
+   \label{fig:pattern_editor_bottom_lfo_support}
+\end{figure}
+
+   Note the controls in this window:
+
+   \begin{enumber}
+      \item \textbf{Value}:
+         Provides a kind of DC offset for the data value. Starts at 64, and
+         ranges from 1 to 127.
+      \item \textbf{Range}:
+         Controls the depth of modulation. Starts at 64, and ranges from 1 to
+         127.
+      \item \textbf{Speed}:
+         Indicates the number of periods per pattern (divided by beat width,
+         normally 4).  For long patterns, this parameter needs to be set high,
+         to even show an effect.  It is also subject to an 'anti-aliasing'
+         effect in some parts of the range, especially for short patterns.
+         Try it!  For short patterns, try a value of 1 at first.  For a pattern
+         of one measure in length, this will create four periods of the wave.
+      \item \textbf{Phase}:
+         Provides phase shift within a period of the LFO wave.
+         A value of 1 is a phase shift of 360 degrees.
+      \item \textbf{Wave Type}:
+         Provides the kind of wave to use for the LFO:
+         \begin{enumber}
+            \item \textbf{Sine wave}.
+            \item \textbf{Ramp (up) sawtooth}.
+            \item \textbf{Decay (down) sawtooth}.
+            \item \textbf{Triangle wave}.
+         \end{enumber}
+   \end{enumber}
+
+   We may have more to explain about this dialog at some point.  For now,
+   try it out on the file \texttt{one-measure.midi}, and be sure to hover over
+   each control to see the tooltips.
 
    \itempar{Time Scroll}{pattern editor!time scroll}
    Allows one to pan through the whole pattern, if it is too long to fit in
