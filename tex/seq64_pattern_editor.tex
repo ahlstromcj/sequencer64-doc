@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-10-31
+% \update      2016-11-13
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -30,6 +30,8 @@
    \label{fig:pattern_edit_window}
 \end{figure}
 
+   Not shown in this figure is the new \textbf{LFO} button in the bottom panel,
+   but it is described later.
    This dialog is complex.
    For exposition, we break it into some common actions, a first panel, a
    second panel, a bottom panel, and a piano-roll/events section.
@@ -50,10 +52,13 @@
    Or, to use a keystroke, click in the pattern editor, press
    \index{keys!p}
    \texttt{p} to select the "pencil" or "paint" mode, then
+   \index{mouse!left-click}
+   left-click to add a note or
    \index{mouse!left-click-drag}
-   left-click-drag to add notes.
+   left-click-drag to add multiple notes as the mouse moves..
    \index{keys!x}
-   Press \texttt{x} to "eXit" or "eXscape" from that mode.  Also remember
+   Press or release the right mouse button, or press
+   \texttt{x} to "eXit" or "eXscape" from that mode.  Also remember
    that notes are drawn only with the length selected by the "notes" button
    near the top of the pattern window.  There are some other tricks to
    modifying the new notes that are described later.
@@ -71,7 +76,8 @@
    \index{keys!pause}
    new pause key (which defaults to the period character) or by the pause
    button, which appears when playback is underway.  (Note that this feature
-   can be disabled if the application is built via source code.)
+   can be disabled if the application is built via source code.  Also note that
+   it works only in ALSA mode at present.)
 
 \subsection{Pattern Editor / First Panel}
 \label{subsec:seq64_pattern_editor_first}
@@ -115,6 +121,8 @@
    This name should be short and memorable.
    It is displayed in the Patterns window, on the top line of its pattern
    box/slot.
+   Unfortunately, there is no edit cursor in this field (not sure why yet), so
+   one has to edit blind.
 
    \itempar{Beats Per Bar}{pattern editor!beats/bar}
    Part of the time signature, and specifies the number of beat units per bar.
@@ -125,15 +133,15 @@
    \index{beat width}
    Part of the time signature, and specifies the size of the beat unit:
    1 for whole notes; 2 for half notes; 4 for quarter notes; 8 for eight notes;
-   and 16 for sixteenth notes.
+   16 for sixteenth notes; and 32 for thirty-second notes.
    The whole time signature is display at the bottom center of a pattern
-   box/slot.
+   slot.
 
    \itempar{Pattern Length}{pattern editor!length}
    Sets the length of the current pattern, in measures.
    The possible values range from 1 to 16, then 32, and 64.
    \textsl{However}, when opening or importing a non-\textsl{Sequencer64}
-   MIDI tune the length of each track will be use, and so other values
+   MIDI tune, the length of each track will be used, and so other values
    are possible; they just cannot be set via the user-interface.
 
    Note that bringing up a short sequence (one less than one measure or bar in
@@ -156,21 +164,22 @@
    pattern, useful for live intro patterns, for example.)}
 
    \itempar{Transpose Toggle}{pattern editor!transpose toggle}
-   This item if enabled, allows the sequence to be transposed by the global
-   transpose selection made in the song editor.  If enabled, the button will be
-   highlighted as per the current desktop theme.  Patterns for drums should,
-   in general, not be transposable.
+   This item, if enabled in the build, allows the sequence to be transposed by
+   the global transpose selection made in the song editor.  If transpose is
+   enabled for that pattern, the button will be highlighted as per the current
+   desktop theme.  Patterns for drums should, in general, not be transposable.
 
    \itempar{MIDI Out Device (Buss)}{pattern editor!midi out device}
    This setting specifies one of the 16 MIDI output busses provided by
-   \textsl{Sequencer64}.  The settings look a lot like
+   \textsl{Sequencer64}, or one of the MIDI devices set up in the computer.
+   The settings look a lot like
    \figureref{fig:pattern_window_right_click_midi_bus}.
 
    \itempar{MIDI Out Port (Channel)}{pattern editor!midi out port}
    This settings select the MIDI output channel, or port.
    The possible values range from 1 to 16.
    If instruments are defined in the "user" configuration file
-   to that device and channel, they will be shown.
+   to that device and channel, their names will be shown.
 
 \subsection{Pattern Editor / Second Panel}
 \label{subsec:seq64_pattern_editor_second}
@@ -225,10 +234,10 @@
    session.
    It will restore one change each time it is pressed.
    It is not certain what the redo limit is, however.
-   There doesn't seem to be a "Redo" key in the pattern editor.
+   There is no "Redo" key in the pattern editor.
 
    \itempar{Quantize Selection}{pattern editor!quantize}
-   Pressing this button will quantize the selected events, presumably as per
+   Pressing this button will quantize the selected events, as per
    the \textbf{Grid Snap} setting.
 
    \itempar{Tools}{pattern editor!tools}
@@ -256,7 +265,7 @@
       \item \textbf{Inverse Notes}, which inverts the selection of notes.
    \end{itemize}
 
-   Other event-selection actions are provided:
+   Other event-selection actions are provided using the mouse in the piano roll:
 
    \begin{itemize}
       \item \index{mouse!left-click}
@@ -267,12 +276,10 @@
          \textbf{Ctrl Left Click}.
          Pressing the \texttt{Ctrl} key and the left button on a note or an
          unselected event \textsl{adds} that event to the selection.
-         This is a bit different from conventional selection addition
-         in other applications, which tend to use the \texttt{Shift} key.
       \item \index{mouse!left-click-drag}
          \textbf{Left Click Drag}.
          Pressing the left mouse button and dragging also lets one
-         select multiple events and notes.
+         select ("lasso") multiple events and notes.
       \item \index{mouse!ctrl-left-click-drag}
          \textbf{Ctrl Left Click Drag}.
          \begin{itemize}
@@ -290,7 +297,7 @@
 
    \index{modify event-data}
    $\bullet$ \textbf{Modify Event Data} offers a way to change the event data
-   (the lower pane of the pattern editor).
+   (the lower pane of the pattern editor, the "data pane").
    By left-dragging the mouse in the data pane across the value lines that are
    shown, the values are chopped or set to the height of the mouse pointer at
    each event.
@@ -298,21 +305,18 @@
    mouse is used to change the values (heights) of the lines in the event-data
    area,
    \textsl{only the events that are selected} are changed.  The data-values of
-   selected events are left unchanged.  A cool feature from \textsl{Seq24}.
+   \textsl{unselected} events are left unchanged.
+   A cool feature from \textsl{Seq24}.
 
    \index{modify time}
    $\bullet$ \textbf{Modify Time} offers two ways to tweak the timing of the
    selected note:
    \index{quantize}
    \textbf{Quantize Selected Notes}, which quantizes the selected
-   notes, presumably the same way as the \textbf{Quantize} ("\textbf{Q}")
-   button;
+   notes, the same way as the \textbf{Quantize} ("\textbf{Q}") button;
    \index{tighten}
-   \textbf{Tighten Selected Notes}, which presumably is a less
+   \textbf{Tighten Selected Notes}, which is merely a less
    strict form of quantization.
-   \textbf{TODO:}
-   \index{"todo!what is tighten"}
-   Need more information about the meaning of "tightening a note".
 
    \index{modify pitch}
    $\bullet$ \textbf{Modify Pitch} has only one entry by default,
@@ -351,7 +355,6 @@
 
    Remember that only the \textbf{Transpose Selected} entry is shown if the
    \textbf{Musical Scale} setting is \textbf{Off}.
-
    Selecting the \textbf{Harmonic Transpose Selected} entry brings up the
    following sub-menu:
 
@@ -436,21 +439,21 @@
    \textbf{However},
    it turns out that a change made to the key, scale, or background sequence in
    the sequence editor is saved in that editor, so that opening another sequence
-   will apply the same settings to that sequence.  This is a feature, now
-   more rigorously supported, as noted below.
+   will apply the same settings to that sequence.  This is an optional feature,
+   now more rigorously supported, as noted below.
 
+   \index{global-sequence}
    If the global-sequence-feature is enabled, and the user selects
    a different key, scale, or background sequence in the sequence editor, 
-   then all sequences will share the selected key, scale, or background
+   then \textsl{all} sequences will share the selected key, scale, or background
    sequence.  Furthermore, these settings are saved in the "proprietary"
    section of the MIDI file, where they are available for all sequences.
 
-   If the global-sequence-feature is not enabled, and the user selects
+   If the global-sequence-feature is \textsl{no}t enabled, and the user selects
    a different key, scale, or background sequence in the sequence editor, 
    then only that sequence will use the selected key, scale, or background.
    The key, scale, or background sequence change will be saved in the MIDI file
    only for that sequence, as a SeqSpec meta event.
-
    The global-sequence-feature setting can be made in the "user" configuration
    file.
 
@@ -459,10 +462,11 @@
    When a scale is selected, the following features are supported:
 
    \begin{itemize}
-      \item The notes that are not in the scale are shown as grey in the piano
+      \item The notes that are \textsl{not}
+         in the scale are shown as grey in the piano
          roll, to make it easier to key all notes in-scale.
       \item When harmonic transposition is performed, the notes are shifted
-         so that they remain in scale.
+         so that they remain in the selected scale.
       \item The exact notes that are considered "in-scale" depend also on the 
          exact value of the \textbf{Key of Sequence} setting.
    \end{itemize}
@@ -473,9 +477,9 @@
    Now, the following scales are supported:
 
    \begin{itemize}
-      \item \textbf{Off (chromatic)}
-      \item \textbf{Major}
-      \item \textbf{Minor}
+      \item \textbf{Off (Chromatic)}
+      \item \textbf{Major (Ionian)}
+      \item \textbf{Minor (Aeolian)}
       \item \textbf{Harmonic Minor}
       \item \textbf{Melodic Minor}
       \item \textbf{Whole Tone}
@@ -487,7 +491,7 @@
    Please let us know of any mistakes found in the new scales.
    Also please note that the \textbf{Melodic Minor} scale is supposed to
    descend in the same was as the natural \textbf{Minor} scale, but
-   currently there is no way to support that trick in
+   there is no way to support that trick in
    \textsl{Sequencer64}.
 
 \begin{figure}[H]
@@ -547,9 +551,9 @@
    \label{fig:pattern_editor_background_sequence_menu}
 \end{figure}
 
-   Once the desired pattern is selected from that list, it appears as
-   dark cyan note bars, along with the notes that are part of the pattern.
-   (Also note the orange selected notes and events in the following figure.)
+   Once the desired pattern is selected from that list, it appears as dark cyan
+   note bars, along with the normal notes that are part of the pattern.  (Also
+   note the orange selected notes and events in the following figure.)
 
 \begin{figure}[H]
    \centering 
@@ -558,21 +562,22 @@
    \label{fig:pattern_editor_background_sequence_notes}
 \end{figure}
 
-   The dark cyan notes shown represent a rhythm pattern.
+   The dark cyan notes shown represent the rhythm pattern that was selected as
+   the background pattern.
 
    \textbf{New:}
    \index{new!save background seqeuence}
-   The background sequence that a sequence shows is now saved in the MIDI file
+   The background sequence that a sequence shows is saved in the MIDI file
    along with the rest of the data for the sequence.
    \textbf{However},
    it turns out that a change made to the key, scale, or background sequence in
    the sequence editor is saved in the editor, so that opening another sequence
-   will apply the same settings to that sequence.  This is a feature, now
-   more rigorously supported, as noted earlier.
+   will apply the same settings to that sequence.  This is an optional feature,
+   now more rigorously supported, as noted earlier.
 
    \itempar{Chord Generation}{pattern editor!chord generation}
-   As of version 0.9.9.14, the ability to insert chords with one
-   click has been added.  This feature comes from user "stazed"
+   The ability to insert chords with one click has been added.
+   This feature comes from user "stazed"
    and his \textsl{Seq32} project (\cite{seq32}).
 
 \begin{figure}[H]
@@ -590,22 +595,20 @@
 \subsection{Pattern Editor / Piano Roll}
 \label{subsec:seq64_pattern_editor_piano_roll}
 
-   The piano roll is the center of the pattern editor.  It is accompanied by a
+   The piano roll is the center of the pattern (loop, track, sequence) editor.
+   It is accompanied by a
    \index{event area}
    thin "event bar" (or "event area", or "event strip") just below it,
    \index{data area}
-   and a taller "data bar" or "data area" just below that.
-
-   The piano roll is the heart of the pattern (loop, sequence) editor.
-   While it is very similar to note editors in other sequencers, it is a bit
+   and a taller "data bar" or "data area" just below that.  While the pattern
+   editor is very similar to note editors in other sequencers, it is a bit
    different in feel.  A good mouse with 3 or more buttons is practically a
-   necessity for editing, though we have made it more
-   usable with some pretty crummy trackpads now common on modern laptops,
-   and with keystrokes.
-   We tend to like the Logitech Marble Mouse, an
-   ambidextrous USB trackball.  It has four buttons, and we use the
-   \texttt{contrib/scripts/marblemouse} script to set up the left small
-   button as a middle button.  The script merely makes the following call:
+   necessity for editing (though we have made \textsl{Sequencer64} more usable
+   with some crummy trackpads now common on modern laptops, and also usable
+   with keystrokes.) We tend to like the Logitech Marble Mouse, an ambidextrous
+   USB trackball.  It has four buttons, and we use the
+   \texttt{contrib/scripts/marblemouse} script to set up the left small button
+   as a middle button.  The script merely makes the following call:
 
    \begin{verbatim}
       xmodmap -e "pointer = 1 8 3 4 9 6 7 2 5 10 11"
@@ -628,9 +631,14 @@
    \index{keys!shift-home} Home key,
    and to the rightmost position using the
    \index{keys!shift-end} End key,
+   And there are more keystroke actions to be described later.
 
 \subsubsection{Pattern Editor / Piano Roll Items}
 \label{subsubsec:seq64_pattern_editor_piano_roll_items}
+
+   The center of the pattern editor consists of a time panel at the top,
+   a virtual keyboard at the left, a note grid, a vertical scrollbar, an event
+   panel, and a data panel at the bottom.
 
 \begin{figure}[H]
    \centering 
@@ -652,18 +660,20 @@
 
    \itempar{Beat}{piano roll!beat}
    The light vertical lines represent the beats defined by the configuration
-   for the pattern.
+   for the pattern.  The even lighter lines between the beats are useful for
+   snapping notes.
 
    \itempar{Measure}{piano roll!measure}
    The heavy vertical lines represent the measures defined by the
    configuration for the pattern.
    \index{pattern!end marker}
    Also note that the end of the pattern
-   occurs at a measure, and is marked by a blocky \textbf{END} marker.
+   occurs at the end of a measure, and is marked by a blocky \textbf{END}
+   marker.
 
    \itempar{Virtual Keyboard}{piano roll!virtual keyboard}
    The virtual keyboard is a fairly powerful interface.  It shows,
-   by shadowing, which note on the keyboard one will be drawing. It can be
+   by shadowing, which note on the keyboard will be drawn. It can be
    played with a mouse, using left-clicks, to preview a short motif.
    It can show marks to indicate off-scale notes, to make them easy to
    avoid.  Every octave, a note letter and octave number are shown, as in
@@ -689,11 +699,12 @@
    a visual representation of the pitch of a note and the length of a note.
 
    \itempar{Events}{piano roll!events}
-   \index{events strip}
+   \index{events pane}
+   Also known as the "events pane" or "events panel".
    The small (just a few pixels high) events strip shows discrete events,
    such as Note On and Note Off and their velocities, or various Controller
-   items and their values.  We recommend not trying to edit or select events
-   in that pane, in general, but it is a good way to add events.
+   items and their values.  We recommend not editing or selecting events
+   in that pane (feel free to disobey), but it is a good way to add events.
    Either
    \index{mouse!left-click}
    left-click (to add one event),
@@ -707,6 +718,11 @@
    and hit the \texttt{x} key to escape that mode.
 
    \itempar{Event Values}{piano roll!event values}
+   Also known as the "data pane"
+   \index{data pane}
+   or "data panel".
+   \index{data panel}
+
    The events values for the currently selected category of events are shown
    in this window as vertical lines of a height proportional to the value.
    These values can be easily modified by
@@ -720,12 +736,11 @@
 \subsubsection{Pattern Editor / Event Editing}
 \label{subsubsec:seq64_pattern_editor_event_editing}
 
-   \index{draw mode}
-   \index{paint mode}
    When we say "editing" in the context of the piano roll, in part we mean that
-   we will "draw" or "paint" notes.
+   we will "draw" \index{draw mode}
+   or "paint" \index{paint mode} notes.
    Drawing, modifying, copying, and deleting
-   notes is actually very elegant in \textsl{Seqeuencer64} and in
+   notes is actually very elegant in \textsl{Sequencer64} and in
    \textsl{Seq24}.
 
    Note editing is a bit different with \textsl{Sequencer64}, since it
@@ -739,16 +754,18 @@
    It's easier than a touchpad, anyway.
    So we've coded up a couple of solutions to this middle-click problem.
 
-   Note that, if only a middle-button is needed, ctrl-left-button will simulate
-   that button.  Also note the "Mod4 mode" for the right-click action, and the
-   \texttt{p} and \texttt{x} keys for getting in and out of "paint mode",
-   discussed elsewhere.
+   Note that, if only a middle-button is needed,
+   \texttt{Ctrl-left} will simulate that button.
 
-   \index{new!mod4 mode}
-   \index{keys!mod4}
-   \index{pattern editor!mod4}
+%  Also note the "Mod4 mode" for the right-click action, and the
+%  \texttt{p} and \texttt{x} keys for getting in and out of "paint mode",
+%  discussed elsewhere.
+
    \textbf{New:}
-   There is a feature to allow the Mod4 (the Super or Windows) key to keep the
+   \index{keys!mod4}
+   There is a feature to allow the Mod4
+   \index{pattern editor!mod4}
+   (the Super or Windows) key to keep the
    right-click in force even after it is released.  See \ref{new_mod4_mode}.
    Basically, pressing Mod4 before releasing the right-click that allows
    note-adding, keeps note-adding in force after the right-click is released.
@@ -778,14 +795,14 @@
 \label{paragraph:seq64_pattern_editor_note_events}
 
    The Piano Roll pane provides for a quite sophisticated set of note-editing
-   actions.  Not only is there a native mouse-interaction mode, but there is
-   a "fruity" mouse-interaction mode that works more like the applications
-   "Fruity Loops", it's follow-on "FL Studio', and its imitator "LMMS".
+   actions.  Not only is there a native mouse-interaction mode, but there is a
+   "fruity" mouse-interaction mode that works more like the applications
+   "Fruity Loops", it's follow-on "FL Studio', and its Linux look-alike,
+   "LMMS".
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Fruity Mode}{pattern editor!fruity mode}
-   \textbf{TODO:}
    \index{todo!fruity mode}
    At some point, we will add a section detailing the usage of the "fruity"
    mode of mouse-interaction.
@@ -795,12 +812,12 @@
 
    \itempar{Enter Draw Mode}{pattern editor!draw mode}
    \index{pattern editor!right hold}
-   \index{draw mode}
-   \index{paint mode}
 	In the note (grid/roll) panel, \textbf{holding}
 	down the \textbf{right} mouse button will change the cursor
-	to a pencil and put the editor into "draw" mode, also known as
-   "note-adding" or "paint" mode.
+	to a pencil and put the editor into "draw" mode, 
+   \index{draw mode}
+   also known as "note-adding" or "paint" mode.
+   \index{paint mode}
    To exit the draw mode, release the right mouse button, and the cursor will
    turn back into an arrow.
 
@@ -810,7 +827,6 @@
 
    \itempar{Add Notes}{pattern editor!add notes}
    \index{pattern editor!right hold left click}
-   \index{notes!inserting}
    Then, while still \textbf{holding} the \textbf{right} mouse button, click
    the \textbf{left} mouse button to \textbf{insert} new notes.  Many people
    find this combination strange at first, but once one gets used to it, it
@@ -818,7 +834,7 @@
    hold the Mod4 key while releasing the right button, which keeps the mouse
    in draw mode.  Another new option is to press the \texttt{p} to enter draw
    mode, and stay in it until \texttt{Shift-p} is pressed.
-
+   \index{notes!inserting}
    Note that this click will add a single note, and the length of the note will
    be that specified in the note-length setting (e.g. "1/16").
 
@@ -826,12 +842,13 @@
    \index{notes!duration}
    To increase the number of notes, keep dragging the mouse (with
    both buttons held).  It can be dragged rightward, leftward, upward, and
-   downward.  Dragging left or right adds new notes, while dragging upward or
+   downward.
+   \index{notes!auto}
+   Dragging left or right adds new notes, while dragging upward or
    downward moves the current note to a different pitch.
    \index{auto-note}
-   \index{notes!auto}
    We call this the "auto-note" feature.
-   Please note that the auto-note feature does not work with
+   Please note that the auto-note feature does \textsl{not} work with
    the chord-generation feature.
 
    The draw mode has the following features:
@@ -947,12 +964,12 @@
    \itempar{Change Note Length}{pattern editor!change note length}
    \index{pattern editor!ctrl left click drag}
    \index{pattern editor!middle click drag}
-   \index{notes!duration change}
    Pressing the \textbf{middle} mouse button \textbf{\textsl{or}}
    pressing the \textbf{ctrl left} mouse button in tandem, while the pointer is
-   hovered over a selected note, will let one change the length of a selected
-   note.  If more than one note is selected, then the length of all selected
-   notes is changed.
+   hovered over a selected note, will let one
+   \index{notes!duration change}
+   change the length of a selected note.  If more than one note is selected,
+   then the length of all selected notes is changed.
 
    \index{pattern editor!event stretch}
    \index{pattern editor!shift middle click drag}
@@ -1159,7 +1176,7 @@
    \begin{enumber}
       \item \textbf{Event Selector}
       \item \textbf{Event Selection}
-      \item \textbf{LFO} (if built with LFO support)
+      \item \textbf{LFO} (if built with LFO support; not shown)
       \item \textbf{Time Scroll}
       \item \textbf{Data To MIDI Buss}
       \item \textbf{MIDI Data Pass-Through}
@@ -1185,7 +1202,12 @@
    so we won't try to show all of them here.
 
    These sub-menus can be modified, as far as we know, by editing
-   the file \texttt{\$HOME/.config/sequencer64/sequencer64.rc}
+   the file
+   
+   \begin{verbatim}
+      $HOME/.config/sequencer64/sequencer64.rc
+   \end{verbatim}
+
    (legacy mode: \texttt{\$HOME/.seq24usr}), to make it match one's
    instrument.  See \sectionref{sec:seq64_usr_file}.
 
@@ -1200,9 +1222,7 @@
    If \textsl{Sequencer64} is built with the \texttt{--enable-lfo} option,
    then a low-frequency oscillator functionality is built so that data events
    can be modulated by some rudimentary wave functions.
-   This feature is currently disabled by default, so might not be present in a
-   distro's pre-compiled version.
-
+   This feature is now enabled by default.
    By clicking on the \textbf{LFO} button or using the \texttt{Ctrl-L} key,
    the following window appears:
 
@@ -1230,10 +1250,11 @@
          Try it!  For short patterns, try a value of 1 at first.  For a pattern
          of one measure in length, this will create four periods of the wave.
       \item \textbf{Phase}:
-         Provides phase shift within a period of the LFO wave.
-         A value of 1 is a phase shift of 360 degrees.
+         Provides the phase shift within a period of the LFO wave.
+         A value of 1 is a phase shift of 360 degrees (or maybe it is one
+         radian?).
       \item \textbf{Wave Type}:
-         Provides the kind of wave to use for the LFO:
+         Selects the kind of wave to use for the LFO:
          \begin{enumber}
             \item \textbf{Sine wave}.
             \item \textbf{Ramp (up) sawtooth}.
@@ -1245,15 +1266,17 @@
    We may have more to explain about this dialog at some point.  For now,
    try it out on the file \texttt{one-measure.midi}, and be sure to hover over
    each control to see the tooltips.
+   Note that it works best with short patterns.
 
    \itempar{Time Scroll}{pattern editor!time scroll}
    Allows one to pan through the whole pattern, if it is too long to fit in
-   the window.
+   the window horizontally.
 
    \itempar{Data To MIDI Buss}{pattern editor!data to midi buss}
    Activating this button will cause the pattern to be output to the MIDI
    output buss, which will normally be connected to a software or hardware
    synthesizer, to be heard.
+   Generally, this control should always be activated.
 
    \itempar{MIDI Data Pass-Through}{pattern editor!midi data pass-through}
    Activating this button will route incoming MIDI data through
@@ -1266,10 +1289,11 @@
 
    \itempar{Quantized Record}{pattern editor!quantized record}
    Activating this button will also cause MIDI data to be recorded, but it
-   will be quantized on the fly before saving it.
+   will be quantized on the fly before recording it.
 
    \itempar{Vol}{pattern editor!vol}
    This button allows controlling the volume of the recording.
+   The velocity of the notes will be set to the selected value upon recording.
 
 \begin{figure}[H]
    \centering 
@@ -1310,6 +1334,10 @@
          \index{pan!seqroll notes}
          Using the vertical scroll action of a mouse or touchpad moves the
          view of the sequence/pattern notes up and down.
+         One can also click in the piano roll, and then use the
+         \texttt{Page-Up} \index{keys!page-up}
+         and \texttt{Page-Down} \index{keys!page-down}
+         keys to move the view up and down in pitch.
       \item \textbf{Horizontal Panning (Timeline Panning)}
          \index{scroll!shift scroll}
          \index{scroll!horizontal pan}
@@ -1318,6 +1346,10 @@
          Holding the Shift key, and then using the vertical scroll action of a
          mouse or touchpad moves the view of the sequence/pattern time forward
          and backward.
+         One can also click in the piano roll, and then use the
+         \texttt{Shift Page-Up} \index{keys!shift page-up}
+         and \texttt{Shift Page-Down} \index{keys!shift page-down}
+         keys to move the view left and right in time.
       \item \textbf{Horizontal Zoom (Timeline Zoom)}
          \index{scroll!ctrl scroll}
          \index{scroll!horizontal zoom}
@@ -1326,6 +1358,10 @@
          Holding the Ctrl key, and then using the vertical scroll action of a
          mouse or touchpad zooms the view of the sequence/pattern time to
          compress it or expand it.
+         One can also click in the piano roll, and then use the
+         \texttt{z} \index{keys!z},
+         \texttt{Z} \index{keys!Z}, and
+         \texttt{0} \index{keys!0} to change the timeline zoom.
    \end{itemize}
 
    The actions of this scrolling are surprisingly smooth and fast.

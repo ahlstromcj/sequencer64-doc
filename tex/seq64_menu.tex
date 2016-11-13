@@ -25,9 +25,8 @@
 \label{subsec:seq64_menu_file}
 
    The \textbf{File} menu is used to save and load standard MIDI files.
-   \textsl{Sequencer64} should be able to handle any Format 0 or
-   Format 1 standard files that any other sequencer exports.
-
+   \textsl{Sequencer64} will handle any Format 0 or
+   Format 1 standard files that other sequencers export.
    The \textsl{Sequencer64} menu entry contains the sub-items shown in
    \figureref{fig:seq64_menu_file_items}.  The next few sub-sections discuss
    the sub-items in the \textsl{File} sub-menu.
@@ -280,7 +279,7 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{menu/options-tab-0-9-18.png}
-   \caption{File / Options Tabs for Version 0.9.18}
+   \caption{File / Options Tabs for Version 0.9.18+}
    \label{fig:seq64_options_tab_0_9_18}
 \end{figure}
 
@@ -290,7 +289,7 @@
    The \textbf{MIDI Clock} tab provides a way to send the MIDI clock to one
    or more of the \textsl{Sequencer64} output busses.
    It is used to configure to what busses the MIDI clock gets dumped.
-   It also shows the devices that one can play music with.
+   It also shows the devices that can play music.
    The items that appear in this tab depend on four things:
 
    \begin{itemize}
@@ -302,13 +301,13 @@
          \textsl{Timidity} and \textsl{Yoshimi} will add extra output devices
          (playback ports) to a system.
       \item The setting of the "manual ALSA ports" option,
-         \texttt{--manual\_alsa\_ports} command-line option or the
+         \texttt{--manual-alsa-ports} command-line option or the
          \texttt{[manual-alsa-ports]} section of the
          \texttt{sequencer64.rc} configuration file, as described in
          \sectionref{subsec:seq64_rc_file_other_midi}
       \item The setting of the \textsl{Sequencer64}-specific
          "reveal ALSA ports" option,
-         \texttt{--reveal\_alsa\_ports} command-line option or the
+         \texttt{--reveal-alsa-ports} command-line option or the
          \texttt{[reveal-alsa-ports]} section of the
          \texttt{sequencer64.rc} configuration file, as described in
          \sectionref{subsec:seq64_rc_file_other_midi}
@@ -317,7 +316,10 @@
    For the current discussion, a USB MIDI cable was plugged into the system,
    and the \textsl{Timidity} and \textsl{Yoshimi} (in ALSA mode) software
    synthesizers were running.  \textsl{Sequencer64} was also running, of
-   course.  Here are the devices shown by the ALSA MIDI playback
+   course, with the option of "manual ALSA ports" (\texttt{-m} or
+   \texttt{--manual-alsa-ports}) and ALSA (\texttt{-A} or
+   \texttt{--alsa} turned on.
+   Here are the devices shown by the ALSA MIDI playback
    command-line application:
 
    \begin{verbatim}
@@ -329,7 +331,7 @@
       128:1    TiMidity                         TiMidity port 1
       128:2    TiMidity                         TiMidity port 2
       128:3    TiMidity                         TiMidity port 3
-      130:16   seq24                            seq24 in
+      129:16   sequencer64                      sequencer64 in
    \end{verbatim}
 
 %  (For some reason, the \textsl{Yoshimi} input port is not showing up
@@ -342,8 +344,7 @@
    note the 16 devices provided by
    \textsl{Sequencer64}.  Also note that its first value is 1, not 0, due to
    the MIDI Thru port occupying slot 0.
-   This figure shows the result with the manual ALSA option of
-   \textsl{Sequencer64} turned on.
+   This figure shows the result with the "manual ALSA option" turned on.
 
 \begin{figure}[H]
    \centering 
@@ -359,7 +360,6 @@
    start with different numbers, depending on the system setup, can complicate
    the playing of MIDI in this manner.  Also, the "user" configuration file
    can change the names of the ports, causing further confusion.
-
    The following elements are present in this dialog:
 
    \begin{enumber}
@@ -376,14 +376,15 @@
    \index{port name}
    \index{midi clock!port name}
    These labels indicate the output busses (ports) of \textsl{Sequencer64}.
-   They range from \textbf{[1] seq24 1} to \textbf{[16] seq24 16}.
+   They range from \textbf{[1] sequencer64 1} to \textbf{[16] sequencer64 16}.
 
    \itempar{Off}{midi clock!off}
    This setting disables the MIDI clock for the given output buss.
    However, note that MIDI output can still be sent to those ports, and
    each port that has a device connected to it will play music.
 
-   For feeding \textsl{Yoshimi} with MIDI data, we found that this
+   For feeding \textsl{Yoshimi} (running in ALSA mode)
+   with MIDI data, we found that this
    setting is the one that must be made in order for \textsl{Yoshimi} to
    produce a sound.
 
@@ -416,13 +417,12 @@
    \label{fig:seq64_midi_clock_4_devices_manual_0}
 \end{figure}
 
-   As shown by the figure above, with the manual ALSA option turned off,
+   As shown by the figure above, with the "manual ALSA option" turned off,
    all of the devices that can be driven by MIDI output are shown,
    including the MIDI Thru port, the MIDI port on the
    \textsl{E-MU XMidi1x1} USB cable,
    the four ports provided by \textsl{Timidity}, and the unlabelled
    port provided by the \textsl{Yoshimi} synthesizer running in ALSA mode.
-
    One could theoretically play music through 6 or 7 devices using
    \textsl{Sequencer64} with this setup.
 
@@ -443,21 +443,21 @@
        Port    Client name                      Port name
        14:0    Midi Through                     Midi Through Port-0
        24:0    USB2.0-MIDI                      USB2.0-MIDI MIDI 1
-      130:0    seq24                            [1] seq24 1
-      130:1    seq24                            [2] seq24 2
-      130:2    seq24                            [3] seq24 3
+      129:0    sequencer64                      [1] sequencer64 1
+      129:1    sequencer64                      [2] sequencer64 2
+      129:2    sequencer64                      [3] sequencer64 3
        . . .   . . .                               . . .
-      130:15   seq24                            [16] seq24 16
+      129:15   sequencer64                      [16] sequencer64 16
    \end{verbatim}
 
    We see that we can record MIDI from the MIDI Thru port, from the USB MIDI
    cable, and MIDI from any of the 16 output ports provided by the manual ALSA
    port mode of \textsl{Sequencer64}.
 
-   If the "manual ALSA ports" option (see below) is turned on,
+   If the "manual ALSA ports" option is turned on,
    then the only item in the \textbf{MIDI Input} tab is the single MIDI input
-   buss provided by \textsl{Sequencer64}:  \textbf{[0] seq24 0}, or, since
-   the MIDI Thru port takes slot 0, \textbf{[1] seq24 1}.
+   buss provided by \textsl{Sequencer64}:  \textbf{[0] sequencer64 0}, or, since
+   the MIDI Thru port takes slot 0, \textbf{[1] sequencer64 1}.
 
 \begin{figure}[H]
    \centering 
@@ -484,9 +484,11 @@
    \texttt{[user-midi-bus-N]} settings are provided, then
    the list of existing hardware will be ignored, and those values will be
    shown instead.
+   (This feature can be overridden with the
+   \texttt{--reveal-alsa-ports} (\texttt{-r}) option.)
 
-   New in \textsl{Sequencer64} is the option to record MIDI input into
-   more than one pattern based on the MIDI channel, as discussed below.
+%  New in \textsl{Sequencer64} is the option to record MIDI input into
+%  more than one pattern based on the MIDI channel, as discussed below.
 
    If the "manual ALSA ports" option is turned off, then
    the input ports from the system are shown:
@@ -515,12 +517,14 @@
    hardware exactly, and your hardware should not change from session to
    session.
 
-   Note the two sections of this configuration page.
+   Note the two sections of this configuration page:
+
    \index{input buses}
    \textbf{Input Buses} delineates the MIDI input devices as noted above.
    \index{input options}
    \textbf{Input Options} adds further refinements to MIDI input.  The current 
    option present
+
    \index{input by channel}
    \textbf{Record input into sequence according to channel},
    is a new (and \textsl{untested}) feature ported from \textsl{Seq32}.
@@ -711,6 +715,7 @@
    and can also be shown in each loop/pattern box.  No need to list them all
    here!  Please note that we often call them "shortcut keys" where the context
    makes it clear that they apply to the armed/unarmed state of a pattern.
+   Sometimes they are called "hot keys".
 
    \itempar{Mute-group slots}{keyboard!mute-group slots}
    Each of these keys operates on the mute-grouping of one of the 32
@@ -737,6 +742,7 @@
    \index{shift-lock}
    \index{group-learn!shift-lock}
    This feature known as \textsl{shift-lock} or \textsl{auto-shift}.
+   It is new to \textsl{Sequencer64}.
 
    \itempar{Disable}{keyboard!disable}
    \index{keys!apostrophe}
@@ -756,7 +762,8 @@
 \label{paragraph:seq64_menu_file_options_ext_keys}
 
    A number of additional functions have been added to \textsl{Sequencer64},
-   and keystrokes have been provided for those new functions.
+   and keystrokes have been provided for those new functions, in the
+   \textbf{Ext Keys} page.
 
 \begin{figure}[H]
    \centering 
@@ -815,6 +822,7 @@
 \end{figure}
 
    \index{song mode}
+   Note the \textbf{Song/Live toggle} key.
    The \textsl{song mode} normally is in effect only when playback is started
    from the \textbf{Song Editor}.  Now this mode can be used from any
    window, if enabled by pressing this key.  There is also
@@ -885,15 +893,27 @@
    This feature also requires that the \textsl{Seq32} transport option be
    enabled at build time.
 
+   Note that, since these keys are use only in the Song Editor,
+   the \textsl{seq32} keys \texttt{f} and \texttt{r} keys could be
+   used as well.  Be sure not to use the following keys, which are already
+   hardwired for other functions in the Song Editor:
+
+   \begin{itemize}
+      \item \texttt{p}.  Paint mode.
+      \item \texttt{x}.  Escape paint mode.
+   \end{itemize}
+
+
    \index{pointer position}
    The \textsl{pointer position} functionality is a feature ported
    from \textsl{Seq32}.
    The default key is \texttt{F7}.
    Basically, when this key is pressed, the song pointer will move to the
-   current position of the mouse.
+   current position of the mouse, snapped.
    This feature does not have a corresponding button.
    This feature also requires that the \textsl{Seq32} transport option be
-   enabled at build time.
+   enabled at build time, which is the case if the \textsl{Seq32} JACK build
+   option is selected (and now it is the default).
 
    \index{toggle mutes}
    The \textsl{toggle mutes} function toggles the mute status of every
@@ -1108,14 +1128,14 @@
          Playback will be in live mode.  Use this option to allow muting and
          unmuting of patterns.  This option might also be called "non-playback
          mode".
-         The command-line option is \texttt{--jack\_start\_mode 0}.
+         The command-line option is \texttt{--jack-start-mode 0}.
       \item \textbf{Song Mode}.
          \index{JACK!song mode}
          \index{song mode}
          \index{playback mode}
          \index{performance mode}
          Playback will use only the Song Editor's data.
-         The command-line option is \texttt{--jack\_start\_mode 1}.
+         The command-line option is \texttt{--jack-start-mode 1}.
    \end{itemize}
 
    Note that, in ALSA mode (non-JACK mode), \textsl{Sequencer64} 
@@ -1147,6 +1167,27 @@
    complete the enabling or disabling of LASH support.  Like the rest of the
    options, this one is written to the "rc" configuration file.
 
+   Finally, there is a new button (labelled \textsl{Master} in the following
+   figure) in the main window to bring up directly the
+   \textbf{JACK} (or \textbf{JACK/LASH}) page.
+
+\begin{figure}[H]
+   \centering 
+%  \includegraphics[scale=0.75]{menu/menu_file_options_jack_sync.png}
+   \includegraphics[scale=0.75]{new/main_master_button.png}
+   \caption{JACK Connection Button}
+   \label{fig:seq64_main_master_button}
+\end{figure}
+
+   This button not only brings up the JACK page, but also shows the current
+   status of the MIDI connection:
+   \textbf{Master} (JACK Master),
+   \textbf{JACK} (JACK Slave), and
+   \textbf{ALSA}.
+   \index{jack page!ctrl-p}
+   \index{keys!ctrl-p}
+   Currently, the \texttt{Ctrl-P} will also bring up this page.
+
 \subsection{Menu / View}
 \label{subsec:seq64_menu_view}
 
@@ -1154,7 +1195,7 @@
    configuration file, this menu item has only one entry, \textbf{Song Editor}, 
    which is already covered by a button at the bottom of the Patterns
    window.  Selecting this item bring up the Song Editor window.
-   See \figureref{fig:song_editor_window}
+   See \figureref{fig:song_editor_window}.
    The Song Editor window can also be brought up via the
    \index{song editor!ctrl-e}
    \index{keys!ctrl-e}
@@ -1179,15 +1220,16 @@
    song editor.  But the main purpose of two song editors is to arrange two
    different parts of the performance at the same time.
 
-\subsection{Menu / Help About...}
+\subsection{Menu / Help / About...}
 \label{subsec:seq64_menu_about}
 
    This menu entry shows the "About" dialog.
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{menu/menu_help_about.png}
-   \caption{Help About}
+%  \includegraphics[scale=0.75]{menu/menu_help_about.png}
+   \includegraphics[scale=0.75]{new/menu_help_about.png}
+   \caption{Help / About}
    \label{fig:seq64_menu_help_about}
 \end{figure}
 
@@ -1213,6 +1255,24 @@
 \end{figure}
 
    Shows who has documented this project.
+
+\subsection{Menu / Help / Build Info...}
+\label{subsec:seq64_menu_build_info}
+
+   This menu entry shows the "Build Info" dialog.  This list of
+   build options enabled in the current application is the same list
+   that it generated via the following command line:
+
+   \begin{verbatim}
+      $ sequencer64 --version
+   \end{verbatim}
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/menu_help_build_info.png}
+   \caption{Help / Build Info}
+   \label{fig:seq64_menu_help_build_info}
+\end{figure}
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex

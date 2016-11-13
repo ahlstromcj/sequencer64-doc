@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-09-07
+% \update      2016-11-06
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -39,8 +39,8 @@
    flag.)
 
    When the Song Editor has the focus of the application, in ALSA mode, it
-   takes over control from the Patterns Panel.  The Song Editor controls now
-   control playback.  Once playback is started in the Song Editor, some actions
+   takes over control from the Patterns Panel.  The Song Editor then
+   controls playback.  Once playback is started in the Song Editor, some actions
    in the Patterns Panel no longer have effect, effectively disabling live
    mode.  The Song Editor takes over the arming/unarming (unmuting/muting)
    shown in the Patterns Panel.  The highlighting of armed/unarmed patterns
@@ -51,7 +51,7 @@
    then is to click the pattern's label in the Song Editor.
    
    Both the Song Editor and the Patterns Panel both reflect the change in
-   muting in the user interface.
+   muting in the user interface, though with \textsl{opposite colors}.
 
 \begin{figure}[H]
    \centering 
@@ -63,8 +63,8 @@
 \end{figure}
 
    \textbf{New:}
-   There are some new features for the song editor as of version 0.9.11, as
-   seen in the following figure:
+   There are some new features for the song editor, as
+   seen above and in the following figure:
 
 \begin{figure}[H]
    \centering 
@@ -72,8 +72,6 @@
    \caption{Song Editor Window, New Features}
    \label{fig:song_editor_window_new_features}
 \end{figure}
-
-   This figure illustrates the following new features:
 
    \begin{itemize}
       \index{shift left click}
@@ -83,11 +81,14 @@
       \item The new Pause button functionality;
       \index{progress bar}
       \item The optional coloring (about 7 color values are selectable)
-      and thickening of the progress bar.
+         and thickening of the progress bar.
       \index{redo}
-      \item A new Redo button.
+      \item A new Redo button (not shown).
       \index{transpose}
-      \item A new Transpose button.
+      \item A new Transpose button (not shown).
+      \index{untransposable color}
+      \item Red coloring of events for patterns that are not transposable, such
+         as drum tracks.
    \end{itemize}
 
    \index{new!empty pattern}
@@ -162,6 +163,11 @@
    performance is not playing.
    \index{keys!space (play)}
    The keystroke for starting playback is the \texttt{Space} character.
+   \index{keys!esc (stop)}
+   The keystroke for stopping playback is the \texttt{Escape} character.
+   \index{keys!period (pause)}
+   The keystroke for pausing playback is the \texttt{Period} character,
+   which currently works only in ALSA mode.
 
    \itempar{Play Loop}{song editor!play loop}
    \index{loop mode}
@@ -190,18 +196,19 @@
    Unlike the \textbf{Grid Snap} of the Pattern Editor, the units
    of the Song Editor snap value are in fractions of a measure length.
    The following values are supported:
-   1/1, 1/2, 1/4, 1/8, 1/16, and 1/32.
+   1, 1/2, 1/4, 1/8, 1/16, 1/32, and 1/3, 1/6, 1/12, and 1/24.
 
    \itempar{Redo}{song editor!redo}
    The Redo button will reapply the last change that was "undone" by
    the Undo button.
+   It will be inactive if there is nothing to redo.
 
    \itempar{Undo}{song editor!undo}
    The Undo button will roll back the last change in the layout of a
    pattern.  Each time it is clicked, the most recent change will be undone.
    It will roll back one change each time it is pressed.
    It is not certain what the undo limit is, however.
-   There is no Redo button in the Song Editor.
+   It will be inactive if there is nothing to undo.
 
    \itempar{Collapse}{song editor!collapse}
    This button collapses the song between the \textbf{L marker} and the
@@ -212,7 +219,6 @@
    pressed, any song material between the L and R markers is wiped out, and
    the song material after the \textbf{R marker} is moved leftward to
    the \textbf{L marker}.
-
    Collapsing occurs in all tracks present in the Song Editor.
 
    \itempar{Expand}{song editor!expand}
@@ -221,7 +227,6 @@
    It inserts blank space between these markers, moving the song material
    that is after the \textbf{R marker}
    to the right by the duration of the blank space.
-
    Expansion occurs in all tracks present in the Song Editor.
 
    \itempar{Expand and copy}{song editor!expand and copy}
@@ -262,15 +267,17 @@
    with a few long tracks, rather than a large number of smaller patterns.
    In other words, the patterns used here are very long, and used only once
    in the song.
-   
-   We will provide an example that shows off \textsl{Sequencer64}'s
-   pattern features better, at some point.
+   (We will provide an example that shows off \textsl{Sequencer64}'s
+   pattern features better, at some point.)
 
    Please note that, if playback is started with the Song Editor as the
    active window, then the pattern boxes in the patterns panel will
    show as armed/unarmed (unmuted/muted) depending upon whether or not the
    pattern is shown as playing (or not) at the current playback position in
    the Song Editor piano roll.
+
+   The following figure highlights the main features of the center panel of the
+   song editor.
 
 \begin{figure}[H]
    \centering 
@@ -435,6 +442,9 @@
          the pattern or pattern subsection, that item can be moved
          horizontally, as long as their is room.  Or course, left-clicking
          inside the item will also cause it to show as selected.
+         One can also highlight a pattern section (making it gray), then click
+         the \texttt{p} key to enter "paint" mode, and move the pattern left or
+         right with the arrow keys.
       \item \textbf{Expansion}.
          \index{song editor!section expansion}
          If, instead of grabbing the section length handle, one grabs inside
@@ -443,6 +453,16 @@
          button, we opened up some silent space in the song, just to be able
          to show it off.
    \end{enumber}
+
+   \index{song editor!split pattern}
+   A feature not yet noted is the ability to split a pattern section in the
+   song editor, either in half or at the nearest snap point to the mouse
+   pointer.  The kind of split that is done is determined by the
+   setting of the \textbf{File / Options / Mouse / Sequencer64 Options /
+   Middle click splits song trigger at nearest snap (instead of halfway point)}
+   setting.  To split a pattern, left-click it to highlight it, move
+   the mouse (if not splitting in half) to the desired pointer, and press
+   \texttt{Ctrl-left} on the mouse.
 
    The \textsl{Seq24} help files refer to work in the Song Editor as the
    "Performance Editor" or "Performance Mode".  Adding a pattern in this
@@ -476,6 +496,9 @@
    \texttt{p} key while in the performance editor.
    This is just like pressing the right mouse button, but the draw/paint mode
    sticks (as if the Mod4 mode were in force).
+   While in the paint mode, one can add pattern clips with the left mouse
+   button, via click or drag, and one can highlight a pattern clip and move it
+   with the left and right arrow keys.
    To get out of the paint mode, press the
    \index{keys!x}
    \texttt{x} key while in the sequence editor, to "x-scape" (get it?  get it?)

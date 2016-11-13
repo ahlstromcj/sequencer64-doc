@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-10-29
+% \update      2016-11-12
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -17,10 +17,10 @@
 \section{Patterns Panel}
 \label{sec:seq64_patterns_panel}
 
-   \textsl{Sequencer64} works with the idea of patterns (loops) that are
-   repeated all along a song.  One composes and edits small patterns, and
-   combines them to create a full song.  This is a powerful way to work, and
-   makes one productive within an hour.
+   \textsl{Sequencer64} works with the idea of patterns (loops, track, or
+   sequences) that are repeated all along a song.  One composes and edits small
+   patterns, and combines them to create a full song.  This is a powerful way
+   to work, and makes one productive within an hour.
 
    The \textsl{Sequencer64 Patterns Panel} is the main window of
    \textsl{Sequencer64}.
@@ -47,7 +47,6 @@
    (see \sectionref{sec:seq64_song_editor})
    has the input focus in ALSA mode, then it controls the muting/unmuting of
    each pattern, and \textsl{Sequencer64} runs in "song mode".
-
    However, if \textsl{Sequencer64} is using JACK transport, then, instead of
    the behavior described above, live versus song mode is controlled by the
    JACK start mode option (see the \textbf{JACK Start mode} item in
@@ -101,7 +100,7 @@
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Song/Live}{pattern!song/live}
-   \index{song!song/live}
+   \index{pattern!song/live}
    This new button allows the Song mode to be in force even if
    the \textbf{Song Editor} does not have the focus of the application.
    However, if the \textbf{Song Editor} does have focus, it overrides this
@@ -111,7 +110,7 @@
    the \textbf{File / Options / Ext Keys} page.
 
    \itempar{Toggle Tracks}{pattern!toggle tracks}
-   \index{song!toggle tracks}
+   \index{pattern!toggle tracks}
    This button changes the status of all of the playing tracks, reversing the
    mute status of each pattern that is playing.
    The next click will then unmute those tracks.
@@ -123,7 +122,7 @@
    the \textbf{File / Options / Ext Keys} page.
 
    \itempar{Toggle Menu}{pattern!toggle menu}
-   \index{song!toggle menu}
+   \index{pattern!toggle menu}
    This button enables and disables the main menu of the main window.
    Disabling it allows additional hotkeys to be used without calling forth menu
    entries.
@@ -132,9 +131,16 @@
    which defaults to \texttt{F3}, and is configurable in the "rc" file and
    the \textbf{File / Options / Ext Keys} page.
 
+   \itempar{ALSA/JACK Mode}{pattern!ALSA/JACK mode}
+   \index{pattern!ALSA/JACK mode}
+   This button used to be just a label, but now it can help set the ALSA versus
+   JACK modes.  When clicked, it brings up the JACK connection page from the
+   \textbf{File / Options} dialog.  The hot-key for this button
+   is \texttt{Ctrl-P}.
+
    \itempar{Song Progress}{pattern!progress}
-   \index{song!progress}
-   \index{song!"main time"}
+   \index{pattern!progress}
+   \index{pattern!"main time"}
    The \textbf{Song Progress} bar is also known as the "main time" bar.
    This bar shows a number of small black cursors ("pills") that show the
    progress of the song through the various patterns.  For short patterns,
@@ -169,10 +175,10 @@
    keystroke that brings up the Song Editor).
    \index{auto-shift}
    \index{group-learn!auto-shift}
-   When in group-learn mode, the \texttt{Shift} key cannot be hit, so the
-   group-learn mode automatically converts the keys to their shifted versions.
    \index{shift-lock}
    \index{group-learn!shift-lock}
+   When in group-learn mode, the \texttt{Shift} key cannot be hit, so the
+   group-learn mode automatically converts the keys to their shifted versions.
    This feature known as \textsl{shift-lock} or \textsl{auto-shift}.
 
    See the \textbf{File / Options / Keyboard} menu entry to bring up the
@@ -223,14 +229,18 @@
 
    \textbf{New:}
    \index{new!caps lock in learn mode}
+   \index{auto-shift}
+   \index{group-learn!auto-shift}
+   \index{shift-lock}
+   \index{group-learn!shift-lock}
    To avoid this issue with the Shift key, \textsl{Sequencer64} now
    "Shift-Locks" the keys for you, so that none of the keys, whether letters or
    the punctuation characters above the numbers, need the Shift key to be held.
    There is now no need to use the \textbf{Caps Lock} is \textsl{On} before
    starting the 'learn' process.  We did this because we tend to map the
    \texttt{Caps Lock} key as the \textsl{true} Control key, so that
-   \texttt{Caps Lock} is no longer available... it is one of the most useless
-   keys every.
+   \texttt{Caps Lock} is no longer available
+   (it is one of the most useless keys \textsl{ever}).
 
    Once that works, one can configure the MIDI settings in similar ways
    by assigning MIDI commands to arm or toggle loops, using 
@@ -263,7 +273,6 @@
    \textsl{group learn} key (\texttt{Insert} by default) while pressing the
    corresponding \textsl{group arm} key.
    There are also keys assigned to turn on/off the group functionality.
-
    Remember that groups work with the playing ("in-view") screen set.
    One must change the screenset and give it the command to make it the
    playing one
@@ -276,7 +285,7 @@
    This setup is flexible, but takes some thought.
    One can set up a number of mute-groups, and decide to use them
    for all sets, or mentally allocate one mute-group per set.
-   Please note that a mute-group key does \textsl{toggle} the saved
+   Please note that a mute-group key does not \textsl{toggle} the saved
    armed patterns... it can only turn them on.
 
    \index{rc file}
@@ -302,8 +311,9 @@
    \index{keys!Home}
    by hitting the (default) Home key to make it the playing screenset.
    There are a total of 32 sets, for a total of 1024 loops/patterns. 
-   Only one screen set can be playing at a time, according to other notes we
-   have found.  Have not yet tried to verify this assertion.
+   Only one screen set can be controlled at a time, according to other notes we
+   have found; have not yet tried to verify this assertion.  But any number of
+   screensets can be playing at the same time.
 
 \begin{figure}[H]
    \centering 
@@ -317,6 +327,8 @@
    \textbf{However}, this figure does not show the new feature where the
    sequence number appears at the bottom left of the slot.  Observe that
    feature in the first figure of the next section.
+   The two main items are the empty \textsl{pattern slot}, and the slot filled
+   with a MIDI \textsl{pattern}:
 
    \begin{enumber}
       \item \textbf{Pattern Slot}
@@ -329,8 +341,8 @@
    \index{pattern!slot}
    An empty box is a slot for a pattern.
 
-   A pattern slot can show a number of different statuses based on the coloring
-   of elements in the slot. 
+   A pattern can show a number of different statuses based on the coloring
+   of elements in the pattern slot. 
 
 \begin{figure}[H]
    \centering 
@@ -454,33 +466,12 @@
 
    \itempar{Paste}{pattern!paste}
    Pastes a loop or pattern that was previously copied.
+   Also note that there is no \texttt{Ctrl-V} key for this operation in the
+   main window.
 
-   \itempar{Song / Mute All Tracks}{pattern!mute all}
-   This item mutes all tracks (or loops/patterns).
-   It works when one has opened the Song Editor window
-   and started playing in playback
-   mode by starting play using that window.
-
-   So, let us assume the song is running in playback mode.  The patterns that
-   are active (unmuted) in by that playback window are shown with a black
-   background in the main patterns window.  If one right clicks on a pattern
-   cell and selects \textbf{Song / Mute All Tracks}, all those patterns
-   will become white and be silenced.  Eventually, the Song Editor window
-   catches up and shows the "M" activated for all tracks.
-
-   \itempar{Song / Unmute All Tracks}{pattern!unmute all}
-   Provides the opposite functionality, making all tracks armed and audible.
-
-   \itempar{Song / Toggle All Tracks}{pattern!toggle all tracks}
-   Toggles the armed/mute status of all tracks.
-
-   \itempar{Song / Toggle Live Tracks}{pattern!toggle live tracks}
-   Toggles the armed/mute status of only the armed tracks.
-   Corresponds to the \textbf{Mute} button in the main window.
-
-   Note that there is also a feature where a
-   \texttt{Shift-Left-Click} on a pattern slot toggles the mute
-   status of all of the other \textsl{tracks}.
+   \itempar{Song}{pattern!song}
+   The \textbf{Song} items are described later, in reference to
+   \figureref{fig:pattern_window_right_click_song}.
    
 \subsubsection{Pattern}
 \label{subsubsec:seq64_patterns_pattern_filled}
@@ -592,7 +583,7 @@
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{pattern/pattern-right-click-menu.png}
-   \includegraphics[scale=0.75]{new/seqmenu-menus-0_9_15.png}
+   \includegraphics[scale=0.75]{new/seqmenu_menus-0_9_15.png}
    \caption{Existing Pattern, Right-Click Menus}
    \label{fig:pattern_window_right_click}
 \end{figure}
@@ -606,9 +597,9 @@
       \item \textbf{Event Edit...}
       \item \textbf{Cut}
       \item \textbf{Copy}
-      \item \textbf{Song/}
-      \item \textbf{Enable or Disable Transpose/}
-      \item \textbf{MIDI Bus/}
+      \item \textbf{Song}
+      \item \textbf{Enable or Disable Transpose}
+      \item \textbf{MIDI Bus}
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
@@ -631,8 +622,11 @@
    \index{keys!=}
    Another way to bring up a pattern in the pattern editor is to
    click the \textbf{equal} key and then the pattern's shortcut key.
-   For example, "\textbf{= q}" will open up the editor for that pattern.
-   The Equals key is the default key that does this action.
+   For example, "\textbf{= q}" will open up the editor for the pattern with the
+   hot-key \textbf{= q}.
+   The Equals key (\texttt{=}) is the default key that does this action.
+   This key can be changed by modifying the
+   \textbf{File / Options / Keyboard / Control keys / Pattern Edit} item.
 
    \itempar{Event Edit...}{pattern!event edit}
    \textbf{New:}
@@ -650,12 +644,15 @@
    Another way to bring up a pattern in the event editor is to
    click the \textbf{minus} key and then the pattern's shortcut key.
    For example, "\textbf{- q}" will open up the event editor for that pattern.
-   The Minus key is the default key that does this action.
+   The Minus key (\texttt{-}) is the default key that does this action.
+   This key can be changed by modifying the
+   \textbf{File / Options / Keyboard / Control keys / Event Edit} item.
 
    There are two things to note about the Event editor.
    First, this editor is not the same as the \textbf{event} pane in the pattern
    editor -- the new event editor shows all events at once, and shows them only
-   in text/list format.  Second, this editor is still a work in progress.
+   in text/list format.  Second, this editor is very basic, meant for viewing
+   MIDI events and making some minor edits or deletes on them.
    See \sectionref{sec:seq64_event_editor}, for more information.
 
    Now, in order to simplify the application, and avoid editing a pattern in
@@ -677,6 +674,8 @@
    \itempar{Cut}{pattern!cut}
    Deletes and copies an existing loop or pattern.
    Note than one can also drag-and-drop a pattern into another cell.
+   Also note that there is no \texttt{Ctrl-X} key for this operation in the
+   main window.
 
 % This bug was fixed:
 %
@@ -689,6 +688,8 @@
    Copies an existing loop or pattern.
    The pattern can then be pasted elsewhere in the Patterns panel.
    See \sectionref{subsubsec:seq64_patterns_pattern_slot}.
+   Also note that there is no \texttt{Ctrl-C} key for this operation in the
+   main window.
 
    \itempar{Song}{pattern!song}
    Clicking this menu entry brings up a small popup menu:
@@ -696,33 +697,76 @@
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{pattern/pattern-menu-song.png}
-   \includegraphics[scale=0.75]{new/seqmenu_song_menu-0_9_15.png}
+%  \includegraphics[scale=0.75]{new/seqmenu_song_menu-0_9_15.png}
+   \includegraphics[scale=0.75]{new/seqmenu_song_menu-0_9_21.png}
    \caption{Existing Pattern, Right-Click Menu, Song}
    \label{fig:pattern_window_right_click_song}
 \end{figure}
 
    \begin{enumber}
-      \item \textbf{Clear Track's Song Data}
+      \item \textbf{Clear This Track's Song Data}
       \item \textbf{Mute All Tracks}
       \item \textbf{Unmute All Tracks}
+      \item \textbf{Toggle All Tracks}
+      \item \textbf{Toggle Live Tracks}
    \end{enumber}
 
-   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+%  \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
-   \itempar{Clear Track's Song Data}{pattern!clear song data}
+   \index{Clear This Track's Song Data}
+   \index{pattern!clear song data}
+   \textbf{Clear This Track's Song Data}
+   This item is not available if the pattern is empty.
    Selecting this filled-box right-click menu item causes that box's
-   loop/pattern to be removed from the song.  This means
+   loop/pattern to be removed from the song editor.  This means
    that it disappears from the Song Editor window, and so will not
    be played when the song plays in Song mode.
 
-   \itempar{Mute All Tracks}{pattern!mute all tracks}
+   \index{Mute All Tracks}
+   \index{pattern!mute all tracks}
+   \textbf{Song / Mute All Tracks}
    Selecting this filled-box right-click menu item causes
    the tracks in the Song Editor to be muted.  Sometime it takes a few seconds
    for the user-interfaces to show this big change.
+   This item mutes all tracks (or loops/patterns).
+   It works when one has opened the Song Editor window
+   and started playing in playback
+   mode by starting play using that window.
 
-   \itempar{Unmute All Tracks}{pattern!unmute all tracks}
+   So, let us assume the song is running in playback mode.  The patterns that
+   are active (unmuted) in by that playback window are shown with a black
+   background in the main patterns window.  If one right clicks on a pattern
+   cell and selects \textbf{Song / Mute All Tracks}, all those patterns
+   will become white and be silenced.  Eventually, the Song Editor window
+   catches up and shows the "M" activated for all tracks.
+
+   \index{Unmute All Tracks}
+   \index{pattern!unmute all tracks}
+   \textbf{Unmute All Tracks}
+   Provides the opposite functionality, making all tracks armed and audible.
    Selecting this filled-box right-click menu item causes
-   the tracks in the Song Editor to be unmuted.
+   the tracks in the song to be unmuted.
+
+
+   \index{Toggle All Track}
+   \index{pattern!toggle all tracks}
+   \textbf{Toggle All Track}
+   Toggles the armed/mute status of all tracks.
+   It doesn't matter if Live or Song Mode is in force.
+
+   Note that there is also a feature where a
+   \texttt{Shift-Left-Click} on a pattern slot toggles the mute
+   status of all of the other \textsl{tracks}.
+
+   \index{Toggle Live Tracks}
+   \index{pattern!toggle live tracks}
+   \textbf{Toggle Live Tracks}
+   Toggles the mute status of only the armed/unmuted tracks when in Live mode.
+   Works only in Live mode.  This operation unmutes all tracks that are
+   currently unmuted.  The statuses of these armed tracks are saved; when
+   this operation is performed again, those tracks are unmuted, turned back on.
+   This menu entry provides the same function as the \textbf{Mute}
+   button in the main window.
 
    \itempar{Disable or Enable Transpose}{pattern!transpose}
    This menu entry changes depending upon whether the new transpose feature is
@@ -960,7 +1004,7 @@
       \item \textbf{Play}
       \item \textbf{Pause} (new)
       \item \textbf{BPM}
-      \item \textbf{Tap Tempo} (TODO: not yet shown)
+      \item \textbf{Tap Tempo} (to-do: not yet shown)
       \item \textbf{Name}
       \item \textbf{Set}
       \item \textbf{Toggle Song Editor}
@@ -1017,6 +1061,9 @@
    display the calculated tempo.  If the user stops tapping for 5 seconds, the
    label reverts to 0, the BPM value keeps its final value, and the user can
    try tapping the tempo again.
+   This function can also be performed using the keystroke defined
+   in \textbf{File / Options / Ext Keys / Tap BPM}.  It defaults
+   to the \texttt{F9} key.
 
    \itempar{Name}{pattern!set name}
    Each of the 32 available screen sets can be given a name by entering it
