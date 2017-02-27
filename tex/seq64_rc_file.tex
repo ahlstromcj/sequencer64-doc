@@ -679,9 +679,19 @@
       1
    \end{verbatim}
 
+   \index{--auto-alsa-ports}
+   The opposite of \texttt{--manual-alsa-ports}
+   is \texttt{--auto-alsa-ports}.  The auto-alsa-ports option
+   forces \textsl{Sequencer64} to use the system's existing ALSA ports.
+   This is necessary in order to play tunes through software synthesizers that
+   use ALSA MIDI.
+
    \index{jack!manual-alsa-ports}
    Turning on the manual-alsa-ports option is necessary if one
    wants to use \textsl{Sequencer64} with JACK.
+
+   IS THIS REALLY TRUE?  I MAY BE MISTAKEN!
+
    It will create ports as per the settings in the "user" configuration file's
    \texttt{user-midi-bus-definitions} and \texttt{user-midi-bus-N} sections.
    These definitions can be used by JACK for connection, and these definitions
