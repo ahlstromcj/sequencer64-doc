@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-11-13
+% \update      2017-03-11
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -632,6 +632,15 @@
    and to the rightmost position using the
    \index{keys!shift-end} End key,
    And there are more keystroke actions to be described later.
+
+   \index{step}
+   \index{note step}
+   Also, do not forget the note-step option.  If one paints notes with the mouse,
+   the note is previewed, and the note position advances with each click.  If
+   one paints notes via an external MIDI keyboard, the notes are painted and
+   advanced, but they are not previewed.  To preview them, click the
+   \textbf{pass MIDI in to output} button to activate so that they will be
+   passed to one's sound generator or software synthesizer.
 
 \subsubsection{Pattern Editor / Piano Roll Items}
 \label{subsubsec:seq64_pattern_editor_piano_roll_items}
@@ -1312,6 +1321,11 @@
 
    These values correspond to MIDI volume levels from 127 down to 16, as
    shown in the figure.
+
+   One thing fixed in the 0.90.x version is the ability to store MIDI note-on
+   events with the actual velocity provided by the MIDI keyboard used to
+   generate the notes.  Previously, even in \textsl{seq24},
+   the "Free" option in the "Vol" menu option did not work.  This is fixed.
 
 \subsection{Pattern Editor / Common Actions}
 \label{subsec:seq64_pattern_editor_common}

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-10-29
+% \update      2017-03-12
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -135,8 +135,8 @@
 \subsubsection{Menu / File / Import MIDI}
 \label{subsubsec:seq64_menu_file_import}
 
-   The \textbf{Import} menu entry allows one to import a Format 0
-   or Format 1 MIDI file into one or more patterns, one pattern per track in
+   The \textbf{Import} menu entry allows one to import an SMF 0
+   or SMF 1 MIDI file into one or more patterns, one pattern per track in
    the MIDI file.  Even long tracks, that aren't short loops, are read in
    properly.
 
@@ -152,7 +152,7 @@
    handle reasonably complex files,
 %  as shown in the following diagram, which shows an import of
    such as the \texttt{contrib/b4uacuse.mid} file, which contains
-   a transcription of an Eric Clapton tune made over 20 years ago.
+   a transcription of an Eric Clapton / Robert Cray tune made over 20 years ago.
 %  and had uploaded to the \textsl{GEnie} network service.
 
    Note the additional file-dialog field,
@@ -345,24 +345,31 @@
    \textsl{Sequencer64}.  Also note that its first value is 1, not 0, due to
    the MIDI Thru port occupying slot 0.
    This figure shows the result with the "manual ALSA option" turned on.
+   But remember that, now this option also applies to the native JACK MIDI
+   version of \textsl{Sequencer64}, which has an executable named
+   \texttt{seq64}.
 
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-1.png}
-   \includegraphics[scale=0.75]{new/midi-clock-4-devices-manual-1.png}
-   \caption{MIDI Clock, Manual ALSA Option On (Condensed View)}
+%  \includegraphics[scale=0.75]{new/midi-clock-4-devices-manual-1.png}
+   \includegraphics[scale=0.75]{jack/jack-nano-yosh-manual-clock-seq64.png}
+   \caption{MIDI Clock, Manual Option On}
    \label{fig:seq64_midi_clock_4_devices_manual_1}
 \end{figure}
 
    It basically shows the 16 MIDI output busses that \textsl{Sequencer64} can
-   drive.  One would have to use an ALSA MIDI connection application to put a
-   device on each of those outputs.  The fact that the the buss names can
+   drive.  One would have to use a JACK or ALSA MIDI connection application to
+   put a device on each of those outputs.  The fact that the the buss names can
    start with different numbers, depending on the system setup, can complicate
-   the playing of MIDI in this manner.  Also, the "user" configuration file
-   can change the names of the ports, causing further confusion.
+   the playing of MIDI in this manner.  Also, the "user" configuration file can
+   change the names of the ports, causing further confusion.
    The following elements are present in this dialog:
 
    \begin{enumber}
+      \item \textbf{Index Number}
+      \item \textbf{Client Number}
+      \item \textbf{Port Number}
       \item \textbf{Buss Name}
       \item \textbf{Off}
       \item \textbf{On (Pos)}
@@ -372,11 +379,33 @@
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
+   \itempar{Index Number}{midi clock!index number}
+   \index{index number}
+   The number in square brackets is simply an ordinal indicating the position
+   of the output buss in the list of busses.
+   It can be used with the \texttt{--bus} option to redirect all output to that
+   one buss.
+
+   \itempar{Client Number}{midi clock!client number}
+   \index{client number}
+   The number that precedes the colon is the "client number".
+   It is useful mainly in ALSA, where clients can have numbers like "14",
+   "128", "129", etc.  For native JACK mode, it just matches the index number.
+
+   \itempar{Port Number}{midi clock!port number}
+   \index{port number}
+   The number that follows the colon is the "port number".
+   It is useful mainly in ALSA.
+   For native JACK mode, it just matches the index number.
+
    \itempar{Buss Name}{midi clock!buss name}
    \index{port name}
    \index{midi clock!port name}
    These labels indicate the output busses (ports) of \textsl{Sequencer64}.
-   They range from \textbf{[1] sequencer64 1} to \textbf{[16] sequencer64 16}.
+   They range from \textbf{[1] sequencer64 1} to \textbf{[16] sequencer64 16}
+   in the legacy application, \texttt{sequencer64}.
+   They range from \textbf{[1] seq64 1} to \textbf{[16] seq64 16}.
+   in the native JACK application, \texttt{seq64}.
 
    \itempar{Off}{midi clock!off}
    This setting disables the MIDI clock for the given output buss.
@@ -413,7 +442,7 @@
    \centering 
 %  \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-0.png}
    \includegraphics[scale=0.75]{new/midi-clock-4-devices-manual-0.png}
-   \caption{MIDI Clock, Manual ALSA Option Off (Condensed View)}
+   \caption{MIDI Clock, Manual Option Off (ALSA View)}
    \label{fig:seq64_midi_clock_4_devices_manual_0}
 \end{figure}
 
@@ -423,13 +452,19 @@
    \textsl{E-MU XMidi1x1} USB cable,
    the four ports provided by \textsl{Timidity}, and the unlabelled
    port provided by the \textsl{Yoshimi} synthesizer running in ALSA mode.
+   (However, \texttt{seq64} does show the name "yoshimi" as the client name.)
    One could theoretically play music through 6 or 7 devices using
    \textsl{Sequencer64} with this setup.
+
+   See \sectionref{subsec:seq64_jack_native_midi}
+   for a lot more information about native JACK support, and examples of JACK
+   MIDI ports and connections.
 
    \textbf{TODO:}
    \index{todo!manual alsa gui option}
    There is currently no user-interface item corresponding to the "manual ALSA"
    command-line and "rc" configuration file option.
+   We also want to rename this option to simply "manual" in the near future.
 
 \paragraph{Menu / File / Options / MIDI Input}
 \label{paragraph:seq64_menu_file_options_midi_input}
@@ -463,7 +498,7 @@
    \centering 
 %  \includegraphics[scale=0.75]{menu/midi-input-4-devices-manual-1.png}
    \includegraphics[scale=0.75]{new/midi-input-4-devices-manual-1.png}
-   \caption{MIDI Input, Manual ALSA Ports On (Condensed View)}
+   \caption{MIDI Input, Manual Ports On (Condensed View)}
    \label{fig:seq64_midi_input_4_devices_manual_1}
 \end{figure}
 
@@ -1004,8 +1039,8 @@
    \textbf{Mod4 key preserves add (paint) mode in song and pattern editors}
 
    In order to work better with certain trackpads, the
-   "Seq24" mode of mouse interaction can be modified (only in the
-   Pattern Editor at present) so that the Mod4 key (Super or Windows key)
+   "Seq24" mode of mouse interaction can be modified in the
+   Pattern or Song editors so that the Mod4 key (Super or Windows key)
    can be pressed when releasing the right mouse button.
    This keeps the mouse in note-add mode.
    Another right-click, without pressing Mod4, will exit this mode.
@@ -1053,28 +1088,31 @@
 
    This tab sets up options for JACK synchronization, if \textsl{Sequencer64}
    was built with JACK support.  (Why wouldn't it be?)
+   It now also supports native JACK MIDI.
    This tab also sets up options for using LASH session management, if
    \textsl{Sequencer64} was build with LASH support.
 
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{menu/menu_file_options_jack_sync.png}
-   \includegraphics[scale=0.75]{new/menu_file_options_jack_sync.png}
-   \caption{File / Options / JACK Sync or JACK/LASH}
+%  \includegraphics[scale=0.75]{new/menu_file_options_jack_sync.png}
+   \includegraphics[scale=0.75]{jack/menu_file_options_jack_sync.png}
+   \caption{File / Options / JACK/LASH}
    \label{fig:seq64_menu_file_options_jack_sync}
 \end{figure}
 
+   The main sections in this dialog are:
+
    \begin{enumber}
-      \item \textbf{JACK Transport mode}
-      \item \textbf{JACK Start mode}
-      \item \textbf{JACK Connect}
-      \item \textbf{JACK Disconnect}
+      \item \textbf{JACK Transport/MIDI}
+      \item \textbf{JACK Start Mode}
+      \item \textbf{JACK Transport Connect and Disconnect}
       \item \textbf{LASH Options}
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
-   \itempar{Transport}{jack sync!transport}
+   \itempar{Transport/MIDI}{jack sync!transport/midi}
    These settings are stored in the "rc" file settings group
    \texttt{[jack-transport]}.
    See \sectionref{subsec:seq64_rc_file_jack_transport},
@@ -1101,6 +1139,14 @@
          \textsl{Sequencer64} will fail to serve as the JACK Master if there is
          already a Master set.
          The command-line option is \texttt{--jack-master-cond}.
+      \item \textbf{Native JACK MIDI}.
+         \index{JACK!native midi}
+         This option is for the \texttt{seq64} version of
+         \textsl{Sequencer64}.
+         If set, MIDI input and output occur using the new JACK MIDI interface,
+         rather than using ALSA.  However, if JACK is not running on the
+         system, then \texttt{seq64} will fall back to ALSA mode.
+         The command-line option is \texttt{--jack-midi}.
    \end{itemize}
 
    Note that there are long-standing issues with the JACK support of
@@ -1109,12 +1155,14 @@
    transport control, try making one of the other sequencer applications the
    JACK Master.
    If one starts \textsl{Sequencer64} in JACK mode without JACK running,
-   it will take a little while for \textsl{Sequencer64} to start up.
+   it will take a little while for \textsl{Sequencer64} to start up, and it
+   will fall back to ALSA usage.
 
-   Finally, if one makes a change in the JACK settings, it is best to
-   then press the \textbf{Disconnect} button, then the \textbf{Connect}
-   button.  Another option is to restart \textsl{Sequencer64}... the settings
-   are automatically saved when \textsl{Sequencer64} exits.
+   Finally, if one makes a change in the JACK transport settings, it is best to
+   then press the \textbf{JACK Transport Disconnect} button, then the
+   \textbf{JACK Transport Connect} button.  Another option is to restart
+   \textsl{Sequencer64}... the settings are automatically saved when
+   \textsl{Sequencer64} exits.
 
    \itempar{JACK Start mode}{jack sync!start mode}
    This item collects the following settings, also stored in the "rc" file
@@ -1261,10 +1309,11 @@
 
    This menu entry shows the "Build Info" dialog.  This list of
    build options enabled in the current application is the same list
-   that it generated via the following command line:
+   that it generated via the one of the following command lines:
 
    \begin{verbatim}
       $ sequencer64 --version
+      $ seq64 --version
    \end{verbatim}
 
 \begin{figure}[H]

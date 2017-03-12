@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-10-31
+% \update      2017-03-12
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -14,7 +14,7 @@
 %
 %-------------------------------------------------------------------------------
 
-\section{Sequencer64 Configuration File}
+\section{Sequencer64 "rc" Configuration File}
 \label{sec:seq64_rc_file}
 
    \index{sequencer64.rc}
@@ -43,7 +43,7 @@
    quitting.  One should therefore quit \textsl{Sequencer64} before doing
    manual modifications to the \texttt{sequencer64.rc} file.
 
-\subsection{Sequencer64 / MIDI Control Section}
+\subsection{Sequencer64 "rc" File / MIDI Control Section}
 \label{subsec:seq64_rc_file_midi_control}
 
    Like \textsl{Seq24}, \textsl{Sequencer64} provides a way to control the
@@ -202,7 +202,7 @@
    The \textbf{D2max (data2 max)} field is the maximum value of the event for
    the filter to match.
 
-\subsubsection{Sequencer64 / MIDI Control Pattern Group}
+\subsubsection{Sequencer64 "rc" File / MIDI Control Pattern Group}
 \label{subsubsec:seq64_rc_file_midi_control_pattern_group}
 
    Complex?  Here is an example for the some of the first 32 lines, which
@@ -304,7 +304,7 @@
       \item \textbf{224} Pitch wheel.
    \end{itemize}
 
-\subsubsection{Sequencer64 / MIDI Control Mute In Group}
+\subsubsection{Sequencer64 "rc" File / MIDI Control Mute In Group}
 \label{subsubsec:seq64_rc_file_midi_control_mute_in_group}
 
    \index{mute-in group}
@@ -362,7 +362,7 @@
    \itempar{screen-set play}{[midi-control]!screen-set play}
    This item provides a way to automate screen set play.
 
-\subsection{Sequencer64 / Mute-Group Section}
+\subsection{Sequencer64 "rc" File / Mute-Group Section}
 \label{subsec:seq64_rc_file_mute_group}
      
    This section is delimited by the \texttt{[mute-group]} construct.
@@ -399,7 +399,7 @@
    control values that can affect the muting of a group, while the latter
    specifies the patterns that are part of a group.
 
-\subsection{Sequencer64 / MIDI-Clock Section}
+\subsection{Sequencer64 "rc" File / MIDI-Clock Section}
 \label{subsec:seq64_rc_file_midi_clock}
 
    \index{[midi-clock]}
@@ -456,7 +456,7 @@
       4 0  # buss number, clock status
    \end{verbatim}
 
-\subsection{Sequencer64 / Keyboard Control Section}
+\subsection{Sequencer64 "rc" File / Keyboard Control Section}
 \label{subsec:seq64_rc_file_keyboard_control}
         
    \index{[keyboard control]}
@@ -503,7 +503,7 @@
       122  3        # z
    \end{verbatim}
 
-\subsection{Sequencer64 / Keyboard Group Section}
+\subsection{Sequencer64 "rc" File / Keyboard Group Section}
 \label{subsec:seq64_rc_file_keyboard_group}
 
    \index{[keyboard-group]}
@@ -599,8 +599,11 @@
    \index{group-learn!shift-lock}
    This feature known as \textsl{shift-lock} or \textsl{auto-shift}.
 
-\subsection{Sequencer64 / JACK Transport}
+\subsection{Sequencer64 "rc" File / JACK Transport}
 \label{subsec:seq64_rc_file_jack_transport}
+
+   This section holds the settings for both JACK transport and for native JACK
+   MIDI mode.
 
    \index{[jack-transport]}
    The JACK Transport options are also command-line options, as indicated in
@@ -626,17 +629,29 @@
       # jack_master_cond - Sequencer64 is master if no other master exists.
       0
 
-      # jack_start_mode
+      # song_start_mode (applies mainly if JACK is enabled)
       # 0 = Playback in live mode. Allows muting and unmuting of loops.
       # 1 = Playback uses the song editor's data.
+      1
+   \end{verbatim}
+
+   An additional item, new, specifies if native JACK MIDI input/output is to be
+   used.
+
+   \index{--jack-midi}
+   \begin{verbatim}
+      # jack_midi - Enable JACK MIDI, which is a separate option from
+      # JACK Transport.
       1
    \end{verbatim}
 
    Please note that only \textsl{one} of
    jack\_transport, jack\_master, and jack\_master\_cond should be selected
    (set to 1) at a time.
+   Also note that JACK transport is separately configurable from
+   JACK MIDI, and each uses a different JACK client internally.
 
-\subsection{Sequencer64 / Other Sections}
+\subsection{Sequencer64 "rc" File / Other Sections}
 \label{subsec:seq64_rc_file_other_midi}
 
    \index{[midi-clock-mod-ticks]}
@@ -688,9 +703,12 @@
 
    \index{jack!manual-alsa-ports}
    Turning on the manual-alsa-ports option is necessary if one
-   wants to use \textsl{Sequencer64} with JACK.
-
-   IS THIS REALLY TRUE?  I MAY BE MISTAKEN!
+   wants to use the legacy \textsl{Sequencer64} (\texttt{sequencer64})
+   with JACK.
+   It is \textsl{not} necessary if using the native JACK MIDI version,
+   \texttt{seq64}.
+   However, if one needs to avoid the auto-connect feature of \texttt{seq64},
+   then the manual option is necessary.
 
    It will create ports as per the settings in the "user" configuration file's
    \texttt{user-midi-bus-definitions} and \texttt{user-midi-bus-N} sections.
