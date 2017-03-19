@@ -1,6 +1,6 @@
-Sequencer64 User Manual for version 0.9.17
+Sequencer64 User Manual for version 0.90.2 (pending in "wip" branch)
 Chris Ahlstrom
-2015-11-01 to 2016-09-08
+2015-11-01 to 2017-03-19
 
 This project provides two things:
 
@@ -15,6 +15,9 @@ whole new version of the manual, specific to Sequencer64, is a necessity.
 
 Here are just some of the new features of Sequencer64:
 
+   -  Native JACK MIDI support, new with version 0.90.0.
+   -  Added MIDI control for Stop, Pause, and Start.
+   -  Faster file loading and support for SMF 0 files.
    -  More mouse and keystroke support in the sequence and song editor windows:
       -  Ability to move selected notes using the arrow keys.
       -  Better explanation of existing keystroke support for those windows.
@@ -49,7 +52,7 @@ in place, then a simple "make" command will create the PDF document.
 "make clean" in the top-level directory or the "tex" directory will remove
 all of the generated products (except for the PDF).
 
-Lastly, although this manual is well underway, it needs a lot of work and
-a lot of help!  It is still a work in progress.
+Lastly, although this manual is well underway, it still needs some work and
+some help!  It is still a work in progress.
 
 # vim: ts=3 sw=3 et ft=sh

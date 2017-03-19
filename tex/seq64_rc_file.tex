@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-03-12
+% \update      2017-03-19
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -61,14 +61,11 @@
 % OR is it the current screen set and a set of mute groups???
 
    The MIDI control setup resembles a matrix.
-   The matrix represents the first two screen-sets
-   (entries are numbered from 0
-   to 63) and some control keys (entries from 64 to 73).  The three fields,
-   each between the brackets, on each line, correspond to a
-   \textsl{MIDI filter}:  if
-   the incoming MIDI event matches the filter it will \textsl{toggle} (first
-   field), \textsl{enable} (second field) or \textsl{disable} (third field) the
-   sequence.
+   The matrix represents control for two functions of the active screen-set.
+   These entries are numbered from 0 to 63.
+   Legacy control keys occupy entries from 64 to 73.
+   We've added some more entries, from 74 to 83, to control additional
+   \textsl{Sequencer64} functions.
 	
    The MIDI Control section is explicitly broken into subsections, though those
    subsections are marked with comment-lines for better comprehensibility.  The
@@ -80,7 +77,9 @@
          Consists of 32 lines, one for each
          pattern box shown in the Pattern window.
          It provides a way to control the arming/disarming (muting/unmuting) of
-         each pattern shown in the main window.
+         each pattern shown in the main window.  Note that the
+         main window shows the \textsl{active} screen-set.  These controls affect
+         the \textsl{active} screen-set.
       \item \textbf{Mute-in group}.
          \index{rc!mute-in group}
          Consists of 32 lines, one for each
@@ -93,18 +92,44 @@
          \index{rc!automation group}
          Each item in this group consists of one line.
          \begin{enumber}
-            \item \textbf{bpm up}. Consists of one line.
-            \item \textbf{bpm down}. Consists of one line.
-            \item \textbf{screen-set up}. Consists of one line.
-            \item \textbf{screen-set down}. Consists of one line.
-            \item \textbf{mod replace}. Consists of one line.
-            \item \textbf{mod snapshot}. Consists of one line.
-            \item \textbf{mod queue}. Consists of one line.
-            \item \textbf{mod gmute}. Consists of one line.
-            \item \textbf{mod glearn}. Consists of one line.
-            \item \textbf{screen-set play}. Consists of one line.
+            \item \textbf{bpm up}.
+            \item \textbf{bpm down}.
+            \item \textbf{screen-set up}.
+            \item \textbf{screen-set down}.
+            \item \textbf{mod replace}.
+            \item \textbf{mod snapshot}.
+            \item \textbf{mod queue}.
+            \item \textbf{mod gmute}.
+            \item \textbf{mod glearn}.
+            \item \textbf{screen-set play}.
+         \end{enumber}
+      \item \textbf{Extended automation group}.
+         \index{rc!extended automation}
+         These additional control items were requested by users, to control
+         addition features of the application.
+         Each item in this group consists of one line.
+         \begin{enumber}
+            \item \textbf{stop/pause/start}.  Emulate the Stop, Pause, and
+               Start keys, using Toggle for pause, Off for stop, and On for
+               start.
+            \item \textbf{record}.  For recording a live performance by
+               recording the mute/unmute states that the musician played.
+               Not yet functional.
+            \item \textbf{solo on/off}.
+               Not yet functional.
+            \item \textbf{thru toggle}.
+               Not yet functional.
+            \item \textbf{reserved for expansion} (six of these are reserved).
          \end{enumber}
    \end{enumber}
+
+   For all of these MIDI control lines,
+   the three fields, each between the brackets, on each line, correspond to a
+   \textsl{MIDI filter} to toggle, enable, or disable a sequence, change a
+   selection, or activate a feature.
+   If the incoming MIDI event value matches a value present in the filter, it
+   will \textsl{toggle} (first field), \textsl{enable} (second field) or
+   \textsl{disable} (third field) the sequence.
 
    We see the following lines in the MIDI Control section, which is broken
    into groups or subsections marked by comments:
@@ -149,20 +174,69 @@
    \end{verbatim}
 
    The number (74) is the number of lines in the MIDI Control section.
+   The new extended automation values bring this number up to 84:
 
-   The first number is the pattern/sequence number in the main window, which
-   ranges from 0 to 31.  Each set of brackets corresponds to a MIDI filter.
-   The MIDI filter in the leftmost brackets is the \textsl{toggle} filter.
-   The MIDI filter in the middles brackets is the \textsl{on} filter.
-   The MIDI filter in the rightmost brackets is the \textsl{off} filter.
-   If the incoming MIDI event matches the filter, it will either [toggle],
-   [on], or [off] the pattern/sequence, respectively.
+   \begin{verbatim}
+      # start playback:
+      74  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # pause playback:
+      75  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # stop playback:
+      76  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # performance record:
+      77  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # solo off:
+      78  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # solo on:
+      79  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # toggle THRU:
+      80  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # reserved for expansion:
+      81  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # reserved for expansion:
+      82  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # reserved for expansion:
+      83  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+   \end{verbatim}
 
+   Not all of these new values are yet usable.  Currently, just the
+   "start", "pause", and "stop" controls have been implemented.
+
+   So let's concentrate on one line of data:
+
+   \begin{verbatim}
+      74  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+   \end{verbatim}
+
+   The first number represents one of the following entities, depending on its
+   value:
+
+   \begin{itemize}
+      \item \textbf{0 to 31}.  These items represent the \textbf{Pattern group}
+         for patterns (sequences) 1 to 32.
+      \item \textbf{32 to 63}.  These items represent the \textbf{Mute-in
+         group} for patterns (sequences) 1 to 32.
+      \item \textbf{64 to 73}.  These items represent the legacy \textsl{Seq24}
+         controls, from \textbf{bpm up} to \textbf{screen set play}.
+      \item \textbf{74 to 83}.  These items, if present, represent the
+         new extended controls, to control addition playback features of
+         \textsl{Sequencer64}.
+   \end{itemize}
+   
+   Each set of brackets on the line corresponds to a "MIDI filter":
+
+   \begin{itemize}
+      \item The leftmost bracket set defines the \textsl{toggle} filter.
+      \item The middle bracket set defines the \textsl{on} filter.
+      \item The rightmost bracket set defines the \textsl{off} filter.
+   \end{itemize}
+
+   If the incoming MIDI event matches the filter, it will either
+   \textbf{[toggle]}, \textbf{[on]}, or \textbf{[off]}
+   the pattern/sequence, respectively.
    The layout of each filter inside the brackets is as follows:
 
-      [OPR INV STAT D1 D2min D2max]
-
-   where
+      \textbf{[OPR INV STAT D1 D2min D2max]}
 
    \begin{itemize}
       \item \textbf{OPR} = \textbf{on/off}
@@ -174,16 +248,16 @@
    \end{itemize}
 
    If \textbf{OPR (on/off)} is set to 1, it will match the incoming MIDI
-   against the \textbf{STAT (MIDI status byte)} pattern and perform the action
-   (on/off/toggle) if the data falls in the range specified.  All values are in
-   decimal.
+   against the \textbf{STAT (MIDI status byte)} pattern (with the channel
+   nybble stripped off) and perform the action (on/off/toggle) if the data
+   falls in the range specified.  All values are in decimal.
 
    The \textbf{INV (inverse)} field will make the pattern perform the opposite
    action (\textsl{off} for \textsl{on}, \textsl{on} for \textsl{off}) if the
    data falls outside the specified range.  This is cool because one can map
    several sequences to a knob or fader.
 
-   The \textbf{STAT (MIDI status byte)} field a MIDI status byte number in
+   The \textbf{STAT (MIDI status byte)} field is a MIDI status byte number in
    decimals.  The channel nybble of this byte is ignored.  One can look the
    possible status values up in the MIDI messages tables; the relevant data can
    be found at \cite{midicontroltable}.  As the channel on which the events are
@@ -217,13 +291,16 @@
         1 [0 0 0 0 0 0]      [1 0  144 0 0 127]       [1 0 128 0 0 127]
    \end{verbatim}
 
-   The \textbf{Toggle} section is off (inactive).  All values are 0.
-   There is no way to use MIDI control to toggle sequence 1.
+   The first number, 1, indicates the second pattern (pattern numbering starts
+   from 0).
+   The first section, \textbf{Toggle}, is off (inactive).  All values are 0.
+   There is no setup to use MIDI control to toggle pattern 1 here.
    
-   On to the \textbf{On} section:
+   On to the second section, \textbf{On}:
 
    \begin{itemize}
-      \item The \textbf{On} section starts with 1, so it is on (1 = active).
+      \item The \textbf{On} section starts with \textbf{OPR} = 1,
+         so it is on (1 = active).
       \item The \textbf{inverse} value is off (0 = inactive).
       \item The \textbf{MIDI status byte}, 144, which is 0x90 (hex), which
          is a Note On event on channel 0.  However, the channel is ignored.
@@ -234,7 +311,10 @@
    \end{itemize}
 
    Thus, receiving any Note On velocity for note 0 will turn sequence
-   1 \textsl{on}.  On to the \textbf{Off} section:
+   1 \textsl{on}.  This is the second pattern; in the default setup, key
+   \texttt{q} would operate on this pattern as well.
+   
+   On to the \textbf{Off} section:
 
    \begin{itemize}
       \item The \textbf{Off} field is on (active).
@@ -254,6 +334,10 @@
    is received, and it stops when any Note Off for MIDI note 0 is received.  
    One can easily extend this so that Note On/Off values from 0 to 31
    control the corresponding pattern slot.
+
+   Obviously, one might not want Note On/Off events from any channel to trigger
+   events, so some other event would likely be more useful.
+   (Hmmmm, we could add an option to not strip the channel value....)
 
    The following example would map a row of sequences to one knob sending
    out changes for Control Code 1:
@@ -278,7 +362,8 @@
    turned, so to speak), patterns 0 through 7 come on one at a time until
    all are running.
 
-   Here is another example from \cite{midicontrol}:
+   Here is another example from \cite{midicontrol}, which shows how to set up
+   the "Sustain" control-change event to queue or un-queue a sequence:
    The \textsl{Akai MPK Mini} has a Sustain button and we can set the
    Sustain MIDI event (with MIDI status byte 176 [0xB0] to represent a
    Controller event, and control/mode change number 64 [0x40] to
@@ -286,8 +371,16 @@
    the \texttt{mod queue} entry:
 
    \begin{verbatim}
-      # mod queue
-      70 [0 0   0   0   0   0] [1 0 176  64 127 127] [1 0 176  64   0   0]
+   # mod queue
+   #  [   toggle-filter       ] [      on-filter       ] [      off-filter   ]
+
+   70 [0   0   0   0   0   0  ] [1   0   176 64 127 127] [1   0  176 64  0  0]
+
+   #   OPR INV STA D1  mn mx     OPR INV STA D1 mn  mx   OPR INV STA D1  mn mx
+   #                                      ^  ^                    ^  ^
+   #                                      |  |                    |  |
+   #                                      |   ----Sustain---------|--
+   #                                       -------Control Change--
    \end{verbatim}
 
    So when the Sustain button is held down, and one presses one of the pads
@@ -322,7 +415,7 @@
    control values that can affect the muting of a group, while the latter
    specifies the armed patterns that are part of a group.
 
-\subsubsection{Sequencer64 MIDI Control Automation Group}
+\subsubsection{Sequencer64 "rc" File / MIDI Control Automation Group}
 \label{subsubsec:seq64_rc_file_midi_control_automation_group}
 
    \index{automation group}
@@ -361,6 +454,92 @@
 
    \itempar{screen-set play}{[midi-control]!screen-set play}
    This item provides a way to automate screen set play.
+
+\subsection{Sequencer64 "rc" File / MIDI Control Extended Automation Section}
+\label{subsubsec:seq64_rc_file_midi_control_extended_automation_group}
+
+   \index{rc!start/stop control}
+   This section shows how to set up an extended automation control.
+
+   Currently, this control is enabled only in the \textbf{wip} branch of the
+   \textsl{Sequencer64} project, and the only extended control that works is
+   the \textsl{stop/pause/start} functionality (which requires that the pause
+   functionality be enabled at build time, which is the default).
+
+   Here, we will set up \textsl{Sequencer64} so that the first three MIDI
+   white keys (notes 0, 2, and 4) will become "Stop", "Pause", and "Start"
+   buttons.
+
+   The first step, if not already done, is to install the new version
+   (\textbf{0.90.2 * wip} and above) of \textsl{Sequencer64},
+   run it, and then exit.
+   Verify in the regenerated "rc" file
+   (\texttt{\textasciitilde/.config/sequencer64/sequencer64.rc}) that the
+   following lines exist:
+
+   \begin{verbatim}
+      84      # MIDI controls count (74 or 84)
+   \end{verbatim}
+
+   and
+
+   \begin{verbatim}
+      # Extended MIDI controls:
+      # start playback (pause, start, stop):
+      74 [0 0   0   0   0   0] [0 0   0   0   0   0] [0 0   0   0   0   0]
+   \end{verbatim}
+
+   MIDI control 74's toggle/on/off sections will be used to implement the
+   stop/pause/start functionality.  Replace the "74" line with the following
+   line:
+
+   \begin{verbatim}
+      74 [1 0 144   2   0 127] [1 0 144   4   0 127] [1 0 144   0   0 127]
+   \end{verbatim}
+
+   This sets up MIDI Note On (144) values 2 (toggle/pause), 4 (on/start), and 0
+   (off/stop).
+   Now we are ready to test this feature.  One can use a MIDI keyboard to do
+   so, but here we will use the \textsl{VMPK} (\cite{vmpk}) virtual MIDI
+   piano keyboard application for this test.  Refer to the following figure.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/stop_pause_start_test_setup.png}
+   \caption{Stop/Pause/Start ALSA Test Setup}
+   \label{fig:rc_file_stop_pause_start_alsa_test_setup}
+\end{figure}
+
+   Set up \textsl{VMPK} to use the lowest octave by setting
+   \textbf{Base Octave} to \texttt{0}.  The red, yellow, and green
+   keys shown will be our stop, pause, and start keys.
+
+   Next, run \textsl{Sequencer64}, using the following command line to make
+   sure that it is using ALSA and using automatic mode to connect the ALSA MID
+   ports:
+
+   \begin{verbatim}
+      $ seq64 -A -a
+   \end{verbatim}
+   
+   Then open a MIDI file.  Next,
+   open the \textbf{File / Options / MIDI Input} tab, and make sure that
+   the \textbf{VMPK Output} is check-marked as shown in the figure.
+   If desired, also connect up to some kind of synthesizer so that the song can
+   be heard.
+
+   Finally, press the third white key (shown as green in the figure) to start
+   playback.  The second white key (yellow in the figure) will pause and resume
+   playback.  The first white key (red in the figure) will stop (and rewind)
+   playback.
+
+   Obviously, this setup is not useful for performance, but serves as a good
+   example to verify this MIDI control.
+
+   One thing we noticed while implementing this functionality is that there
+   is really no need to have two lines for pairs such as BPM up/down and
+   screen-set up/down.  Also, is screen-set play now partly redundant?
+   No matter, we will not break the user's existing setup.
 
 \subsection{Sequencer64 "rc" File / Mute-Group Section}
 \label{subsec:seq64_rc_file_mute_group}
