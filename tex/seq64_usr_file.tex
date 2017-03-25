@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-03-12
+% \update      2017-03-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -17,15 +17,39 @@
 \section{Sequencer64 "usr" Configuration File}
 \label{sec:seq64_usr_file}
 
-   The \textsl{Sequencer64} configuration file provides a way to give more
+   The \textsl{Sequencer64} "usr" ("user")
+   configuration file provides a way to give more
    informative names to the MIDI busses, MIDI channels, and MIDI controllers of
    a given system setup.  This configuration will override the default values
    of some drop-down lists and menu items, and make them reflect your names for
    them.  It now also includes some items that affect the user-interface's
-   look.
+   look, and some new functionality.
 
-   By default, the list of MIDI items that \textsl{Sequencer64} shows depends
-   on one's system setup and whether the manual-alsa-port options is specified
+   \index{usr!-u}
+   \index{usr!--user-save}
+   Unlike the "rc" file, the "user" file is not written every time
+   \textsl{Sequencer64} exits.  If the "user" files does not exist, one is
+   created, but it is normally not overwritten thereafter.  To
+   cause it to be overwritten at exit, run \textsl{Sequencer64} with the
+   \texttt{-u} or \texttt{--user-save} option:
+
+   \begin{verbatim}
+      $ seq64 --user-save
+   \end{verbatim}
+
+   This option is also useful when one installs a new version of
+   \textsl{Sequencer64} that adds new options to the "user" file.
+   See \sectionref{sec:seq64_man_page}; it discusses more options involving the
+   "user" file.
+
+   Another difference between the "rc" file and the "user" file is that
+   the "user" file currently has no graphical user-interface dialog to
+   configure the "user" settings.  One has to edit the file manually.
+
+   The original purpose for the "user" file was to create familiar names for the
+   system MIDI devices.
+   By default, the list of MIDI devices that \textsl{Sequencer64} shows depends
+   on one's system setup and whether the manual-alsa-port option is specified
    or not.  Here's our system, which has Timidity installed and running as a
    service, and the \texttt{[manual-alsa-port]} option turned off, shown in a
    composite view with all menus one can look at for MIDI settings:
@@ -156,6 +180,7 @@
 \subsection{Sequencer64 "usr" File / MIDI Bus Definitions}
 \label{subsec:seq64_usr_file_midi_bus_definitions}
 
+   \index{usr!user-midi-bus-definitions}
    \index{[user-midi-bus-definitions]}
    This section begins with an
    "INI" group marker \texttt{[user-midi-bus-definitions]}.
@@ -166,6 +191,8 @@
       3     # number of user-defined MIDI busses
    \end{verbatim}
 
+   \index{usr!user-midi-bus-n}
+   \index{[user-midi-bus-n]}
    This means that the \texttt{sequencer64.usr} file will have three MIDI buss
    sections: [user-midi-bus-0], [user-midi-bus-1], and [user-midi-bus-2].
    Here's is an annoted example of one such section:
@@ -205,23 +232,21 @@
       # The rest default to -1 - General MIDI
    \end{verbatim}
 
-   Please note that, as of version 0.9.10.1, these section are read from the
+   Please note that, as of version 0.9.10.1, these sections are read from the
    "user" configuration file only if
-   the manual-alsa-ports option is on, which is necessary if one
-   wants to use \textsl{Sequencer64} with JACK.
-
-   THE ABOVE MIGHT NOT BE TRUE!  I MAY BE MISTAKEN!!!
-
+   the \texttt{--reveal-alsa-ports} option is \textsl{off}.
+   Otherwise, the actual port names reported by ALSA are shown.
    The \texttt{user-midi-bus-definitions} and \texttt{user-midi-bus-N} sections
    are misleading if one wants to have access to the
    actual ALSA ports that exist on the system.
-   Therefore, if the reveal-alsa-ports option is turned on, then the
+   Therefore, if the \texttt{--reveal-alsa-ports} option is turned on, then the
    definitions in the "user" configuration file are \textsl{not} read from that
    file.
 
 \subsection{Sequencer64 "usr" File / MIDI Instrument Definitions}
 \label{subsec:seq64_usr_file_midi_instrument_definitions}
 
+   \index{usr!user-instrument-definitions}
    \index{[user-instrument-definitions]}
    This section begins with an
    "INI" group marker \texttt{[user-instrument-definitions]}.
@@ -233,6 +258,8 @@
       9     # number of user instrument
    \end{verbatim}
 
+   \index{usr!user-instrument-n}
+   \index{[user-instrument-n]}
    So this "usr" file will define 9 instruments.  We will provide one section
    as a sample.
 
@@ -321,6 +348,7 @@
 \subsection{Sequencer64 "usr" File / User Interface Settings}
 \label{subsec:seq64_usr_file_user_interface_settings}
 
+   \index{usr!user-interface-settings}
    \index{[user-interface-settings]}
    This section begins with an
    "INI" group marker \texttt{[user-interface-settings]}.
@@ -330,6 +358,7 @@
    There is plenty of room to change the appearance of
    \textsl{Sequencer64} already!  Please try them and see what you like.
 
+   \index{usr!grid-style}
    \begin{verbatim}
 
       #   ======== Sequencer64-Specific Variables Section ========
@@ -344,7 +373,10 @@
       # 1 = white grid boxes that have brackets.
       # 2 = black grid boxes.
       2       # grid_style
+   \end{verbatim}
 
+   \index{usr!grid-brackets}
+   \begin{verbatim}
       # Specifies box style box around a main-window grid of patterns.
       # 0  = Draw a whole box around the pattern slot.
       # 1  = Draw brackets on the sides of the pattern slot.
@@ -354,34 +386,54 @@
       2       # grid_brackets
    \end{verbatim}
 
+   \index{usr!mainwnd-rows}
    \begin{verbatim}
       # Specifies the number of rows in the main window.
       # At present, only a value of 4 is supportable.
       # In the future, we hope to support an alternate value of 8.
       4       # mainwnd_rows
+   \end{verbatim}
 
+   \index{usr!mainwnd-cols}
+   \begin{verbatim}
       # Specifies the number of columns in the main window.
       # At present, only a value of 8 is supportable.
       8       # mainwnd_cols
+   \end{verbatim}
 
+   \index{usr!max-sets}
+   \begin{verbatim}
       # Specifies the maximum number of sets, which defaults to 1024.
       # It is currently never necessary to change this value.
       32      # max_sets
+   \end{verbatim}
 
+   \index{usr!mainwid-border}
+   \begin{verbatim}
       # Specifies the border width in the main window.
       0      # mainwid_border
+   \end{verbatim}
 
+   \index{usr!mainwid-spacing}
+   \begin{verbatim}
       # Specifies the border spacing in the main window.
       2      # mainwid_spacing
+   \end{verbatim}
 
+   \index{usr!control-height}
+   \begin{verbatim}
       # Specifies some quantity, it is not known what it means.
       0      # control_height
+   \end{verbatim}
 
+   \index{usr!zoom}
+   \begin{verbatim}
       # Specifies the initial zoom for the piano rolls.  Ranges from 1.
       # to 32, and defaults to 2 unless changed here.
       2      # zoom
    \end{verbatim}
 
+   \index{usr!global-seq-feature}
    \begin{verbatim}
       # Specifies if the key, scale, and background sequence are to be
       # applied to all sequences, or to individual sequences.  The
@@ -398,7 +450,10 @@
       # 1 = Apply these settings globally (similar to seq24).
       #     Settings are saved in the global final section of the file.
       1      # global_seq_feature
+   \end{verbatim}
 
+   \index{usr!use-new-font}
+   \begin{verbatim}
       # Specifies if the old, console-style font, or the new anti-
       # aliased font, is to be used as the font throughout the GUI.
       # In legacy mode, the old font is the default.
@@ -406,7 +461,10 @@
       # 0 = Use the old-style font.
       # 1 = Use the new-style font.
       1      # use_new_font
+   \end{verbatim}
 
+   \index{usr!allow-two-perfedits}
+   \begin{verbatim}
       # Specifies if the user-interface will support two song editor
       # windows being shown at the same time.  This makes it easier to
       # edit songs with a large number of sequences.
@@ -414,13 +472,19 @@
       # 0 = Allow only one song editor (performance editor).
       # 1 = Allow two song editors.
       1      # allow_two_perfedits
+   \end{verbatim}
 
+   \index{usr!perf-h-page-increment}
+   \begin{verbatim}
       # Specifies the number of 4-measure blocks for horizontal page
       # scrolling in the song editor.  The old default, 1, is a bit
       # small.  The new default is 4.  The legal range is 1 to 6, where
       # 6 is the width of the whole performance piano roll view.
       4      # perf_h_page_increment
+   \end{verbatim}
 
+   \index{usr!perf-v-page-increment}
+   \begin{verbatim}
       # Specifies the number of 1-track blocks for vertical page
       # scrolling in the song editor.  The old default, 1, is a bit
       # small.  The new default is 8.  The legal range is 1 to 18, where
@@ -428,6 +492,7 @@
       8      # perf_v_page_increment
    \end{verbatim}
 
+   \index{usr!progress-bar-colored}
    \begin{verbatim}
       # Specifies if the progress bar is colored black, or a different
       # color.  The following integer color values are supported:
@@ -440,28 +505,39 @@
       # 5 = dark magenta
       # 6 = dark cyan
       6      # progress_bar_colored
+   \end{verbatim}
 
+   \index{usr!progress-bar-thick}
+   \begin{verbatim}
       # Specifies if the progress bar is thicker.  The default is 1
       # pixel.  The 'thick' value is 2 pixels.  (More than that is not
       # useful.  Set this value to 1 to enable the feature, 0 to disable
       # it.
       1      # progress_bar_thick
+   \end{verbatim}
 
-		# Specifies using an alternate (darker) color palette.  The
-		# default is the normal palette.  Not all items in the user
-		# interface are altered by this setting, and it's not perfect.
-		# Set this value to 1 to enable the feature, 0 to disable it.
-		0      # inverse_colors
+   \index{usr!inverse-colors}
+   \begin{verbatim}
+      # Specifies using an alternate (darker) color palette.  The
+      # default is the normal palette.  Not all items in the user
+      # interface are altered by this setting, and it's not perfect.
+      # Set this value to 1 to enable the feature, 0 to disable it.
+      0      # inverse_colors
+   \end{verbatim}
 
+   \index{usr!window-redraw-rate}
+   \begin{verbatim}
       # Specifies the window redraw rate for all windows that support
       # that concept.  The default is 40 ms.  Some windows used 25 ms.
       40     # window_redraw_rate
+   \end{verbatim}
 
+   \index{usr!use-more-icons}
+   \begin{verbatim}
       # Specifies using icons for some of the user-interface buttons
       # instead of text buttons.  This is purely a preference setting.
       # If 0, text is used in some buttons (the main window buttons).
       # Otherwise, icons are used.  One will have to experiment :-).
-
       0      # use_more_icons (currently affects only main window)
    \end{verbatim}
 
@@ -476,10 +552,11 @@
    This section begins with an
    "INI" group marker \texttt{[user-midi-settings]}.
 
-   It provides for a feature we will hopefully be able to complete some day:
-   Being able to support files with different PPQN properly, and to specify the
+   It provides for a feature we will fully support (we are really close):
+   Being able to support files with different PPQN, and to specify the
    global defaults for tempo, beats per measure, and so on.
 
+   \index{usr!midi-ppqn}
    \begin{verbatim}
       [user-midi-settings]
 
@@ -488,19 +565,31 @@
       # Specifies parts-per-quarter note to use, if the MIDI file.
       # does not override it.  Default is 192, but we'd like to go
       # higher than that.  BEWARE:  STILL GETTING IT TO WORK!
-      192       # midi_ppqn
+      192     # midi_ppqn
+   \end{verbatim}
 
+   \index{usr!midi-beats-per-measure}
+   \begin{verbatim}
       # Specifies the default beats per measure, or beats per bar.
       # The default value is 4.
       4       # midi_beats_per_measure/bar
+   \end{verbatim}
 
+   \index{usr!midi-beats-per-mintue}
+   \begin{verbatim}
       # Specifies the default beats per minute.  The default value
-      # is 120, and the legal range is 20 to 500.
-      120       # midi_beats_per_minute
+      # is 120, and the legal range is 1 to 600.
+      120     # midi_beats_per_minute
+   \end{verbatim}
 
+   \index{usr!midi-beat-width}
+   \begin{verbatim}
       # Specifies the default beat width. The default value is 4.
       4       # midi_beat_width
+   \end{verbatim}
 
+   \index{usr!midi-buss-override}
+   \begin{verbatim}
       # Specifies the buss-number override. The default value is -1,
       # which means that there is no buss override.  If a value
       # from 0 to 31 is given, then that buss value overrides all
@@ -509,8 +598,69 @@
       # output buss, either for testing or convenience.  And don't
       # save the MIDI afterwards, unless you really want to change
       # all of its buss values.
-      -1      # midi_buss_override
+      -1     # midi_buss_override
    \end{verbatim}
+
+   For the new 0.90 series, additional values for the
+   \texttt{[user-midi-settings]} section have been added:
+
+   \index{usr!velocity-override}
+   \begin{verbatim}
+      # Specifies the default velocity override when adding notes in the
+      # sequence/pattern editor.  This value is obtained via the 'Vol'
+      # button, and ranges from 0 (not recommended :-) to 127.  If the
+      # value is -1, then the incoming note velocity is preserved.
+      80     # velocity_override (-1 = 'Free')
+   \end{verbatim}
+
+   \index{usr!bpm-precision}
+   \begin{verbatim}
+      # Specifies the precision of the beats-per-minutes spinner and
+      # MIDI control over the BPM value.  The default is 0, which means
+      # the BPM is an integer.  Other values are 1 and 2 decimal digits
+      # of precision.
+      1      # bpm_precision
+   \end{verbatim}
+
+   \index{usr!bpm-step-increment}
+   \begin{verbatim}
+      # Specifies the step increment of the beats/minute spinner and
+      # MIDI control over the BPM value.  The default is 1. For a
+      # precision of 1 decimal point, 0.1 is a good value.  For a
+      # precision of 2 decimal points, 0.01 is a good value, but one
+      # might want somethings a little faster, like 0.05.
+      0.1    # bpm_step_increment
+   \end{verbatim}
+
+   \index{usr!bpm-page-increment}
+   \begin{verbatim}
+      # Specifies the page increment of the beats/minute field. It is
+      # used when the Page-Up/Page-Down keys are pressed while the BPM
+      # field has the keyboard focus.  The default value is 10.
+      5.0    # bpm_page_increment
+   \end{verbatim}
+
+   \index{usr!velocity-override}
+      The \texttt{velocity-override} option fixes a long standing (from
+      \textsl{Seq24} bug where the actual incoming note velocity was always
+      replaced by a hard-wired value.
+
+   \index{usr!bpm-step-increment}
+   \index{usr!bpm-page-increment}
+      The \texttt{bpm-precision}, \texttt{bpm-step-increment}, and
+      \texttt{bpm-page-increment} values allow more precise control over tempo,
+      which makes it easier to match the tempo of external music sources.  Note
+      that the step-increment is used by the up/down arrow buttons, the up/down
+      arrow keys, and the MIDI BPM control values.  The page-increment is used
+      if the BPM field has focus and the Page-Up/Page-Down keys are pressed,
+      and new MIDI control values have been added to support coarse MIDI
+      control of tempo.
+
+   To obtain these new settings, remember to back up the
+   \textsl{sequencer64.usr}, then run \textsl{Sequencer64} with the
+   \texttt{--user-save} option, and then do a "diff" on the new file and the
+   original to merge any old value that need to be preserved.  Then make any
+   further tweaks to the new values.
 
 \subsection{Sequencer64 "usr" File / Results}
 \label{subsec:seq64_usr_file_midi_bus_results}

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-03-12
+% \update      2017-03-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -1043,7 +1043,7 @@
 
    \itempar{BPM}{pattern!BPM}
    The spin widget adjusts the "Beats Per Minute" or BPM value.  The
-   range of this field is from 20 bpm to 500 bpm, with a default value of
+   range of this field is from 1 bpm to 600 bpm, with a default value of
    120 bpm.
    Although this field looks editable, it is not.  Most keystrokes
    that are entered actually toggle one of the pattern boxes.
@@ -1052,7 +1052,23 @@
    \index{keys!apostrophe} The \texttt{apostrophe} increases the BPM.
    Also, if one right-clicks on the Up button, the BPM advances to its largest
    supported value, and if one right-clicks on the Down button, the BPM
-   advances to its lowest value.  The legal range is from 1 to 500 BPM.
+   advances to its lowest value.
+
+   As a new feature, the precision of the BPM value can be set to 1 or 2
+   decimal places, and the increment values for the step size (small)
+   or page size (large) of the BPM spinner can be configured in the "usr" file.
+   See \sectionref{subsec:seq64_usr_file_user_midi_settings}; it describes
+   the precision and increment options more fully.
+
+   The following figure shows the appearance of the BPM field with different
+   precision values:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=1.0]{new/bpm_precision_settings.png}
+   \caption{Patterns Panel, BPM Precisions}
+   \label{fig:pattern_window_bpm_precision_settings.png}
+\end{figure}
 
    \itempar{Tap Tempo}{pattern!tap tempo}
    This new control allows one to click it in time with a tune and set the

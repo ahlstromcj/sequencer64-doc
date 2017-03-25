@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-03-19
+% \update      2017-03-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -54,7 +54,7 @@
 
    \index{[midi-control]}
    For each pattern, we can set up MIDI events to turn a 
-	pattern on, off, or to toggle it.  This setup is in the 
+   pattern on, off, or to toggle it.  This setup is in the 
    MIDI Control section of \texttt{sequencer64.rc}, and begins with an
    "INI-style" group marker \texttt{[midi-control]}.
 
@@ -66,7 +66,7 @@
    Legacy control keys occupy entries from 64 to 73.
    We've added some more entries, from 74 to 83, to control additional
    \textsl{Sequencer64} functions.
-	
+   
    The MIDI Control section is explicitly broken into subsections, though those
    subsections are marked with comment-lines for better comprehensibility.  The
    subsections of the MIDI Control section are:
@@ -134,6 +134,20 @@
    We see the following lines in the MIDI Control section, which is broken
    into groups or subsections marked by comments:
 
+   \index{rc!midi-control}
+   \index{[midi-control]}
+   \index{rc!pattern-group}
+   \index{rc!mute-in-group}
+   \index{rc!bpm-up}
+   \index{rc!bpm-down}
+   \index{rc!screen-set-up}
+   \index{rc!screen-set-down}
+   \index{rc!mod-replace}
+   \index{rc!mod-snapshot}
+   \index{rc!mod-queue}
+   \index{rc!mod-gmute}
+   \index{rc!mod-glearn}
+   \index{rc!screen-set-play}
    \begin{verbatim}
       [midi-control]
       74      # MIDI controls count
@@ -176,20 +190,27 @@
    The number (74) is the number of lines in the MIDI Control section.
    The new extended automation values bring this number up to 84:
 
+   \index{rc!pause-start-stop}
+   \index{rc!performance-record}
+   \index{rc!midi-thru}
+   \index{rc!bpm-page-up}
+   \index{rc!bpm-page-down}
+   \index{rc!reserved-for-expansion}
    \begin{verbatim}
-      # start playback:
+      # Extended MIDI controls:
+      # start playback (pause, start, stop):
       74  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # pause playback:
-      75  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # stop playback:
-      76  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
       # performance record:
+      75  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # solo (toggle, on, off):
+      76  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+      # MIDI THRU (toggle, on, off):
       77  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # solo off:
+      # bpm page up:
       78  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # solo on:
+      # bpm page down:
       79  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # toggle THRU:
+      # reserved for expansion:
       80  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
       # reserved for expansion:
       81  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
@@ -200,7 +221,7 @@
    \end{verbatim}
 
    Not all of these new values are yet usable.  Currently, just the
-   "start", "pause", and "stop" controls have been implemented.
+   "start", "pause", "stop", and "bpm" page controls have been implemented.
 
    So let's concentrate on one line of data:
 
@@ -287,7 +308,7 @@
    off.
 
    \begin{verbatim}
-	          Toggle                 On                      Off
+             Toggle                 On                      Off
         1 [0 0 0 0 0 0]      [1 0  144 0 0 127]       [1 0 128 0 0 127]
    \end{verbatim}
 
@@ -343,7 +364,7 @@
    out changes for Control Code 1:
 
    \begin{verbatim}
-	          Toggle                 On                      Off
+             Toggle                 On                      Off
         0 [0 0 0 0 0 0]      [1 1 176 1   0   15]     [0 0 0 0 0 0]
         1 [0 0 0 0 0 0]      [1 1 176 1  16   31]     [0 0 0 0 0 0]
         2 [0 0 0 0 0 0]      [1 1 176 1  32   47]     [0 0 0 0 0 0]
@@ -403,7 +424,7 @@
    \index{mute-in group}
    \index{[midi-control]!mute-in group}
    This section controls 32 groups of mutes in the same way as 
-	defined for \texttt{[midi-control]}, and is in fact placed in the
+   defined for \texttt{[midi-control]}, and is in fact placed in the
    \texttt{[midi-control]} section.
    A group is a set of patterns that can toggle their playing state
    together.  Every group contains all 32 sequences in the active screen set.
@@ -696,20 +717,20 @@
    Additional control items:
 
    \begin{enumber}
-   	\item \textbf{\# bpm up and down}.
-	      Keys to control BPM (beats per minute).
+      \item \textbf{\# bpm up and down}.
+         Keys to control BPM (beats per minute).
       \item \textbf{\# screen set up and down}.
-	      Keys for changing the active screenset.
+         Keys for changing the active screenset.
       \item \textbf{\# group functionality on, off, learn}.
          \index{group learn}
-	      Note that the group learn key is a modifier key to be held while 
+         Note that the group learn key is a modifier key to be held while 
          \index{group toggle}
          pressing a group toggle key.
       \item \textbf{\#replace, queue, snapshot\_1, snapshot\_2, keep queue}.
          These are the other modifier keys explained in section 3a.
    \end{enumber}
 
-	To see the required key codes when pressed, run \texttt{seq24} with
+   To see the required key codes when pressed, run \texttt{seq24} with
    the \texttt{--show-keys}.
 
    Some keys should not be assigned to control sequences in
