@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-03-25
+% \update      2017-03-26
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -58,10 +58,23 @@
    MIDI Control section of \texttt{sequencer64.rc}, and begins with an
    "INI-style" group marker \texttt{[midi-control]}.
 
-% OR is it the current screen set and a set of mute groups???
+   Each MIDI control line has the following format:
+
+   \begin{verbatim}
+      74  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+   \end{verbatim}
+
+   The leftmost brackets define a \textsl{toggle} filter;
+   the middle brackets define a \textsl{on} filter;
+   the rightmost brackets define a \textsl{off} filter.
+   The numbers inside the brackets define six values that set up the control:
+   \textbf{on/off}; \textbf{inverse}; \textbf{MIDI status byte};
+   \textbf{data1}; \textbf{data2 min}; and \textbf{data2 max}
+   This layout of values is explained in more detail below.
 
    The MIDI control setup resembles a matrix.
-   The matrix represents control for two functions of the active screen-set.
+   The first block of matrix elements represents control for control
+   functions of the active screen-set.
    These entries are numbered from 0 to 63.
    Legacy control keys occupy entries from 64 to 73.
    We've added some more entries, from 74 to 83, to control additional
@@ -524,12 +537,46 @@
    so, but here we will use the \textsl{VMPK} (\cite{vmpk}) virtual MIDI
    piano keyboard application for this test.  Refer to the following figure.
 
+   In addition, let's set up the standard and the new BPM (beats/minute) MIDI
+   control values.  
+
+   \begin{verbatim}
+      # bpm up: Note On 9
+      64 [0 0   0   0   0   0] [1 0 144   9   0 127] [0 0   0   0   0   0]
+      # bpm down: Note On 7
+      65 [0 0   0   0   0   0] [1 0 144   7   0 127] [0 0   0   0   0   0]
+   \end{verbatim}
+
+   That section sets up the standard (step-size) BPM controls, which correspond
+   to the fine control possible with the up and down arrows of the BPM spinner
+   in the main window.  It sets up Note On 7 to be the BPM-down control, and
+   Note On 9 to be the BPM-up control.  These two keys are the dark-cyan keys
+   shown in the figure.
+
+   \begin{verbatim}
+      # bpm page up:  Note On 11
+      78 [0 0   0   0   0   0] [1 0 144  11   0 127] [0 0   0   0   0   0]
+      # bpm page down:  Note On 5
+      79 [0 0   0   0   0   0] [1 0 144  05   0 127] [0 0   0   0   0   0]
+   \end{verbatim}
+
+   That section uses the extended controls (74 to 83) set up the coarse
+   (page-size) BPM controls, which correspond to the larger jumps possible with
+   the Page Up and Page Down keys when the BPM spinner has focus.  It sets up
+   Note On 5 to be the BPM-page-down control, and Note On 11 to be the
+   BPM-page-up control.  These two keys are
+   the bright-cyan keys shown in the figure.
+
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{new/stop_pause_start_test_setup.png}
+   \includegraphics[scale=0.50]{new/stop_pause_start_test_setup.png}
    \caption{Stop/Pause/Start ALSA Test Setup}
    \label{fig:rc_file_stop_pause_start_alsa_test_setup}
 \end{figure}
+
+   Note that these settings can be copied from the sample configuration setting
+   shown in \texttt{contrib/simple-midi-control-section.rc}, if one wants to
+   try them.
 
    Set up \textsl{VMPK} to use the lowest octave by setting
    \textbf{Base Octave} to \texttt{0}.  The red, yellow, and green
@@ -553,6 +600,21 @@
    playback.  The second white key (yellow in the figure) will pause and resume
    playback.  The first white key (red in the figure) will stop (and rewind)
    playback.
+
+   Then play with the BPM MIDI control keys.  Note that the size of the
+   BPM step-increment and the BPM page-increment are configurable in the
+   \index{usr!user-midi-settings}
+   \texttt{[user-midi-settings]} section of the "usr" configuration file,
+   using the following values in that section:
+
+   \begin{verbatim}
+      1        # bpm_precision
+      1.0      # bpm_step_increment
+      10       # bpm_page_increment
+   \end{verbatim}
+
+   See \sectionref{subsec:seq64_usr_file_user_midi_settings}; it has
+   information about the usage and enabling of these settings.
 
    Obviously, this setup is not useful for performance, but serves as a good
    example to verify this MIDI control.
