@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-03-26
+% \update      2017-04-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -43,13 +43,17 @@
    quitting.  One should therefore quit \textsl{Sequencer64} before doing
    manual modifications to the \texttt{sequencer64.rc} file.
 
+   Note that there is an old, but complete, example of the \textsl{Seq24}
+   "rc" file at \cite{seq24launchpadmapper}.  It includes a setup for the
+   Novation Launchpad device.
+
 \subsection{Sequencer64 "rc" File / MIDI Control Section}
 \label{subsec:seq64_rc_file_midi_control}
 
    Like \textsl{Seq24}, \textsl{Sequencer64} provides a way to control the
    application to some extent via a MIDI controller, such as a MIDI keyboard or
    a MIDI pad device.  The current section describes this feature;
-   additional resources can be found at \url{linuxaudio.org}
+   additional resources and ideas can be found at \url{linuxaudio.org}
    (\cite{midicontrol}).
 
    \index{[midi-control]}
@@ -90,9 +94,9 @@
          Consists of 32 lines, one for each
          pattern box shown in the Pattern window.
          It provides a way to control the arming/disarming (muting/unmuting) of
-         each pattern shown in the main window.  Note that the
-         main window shows the \textsl{active} screen-set.  These controls affect
-         the \textsl{active} screen-set.
+         each pattern shown in the main window.  Note that the main window
+         shows the \textsl{active} screen-set.  These controls affect the
+         \textsl{active} screen-set.
       \item \textbf{Mute-in group}.
          \index{rc!mute-in group}
          Consists of 32 lines, one for each
@@ -103,18 +107,61 @@
          \textsl{active} screen-set.
       \item \textbf{Automation group}.
          \index{rc!automation group}
-         Each item in this group consists of one line.
+         Each item in this group consists of one line.  Each line
+         specifies a MIDI event that can cause the given operation to occur.
+         Now, from our vantage point, the "up" versus "down" functions should
+         not need two entries to effect them... we should be able to use the
+         "on" control to perform "up", and the "off" control to perform "down".
+         But this is the legacy setup and we shall respect that.
          \begin{enumber}
             \item \textbf{bpm up}.
+               This MIDI control increments the beats-per-minute setting, as if
+               the up-arrow has been clicked, or the up-arrow key pressed, in
+               this control.  This increment is the
+               \index{bpm step increment}
+               \index{usr!step increment}
+               "step increment" which defaults to 1, but can be modified by
+               changing the "bpm\_step\_increment" value in the "usr"
+               configuration file.
+               See \sectionref{subsec:seq64_usr_file_user_midi_settings}.
             \item \textbf{bpm down}.
+               Similarly, this MIDI control decrements the beats-per-minute
+               setting, as if the down-arrow has been clicked/pressed.
             \item \textbf{screen-set up}.
+               This MIDI control increments to the next screen-set. 
+               Once the screen-set has been altered, mute-groups and other
+               actions apply to that screen set.
             \item \textbf{screen-set down}.
+               Similarly, this MIDI control decrements to the previous
+               screen-set.
             \item \textbf{mod replace}.
+               This MIDI control sets the "replace" status flag.
+               Then, when the user manually clicks a pattern slot,
+%              or when a pattern-group (see above) MIDI control on comes in,
+               that pattern is unmuted, and all the rest are muted.
+               This works whether in "Live" or "Song" mode.
             \item \textbf{mod snapshot}.
+               This MIDI control causes the playing status of all active
+               (i.e. having data) patterns to be saved.  When turned off, the
+               original playing status is restored.  Thus, two MIDI events
+               need to be allocated to this functionality. Compare
+               to section \sectionref{paragraph:seq64_patterns_pattern_keys}
+               for a better idea of how it works.
             \item \textbf{mod queue}.
+               This MIDI control sets up the "queue" status flag.
+               Then, when the user manually clicks a pattern slot,
+               that pattern is queued, and will play at the next cycle of the
+               pattern.
             \item \textbf{mod gmute}.
+               This MIDI control sets up a "mute group".
+               More to come on this one.
             \item \textbf{mod glearn}.
+               This MIDI control sets up a "group learn".
+               However, as the group-learn key is a modifier key that needs to
+               be held, we're not quite sure how this works with MIDI control.
             \item \textbf{screen-set play}.
+               This MIDI control sets the playing screen-set, 
+               but we're not quite sure how it works yet.
          \end{enumber}
       \item \textbf{Extended automation group}.
          \index{rc!extended automation}
@@ -166,11 +213,11 @@
       74      # MIDI controls count
 
       # pattern group
-       0  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]            
-       1  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]          
-       2  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
+       0  [0 0 0 0 0 0]   [1 0 144  96 0 127]   [1 0 128  96 0 127]            
+       1  [0 0 0 0 0 0]   [1 0 144  97 0 127]   [1 0 128  97 0 127]            
+       2  [0 0 0 0 0 0]   [1 0 144  98 0 127]   [1 0 128  98 0 127]            
       ...     ...            ...              ...
-      31  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]    
+      31  [0 0 0 0 0 0]   [1 0 144 127 0 127]   [1 0 128 127 0 127]            
 
       # mute in group section:
       32  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
@@ -574,8 +621,8 @@
    \label{fig:rc_file_stop_pause_start_alsa_test_setup}
 \end{figure}
 
-   Note that these settings can be copied from the sample configuration setting
-   shown in \texttt{contrib/simple-midi-control-section.rc}, if one wants to
+   One can copy these settings from the sample file
+   \texttt{contrib/simple-midi-control-section.rc}, if one wants to
    try them.
 
    Set up \textsl{VMPK} to use the lowest octave by setting
@@ -851,7 +898,13 @@
    \end{verbatim}
 
    Note that most of these group-control keys are shifted versions of the
-   keystrokes that control the individual sequences.
+   keystrokes that control the individual sequences.  Also note the
+   \texttt{Control\_L} and \texttt{Control\_R} notations a few lines above.
+   \index{keys!no ctrl/alt please}
+   Please avoid using any Control key combinations in the "rc"/Keyboard
+   configuration.  Control keys are the province of the user-interface
+   (\textsl{Gtk+}) and assigning them can cause surprising behavior!
+   It is also wise to avoid the \texttt{Alt} key.
 
    \index{auto-shift}
    \index{group-learn!auto-shift}

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-03-12
+% \update      2017-03-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -578,12 +578,31 @@
    shortcuts.
 
    \textbf{Warning:}
-   Whenever one of the text fields in this dialog has the focus (and that is
-   usually the case), then any keystroke, including keys like Ctrl, Alt,
-   and Super (Mod4 or Windows key), can alter the value of a field to that
-   of the keystroke.  This change is very easy to do accidentally!
-   \textsf{Use the mouse}
-   to move this window and to click its \textbf{OK} button!
+   \index{keys!gotchas}
+   There are a number of "gotchas" to be aware of when assigning keys to the
+   fields in the \textbf{Keyboard} tab:
+
+   \begin{itemize}
+      \item Whenever one of the text fields in this dialog has the focus (and
+         that is usually the case), then any keystroke, including keys like
+         Ctrl, Alt, and Super (Mod4 or Windows key), can alter the value of a
+         field to that of the keystroke.  This change is very easy to do
+         accidentally!  \textsf{Use the mouse} to move this window and to click
+         its \textbf{OK} button!
+      \item Some of the keys traditionally used (or used by default) for
+         control have been adapted for other uses.  One example is
+         \texttt{Ctrl-L}, which brings up the learn mode that can be started
+         using the "L" button.
+      \item \textsl{Sequencer64} has appropriated the
+         \index{keys!shift} Shift key so that it
+         modifies a click on a pattern so that all of the other patterns are
+         \textsl{toggled}.  Therefore, using characters that require the Shift
+         key while clicking, such as \texttt{\{} and \texttt{\}}, when used
+         to set the \textbf{Replace} function, becomes surprising.
+         Instead, look to the remaining keys: \texttt{F11}, \texttt{F12},
+         and the "keypad" keys if more options are wanted.  Be sure to
+         look at the \textbf{Ext Keys} tab to see what other keys are in use.
+   \end{itemize}
 
 \begin{figure}[H]
    \centering 
@@ -810,7 +829,7 @@
 % Currently there is only one block of fields.  New blocks should also be
 % marked by "itempar".
 
-   \itempar{Extended keys}{keyboard!extended keys}
+   \itempar{Ext Keys}{keyboard!extended keys}
    This block of fields in the \textbf{Options / Ext Keys} tab
    provides shortcut keys for more operations of \textsl{Sequencer64}, many of
    them ported from \textsl{Seq32}.

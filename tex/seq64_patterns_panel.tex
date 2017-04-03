@@ -854,7 +854,8 @@
    \textbf{File / Options / Keyboard / Snapshot 1} and
    \textbf{Snapshot 2} fields to be used as "snapshot" keys.
    Our preference is to use something that does not trigger desktop
-   commands, perhaps \texttt{F11} or \texttt{F12}.
+   commands, perhaps \texttt{F11} or \texttt{F12}, or one of the keys in the
+   keypad.
 
    When one of these snapshot keys is pressed, the state of the patterns
    (which ones are armed versus unarmed) is instantly saved.  While the
@@ -888,6 +889,7 @@
    This pending state is indicated by coloring the central box of the
    pattern grey, as shown in the following figure.
 
+   \index{keys!no ctrl/alt please}
    \textbf{Warning}:  We do not recommend using \texttt{Ctrl} or \texttt{Alt}
    keys for pattern control.  They conflict with application or desktop
    settings.  However, one can use the new \textbf{Menu} button in the main
@@ -925,10 +927,16 @@
 
    \index{keys!replace}
    Note that there is also a "replace" key, which is the left \texttt{Ctrl} key
-   by default.  Replacement is a form of muting/unmuting.  When the "replace"
-   key is pressed while click a sequence, that sequence is unmuted, and all
+   by default, which cannot work, because \textsl{Sequencer64} now uses
+   \texttt{Ctrl-L} is used as a way to click the "L" button.
+   Replacement is a form of muting/unmuting.  When the "replace"
+   key is pressed while clicking a sequence, that sequence is unmuted, and all
    of the other sequences are muted.  Again, this is a very inconvenient
    default, so an alternative key mapping is provided.
+   Note that the "replace" functionality is a form of "solo".
+   Also note that the "replace" functionality is implemented via MIDI
+   control, where the MIDI control can be activated, but then the user has to
+   click on the desired sequence.  
 
    \index{keys!backslash}
    \index{keys!keep queue}
