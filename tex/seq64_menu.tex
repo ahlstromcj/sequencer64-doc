@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-03-28
+% \update      2017-04-06
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -777,12 +777,27 @@
    and can also be shown in each loop/pattern box.  No need to list them all
    here!
 
-   \index{todo!mute-group}
-   One thing we need to discover is just what this mute-grouping
+   \index{mute-group}
+   One thing we need to explain is just what mute-grouping
    means functionally.
-   Apparently groups work with the playing screen set only.
-   Change the screenset and give the command to make it the playing one
-   (e.g. set the HOME key for this purpose.)
+
+   \textsl{Mute groups} are shortcuts to play a defined group of patterns
+   on the current set, while stopping other patterns from the current set, and
+   all patters from other sets.
+
+   To define the group of patterns for one mute group, press and hold the Learn
+   key (the \texttt{Insert} key by default, but see the current configuration)
+   and, simultaneously, press one of the mute group keys: \textsl{Sequencer64}
+   will save the currently-playing pattern slots into the corresponding mute
+   group.  Note that the default mute group keys need the \texttt{Shift}
+   modifier, but one does not need the \texttt{Shift} key while pressing
+   \texttt{Insert} to learn the group, only to trigger it (\textsl{Sequencer64}
+   will automatically assign the corresponding key with \texttt{Shift}
+   activated).
+
+   Group-mute can be globally enabled or disabled (with default keys apostrophe
+   \texttt{'} \index{grave} \index{igrave} and igrave or grave \texttt{`}).
+   So make sure it is enabled before trying to use it.
 
    \itempar{Learn}{keyboard!learn}
    \index{group!learn}
@@ -1249,8 +1264,9 @@
    This button not only brings up the JACK page, but also shows the current
    status of the MIDI connection:
    \textbf{Master} (JACK Master),
-   \textbf{JACK} (JACK Slave), and
-   \textbf{ALSA}.
+   \textbf{JACK} (JACK Slave),
+   \textbf{Native} (native JACK MIDI),
+   and \textbf{ALSA}.
    \index{jack page!ctrl-p}
    \index{keys!ctrl-p}
    Currently, the \texttt{Ctrl-P} will also bring up this page.

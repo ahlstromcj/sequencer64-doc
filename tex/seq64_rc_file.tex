@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-04-02
+% \update      2017-04-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -329,9 +329,16 @@
    \end{itemize}
 
    If \textbf{OPR (on/off)} is set to 1, it will match the incoming MIDI
-   against the \textbf{STAT (MIDI status byte)} pattern (with the channel
-   nybble stripped off) and perform the action (on/off/toggle) if the data
+   against the \textbf{STAT (MIDI status byte)} pattern.
+   and perform the action (on/off/toggle) if the data
    falls in the range specified.  All values are in decimal.
+
+   \textbf{Note}: In legacy versions (\textsl{Seq24} and early versions
+   of \textsl{Sequencer64}), the channel nybble of the MIDI control (and all
+   other incoming MIDI events) were stripped off.
+   This is no longer the case, and thus opens up many more events useful for
+   MIDI control.   But do note that events that are actually recorded end up
+   getting the channel number of the pattern into which they are recorded.
 
    The \textbf{INV (inverse)} field will make the pattern perform the opposite
    action (\textsl{off} for \textsl{on}, \textsl{on} for \textsl{off}) if the
