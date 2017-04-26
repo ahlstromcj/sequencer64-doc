@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-03-25
+% \update      2017-04-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -661,6 +661,41 @@
    \texttt{--user-save} option, and then do a "diff" on the new file and the
    original to merge any old value that need to be preserved.  Then make any
    further tweaks to the new values.
+
+\subsection{Sequencer64 "usr" File / User Options}
+\label{subsec:seq64_usr_file_user_options}
+
+   \index{[user-options]}
+   This section begins with an
+   "INI" group marker \texttt{[user-options]}.
+   It provides for additional options keyed by the
+   \texttt{-o}/\texttt{--option} options.
+   This group of options serves to expand the options that are available, since
+   we are running out of single-character options.
+   This group of options current provides the options shown below.
+
+   \index{usr!option-daemonize}
+   \begin{verbatim}
+		# The daemonize option is used in seq64cli to indicate that the
+		# application should be gracefully run as a service.
+		0       # option_daemonize
+   \end{verbatim}
+
+   If this option is not used when running \texttt{seq64cli}, then the
+   application stays in the console window and dumps informational output to
+   it.  If this option is in force, then the only way to affect
+   \texttt{seq64cli} is to send a signal (e.g. SIGKILL) to it, or use
+   MIDI control.
+
+   \index{usr!option-logfile}
+   \begin{verbatim}
+      # This value specifies an optional log-file that replaces output
+      # to standard output and standard error.  To indicate no log-file,
+      # the string "" is used.
+      "seq64.log"
+   \end{verbatim}
+
+   This log-file is written to the same directory as the "rc" and "usr" files.
 
 \subsection{Sequencer64 "usr" File / Results}
 \label{subsec:seq64_usr_file_midi_bus_results}

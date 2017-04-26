@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-11-30
+% \update      2017-04-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -236,6 +236,21 @@
       \texttt{testing.rc} and \texttt{testing.usr},
       \texttt{jack.rc} and \texttt{jack.usr},
       \texttt{alsa.rc} and \texttt{alsa.usr}.
+
+   \optionpar{-o}{--option opvalue}
+      Provides additional options, since the application is running out of
+      single-character options.  The \texttt{opvalue} set supported is:
+      \begin{itemize}
+         \item \texttt{daemonize}.  Makes the \texttt{seq64cli} application
+            fork to the background.
+         \item \texttt{no-daemonize}.  Makes the \texttt{seq64cli} application
+            run in the foreground, where it is easy to see the informational
+            output written to the console.
+         \item \texttt{log=filename}.  Reroutes standard error and standard
+            output messages to the given log-file.  This file is located in the
+            directory for the "rc" and "usr" files (which can be altered via
+            the \texttt{-H}/\texttt{--home} directory option.
+      \end{itemize}
 
    \texttt{\$HOME/.config/sequencer64.rc} holds the main configuration settings
    for Sequencer64.  If it does not exist, it will be generated when

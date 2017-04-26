@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-04-06
+% \update      2017-04-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -1270,6 +1270,95 @@
    \index{jack page!ctrl-p}
    \index{keys!ctrl-p}
    Currently, the \texttt{Ctrl-P} will also bring up this page.
+
+\subsection{Menu / Edit}
+\label{subsec:seq64_menu_edit}
+
+   The \textbf{Edit} menu has undergone some expansion lately.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/menu_edit_0_90.png}
+   \caption{Edit Menu}
+   \label{fig:seq64_menu_edit_0_90}
+\end{figure}
+
+   \begin{enumber}
+      \item \textbf{Song Editor...}
+      \item \textbf{Apply song transpose}
+      \item \textbf{Clear mute groups}
+      \item \textbf{Reload mute groups}
+      \item \textbf{Mute all tracks}
+      \item \textbf{Unute all tracks}
+      \item \textbf{Toggle mute all tracks}
+   \end{enumber}
+
+   \itempar{Song Editor}{edit!song editor}
+   \index{song editor}
+   This item is the same as the 
+   \textbf{View / Song Editor toggle} menu entry.  It toggles the presence of
+   the main song editor.
+
+   \itempar{Apply song transpose}{edit!song transpose}
+   \index{song transpose}
+
+   Selecting this item applies the song transposition value to
+   \textbf{all} sequences/patterns that are marked as transposable.
+   (Normally, drum tracks are \textsl{not} transposable).
+   This actively changes the note/pitch value of all note and aftertouch events
+   in the pattern.
+
+   Once the transpositions are done, the transposition value is set to 0.
+   For the setting of song transpose, see
+   \sectionref{sec:seq64_song_editor}, for more information.
+   Also note that transpose can be enabled in the patterns panel for each
+   pattern (see \sectionref{subsubsec:seq64_patterns_pattern_filled}) and
+   in the sequence editor
+   (see \sectionref{sec:seq64_pattern_editor}).
+
+   \itempar{Clear mute groups}{edit!clear mute groups}
+   \index{mute groups}
+
+   A feature of \textsl{Seq24} and \textsl{Sequencer64} is that the mute groups
+   are saved in both the "rc" file
+   (see \sectionref{subsec:seq64_rc_file_mute_group})
+   and in the "MIDI" file
+   (see \sectionref{subsec:legacy_midi_format}).
+
+   This menu entry clears them.  If the MIDI file is saved, it then has no
+   mute-group information.  And then, currently, if the application is exited,
+   the clear mute-group information is also saved.  We'd like to be able
+   to handle the "rc" and "MIDI" mute-groups separately in the future.
+
+   \itempar{Reload mute groups}{edit!load mute groups}
+   \index{rc!mute groups}
+
+   This menu entry reloads the mute-groups from the "rc" file.
+   So, if one loads a MIDI file that has its own mute groups that one does not
+   like, this command will restore one's favorite mute-grouping from the "rc"
+   file.
+
+   \itempar{Mute all tracks}{edit!mute all tracks}
+   \index{mute all}
+
+   This menu entry, available only in \textbf{Live} mode,
+   immediately mutes \textsl{all} patterns in the entire song.
+
+   \itempar{Unmute all tracks}{edit!unmute all tracks}
+   \index{unmute all}
+
+   This menu entry, available only in \textbf{Live} mode,
+   immediately unmutes \textsl{all} patterns in the entire song.
+
+   \itempar{Toggle mute all tracks}{edit!toggle all tracks}
+   \index{toggle mute all}
+
+   This option toggles the mute/armed status of \textbf{all} tracks.
+   It is only available in \textbf{Live} mode, which overrides \textbf{Song}
+   mode even if the Song Editor is focussed.
+
+   \textsl{Do not confuse it with the main \textbf{Mute} button, which toggles the
+   status only of the tracks that are armed and remembers them.}
 
 \subsection{Menu / View}
 \label{subsec:seq64_menu_view}
