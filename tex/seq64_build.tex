@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2016-06-26
+% \update      2017-04-29
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -18,8 +18,14 @@
 \label{sec:seq64_build}
 
    The current packaging for Sequencer64 is primarily aimed at developers.
-   This section presents a bit of a how-to on building \textsl{Sequencer64}
-   from source code.
+   But note that we're starting to add Debian packages to a new "Sequencer64
+   Packages" project (\cite{sequencer64packages}).  If one has packages
+   built for other Linux distributions, let us know, and we can stick them
+   there for others to use.
+
+   This section presents a how-to on building the various versions of
+   \textsl{Sequencer64} from source code.  It's actually pretty easy, with
+   these instructions.
 
 \subsection{INSTALL}
 \label{subsec:seq64_build_install}
@@ -42,7 +48,7 @@
       \item Preload any dependencies, as listed in
          \sectionref{subsec:seq64_build_dependencies}.
           However, if some are missing, the configure script will tell you,
-          or, at worst, a build error will tell you.
+          or, at worst, a build error will.
       \item Check-out the branch you want; normally you will be happy to
          get "master".  Make a branch if you want to make changes.
       \item From the top project directory, run the commands:
@@ -63,15 +69,16 @@
 \begin{verbatim}
       $ make
 \end{verbatim}
-      If you do not care about the documentation and debian packaging,
-      change to the various sub-project directories before running make.
       \item To install \textsl{Sequencer64}, become root and run:
 \begin{verbatim}
       # make install
 \end{verbatim}
    \end{enumber}
 
-   Please note that there are other things you can do to speed up the build
+   Note that one has to build the documentation and debian packaging
+   separately, they are not part of the default build.
+
+   Please note that there are other things one can do to speed up the build
    process.  Already noted above is the \texttt{--enable-debug} option.
    The following command will bootstrap the code and then configure
    for release mode, and greatly reduce the amount of compiler output:
@@ -81,7 +88,7 @@
    $ ./bootstrap -er
 \end{verbatim}
 
-   This option will run the following command for you:
+   This option will run the following command:
 
 \begin{verbatim}
    $ ./configure --enable-silent-rules
@@ -98,13 +105,13 @@
    (Using \texttt{V=0} is another way to quiet down the build.)
 
    Also note that the build can be sped up by telling make to use more cores.
-   For example, if you have an 8-core system:
+   For example, if one has an 8-core system:
 
 \begin{verbatim}
    $ make -j 9
 \end{verbatim}
 
-   Of course, you can use fewer than the number of cores, if desired.
+   Of course, one can use fewer than the number of cores, if desired.
 
 \subsection{Options for Sequencer64 Features}
 \label{subsec:seq64_build_options}
@@ -119,6 +126,63 @@
    line:
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{\texttt{--enable-rtmidi}}{build!enable rtmidi}
+        \index{BUILD\_RTMIDI}
+        This option can be bootstrapped directly using (for example)
+        "\texttt{./bootstrap -er -rm}.
+        However, this option is currently the default build.  It creates
+        the default version of \textsl{Sequencer64}, an executable named
+        \texttt{seq64}.  This version adds the ability to do JACK input/output
+        using the native API... no more need to use \texttt{a2jmidid} to
+        bridge from ALSA to JACK.  It provides a JACK client that is separate
+        from the pre-existing JACK-transport client. In addition, this
+        executable will fall back to using ALSA if JACK is not running.  
+        Like the ALSA support, the JACK support has an auto-connect feature
+        that can be disabled using the "manual" ("virtual-port") mode of seq64.
+
+        One other note.  We term this version "rtmidi" because we originally
+        used the RtMidi (\cite{rtmidi}) project as the basis for the native
+        JACK support, until we realized it does not really fit the usage model
+        of \textsl{Sequencer64}.  So we heavily refactored how it works,
+        keeping a couple of key features, and keeping the moniker "rtimidi".
+
+   \itempar{\texttt{--enable-cli}}{build!enable cli}
+        \index{BUILD\_RTCLI}
+        This option can be bootstrapped directly using (for example)
+        "\texttt{./bootstrap -er -cli}".
+        It builds a command-line version of \texttt{seq64} that has the command
+        name \texttt{seq64cli}.  Currently, this application can only be
+        controlled via MIDI controls set up in the
+        [midi-control] section of the "rc" file.
+        See \sectionref{subsec:seq64_rc_file_midi_control}, for more
+        information on those controls, which now also include start, stop, and
+        pause commands.  Also, currently the only way to load a MIDI file is as
+        the last command-line argument.  There is also an option to make
+        the application fork into the background as a daemon.
+        We're looking in to using OSC as a control mechanism, but, until then,
+        this executable is of limited usefulness.
+
+   \itempar{\texttt{--enable-alsamidi}}{build!enable alsamidi}
+        \index{BUILD\_ALSAMIDI}
+        This option can be bootstrapped directly using (for example)
+        "\texttt{./bootstrap -er -am}".
+        This executable is basically the original version of 
+        \textsl{Sequencer64}, with the original executable name of
+        \texttt{sequencer64}, which we're keeping around as a backup while we
+        work the remaining nits out of the "rtmidi" version of the application.
+
+   \itempar{\texttt{--enable-portmidi}}{build!enable portmidi}
+        \index{BUILD\_PORTMIDI}
+        This option can be bootstrapped directly using (for example)
+        "\texttt{./bootstrap -er -pm}".
+        This option builds the PortMIDI version of the application,
+        named \texttt{seq64portmidi}.  This version works with Linux, but was
+        meant as a way to port \textsl{seq24} to Windows ("Google" for
+        "seq24 subatomic glue").  However, the \textsl{Sequencer64} project
+        deprecates this version.  Eventually, we hope to migrate in
+        the Windows and Mac OSX support modules of the RtMidi
+        (\cite{rtmidi}) project.
 
    \itempar{\texttt{--disable-highlight}}{build!disable highlight}
         \index{SEQ64\_HIGHLIGHT\_EMPTY\_SEQS}
@@ -135,7 +199,7 @@
         This option undefines the \texttt{SEQ64\_LASH\_SUPPORT} macro, which is
         otherwise defined by default.  Even if this option is left defined,
         however, \textsl{Sequencer64} will still not use LASH support unless
-        you specify \texttt{--lash} on the \texttt{sequencer64} command-line or
+        one specifies \texttt{--lash} on the \texttt{sequencer64} command-line or
         turn on the new \texttt{[lash-session]} option in the "rc"
         configuration file,
         \texttt{~/.config/sequencer64/sequencer64.rc}.
@@ -145,7 +209,7 @@
         This option undefines the \texttt{SEQ64\_JACK\_SUPPORT} macro, which is
         otherwise defined by default.  Even if this option is left defined,
         however, \textsl{Sequencer64} will still not use JACK support unless
-        you specify the various JACK options on the \texttt{sequencer64}
+        one specifies the various JACK options on the \texttt{sequencer64}
         command-line or turn them on in the "rc" configuration file,
         \texttt{~/.config/sequencer64/sequencer64.rc}.
 
@@ -202,8 +266,8 @@
    for the worse in some people's minds.  So we've been careful to mark those
    changes with macros.  And sometimes we tried a change, but left it
    disabled.  You are free to look at those macros, modify them, and build
-   the source code to your preferences.  If you do not see a macro described
-   below, it means we need to catch up with our documentation.
+   the source code to one's preferences.  If one does not see a macro described
+   below, it means we need to catch up with the documentation.
 
    The following items are not yet part of the configure script, but can
    be edited manually to achieve the desired settings:
@@ -343,7 +407,7 @@
       There is a little image of this style inside the screenshot shown on
       the first page of this manual, as well.
 
-      Take your pick, modify the code accordingly before you build it.
+      Take your pick, modify the code accordingly before building it.
       Perhaps these can eventually be options for the \texttt{configure}
       script, or even run-time options!  Let us know!
 
