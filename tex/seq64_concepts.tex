@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2016-10-21
+% \update      2017-05-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -197,6 +197,8 @@
    To "queue" a pattern means to ready it for playback on the next repeat of
    a pattern.  A pattern can be armed immediately, or it can be queued to
    play back the next time the pattern restarts.
+   Pattern toggles occur at the end of
+   the pattern, rather than being set immediately.
 
    A set of queued patterns can be temporarily stored, so that a different
    set of playbacks can occur, before the original set of playbacks is
@@ -205,8 +207,9 @@
    \index{keep queue}
    \index{queue!keep}
    The "keep queue" functionality allows the queue to be held without
-   holding down a button the whole time.  Pattern toggles occur at the end of
-   the pattern, rather than being set immediately.
+   holding down a button the whole time.  Once this key is pressed,
+   then the hot-keys for any pattern can be pressed, over and over,
+   to queue each pattern.
 
 \subsubsection{Concepts / Terms / replace}
 \label{subsubsec:concepts_terms_replace}
