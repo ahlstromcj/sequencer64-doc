@@ -10,7 +10,7 @@
 # \version    	$Revision$
 # \license    	$XPC_SUITE_GPL_LICENSE$
 #
-# 		Makefile for the sequencer26-doc project.
+# 		Makefile for the sequencer64-doc project.
 #
 #-------------------------------------------------------------------------------
 

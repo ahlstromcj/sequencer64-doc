@@ -1,0 +1,6 @@
+#!/bin/sh
+#
+#   Optimize a PDF.  Requires Ghostscript to be installed.
+
+gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH \
+ -sOutputFile=$1-compressed $1

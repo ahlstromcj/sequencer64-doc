@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-05-05
+% \update      2017-05-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -546,7 +546,7 @@
          This feature is useful for isolating a single track or pattern.
       \item \textbf{Queued}.
          That same pattern also shows that it is queued, which means that it
-         will start playing when the pattern next begins again.
+         will toggle its playing status when the pattern next begins again.
       \item \textbf{Alternate font}.
          Later builds of \textsl{Sequencer64} are now built with a new font.
          See \figureref{fig:pattern_window_main_panel_items}.  It shows the new
@@ -887,7 +887,7 @@
    This means that the change in state of the pattern will not take hold
    immediately, but will kick in when the pattern restarts.
    This pending state is indicated by coloring the central box of the
-   pattern grey, as shown in the following figure.
+   pattern grey, as shown in the figure below.
 
    \index{keys!no ctrl/alt please}
    \textbf{Warning}:  We do \textbf{not}
@@ -920,9 +920,10 @@
    \texttt{Ctrl-Q} will unceremoniously quit the application), so one will
    usually want to change this key to something else in the
    \textbf{File / Options / Keyboard / Queue} field.
-   The Super key (i.e. the Mod4 or Windows key) is a good candidate to
-   replace the right \texttt{Ctrl} key, unless one has (like the author)
-   configured the window manager to use the Super key modifier to manipulate
+   The \texttt{Super} key (i.e. the \texttt{Mod4} or \texttt{Windows key}) is a
+   good candidate to substitute for the \texttt{Ctrl} key, unless one has (like
+   the author)
+   configured the window manager to use the \texttt{Super} key to manipulate
    windows and applications \textsl{(laughter ensues)}.
    However, we have found that one can also use normal keys to enable queueing.
    For example, the minus key or the keypad's slash key can be used, with no
@@ -932,38 +933,48 @@
    \index{keys!keep queue}
    \index{queue!permanent}
    \index{queue!keep queue}
-   Pressing the "keep queue" key (by default, the backslash key)
+   Pressing the "keep queue" hot-key (we like the backslash key)
    \index{rc file}
    assigned in the "rc" file
-   activates permanent queue mode until one presses the regular
-   (i.e. temporary)
-   queue function. 
-   After pressing the "keep queue" key, individual pattern
+   activates permanent queue mode until one click the regular
+   (i.e. temporary) queue function hot-key,
+   or changes the active (viewed) screen-set. 
+   After pressing the "keep queue" hot-key, individual pattern
    toggles occur at the end of the current pattern rather than immediately.
-   “Keep queue” mode is canceled by pressing the normal Queue key.
+   While in queue mode, pressing a patterns hot-key, or clicking on the
+   pattern, queues that pattern to change state at the beginning of the next
+   loop.
+   \index{queue!cancel}
+   “Keep queue” mode is cancelled by pressing the normal queue hot-key.
 
-   This key can be changed in the
+   This hot-key can be changed in the
    \textbf{File / Options / Keyboard / Keep queue} field.
+   Also note the "queued-replace" functionality, described a bit later.
 
    \index{keys!replace}
-   Note that there is also a "replace" key, which is the left \texttt{Ctrl} key
-   by default (which cannot work, because \textsl{Sequencer64} now uses
-   \texttt{Ctrl-L} as a way to click the "L" button).
-   Replacement is a form of muting/unmuting.  When the "replace"
-   key is pressed while clicking a sequence, that sequence is unmuted, and all
-   of the other sequences are muted.  Again, this is a very inconvenient
-   default, so an alternative key mapping is provided.
-   Note that the "replace" functionality is a form of "solo".
-   Also note that the "replace" functionality is implemented via MIDI
-   control, where the MIDI control can be activated, but then the user has to
-   click on the desired sequence.  
+   Note that there is also a "replace" hot-key, which is the left \texttt{Ctrl}
+   key by default (which cannot work, because \textsl{Sequencer64} uses
+   \texttt{Ctrl} as a way to access a lot of other functions, interfering with
+   its use as a hot-key.
+
+   Replacement is a form of muting/unmuting.  When the "replace" hot-key is
+   pressed and held while clicking a pattern or clicking that pattern's
+   hot-key, that sequence is unmuted, and all of the other sequences are muted.
+   Again, this is a very inconvenient default, so an alternative key mapping
+   should be set up in the "rc" file via the \textbf{File / Options / Keyboard}
+   tab.  Note that the "replace" functionality is a form of "solo".  Also
+   note that the "replace" functionality is also implemented via MIDI control,
+   where the MIDI control can be activated, but then the user has to select
+   the desired sequence.  
 
    \index{queue!replace}
    \index{queue!solo}
    \textsl{Sequencer64} provides an extension to the replace/solo functionality
-   called "queued-replace" or "queued-solo".  In this feature, when
+   that is called "queued-replace" or "queued-solo".  In this feature, when
    the "keep queue" function is activated, the replace function is queued so
    that it does not occur until the next time the patterns loop.
+   And queued-replace provides a form of snapshot, limited to the
+   \textsl{current} screen-set.
    Here are the steps:
 
    \begin{enumber}
@@ -979,13 +990,49 @@
       \item Click the same pattern hot-key again.  Observe that the other
          patterns that were toggled off are now queued to be toggled on at the
          next loop.  Steps 4 and 5 can be repeated endlessly.
-      \item To end the "queued-replace" mode, click the normal "queue hot-key.
+      \item To clear (end)
+         \index{queue!clear}
+         \index{queue!end}
+         the "queued-replace" mode, click the normal "queue"
+         hot-key.  Also, changing the active screen-set ends "queue-replace"
+         mode.  It does \textsl{not} end normal queue mode, to preserve the
+         behavior found in \textsl{Seq24}.
+         One needs to clear the queue mode in order to select another pattern
+         to solo.
    \end{enumber}
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/queued_replace.png}
+   \caption{Queued-Replace (Queued-Solo) In Action}
+   \label{fig:queued_replace}
+\end{figure}
+
+   Before clicking the "keep queue" key, patterns 33 ("q") and 34 ("a") are
+   unmuted, while the desired replace pattern, 32 ("1") is off.
+   Then the user presses (and holds) the "replace" key, then clicks the "1"
+   key.  This puts all unmuted patterns, plus the muted
+   replace pattern as well, into queue mode, as shown by the grey panels.
+   When the progress bar reaches the end of the pattern, pattern 32 will go on,
+   and patterns 33 and 34 will go off.
+
+   Note that, if the replace-pattern is already on, it is not queued, as
+   there's no need to turn it on.
+
+   If, while in queue mode, the replace key is held and "1" is pressed again,
+   the other patterns will be queued, and will turn on again.  Thus, the
+   solo status of the replace pattern can be toggled at will, until queue mode
+   is exited by pressing and releasing the normal "queue" key.
+
+   If one wants to change the solo functionality to a different pattern,
+   simple hold the replace key and click on a different pattern.  The new
+   arrangement of soloing is memorized.
+   One can clear the queue mode by clicking the normal queue key.
 
    There are more keys defined in the \textbf{Keyboard} dialog, and it is
    worth figuring out what they do, if not documented here.
-   For a couple of short, but good, tutorials about using arming, queueing,
-   and snapshots, see references \cite{wootangent1}
+   For a couple of short, but good, video tutorials about using arming,
+   queueing, and snapshots, see references \cite{wootangent1}
    and \cite{wootangent2}.
 
 \paragraph{Pattern Clicks}
