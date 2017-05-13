@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-05-07
+% \update      2017-05-13
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -134,7 +134,9 @@
 
    \itempar{Beats Per Bar}{pattern editor!beats/bar}
    Part of the time signature, and specifies the number of beat units per bar.
-   The possible values range from 1 to 16.
+   The possible values range from 1 to 16, if the drop-down menu is used.
+   As of version 0.90.6, the numeric value can be directly edited, to achieve
+   non-standard values, thanks to an update from Jean-Emmanuel.
 
    \itempar{Beat Unit (Beat Width)}{pattern editor!beat unit}
    \index{pattern editors!beat width}
@@ -151,6 +153,8 @@
    \textsl{However}, when opening or importing a non-\textsl{Sequencer64}
    MIDI tune, the length of each track will be used, and so other values
    are possible; they just cannot be set via the user-interface.
+   However, as of version 0.90.6, the numeric value can be directly edited, to
+   achieve non-standard values, thanks to an update from Jean-Emmanuel.
 
    Note that bringing up a short sequence (one less than one measure or bar in
    length) in the pattern editor will adjust the sequence to pad it to the
@@ -164,12 +168,15 @@
    pre-pad it to the length of a measure, so that it will always show smooth
    progress.
 
-   \textsl{(It would sure be nice to have a value that represents
+   It would be nice to have a value that represents
    "indefinite", so that the loop or pattern would be more like a track,
-   and not be repeatable.  Or perhaps add lengths of 128 and 200.  The length
-   of the longest track in our sample is 101 measures.
+   and not be repeatable.  We have part of that functionality:
+   as of version 0.90.5, we have incorporated changes from user
+   Stazed that allow the pattern to expand indefinitely while the user inputs
+   MIDI from a controller.
+   See \sectionref{subsec:seq64_pattern_editor_bottom} below.
    Also nice would be a "one-shot"
-   pattern, useful for live intro patterns, for example.)}
+   pattern, useful for live intro patterns, for example.)
 
    \itempar{Transpose Toggle}{pattern editor!transpose toggle}
    This item, if enabled in the build, allows the sequence to be transposed by
@@ -202,6 +209,17 @@
    \label{fig:pattern_editor_main_panel_items}
 \end{figure}
 
+   We show a new screen-shot, because there is a new button to the right
+   of the \textbf{Tools} ("hammer" button).  This button toggles the "follow
+   progress" feature; it is the active button in the following diagram.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.55]{pattern/pattern-edit-second-panel-items-2.png}
+   \caption{Pattern Editor, Second Panel Update}
+   \label{fig:pattern_editor_main_panel_update}
+\end{figure}
+
    If \textsl{Sequencer64} is built with the new chord-generation option
    built in (the default), then the second panel is wider to make room for an
    addition user-interface item, shown at the right of the figure above.
@@ -218,6 +236,7 @@
       \item \textbf{Redo}
       \item \textbf{Quantize Selection}
       \item \textbf{Tools}
+      \item \textbf{Follow Progress} (new)
       \item \textbf{Grid Snap}
       \item \textbf{Note Length}
       \item \textbf{Zoom}
@@ -251,6 +270,12 @@
    \itempar{Tools}{pattern editor!tools}
    This button brings up a nested menu of tools for modifying selected
    events and notes.
+
+   \itempar{Follow Progress}{pattern editor!tools}
+   Pressing this button toggles whether or not the progress bar follows
+   progress in long patterns.  Turning off this feature is useful when
+   one wants to concentrate on the current measure without the paging to
+   subsequent measures that occurs with the "follow progess" feature.
 
 \begin{figure}[H]
    \centering 
