@@ -4,7 +4,7 @@
 # \library    	Documents
 # \author     	Chris Ahlstrom
 # \date       	2015-11-01
-# \update     	2017-05-07
+# \update     	2017-05-13
 # \version    	$Revision$
 # \license    	$XPC_SUITE_GPL_LICENSE$
 #
@@ -34,6 +34,7 @@ gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dNOPAUSE -dQUIET -dBATCH \
 			rm s-temp.pdf
 		else
 			echo "? Could not reduce the size of the PDF"
+			mv s-temp.pdf sequencer64-user-manual.pdf
 		fi
 		popd
    fi

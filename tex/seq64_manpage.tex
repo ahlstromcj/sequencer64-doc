@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-04-25
+% \update      2017-05-29
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -241,15 +241,38 @@
       Provides additional options, since the application is running out of
       single-character options.  The \texttt{opvalue} set supported is:
       \begin{itemize}
-         \item \texttt{daemonize}.  Makes the \texttt{seq64cli} application
+         \item \texttt{daemonize}.
+            \index{daemonize}
+            Makes the \texttt{seq64cli} application
             fork to the background.
-         \item \texttt{no-daemonize}.  Makes the \texttt{seq64cli} application
+         \item \texttt{no-daemonize}.
+            \index{no-daemonize}
+            Makes the \texttt{seq64cli} application
             run in the foreground, where it is easy to see the informational
             output written to the console.
-         \item \texttt{log=filename}.  Reroutes standard error and standard
+         \item \texttt{log=filename}.
+            \index{log}
+            Reroutes standard error and standard
             output messages to the given log-file.  This file is located in the
             directory for the "rc" and "usr" files (which can be altered via
-            the \texttt{-H}/\texttt{--home} directory option.
+            the \texttt{-H}/\texttt{--home} directory option).
+         \item \texttt{wid=3x2,i}.
+            \index{multi-wid}
+            Provides for multiple main windows ("mainwids") to be shown in a
+            big grid, so that multiple sets can be viewed at the same time.
+            The default is to show the usual single mainwid.
+            The first number specified is the row count, which can range from 1
+            to 3.  The second number specified is the column count, which can
+            only be 1 or 2.  The third parameter starts with 't' ("true")
+            to indicate that the multiple sets will be controlled by a single
+            set spinner, which is the default.  Specifying 'f' ("false") or 'i'
+            ("indep") will show one set spinner for each mainwid.  Note that it
+            is possible, in this mode, to show the same set in two different
+            mainwids, but this is not recommended, as there are minor
+            unavoidable issues with that.  Also note that the format for this
+            command line option is very strict, no deviations or added spaces.
+            Finally, to save the options to the "usr" file, add the
+            \texttt{--user-save} option to the command line.
       \end{itemize}
 
    \texttt{\$HOME/.config/sequencer64.rc} holds the main configuration settings
@@ -263,11 +286,15 @@
    settings and some of the user-interface settings for Sequencer64.  If it
    does not exist, it will be generated with a minimal configuration when
    Sequencer64 exits.  If it does exist, it will be rewritten with the current
-   configuration of Sequencer64.  Note that the
+   configuration of Sequencer64, but \textsl{only} if the
+   \texttt{--user-save} option was provided on the command-line.
+   Note that the
    \texttt{--legacy} option causes the old
-   configuration-file names to be used.
+   configuration-file names (\texttt{.seq64rc} and \texttt{.seq64usr}
+   in the \texttt{\$HOME} directory)
+   to be used.
 
-   The current Sequencer64 project homepage is a simple git repository at
+   The current Sequencer64 project homepage is a git repository at
 
    \url{https://github.com/ahlstromcj/sequencer64.git}.
 

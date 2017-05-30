@@ -1195,6 +1195,35 @@
    Pressing this button toggles the presence on-screen of the Song
    Editor.  The \texttt{Ctrl-E} keystroke can also be used.
 
+\subsection{Patterns / Multiple Panels}
+\label{subsec:seq64_patterns_panel_multiple}
+
+   If \textsl{Sequencer64} is built with the \texttt{--enable-multiwid}
+   option (currently the default), this defines the 
+   \texttt{SEQ64\_MULTI\_MAINWID} macro, and allows for
+   \index{multi-wid} multiple main windows showing more than one set at a time.
+   The default is to show the usual single mainwid.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{multiwid/multiwid-mode-3x2.png}
+   \caption{Patterns Panel, with Multiple Panels}
+   \label{fig:pattern_window_bottom_panel_multiple}
+\end{figure}
+
+   Also note that either one spinner for all, or one spinner for each, is
+   available.  The latter is the "independent" mode.
+   Note that it
+   is possible, in this mode, to show the same set in two different
+   mainwids, but this is not recommended, as there are minor
+   unavoidable issues with that.
+
+   Also see 
+   \sectionref{sec:seq64_man_page}, for how the
+   \texttt{-o wid=3x2,i} option can be used to set this mode, and
+   \sectionref{subsec:seq64_usr_file_user_interface_settings}, for
+   how these settings can be made permanent in the "usr" file.
+
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
 %-------------------------------------------------------------------------------

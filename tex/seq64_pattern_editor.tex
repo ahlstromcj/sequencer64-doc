@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-03-11
+% \update      2017-05-13
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -30,8 +30,16 @@
    \label{fig:pattern_edit_window}
 \end{figure}
 
-   Not shown in this figure is the new \textbf{LFO} button in the bottom panel,
-   but it is described later.
+   Not shown in this figure are:
+   
+   \begin{itemize}
+      \item The new \textbf{LFO} button in the bottom panel.
+      \item The new \textbf{Rec Type} button in the bottom panel,.
+   \end{itemize}
+
+   Both are described later, but we need to update the screenshot at some
+   point.
+
    This dialog is complex.
    For exposition, we break it into some common actions, a first panel, a
    second panel, a bottom panel, and a piano-roll/events section.
@@ -126,7 +134,9 @@
 
    \itempar{Beats Per Bar}{pattern editor!beats/bar}
    Part of the time signature, and specifies the number of beat units per bar.
-   The possible values range from 1 to 16.
+   The possible values range from 1 to 16, if the drop-down menu is used.
+   As of version 0.90.6, the numeric value can be directly edited, to achieve
+   non-standard values, thanks to an update from Jean-Emmanuel.
 
    \itempar{Beat Unit (Beat Width)}{pattern editor!beat unit}
    \index{pattern editors!beat width}
@@ -143,6 +153,8 @@
    \textsl{However}, when opening or importing a non-\textsl{Sequencer64}
    MIDI tune, the length of each track will be used, and so other values
    are possible; they just cannot be set via the user-interface.
+   However, as of version 0.90.6, the numeric value can be directly edited, to
+   achieve non-standard values, thanks to an update from Jean-Emmanuel.
 
    Note that bringing up a short sequence (one less than one measure or bar in
    length) in the pattern editor will adjust the sequence to pad it to the
@@ -156,12 +168,15 @@
    pre-pad it to the length of a measure, so that it will always show smooth
    progress.
 
-   \textsl{(It would sure be nice to have a value that represents
+   It would be nice to have a value that represents
    "indefinite", so that the loop or pattern would be more like a track,
-   and not be repeatable.  Or perhaps add lengths of 128 and 200.  The length
-   of the longest track in our sample is 101 measures.
+   and not be repeatable.  We have part of that functionality:
+   as of version 0.90.5, we have incorporated changes from user
+   Stazed that allow the pattern to expand indefinitely while the user inputs
+   MIDI from a controller.
+   See \sectionref{subsec:seq64_pattern_editor_bottom} below.
    Also nice would be a "one-shot"
-   pattern, useful for live intro patterns, for example.)}
+   pattern, useful for live intro patterns, for example.)
 
    \itempar{Transpose Toggle}{pattern editor!transpose toggle}
    This item, if enabled in the build, allows the sequence to be transposed by
@@ -194,6 +209,17 @@
    \label{fig:pattern_editor_main_panel_items}
 \end{figure}
 
+   We show a new screen-shot, because there is a new button to the right
+   of the \textbf{Tools} ("hammer" button).  This button toggles the "follow
+   progress" feature; it is the active button in the following diagram.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.55]{pattern/pattern-edit-second-panel-items-2.png}
+   \caption{Pattern Editor, Second Panel Update}
+   \label{fig:pattern_editor_main_panel_update}
+\end{figure}
+
    If \textsl{Sequencer64} is built with the new chord-generation option
    built in (the default), then the second panel is wider to make room for an
    addition user-interface item, shown at the right of the figure above.
@@ -210,6 +236,7 @@
       \item \textbf{Redo}
       \item \textbf{Quantize Selection}
       \item \textbf{Tools}
+      \item \textbf{Follow Progress} (new)
       \item \textbf{Grid Snap}
       \item \textbf{Note Length}
       \item \textbf{Zoom}
@@ -243,6 +270,12 @@
    \itempar{Tools}{pattern editor!tools}
    This button brings up a nested menu of tools for modifying selected
    events and notes.
+
+   \itempar{Follow Progress}{pattern editor!tools}
+   Pressing this button toggles whether or not the progress bar follows
+   progress in long patterns.  Turning off this feature is useful when
+   one wants to concentrate on the current measure without the paging to
+   subsequent measures that occurs with the "follow progess" feature.
 
 \begin{figure}[H]
    \centering 
@@ -1182,6 +1215,17 @@
    \label{fig:pattern_editor_bottom_panel_items}
 \end{figure}
 
+   Until we can get a completely labelled screenshot, here is the
+   latest bottom panel, with the new \textbf{LFO}
+   and \textbf{Recording Type} buttons, and the popup menu for the latter.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/lfo_and_rectype_buttons.png}
+   \caption{Pattern Editor, Additional Bottom Panel Items}
+   \label{fig:pattern_editor_added_bottom_panel_items}
+\end{figure}
+
    \begin{enumber}
       \item \textbf{Event Selector}
       \item \textbf{Event Selection}
@@ -1191,6 +1235,7 @@
       \item \textbf{MIDI Data Pass-Through}
       \item \textbf{Record MIDI Data}
       \item \textbf{Quantized Record}
+      \item \textbf{Recording Type} (Merge, Replace, Expand)
       \item \textbf{Select Recording Volume}
    \end{enumber}
 
@@ -1300,9 +1345,37 @@
    Activating this button will also cause MIDI data to be recorded, but it
    will be quantized on the fly before recording it.
 
+   \itempar{Recording Type}{pattern editor!recording type}
+   In \textsl{Seq24}, the pattern recording worked by merging new notes played
+   as the pattern to be recorded was looped.  This method allows a loop to be
+   built up bit-by-bit.  \textsl{Sequencer64} adds two more methods from
+   Stazed's \textsl{Seq32} project.  The three methods are:
+
+   \begin{enumber}
+      \item \textbf{Merge}. \index{merge}
+      \index{recording type!merge}
+      This is the "legacy" style of recording loops, where notes can
+      accumulate.
+      \item \textbf{Replace.} \index{replace}
+      \index{recording type!replace}
+      In this method of recording, whenever the loop starts over, and a note is
+      pressed, then the existing notes in that loop are erased, and the new
+      note is added.  This provides a good way of correcting major mistakes,
+      live.  Note that this method will not work if adding notes while not
+      recording.
+      \item \textbf{Expand}. \index{expand}
+      \index{recording type!expand}
+      In this method of recording, once the end of the loop is nigh, whether or
+      not any notes are being input, another measure is added to the length of
+      the loop.  This continues indefinitely, whether or not any notes are
+      being recorded.
+   \end{enumber}
+
    \itempar{Vol}{pattern editor!vol}
    This button allows controlling the volume of the recording.
    The velocity of the notes will be set to the selected value upon recording.
+   If the \textbf{Free} item is selected, then the incoming note velocity is
+   preserved.
 
 \begin{figure}[H]
    \centering 
@@ -1314,8 +1387,8 @@
    The values provided are:
 
    \begin{itemize}
-      \item Free (record incoming volumes),
-      \item Fixed 8, Fixed 7, Fixed 6, Fixed 5, Fixed 4, Fixed 3,
+      \item Free (record incoming volumes).
+      \item Fixed 8, Fixed 7, Fixed 6, Fixed 5, Fixed 4, Fixed 3.
       \item Fixed 2, and Fixed 1.
    \end{itemize}
 
@@ -1325,7 +1398,8 @@
    One thing fixed in the 0.90.x version is the ability to store MIDI note-on
    events with the actual velocity provided by the MIDI keyboard used to
    generate the notes.  Previously, even in \textsl{seq24},
-   the "Free" option in the "Vol" menu option did not work.  This is fixed.
+   the \textbf{Free} option in the \textbf{Vol} menu option did not work.
+   This is fixed.
 
 \subsection{Pattern Editor / Common Actions}
 \label{subsec:seq64_pattern_editor_common}

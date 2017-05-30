@@ -247,6 +247,14 @@
         entire song (except for exempt patterns).
         This feature is grabbed from \textsl{Seq32} (\cite{seq32}).
 
+    \itempar{\texttt{--disable-multiwid}}{build!disable multi-wid support}
+        \index{SEQ64\_MULTI\_MAINWID}
+        This option undefines the \texttt{SEQ64\_MULTI\_MAINWID} macro.
+        If this macro is defined (currently the default), then it is
+        possible to show multiple sets in the main window.
+        See \sectionref{subsec:seq64_patterns_panel_multiple},
+        which describes this mode.
+
     To summarize, these options undefine the following build macros:
 
       \begin{itemize}
@@ -256,6 +264,7 @@
         \item \texttt{SEQ64\_JACK\_SESSION}
         \item \texttt{SEQ64\_PAUSE\_SUPPORT}
         \item \texttt{SEQ64\_STAZED\_CHORD\_GENERATOR}
+        \item \texttt{SEQ64\_MULTI\_MAINWID}
       \end{itemize}
 
 \subsubsection{Manually-defined Macros in the Code}
