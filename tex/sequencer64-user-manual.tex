@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2017-05-29
+% \update      2017-06-06
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.91.0}
+\title{Sequencer64 User Manual 0.92.0}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -79,7 +79,7 @@
 \label{sec:introduction}
 
    This document describes how to use \textsl{Sequencer64}
-   \cite{sequencer64}, through version 0.91.0,
+   \cite{sequencer64}, through version 0.92.0,
    using the latest commit from the \textbf{master} branch.
 %  \textbf{master} or \textbf{fixups} branches.
    If one is impatient to get started mastering \textsl{Sequencer64},
@@ -110,9 +110,6 @@
    \textsl{Sequencer64} is an continuation/reboot of \textsl{Seq24},
    a live-looping sequencer with an interface more like a hardware sequencer
    than the typical software MIDI sequencer.
-   \textsl{Sequencer64} has many updates and improvements, and a modestly
-   new look, so that a new manual is a necessity.
-
    \textsl{Seq24} was a very active project, with a
    number of contributors, who created patches, additional
    functionality, and even ports to Windows.
@@ -170,13 +167,19 @@
    \textsl{Sequencer64}.
 
    \begin{itemize}
-      \item The newest update is native JACK MIDI support!  At last!
+      \item An important update is native JACK MIDI support!  At last!
+      \item The user interface is now capable of showing more than one set at
+         once.  More information on the current screen!
+      \item The user interface is now capable of showing more patterns in a
+         single set.  For example, 8 rows by 8 columns, fulfilling the promise
+         of the project name, \textsl{Sequencer64}.
       \item A new \textsl{event editor} dialog
          provides viewing and editing of MIDI events as text.
          This editor is basic, but useful.
       \item \textsl{Sequencer64} now reads SMF 0 MIDI files, splitting
          the file into patterns based on channel number.
       \item A "Tap" button sets the BPM by tapping a button or a key.
+      \item Additional MIDI controls, such as coarse versus fine BPM control.
       \item Some features have been ported from \textsl{Stazed}'s
       \textsl{Seq32} \cite{seq32} project.  Some features can be disabled at
       configure/build time, if desired.
@@ -193,17 +196,17 @@
             simply splitting them in half.
          \item Editing the amplitude of data events using a simple
             low-frequency oscillator (LFO).
+         \item Enhanced JACK transport support.
          \item A large number of other \textsl{Seq32} features have been
             ported, but they are currently commented out until we can test them
             and make sure they are "perfect".
          \begin{itemize}
-            \item Enhanced JACK transport support.
             \item Diverting multi-channel recorded MIDI so that each channel
                is stored in the sequence/pattern configured for that channel
             \item Randomizing MIDI events.
             \item Selection extensions such as selecting odd/even notes, and
                handles on data events.
-            \item More feature for controlling transport.
+            \item More features for controlling transport.
          \end{itemize}
       \end{itemize}
       \item An optional second song editor window, to have a view
@@ -244,8 +247,9 @@
          long-standing feature of customizable buss, instrument, and controller
          information, plus some customizations of the user-interface, such as
          font, display of the main window's pattern grid, colored and thicker
-         progress bars, and modification of the default 40 millisecond window
-         redraw rate.
+         progress bars, modification of the default 40 millisecond window
+         redraw rate, changes in the row and column sizes of a set, and showing
+         multiple sets in the main window.
       \item Support for mapping MIDI events to a single MIDI buss for testing
          or simple use cases.
       \item On-going support for handling PPQN values other than the
@@ -370,8 +374,8 @@
 \subsection{Let's Get Started!}
 \label{subsec:introduction_lets_get_started}
 
-   Let us run \textsl{Sequencer64}, but run it without using \textsl{JACK},
-   which complicates the discussion of \textsl{Sequencer64}.  The first
+   Let us run \textsl{Sequencer64}.
+   The first
    thing to do is make sure one has no other sound application running
    (unless one wants to risk blocking \textsl{Sequencer64} or hearing two
    sounds simultaneously, depending on one's sound card and ALSA setup).
@@ -410,10 +414,14 @@
    files or command-line options.
    Note that the buttons show labels in the figure:
    "Live" or "Song", "Mute", "Menu", and "JACK", "ALSA", or "Native" (native
-   JACK MIDI.
-   Another new item that \textsl{is} shown is the button with a "0" as its label.
-   This is the new \textbf{Tap Tempo} button (see
+   JACK MIDI).
+   Another new item that \textsl{is} shown is the button with a "0" as its
+   label.  This is the new \textbf{Tap Tempo} button (see
    \sectionref{subsec:seq64_patterns_panel_bottom} for more information).
+
+   Another new item, not yet shown in the figure, is the \textbf{Q} button,
+   which both enables and shows the "keep-queue" status, which can also be
+   enabled using a keystroke.
 
 % This Tip needs to be put elsewhere.
 

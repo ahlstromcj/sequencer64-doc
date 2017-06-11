@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-05-07
+% \update      2017-06-11
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -1213,9 +1213,8 @@
 
    Also note that either one spinner for all, or one spinner for each, is
    available.  The latter is the "independent" mode.
-   Note that it
-   is possible, in this mode, to show the same set in two different
-   mainwids, but this is not recommended, as there are minor
+   Note that it is possible, in this mode, to show the same set in two
+   different mainwids, but this is not recommended, as there are minor
    unavoidable issues with that.
 
    Also see 
@@ -1223,6 +1222,38 @@
    \texttt{-o wid=3x2,i} option can be used to set this mode, and
    \sectionref{subsec:seq64_usr_file_user_interface_settings}, for
    how these settings can be made permanent in the "usr" file.
+   In that file, the options modified are \texttt{block\_rows} and
+   \texttt{block\_columns}.
+
+\subsection{Patterns / Variable Set Size}
+\label{subsec:seq64_patterns_panel_variset}
+
+   \index{variset}
+   This option, informally known as "variset", allow some changes in
+   the set size and layout from the default 4x8 = 32 sets layout.
+   The row count can set from 4 to 8, and the column count can be set to 8 to
+   12.  Note that the set size can only be increased by these settings.
+
+   \textbf{Warning:}
+   \textsl{seq24} was fairly hardwired for supporting 32 patterns per
+   set, and there are still places where that is true.  Thus,
+   consider this option to be experimental.
+
+   Also see 
+   \sectionref{sec:seq64_man_page}, for how the
+   \texttt{-o sets=8x8} option can be used to set this mode, and
+   \sectionref{subsec:seq64_usr_file_user_interface_settings}, for
+   how these settings can be made permanent in the "usr" file.
+   In that file, the options modified are \texttt{mainwnd\_rows} and
+   \texttt{mainwnd\_cols}.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{multiwid/variset-mode-8x8.png}
+   \caption{Patterns Panel, 8 x 8 Layout}
+   \label{fig:pattern_window_bottom_panel_variset}
+\end{figure}
+
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
