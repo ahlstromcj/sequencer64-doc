@@ -309,7 +309,9 @@
    \texttt{]} keys on the keyboard, or by using
    the spin-widget-driven, labelled \textbf{Set} interface item, or
    \index{keys!Home}
-   by hitting the (default) Home key to make it the playing screenset.
+   by hitting the (default) Home key to make it the playing screenset,
+   or by hitting \texttt{Page-Up} or \texttt{Page-Down} with the pattern window
+   in keyboard focus.
    There are a total of 32 sets, for a total of 1024 loops/patterns. 
    Only one screen set can be controlled at a time, according to other notes we
    have found; have not yet tried to verify this assertion.  But any number of
@@ -623,7 +625,7 @@
    Another way to bring up a pattern in the pattern editor is to
    click the \textbf{equal} key and then the pattern's shortcut key.
    For example, "\textbf{= q}" will open up the editor for the pattern with the
-   hot-key \textbf{= q}.
+   hot-keys \textbf{= q}.
    The Equals key (\texttt{=}) is the default key that does this action.
    This key can be changed by modifying the
    \textbf{File / Options / Keyboard / Control keys / Pattern Edit} item.
@@ -841,6 +843,24 @@
    These characters are shown in the lower right corner of each
    pattern, as an aid to memory.
    These hot-keys can be modified.
+
+   With version 0.92.0, a new "shift" functionality is available for the
+   mute/unmute hot-keys.
+   \index{variset!slash key}
+   Normally, pressing the \texttt{1} key will toggle
+   sequence 0.  If preceded by one slash key (\texttt{/}), then sequence 32
+   will be toggled.  If preceded by two slash keys, then sequence 64 will be
+   toggled.  This supports using set sizes of 32, 64, and 96 patterns.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{new/patterns_panel_shift_toggle.png}
+   \caption{Patterns Panel, Shift-Key Pattern Toggle}
+   \label{fig:pattern_window_shift_key_pattern_toggle}
+\end{figure}
+
+   This figure shows how we press \texttt{y}, \texttt{/y}, and \texttt{//y}
+   to arm three patterns in this 96-pattern set.
 
    \index{keys![}
    \index{keys!decrement set}
@@ -1254,6 +1274,9 @@
    \label{fig:pattern_window_bottom_panel_variset}
 \end{figure}
 
+   Generally, it is recommend to stick with the 4x8 (32 patterns/set),
+   8x8 (64 patterns/set), and 8x12 (96 patterns/set).  This works best with the
+   existing set of 32 hot-keys.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
