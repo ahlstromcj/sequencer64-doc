@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-05-29
+% \update      2017-06-11
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -387,17 +387,19 @@
    \end{verbatim}
 
    \index{usr!mainwnd-rows}
+   \index{variset}
    \begin{verbatim}
       # Specifies the number of rows in the main window.
-      # At present, only a value of 4 is supportable.
-      # In the future, we hope to support an alternate value of 8.
+      # Values of 4 (the default) through 8 (the best alternative value)
+      # are allowed.
       4       # mainwnd_rows
    \end{verbatim}
 
    \index{usr!mainwnd-cols}
+   \index{variset}
    \begin{verbatim}
       # Specifies the number of columns in the main window.
-      # At present, only a value of 8 is supportable.
+      # At present, only values from 8 (the default) to 12 are supported.
       8       # mainwnd_cols
    \end{verbatim}
 
@@ -550,6 +552,7 @@
       2      # block_rows (number of rows of set blocks/wids)
    \end{verbatim}
 
+   \index{multi-wid}
    \index{usr!block-columns}
    \begin{verbatim}
       # Specifies the number of set window ('wid') columns to show.

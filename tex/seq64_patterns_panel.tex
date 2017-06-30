@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-05-07
+% \update      2017-06-11
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -309,7 +309,9 @@
    \texttt{]} keys on the keyboard, or by using
    the spin-widget-driven, labelled \textbf{Set} interface item, or
    \index{keys!Home}
-   by hitting the (default) Home key to make it the playing screenset.
+   by hitting the (default) Home key to make it the playing screenset,
+   or by hitting \texttt{Page-Up} or \texttt{Page-Down} with the pattern window
+   in keyboard focus.
    There are a total of 32 sets, for a total of 1024 loops/patterns. 
    Only one screen set can be controlled at a time, according to other notes we
    have found; have not yet tried to verify this assertion.  But any number of
@@ -623,7 +625,7 @@
    Another way to bring up a pattern in the pattern editor is to
    click the \textbf{equal} key and then the pattern's shortcut key.
    For example, "\textbf{= q}" will open up the editor for the pattern with the
-   hot-key \textbf{= q}.
+   hot-keys \textbf{= q}.
    The Equals key (\texttt{=}) is the default key that does this action.
    This key can be changed by modifying the
    \textbf{File / Options / Keyboard / Control keys / Pattern Edit} item.
@@ -841,6 +843,24 @@
    These characters are shown in the lower right corner of each
    pattern, as an aid to memory.
    These hot-keys can be modified.
+
+   With version 0.92.0, a new "shift" functionality is available for the
+   mute/unmute hot-keys.
+   \index{variset!slash key}
+   Normally, pressing the \texttt{1} key will toggle
+   sequence 0.  If preceded by one slash key (\texttt{/}), then sequence 32
+   will be toggled.  If preceded by two slash keys, then sequence 64 will be
+   toggled.  This supports using set sizes of 32, 64, and 96 patterns.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{new/patterns_panel_shift_toggle.png}
+   \caption{Patterns Panel, Shift-Key Pattern Toggle}
+   \label{fig:pattern_window_shift_key_pattern_toggle}
+\end{figure}
+
+   This figure shows how we press \texttt{y}, \texttt{/y}, and \texttt{//y}
+   to arm three patterns in this 96-pattern set.
 
    \index{keys![}
    \index{keys!decrement set}
@@ -1213,9 +1233,8 @@
 
    Also note that either one spinner for all, or one spinner for each, is
    available.  The latter is the "independent" mode.
-   Note that it
-   is possible, in this mode, to show the same set in two different
-   mainwids, but this is not recommended, as there are minor
+   Note that it is possible, in this mode, to show the same set in two
+   different mainwids, but this is not recommended, as there are minor
    unavoidable issues with that.
 
    Also see 
@@ -1223,6 +1242,41 @@
    \texttt{-o wid=3x2,i} option can be used to set this mode, and
    \sectionref{subsec:seq64_usr_file_user_interface_settings}, for
    how these settings can be made permanent in the "usr" file.
+   In that file, the options modified are \texttt{block\_rows} and
+   \texttt{block\_columns}.
+
+\subsection{Patterns / Variable Set Size}
+\label{subsec:seq64_patterns_panel_variset}
+
+   \index{variset}
+   This option, informally known as "variset", allow some changes in
+   the set size and layout from the default 4x8 = 32 sets layout.
+   The row count can set from 4 to 8, and the column count can be set to 8 to
+   12.  Note that the set size can only be increased by these settings.
+
+   \textbf{Warning:}
+   \textsl{seq24} was fairly hardwired for supporting 32 patterns per
+   set, and there are still places where that is true.  Thus,
+   consider this option to be experimental.
+
+   Also see 
+   \sectionref{sec:seq64_man_page}, for how the
+   \texttt{-o sets=8x8} option can be used to set this mode, and
+   \sectionref{subsec:seq64_usr_file_user_interface_settings}, for
+   how these settings can be made permanent in the "usr" file.
+   In that file, the options modified are \texttt{mainwnd\_rows} and
+   \texttt{mainwnd\_cols}.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{multiwid/variset-mode-8x8.png}
+   \caption{Patterns Panel, 8 x 8 Layout}
+   \label{fig:pattern_window_bottom_panel_variset}
+\end{figure}
+
+   Generally, it is recommend to stick with the 4x8 (32 patterns/set),
+   8x8 (64 patterns/set), and 8x12 (96 patterns/set).  This works best with the
+   existing set of 32 hot-keys.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex

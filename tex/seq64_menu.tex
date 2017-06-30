@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-04-25
+% \update      2017-06-11
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -776,9 +776,13 @@
 
    \itempar{Mute-group slots}{keyboard!mute-group slots}
    Each of these keys operates on the mute-grouping of one of the 32
-   loop/pattern boxes.  These keys are layed out logically on the keyboard,
-   and can also be shown in each loop/pattern box.  No need to list them all
-   here!
+   loop/pattern boxes (sets).  These keys are layed out logically on the
+   keyboard, and will also be shown in each loop/pattern box.  No need to list
+   them all here!  But basically, they are the shifted versions of the
+   keyboard keys used as hot-keys for the patterns.
+   However, note that the mute-group keys will work only when
+   \textsl{Sequencer64} is in
+   \index{group-learn} \textsl{group-learn} mode.
 
    \index{mute-group}
    One thing we need to explain is just what mute-grouping
@@ -786,7 +790,7 @@
 
    \textsl{Mute groups} are shortcuts to play a defined group of patterns
    on the current set, while stopping other patterns from the current set, and
-   all patters from other sets.
+   all patterns from other sets.
 
    To define the group of patterns for one mute group, press and hold the Learn
    key (the \texttt{Insert} key by default, but see the current configuration)
@@ -797,6 +801,11 @@
    \texttt{Insert} to learn the group, only to trigger it (\textsl{Sequencer64}
    will automatically assign the corresponding key with \texttt{Shift}
    activated).
+
+   Now, on some keyboards (like the author's), 
+   the \texttt{Insert} key is a two-key button.  So, an alternative
+   is to click the \index{L button} \textbf{L button} and release it,
+   then hit the desired mute-group (no need for the \texttt{Shift} key).
 
    Group-mute can be globally enabled or disabled (with default keys apostrophe
    \texttt{'} \index{grave} \index{igrave} and igrave or grave \texttt{`}).
@@ -815,6 +824,9 @@
    \index{group-learn!shift-lock}
    This feature known as \textsl{shift-lock} or \textsl{auto-shift}.
    It is new to \textsl{Sequencer64}.
+
+   Also, currently necessary because pressing \texttt{Shift} can clear the
+   arming of the patterns in the current set.
 
    \itempar{Disable}{keyboard!disable}
    \index{keys!apostrophe}
@@ -1211,7 +1223,7 @@
          \index{live mode}
          \index{non-playback mode}
          Playback will be in live mode.  Use this option to allow muting and
-         unmuting of patterns.  This option might also be called "non-playback
+         unmuting of patterns.  This option might also be called "non-song
          mode".
          The command-line option is \texttt{--jack-start-mode 0}.
       \item \textbf{Song Mode}.
@@ -1223,19 +1235,17 @@
          The command-line option is \texttt{--jack-start-mode 1}.
    \end{itemize}
 
-   Note that, in ALSA mode (non-JACK mode), \textsl{Sequencer64} 
-   now \textsl{does} select the playback modes
-   according to which window started the playback.
-   We have reverted back to legacy \textsl{Seq24} behavior.
+   Note that \textsl{Sequencer64} 
+   selects the playback modes
+   according to which window started the playback
+   (reverting back to legacy \textsl{Seq24} behavior).
 
-   \textsl{The main window, or pattern
+   \textsl{The main window}, or pattern
    window, causes playback to be in live mode.  The user can arm and mute
-   patterns in that windows, by clicking on sequences, using their hot-keys,
+   patterns in the main window by clicking on sequences, using their hot-keys,
    and by using the group-mode and learn-mode features.
    The song editor causes playback to be in performance mode, also known as
-   "playback mode", or "song mode".}
-   Of course, in JACK mode,
-   it selects them according to the chosen live/song mode as discussed above.
+   "playback mode", or "song mode".
 
    \itempar{Connect}{jack sync!connect}
    Connect to JACK Sync.
@@ -1325,13 +1335,16 @@
    A feature of \textsl{Seq24} and \textsl{Sequencer64} is that the mute groups
    are saved in both the "rc" file
    (see \sectionref{subsec:seq64_rc_file_mute_group})
-   and in the "MIDI" file
+   \textsl{and} in the "MIDI" file
    (see \sectionref{subsec:legacy_midi_format}).
 
-   This menu entry clears them.  If the MIDI file is saved, it then has no
-   mute-group information.  And then, currently, if the application is exited,
-   the clear mute-group information is also saved.  We'd like to be able
-   to handle the "rc" and "MIDI" mute-groups separately in the future.
+   This menu entry clears them. If this resulted in any mute-group sequences
+   status being set to false, then the user will be prompted to save the MIDI
+   file, so that it will no longer have any
+   mute-group information.  And then, currently, if the
+   application is exited, the cleared mute-group information is also saved to
+   the "rc" file.  We'd like to be able to handle the "rc" and "MIDI"
+   mute-groups separately in the future.
 
    \itempar{Reload mute groups}{edit!load mute groups}
    \index{rc!mute groups}

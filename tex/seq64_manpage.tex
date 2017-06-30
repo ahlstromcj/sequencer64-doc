@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-05-29
+% \update      2017-06-11
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -271,13 +271,27 @@
             mainwids, but this is not recommended, as there are minor
             unavoidable issues with that.  Also note that the format for this
             command line option is very strict, no deviations or added spaces.
-            Finally, to save the options to the "usr" file, add the
+            Finally, to save these options to the "usr" file, add the
             \texttt{--user-save} option to the command line.
+            In that file, the options modified are \texttt{block\_rows} and
+            \texttt{block\_columns}.
+         \item \texttt{sets=8x8}.
+            \index{variset}
+            This option, informally known as "variset", allow some changes in
+            the set size and layout from the default 4x8 = 32 sets layout.
+            \textbf{Warning:}
+            \textsl{seq24} was fairly hardwired for supporting 32 patterns per
+            set, and there are still places where that is true.  Thus,
+            consider this option to be experimental.
+            To save these options to the "usr" file, add the
+            \texttt{--user-save} option to the command line.
+            In that file, the options modified are \texttt{mainwnd\_rows} and
+            \texttt{mainwnd\_cols}.
       \end{itemize}
 
    \texttt{\$HOME/.config/sequencer64.rc} holds the main configuration settings
-   for Sequencer64.  If it does not exist, it will be generated when
-   Sequencer64 exits.  If it does exist, it will be rewritten with the
+   for all versions of Sequencer64.  If it does not exist, it will be generated
+   when Sequencer64 exits.  If it does exist, it will be rewritten with the
    current configuration of Sequencer64.  Many, or most, of the command-line
    options are "sticky", in that they will be written to the configuration
    file.
