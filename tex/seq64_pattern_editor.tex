@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-05-13
+% \update      2017-07-19
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -1252,11 +1252,15 @@
    \label{fig:pattern_editor_bottom_event_context_menu}
 \end{figure}
 
-   The sub-menus of this context menu show 128 controller messages,
-   so we won't try to show all of them here.
+   Note the squares.  Some of filled (black), others are empty.  The filled
+   squares indicate that the sequence does indeed have some events of that
+   type.  Otherwise, there are no such events in the sequence.
 
-   These sub-menus can be modified, as far as we know, by editing
-   the file
+   The sub-menus of this context menu show 128 controller messages,
+   so we won't try to show all of them here.  They also use the squares to
+   indicate if there are any events of the type shown in the menu.
+
+   These sub-menus can be modified by editing the file
    
    \begin{verbatim}
       $HOME/.config/sequencer64/sequencer64.rc
