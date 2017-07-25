@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-06-11
+% \update      2017-07-23
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -674,6 +674,22 @@
       5.0    # bpm_page_increment
    \end{verbatim}
 
+   \index{usr!midi-bpm-minimum}
+   \begin{verbatim}
+		# Specifies the minimum value of beats/minute in tempo graphing.
+		# By default, the tempo graph ranges from 0.0 to 127.0.
+		# This value can be increased to give a magnified view of tempo.
+		0       # midi_bpm_minimum
+   \end{verbatim}
+
+   \index{usr!midi-bpm-maximum}
+   \begin{verbatim}
+		# Specifies the maximum value of beats/minute in tempo graphing.
+		# By default, the tempo graph ranges from 0.0 to 127.0.
+		# This value can be increased to give a magnified view of tempo.
+		360       # midi_bpm_maximum
+   \end{verbatim}
+
    \index{usr!velocity-override}
       The \texttt{velocity-override} option fixes a long standing (from
       \textsl{Seq24} bug where the actual incoming note velocity was always
@@ -689,6 +705,16 @@
       if the BPM field has focus and the Page-Up/Page-Down keys are pressed,
       and new MIDI control values have been added to support coarse MIDI
       control of tempo.
+
+   \index{usr!midi-bpm-minimum}
+   \index{usr!midi-bpm-maximum}
+		The \texttt{midi-bpm-minimum} and \texttt{midi-bpm-maximum} settings
+		are used in scaling the display of Tempo events.
+      By adjusting these values, one can more easily see the variations in
+      tempo.  In a main window pattern slot, or in the song editor tempo track,
+      this range is scaled to the full range of note values, 0 to 127.
+      Generally, one wants to select a range that keeps the tempo line at the
+      middle height of the pattern display.
 
    To obtain these new settings, remember to back up the
    \textsl{sequencer64.usr}, then run \textsl{Sequencer64} with the
