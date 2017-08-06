@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2017-07-23
-% \update      2017-07-23
+% \update      2017-08-06
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -21,9 +21,8 @@
    In recent versions of \textsl{Sequencer64} we are attempting better support
    for MIDI Meta and System Exclusive events, as well as a Tempo track.
    At present (v. 0.93.1), \textsl{Sequencer64} now supports the display of Set
-   Tempo and Time Signature events.  They can also be added and edited, though,
-   in this version, only in the event editor
-   see \sectionref{sec:seq64_event_editor}.
+   Tempo and Time Signature events.  They can also be added and edited, in various
+   ways.  For example, see \sectionref{sec:seq64_event_editor}.
    Furthermore, at this time only the first Tempo and Time Signature events are
    used to modify playback.
    System Exclusive support is also still in progress.
@@ -40,7 +39,7 @@
       \item Tempo and Time signature display and editing in the event editor.
    \end{enumerate}
 
-   Before we discuss these items, we need to note how the tempo track is
+   Before we discuss these items, we need to note \textsl{how} the tempo track is
    implemented in \textsl{Sequencer64}.  Rather man make a SeqSpec track for
    the tempo events, we follow the MIDI specification, which mandates that
    Tempo events must occur only in the first track.  \textsl{Sequencer64} has
@@ -48,6 +47,9 @@
    MIDI events and can be viewed (and later, edited) in the existing
    user-interface elements.  Notes and other events can occur in the same
    track, if the user-musician so desires.
+
+   To reiterate, track 1 (pattern 0) is the only track where tempo events
+   can be placed and edited.
 
 \subsection{"usr" BPM Display Settings}
 \label{subsec:meta_events_usr}
@@ -67,30 +69,94 @@
    information.  These settings can only be made by editing the "usr" file
    while \textsl{Sequencer64} is not running.
 
-\subsection{BPM Display in a Main Window Pattern slot}
-\label{subsec:meta_events_mainwid_slot}
+\subsection{Composite Display of Tempos}
+\label{subsec:meta_events_composite_display}
 
-The following figure shows a note and some tempo changes.
+The following figure shows a composite picture of the various representations
+of Set Tempo events.
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=1.0]{meta/mainwid_pattern_tempo.png}
-   \caption{Tempo in Pattern Slot}
-   \label{fig:meta_events_mainwid_slot}
+   \includegraphics[scale=0.75]{meta/combined_tempo_display.png}
+   \caption{Various Tempo Displays}
+   \label{fig:meta_events_tempo_displays}
 \end{figure}
 
-The tempo is shown as a dashed cyan-colored line at the relative for the tempo,
+The top of the figure shows the magenta tempo lines in a pattern slot that
+is currently being edited.  This view cannot be directly edited, but the event
+editor and the main window's BPM settings can be used to add, delete, or adjust
+the tempo.
+
+The middle shows the very similar representation of the tempo in the Song
+Editor.  Again, this view does not (currently) allow editing of the tempo events.
+
+The bottom shows tempo as an event (in the event strip) and a data value
+in the data pane.  A tempo event can be added here by holding the Ctrl key
+and painting an event in the event strip, and it can then be modified by
+same method that note velocities can be edited.  Note that tempo events 
+are \textsl{always} shown in the event strip and the data pane, no matter
+what other \textbf{Event} type has been selected.
+
+\subsection{Tempo in the Main Window}
+\label{subsec:meta_events_mainwid}
+
+% The following figure shows a note and some tempo changes.
+%
+% \begin{figure}[H]
+%   \centering 
+%   \includegraphics[scale=1.0]{meta/mainwid_pattern_tempo.png}
+%   \caption{Tempo in Pattern Slot}
+%   \label{fig:meta_events_mainwid_slot}
+% \end{figure}
+%
+% This figure is out-of-date.
+
+The tempo is shown as a solid magenta-colored line at the relative for the tempo,
 based on the minimum and maximum values configured in the "usr" file as
 discussed in the previous section.
-This display is rudimentary.  It doesn't allow for ramping of the tempo at
-present, and cannot be directly edited.
+This pattern-slot tempo display is rudimentary.  It doesn't allow for ramping
+of the tempo at present, and cannot be directly edited.
 
-On the books for an upcoming version is to add a "tempo record" button that
-enters the currently-set tempo into the pattern.
+However, tempos can be logged or recorded via magenta-colored controls at the
+bottom of the main window.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=1.0]{meta/tempo_recording.png}
+   \caption{Tempo Recording Controls}
+   \label{fig:meta_events_mainwid_tempo_recording}
+\end{figure}
+
+The 0th pattern slot shown in the figure represents Track 1, the
+MIDI Tempo track.  The magenta lines show the tempos already in that track.
+Now look at the BPM control.  The first button to its right ("0") is the
+tempo-tap button, used for setting a tempo by tapping in time to music.
+The light-magenta button that comes next, when pressed while playback is
+occurring, logs a tempo event at the current progress location and the
+current BPM value in the BPM spin-field.  The dark magenta button to the right
+of that toggles the mode of recording the changes to the BPM spin-button while
+playback is occurring.  (The "Q" button is for keep-queues, and is unrelated to
+tempo processing.)
+
+Now, although track 1 (pattern 0) might start out with a length of only a
+measure or two, the performance continually ticks upward, and tempo events that
+are recorded after the end of the track at still recorded, and
+\textsl{they will extend the length of the tempo track automatically}.
+If the "show sequences key" option is enabled, the length of each track, in
+measures, is shown at the top right of each main window pattern slot, so it can
+be tracked by the user.
+
+Once tempo events have been recorded, they can be tweaked (or deleted)
+either in the pattern editor or in the event editor.  Generally, they are
+treated like control events that are always available.  Deleting all tempo
+events will not reduce the (possibly new) length of the sequence.
+
+One more thing to note about the Tempo track is that it will
+\textsl{not} change tempo unless that track is unmuted.
+This behavior is a feature, not a bug.
 
 % \subsubsection{MIDI Metrics, PPQN}
 % \label{subsubsec:meta_events_midi_ppqn}
-
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex

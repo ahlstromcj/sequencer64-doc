@@ -22,13 +22,15 @@
    patterns, and combines them to create a full song.  This is a powerful way
    to work, and makes one productive within an hour.
 
-   The \textsl{Sequencer64 Patterns Panel} is the main window of
-   \textsl{Sequencer64}.
+   The \textsl{Sequencer64 Patterns Panel} is the
+   \index{main window}
+   \textbf{main window} of \textsl{Sequencer64}.
    See \figureref{fig:seq64_main_screen}.
-   It is also called the "main window" or the "patterns window".
+   It is called the "main window" or the "patterns window".
    It is here one creates a set of patterns
    (see \sectionref{subsubsec:concepts_terms_screen_set}),
-   manages the configuration, and opens the pattern or song editors.
+   manages the configuration, controls the playback rate, adds tempo events,
+   and opens the pattern or song editors.
 
    \index{live mode}
    \index{mode!live}
@@ -326,9 +328,19 @@
 
    The individual items annoted in this figure are described in
    \sectionref{subsubsec:seq64_patterns_pattern_filled}, in more detail.
-   \textbf{However}, this figure does not show the new feature where the
-   sequence number appears at the bottom left of the slot.  Observe that
-   feature in the first figure of the next section.
+   The slot at the bottom left of this figure shows some new features:
+
+   \begin{itemize}
+      \item The sequence number appears at the bottom left of the slot.
+      \item The hot-key for muting/unmuting the pattern appears at the bottom
+         right of the slot.
+      \item The length of the sequence, in number of measures (bars), appears
+         at the upper right of the slot.
+      \item The default alternate font, which has a little more body than the
+         \textsl{Seq24} font.
+   \end{itemize}
+
+   Observe that feature in the first figure of the next section.
    The two main items are the empty \textsl{pattern slot}, and the slot filled
    with a MIDI \textsl{pattern}:
 
@@ -1096,7 +1108,9 @@
 \label{subsec:seq64_patterns_panel_bottom}
 
    The bottom panel of the Patterns window provides way to control the
-   overall playback of the song.
+   overall playback of the song.  It has changed quite a bit over the last few
+   versions of \textsl{Sequencer64}, and we have not yet caught up with the
+   diagrams.  Refer to the diagram of the whole window, for now.
 
 \begin{figure}[H]
    \centering 
@@ -1111,6 +1125,9 @@
       \item \textbf{Pause}
       \item \textbf{BPM}
       \item \textbf{Tap Tempo}
+      \item \textbf{Log Current Tempo} (new)
+      \item \textbf{Record Tempo Changes} (new)
+      \item \textbf{Keep-Queue Status} (new)
       \item \textbf{Name}
       \item \textbf{Set}
       \item \textbf{Toggle Song Editor}
@@ -1186,6 +1203,31 @@
    This function can also be performed using the keystroke defined
    in \textbf{File / Options / Ext Keys / Tap BPM}.  It defaults
    to the \texttt{F9} key.
+
+   \itempar{Log Current Tempo}{pattern!log tempo}
+   This light-magenta button, when pressed, logs the current tempo at the
+   current playback spot as a Set Tempo meta-event, but only in the first
+   track (pattern slot \#0), and only if it is active.  According to the MIDI 
+   standard, such events should be present \textsl{only} in the first track,
+   and so \textsl{Sequencer64} follows this rule, and also makes tempo events
+   officially supported.  They can be edited in the pattern editor or in the
+   event editor.
+   See \sectionref{sec:meta_events}, for more information.
+
+   \itempar{Record Tempo Changes}{pattern!record tempo}
+   This dark-magenta button becomes light-magenta when activated, and turns on
+   the recording of any tempo changes made in the BPM spinner.  If the spinner
+   is held down indefinitely, a ramping stream of tempo events is created.  If
+   the time exceeds the current length of the tempo track, then the length of
+   the track is automatically increased.
+   Note that these tempo events will not have any effect on playback speed
+   unless the tempo track is unmuted.
+
+   \itempar{Keep-Queue Status}{pattern!keep-queue}
+   This item is the \textbf{Q} button.
+   It provides a visual way to know the current state of keep-queue, and is
+   activated either by clicking on it or by pressing the assigned keep-queue
+   key.
 
    \itempar{Name}{pattern!set name}
    Each of the 32 available screen sets can be given a name by entering it

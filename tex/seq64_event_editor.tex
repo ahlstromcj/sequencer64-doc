@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-01-02
-% \update      2016-02-17
+% \update      2017-08-01
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,8 +50,13 @@
    things like the performance editor and triggers.
    For now, the event editor is a good way to see the events in a sequence,
    and to delete or modify problematic events.
-   Unlike the event pane in the pattern editor, this dialog shows all types of
-   events at once.
+   Additionally, it can be used to add \textbf{Set Tempo} meta events.
+   \index{sequence extension}
+   \index{pattern extension}
+   Furthermore, if an event is added that has a time-stamp beyond the current
+   length of the sequence, then the length of the sequence is extended.
+   Unlike the event pane in the pattern editor, the event-editor
+   dialog shows all types of events at once.
 
 \begin{figure}[H]
    \centering 
@@ -132,6 +137,9 @@
    The division values range from 0 up to one less than the
    \index{ppqn}
    PPQN (pulses per quarter note) value for the whole song.
+   \index{ppqn!\$ shortcut}
+   As a shortcut, one can use the dollar sign ("\$") to represent
+   PPQN-1.
 
    \itempar{Event Name}{event editor!event name}
    Displays the name of the event.

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2017-07-23
+% \update      2017-08-05
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.92.0}
+\title{Sequencer64 User Manual 0.93.1}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -397,8 +397,10 @@
 %  \includegraphics[scale=0.75]{seq64-first-screen.png}
 %  \includegraphics[scale=0.75]{new/seq64_first_screen.png}
 %  \includegraphics[scale=0.75]{seq64-first-screen-new-buttons.png}
-   \includegraphics[scale=0.75]{new/seq64-first-screen-jack.png}
-   \caption{Sequencer64 Main Screen, Native JACK MIDI}
+%  \includegraphics[scale=0.75]{new/seq64-first-screen-jack.png}
+%  \caption{Sequencer64 Main Screen, Native JACK MIDI}
+   \includegraphics[scale=0.75]{new/seq64-first-screen-alsa.png}
+   \caption{Sequencer64 Main Screen, ALSA MIDI}
    \label{fig:seq64_main_screen}
 \end{figure}
 
@@ -413,10 +415,14 @@
    "Live" or "Song", "Mute", "Menu", and "JACK", "ALSA", or "Native" (native
    JACK MIDI).
    Another new item that \textsl{is} shown is the button with a "0" as its
-   label.  This is the new \textbf{Tap Tempo} button (see
+   label.  This is the \textbf{Tap Tempo} button (see
    \sectionref{subsec:seq64_patterns_panel_bottom} for more information).
-
-   Another new item, not yet shown in the figure, is the \textbf{Q} button,
+   The light magenta button to the right of it, when click, logs the current
+   tempo as a Set Tempo event.  To the right of that is a darker button that
+   toggles the recording of all tempo changes.  (Currently, only those changes
+   made with the main window's BPM spinner are saved; later, incoming tempo
+   events will be recordable.)
+   Another new item is the \textbf{Q} button,
    which both enables and shows the "keep-queue" status, which can also be
    enabled using a keystroke.
 
