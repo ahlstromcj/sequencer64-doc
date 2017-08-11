@@ -83,8 +83,8 @@
    \index{keys!.}
    \index{keys!pause}
    new pause key (which defaults to the period character) or by the pause
-   button, which appears when playback is underway.  (Note that this feature
-   can be disabled if the application is built via source code.  Also note that
+   button, which appears when playback is underway.  (This feature
+   can be disabled if the application is built via source code.  Note that
    it works only in ALSA mode at present.)
 
 \subsection{Pattern Editor / First Panel}
@@ -1255,6 +1255,7 @@
    Note the squares.  Some of filled (black), others are empty.  The filled
    squares indicate that the sequence does indeed have some events of that
    type.  Otherwise, there are no such events in the sequence.
+   Useful in deciding if it is worth selecting the event.
 
    The sub-menus of this context menu show 128 controller messages,
    so we won't try to show all of them here.  They also use the squares to
@@ -1263,7 +1264,7 @@
    These sub-menus can be modified by editing the file
    
    \begin{verbatim}
-      $HOME/.config/sequencer64/sequencer64.rc
+      $HOME/.config/sequencer64/sequencer64.usr
    \end{verbatim}
 
    (legacy mode: \texttt{\$HOME/.seq24usr}), to make it match one's
@@ -1282,11 +1283,11 @@
    can be modulated by some rudimentary wave functions.
    This feature is now enabled by default.
    By clicking on the \textbf{LFO} button or using the \texttt{Ctrl-L} key,
-   the following window appears:
+   the following window appears, shown as the set of 5 vertical sliders:
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{new/pattern_editor_with_LFO.png}
+   \includegraphics[scale=0.65]{new/pattern_editor_with_LFO.png}
    \caption{Pattern Editor, LFO Support}
    \label{fig:pattern_editor_bottom_lfo_support}
 \end{figure}
@@ -1347,7 +1348,8 @@
 
    \itempar{Quantized Record}{pattern editor!quantized record}
    Activating this button will also cause MIDI data to be recorded, but it
-   will be quantized on the fly before recording it.
+   will be quantized on the fly before recording it.  The quantization is
+   to the current snap value.
 
    \itempar{Recording Type}{pattern editor!recording type}
    In \textsl{Seq24}, the pattern recording worked by merging new notes played
@@ -1388,14 +1390,7 @@
    \label{fig:pattern_edit_recording_volume_menu}
 \end{figure}
 
-   The values provided are:
-
-   \begin{itemize}
-      \item Free (record incoming volumes).
-      \item Fixed 8, Fixed 7, Fixed 6, Fixed 5, Fixed 4, Fixed 3.
-      \item Fixed 2, and Fixed 1.
-   \end{itemize}
-
+   The velocity values are shown at the right side of each menu entry.
    These values correspond to MIDI volume levels from 127 down to 16, as
    shown in the figure.
 
@@ -1453,7 +1448,7 @@
          One can also click in the piano roll, and then use the
          \texttt{z} \index{keys!z},
          \texttt{Z} \index{keys!Z}, and
-         \texttt{0} \index{keys!0} to change the timeline zoom.
+         \texttt{0} \index{keys!0} keys to change the timeline zoom.
    \end{itemize}
 
    The actions of this scrolling are surprisingly smooth and fast.

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-04-15
+% \update      2017-08-09
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -771,6 +771,30 @@
       # Output buss name: [4] 128:3 TiMidity port 3
       4 0  # buss number, clock status
    \end{verbatim}
+
+\subsection{Sequencer64 "rc" File / MIDI-Meta-Events Section}
+\label{subsec:seq64_rc_file_midi_meta_events}
+
+   \index{[midi-meta-events]}
+   The new MIDI Meta events section is the start of additional options
+   supporting meta events as normal events in \textsl{Sequencer64}.
+   \index{tempo-track-number}
+
+   \begin{verbatim}
+      [midi-meta-events]
+      10      # tempo_track_number
+   \end{verbatim}
+
+   Normally, as per the MIDI specification, the first track (track 1 in track
+   numbering, or pattern 0 in \textsl{Sequencer64} numbering) is \textsl{the}
+   official track for certain MIDI meta events, such as Set Tempo and Time
+   Signature.  However, to accommodate existing tunes and their set
+   arrangement, we allow the user to go into \textbf{File / Options / MIDI
+   Clock} and change the tempo track to another pattern.
+
+   Please note that the user can insert Set Tempo events into any track via the
+   pattern editor or the event editor.  But, when recording tempo events, they
+   will always be written to the patten having the tempo-track number.
 
 \subsection{Sequencer64 "rc" File / Keyboard Control Section}
 \label{subsec:seq64_rc_file_keyboard_control}

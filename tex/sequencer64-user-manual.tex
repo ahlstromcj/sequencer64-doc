@@ -59,7 +59,7 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.50]{Sequencer64-0_9_17.png}
-   \caption*{Inverse Video Mode}
+   \caption*{"Night" Mode}
 \end{figure}
 
 \clearpage                             % moves Contents to next page
@@ -106,7 +106,7 @@
 \subsection{Sequencer64: What?}
 \label{subsec:what_is_sequencer64}
 
-   \textsl{Sequencer64} is an continuation/reboot of \textsl{Seq24},
+   \textsl{Sequencer64} is an reboot of \textsl{Seq24},
    a live-looping sequencer with an interface more like a hardware sequencer
    than the typical software MIDI sequencer.
    \textsl{Seq24} was a very active project, with a
@@ -165,52 +165,54 @@
 
    \begin{itemize}
       \item An important update is native JACK MIDI support!  At last!
-      \item The user interface is now capable of showing more than one set at
+      \item Tempo events are now supported, are recordable, and are editable.
+         The first track can serve as a "tempo track".
+      \item A "Tap" button sets the BPM by tapping a button or a key.
+      \item The user interface can show more than one set at
          once.  More information on the current screen!
-      \item The user interface is now capable of showing more patterns in a
+      \item The user interface can show more patterns in a
          single set.  For example, 8 rows by 8 columns, fulfilling the promise
          of the project name, \textsl{Sequencer64}.
-      \item A new \textsl{event editor} dialog
+      \item The \textsl{event editor} dialog
          provides viewing and editing of MIDI events as text.
          This editor is basic, but useful.
       \item \textsl{Sequencer64} now reads SMF 0 MIDI files, splitting
          the file into patterns based on channel number.
-      \item A "Tap" button sets the BPM by tapping a button or a key.
       \item Additional MIDI controls, such as coarse versus fine BPM control.
       \item Some features have been ported from \textsl{Stazed}'s
-      \textsl{Seq32} \cite{seq32} project.  Some features can be disabled at
-      configure/build time, if desired.
-      \begin{itemize}
-         \item The chord-generation feature of \textsl{Seq32}.
-         \item The pattern-transposing feature.
-         \item MIDI song export.
-            It allows a song/performance to be exported into a MIDI file
-            without \textsl{Sequencer64} loops, so that the performance can be
-            played in a standard MIDI sequencer.
-         \item The extended undo/redo support of \textsl{Seq32} has been
-            ported to \textsl{Sequencer64}.
-         \item The ability to split triggers at the nearest snap, instead
-            simply splitting them in half.
-         \item Editing the amplitude of data events using a simple
-            low-frequency oscillator (LFO).
-         \item Enhanced JACK transport support.
-         \item A large number of other \textsl{Seq32} features have been
-            ported, but they are currently commented out until we can test them
-            and make sure they are "perfect".
+         \textsl{Seq32} \cite{seq32} project.  Some features can be disabled at
+         configure/build time, if desired.
          \begin{itemize}
-            \item Diverting multi-channel recorded MIDI so that each channel
-               is stored in the sequence/pattern configured for that channel
-            \item Randomizing MIDI events.
-            \item Selection extensions such as selecting odd/even notes, and
-               handles on data events.
-            \item More features for controlling transport.
+            \item The chord-generation feature of \textsl{Seq32}.
+            \item Pattern-transposing.
+            \item MIDI song export, which
+               allows a song/performance to be exported into a MIDI file
+               without \textsl{Sequencer64} loops, so that the performance can be
+               played in a standard MIDI sequencer.
+            \item The extended undo/redo support of \textsl{Seq32} has been
+               ported to \textsl{Sequencer64}.
+            \item The ability to split triggers at the nearest snap, instead
+               simply splitting them in half.
+            \item Editing the amplitude of data events using a simple
+               low-frequency oscillator (LFO).
+            \item Enhanced JACK transport support.
+            \item A number of other \textsl{Seq32} features have been
+               ported, but they are still pending:
+            \begin{itemize}
+               \item Diverting multi-channel recorded MIDI so that each channel
+                  is stored in the sequence/pattern configured for that channel
+               \item Randomizing MIDI events.
+               \item Selection extensions such as selecting odd/even notes, and
+                  handles on data events.
+               \item More features for controlling transport.
+            \end{itemize}
          \end{itemize}
-      \end{itemize}
       \item An optional second song editor window, to have a view
          of two different parts of a large song while arranging it.
       \item Set Tempo and Time Signature events are
          now processed, incorporated into the user-interface, and are saved
-         as standard MIDI data.
+         as standard MIDI data.  Support for System Exclusive events is
+         improving.
       \item The scale, key, and background sequence
          settings are now saved to the \textsl{Sequencer64} MIDI file, either
          globally or per-sequence.
@@ -239,8 +241,8 @@
             toggles between showing letters/octaves (e.g. "C4") versus
             the MIDI note numbers.  
       \end{itemize}
-      \item The "user" configuration is now written to disk, and 
-         settings are added to it as time goes on.  It currently offers the
+      \item The "user" configuration can now be written to disk, and 
+         settings are adding to it as time goes on.  It currently offers the
          long-standing feature of customizable buss, instrument, and controller
          information, plus some customizations of the user-interface, such as
          font, display of the main window's pattern grid, colored and thicker
@@ -250,7 +252,7 @@
       \item Support for mapping MIDI events to a single MIDI buss for testing
          or simple use cases.
       \item On-going support for handling PPQN values other than the
-         default value of 192.  Still not comprehensive, but very usable.
+         default value of 192.
       \item Small improvements in appearance:
       \begin{itemize}
          \item Support for showing empty (having only meta
@@ -279,17 +281,17 @@
          files.
       \item More musical scales (harmonic minor, melodic minor,
          whole tone, etc.) have been added.
-      \item A pause feature has been added to ALSA-mode playback.
-         It also includes a pause keystroke (".") and a pause button.
-      \item A multiple main-window build and run-time option is now available,
-         to show more than one set in the main window.
+      \item A pause feature, added to ALSA-mode playback,
+         includes a pause keystroke (".") and a pause button.
+      \item A multiple-set main-window build and run-time option can now
+         show more than one set in the main window.
       \item Internal improvements.
       \begin{itemize}
          \item Provided a new, more MIDI-compliant output format for the MIDI
             files.  The old format can still be read, and, with a "legacy"
             option, be written.
          \item Changed the handling of the MIDI event container, which greatly
-            speeds up the loading of a MIDI file, especially in debug mode.
+            speeds up the loading of a MIDI file.
 %           If the new container reduces the maximum output of the sequencer,
 %           we will dump the slow container into a vector container for faster
 %           playback.

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-06-11
+% \update      2017-08-09
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -271,10 +271,7 @@
    This dialog allows one to select which sequence gets the MIDI
    clock, which incoming MIDI events control the sequencer, what keys are
    mapped to functions, how the mouse works, and some JACK parameters.
-
    Note that there is now an extra tab-page for \textbf{Ext Keys}.
-   It is not shown in some of the screenshots; we are too lazy to re-do those
-   screenshot just to show the new tab.
 
 \begin{figure}[H]
    \centering 
@@ -438,9 +435,20 @@
    "rc" file as described in
    \sectionref{subsec:seq64_rc_file_other_midi}.
 
+   \itempar{Meta Events}{midi clock!meta events}
+   \index{tempo-track-number}
+   This new item currently consists of just one item, the tempo track number.
+   This item allows the user to change the tempo track from pattern 0 to
+   another pattern.  Changing this option is not recommended, since track 1 (0)
+   is the official track for tempo events, but \textsl{Sequencer64} allows the
+   user to record tempo events to another track.  \textsl{Sequencer64} will
+   process tempo events in any pattern.
+
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-0.png}
+%
+%  Updated for version 0.93.1:
    \includegraphics[scale=0.75]{new/midi-clock-4-devices-manual-0.png}
    \caption{MIDI Clock, Manual Option Off (ALSA View)}
    \label{fig:seq64_midi_clock_4_devices_manual_0}
@@ -456,7 +464,7 @@
    One could theoretically play music through 6 or 7 devices using
    \textsl{Sequencer64} with this setup.
 
-   See \sectionref{subsec:seq64_jack_native_midi}
+   See \sectionref{subsec:seq64_jack_native_midi},
    for a lot more information about native JACK support, and examples of JACK
    MIDI ports and connections.
 
@@ -464,7 +472,20 @@
    \index{todo!manual alsa gui option}
    There is currently no user-interface item corresponding to the "manual ALSA"
    command-line and "rc" configuration file option.
-   We also want to rename this option to simply "manual" in the near future.
+   We also want to rename this option to simply "manual" or "virtual"
+   in the near future, since it can also apply to JACK MIDI.
+
+   There is a new option shown only in the figure above, and it supports the
+   Set Tempo events introduced in version 0.93.  This option, which lets the
+   user change the default tempo track from 0 (the first pattern) to another
+   value that accommodates the user's existing tunes.
+   In addition, the \textbf{Set as Song Tempo Track} button will set this tempo
+   track as part of the currently-load MIDI song file, and will be saved when
+   exited.  This value will override the global tempo-track value, which is
+   stored in the 'rc' configuration file.  However, if 0, it will be ignored,
+   so that the global value will take hold.
+   See \sectionref{subsec:seq64_rc_file_midi_meta_events}, which discusses this
+   new item in the "rc" configuration file.
 
 \paragraph{Menu / File / Options / MIDI Input}
 \label{paragraph:seq64_menu_file_options_midi_input}
@@ -557,12 +578,11 @@
    \index{input buses}
    \textbf{Input Buses} delineates the MIDI input devices as noted above.
    \index{input options}
-   \textbf{Input Options} adds further refinements to MIDI input.  The current 
-   option present
+   \textbf{Input Options} adds further refinements to MIDI input.
 
    \index{input by channel}
    \textbf{Record input into sequence according to channel},
-   is a new (and \textsl{untested}) feature ported from \textsl{Seq32}.
+   is a new feature ported from \textsl{Seq32}.
    When enabled, MIDI input with multiple channels is distributed to
    each sequence according to what MIDI channel the sequence is set to.
    When disabled, the legacy recording behavior dumps all data into the current
@@ -613,17 +633,14 @@
    \label{fig:seq64_menu_file_options_keyboard}
 \end{figure}
 
-   Note the new \textbf{Ext Keys} tab is not shown in this figure.
    We won't attempt to cover every user-interface item in this busy
    dialog, just the categories.  Some items are discussed in other parts of
    this manual.
 
-   \textbf{New:}
    \index{new!pause}
    \index{pause}
-   Also, if the application has been built with the pause option, an
+   If the application has been built with the pause option, an
    additional key definition is shown for the Pause key.
-
    By default, the Pause key is the period (".").  An old version of
    the "rc" file is automatically fixed to include this new option.
    (The pause feature can be removed by rebuilding the application
@@ -636,7 +653,6 @@
 %    \label{fig:seq64_menu_file_options_keyboard_pause}
 % \end{figure}
 
-   \textbf{New:}
    \index{new!pattern edit}
    \index{pattern edit}
    \index{new!event edit}
@@ -675,6 +691,9 @@
    each loop/pattern in the Patterns window (the main window).  This feature is
    useful for live playback and control of a song.
    Note that this option is also available in the "rc" configuration file.
+   Also note that this option will enable the display of the pattern length, in
+   measures, at the top right of the pattern slot, not shown in the current
+   diagram.
 
    \itempar{Show sequence numbers on sequence}{keyboard!sequence numbers}
    \textbf{New:}
@@ -730,10 +749,10 @@
          Key: \index{keys!home} \textbf{Home}.
    \end{enumber}
 
-   Note that some of the keys have positional mnemonic value.  For example,
+   Some of the keys have positional mnemonic value.  For example,
    for BPM control, the semicolon is at the left (down), and the apostrophe
    is at the right (up).
-   Also note that the keys definable in this tab are only a subset of the
+   Note that the keys definable in this tab are only a subset of the
    various keys that can be used, especially keys used with the
    \texttt{Ctrl} key or other modifier keys.
 
@@ -796,14 +815,14 @@
    key (the \texttt{Insert} key by default, but see the current configuration)
    and, simultaneously, press one of the mute group keys: \textsl{Sequencer64}
    will save the currently-playing pattern slots into the corresponding mute
-   group.  Note that the default mute group keys need the \texttt{Shift}
+   group.  The default mute group keys need the \texttt{Shift}
    modifier, but one does not need the \texttt{Shift} key while pressing
-   \texttt{Insert} to learn the group, only to trigger it (\textsl{Sequencer64}
-   will automatically assign the corresponding key with \texttt{Shift}
-   activated).
+   \texttt{Insert} to learn the group, only to trigger it
+   (\textsl{Sequencer64} will automatically assign the corresponding key with
+   \texttt{Shift} activated).
 
    Now, on some keyboards (like the author's), 
-   the \texttt{Insert} key is a two-key button.  So, an alternative
+   the \texttt{Insert} key is a clumsy two-key button.  So, an alternative
    is to click the \index{L button} \textbf{L button} and release it,
    then hit the desired mute-group (no need for the \texttt{Shift} key).
 
@@ -1282,7 +1301,7 @@
    and \textbf{ALSA}.
    \index{jack page!ctrl-p}
    \index{keys!ctrl-p}
-   Currently, the \texttt{Ctrl-P} will also bring up this page.
+   The \texttt{Ctrl-P} key will also bring up this page.
 
 \subsection{Menu / Edit}
 \label{subsec:seq64_menu_edit}
