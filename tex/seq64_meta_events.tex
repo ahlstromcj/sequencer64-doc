@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2017-07-23
-% \update      2017-08-06
+% \update      2017-08-13
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -21,12 +21,10 @@
    In recent versions of \textsl{Sequencer64} we are attempting better support
    for MIDI Meta and System Exclusive events, as well as a Tempo track.
    At present (v. 0.93.1), \textsl{Sequencer64} now supports the display of Set
-   Tempo and Time Signature events.  They can also be added and edited, in various
-   ways.  For example, see \sectionref{sec:seq64_event_editor}.
-   Furthermore, at this time only the first Tempo and Time Signature events are
-   used to modify playback.
+   Tempo and Time Signature events.  They can also be added and edited, in
+   various ways.  For example, see \sectionref{sec:seq64_event_editor}.
+   Only the first Time Signature event is used to modify playback.
    System Exclusive support is also still in progress.
-   So, currently, the most important feature is that they can be displayed.
 
    This section consolidates the description of the meta-event support.
    The following topics apply:
@@ -111,11 +109,13 @@ what other \textbf{Event} type has been selected.
 %
 % This figure is out-of-date.
 
-The tempo is shown as a solid magenta-colored line at the relative for the tempo,
+The tempo is shown as a solid magenta-colored line at the relative height
+for the tempo,
 based on the minimum and maximum values configured in the "usr" file as
 discussed in the previous section.
 This pattern-slot tempo display is rudimentary.  It doesn't allow for ramping
-of the tempo at present, and cannot be directly edited.
+of the tempo at present (except by recording while holding the BPM
+spin-control), and cannot be directly edited in this window.
 
 However, tempos can be logged or recorded via magenta-colored controls at the
 bottom of the main window.

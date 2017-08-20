@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-06-11
+% \update      2017-08-20
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -212,7 +212,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=1.0]{pattern-window-group-learn-confirmation.png}
+   \includegraphics[scale=0.75]{pattern-window-group-learn-confirmation.png}
    \caption{Group Learn Confirmation Prompt}
    \label{fig:pattern_window_group_learn_confirmation}
 \end{figure}
@@ -224,27 +224,69 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=1.0]{pattern-window-group-learn-failure.png}
+   \includegraphics[scale=0.75]{pattern-window-group-learn-failure.png}
    \caption{Group Learn Failure Prompt (Shift Key)}
    \label{fig:pattern_window_group_learn_failure}
 \end{figure}
 
-   \textbf{New:}
    \index{new!caps lock in learn mode}
    \index{auto-shift}
    \index{group-learn!auto-shift}
    \index{shift-lock}
    \index{group-learn!shift-lock}
-   To avoid this issue with the Shift key, \textsl{Sequencer64} now
-   "Shift-Locks" the keys for you, so that none of the keys, whether letters or
-   the punctuation characters above the numbers, need the Shift key to be held.
-   There is now no need to use the \textbf{Caps Lock} is \textsl{On} before
-   starting the 'learn' process.  We did this because we tend to map the
+   To avoid this issue with the \texttt{Shift} key, \textsl{Sequencer64} now
+   "shift-locks" the keys automatically while group learn is in progress, so
+   that none of the keys, whether letters or the punctuation characters above
+   the numbers, need the \texttt{Shift} key to be held, to learn them.
+   Thus, there is now no need to use the \textbf{Caps Lock} is \textsl{On} before
+   starting the "learn" process.  We tend to map the
    \texttt{Caps Lock} key as the \textsl{true} Control key, so that
-   \texttt{Caps Lock} is no longer available
+   \texttt{Caps Lock} is no longer available anyway
    (it is one of the most useless keys \textsl{ever}).
 
-   Once that works, one can configure the MIDI settings in similar ways
+   Remember, though, that once learned, the \texttt{Shift} is then
+   needed to call up the mute-group that was learned.
+
+   There is another way for mute-group learn to fail.
+   With the recent ability of \textsl{Sequencer64} to increase the set size via
+   the \texttt{--option sets=8x12} (for example), there can be fewer than 32
+   mute-groups available.   This can be seen by viewing
+   \textbf{File / Options / Keyboard} when larger set-sizes are in force:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{group-learn-limited.png}
+   \caption{Group Learn Keys With Larger Set Size}
+   \label{fig:pattern_window_group_learn_limited}
+\end{figure}
+
+   Note that only 10 mute-groups (0 to 9) are available with an 8x12 set size.
+   Groups 10 and above are not available, and this is indicated by the word
+   "Clear".  Don't worry, though, all of the mute-group key settings still
+   exist, and are still present in the "rc" configuration file in the
+   \texttt{[keyboard-group]} section.
+
+   But when one attempts a group-learn using one of the unavailable keys,
+   an error occurs, as shown in the following prompt.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{pattern-window-group-learn-limit.png}
+   \caption{Group Learn Limit Prompt}
+   \label{fig:pattern_window_group_learn_limit}
+\end{figure}
+
+   This prompt also appears if one tries to use the shifted version of an
+   unavailable mute-group key to toggle patterns; this makes it obvious what
+   has gone wrong.
+
+   \textsl{
+   At some point in the future, we may allow a much larger number of sets, so
+   that all 32 mute-groups are always available.  We have to think hard about
+   that enhancement, however.
+   }
+
+   One can configure the MIDI settings in similar ways
    by assigning MIDI commands to arm or toggle loops, using 
    \index{rc file}
    the 'on' option in the "rc" file.
@@ -504,7 +546,6 @@
          reference it when juggling a number of patters.
       \item \textbf{Pattern Length}.
          \index{pattern!length}
-         \textbf{New:}
          If the option to show pattern hot-key is enabled, the length of the
          pattern, in measures, is shown in the upper right corner of the
          pattern slot.  This feature is useful when recording tempo events that
