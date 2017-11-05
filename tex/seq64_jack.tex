@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-01-28
-% \update      2016-03-12
+% \update      2017-11-05
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -78,42 +78,11 @@
    In the meantime, the text files in the project's \texttt{contrib/notes}
    directory provide some useful setup notes.
 
-   First, if \textsl{Sequencer64} is run in JACK mode without JACK running on
-   the system, it will take awhile to come up (in ALSA mode).  If run from the
-   console, one will see:
-
-\begin{verbatim}
-   Cannot connect to server socket err = No such file or directory
-   Cannot connect to server request channel
-   jackdmp 1.9.11
-   Copyright 2001-2005 Paul Davis and others.
-   Copyright 2004-2014 Grame.
-   jackdmp comes with ABSOLUTELY NO WARRANTY
-   This is free software, and you are welcome to redistribute it
-   under certain conditions; see the file COPYING for details
-   JACK server starting in realtime mode with priority 10
-   self-connect-mode is "Don't restrict self connect requests"
-   audio_reservation_init
-   Acquire audio card Audio1
-   creating alsa driver ... hw:PCH|hw:PCH|1024|3|48000|0|0|nomon|swmeter|-|32bit
-   ATTENTION: The playback device "hw:PCH" is already in use. Please stop the
-   application using it and run JACK again
-   JackTemporaryException : now quits...
-   Cannot initialize driver
-   JackServer::Open failed with -1
-   Failed to open server
-   Cannot connect to server socket err = No such file or directory
-   Cannot connect to server request channel
-    . . .
-   jack server is not running or cannot be started
-   JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for 4294967295,
-   skipping unlock
-   JackShmReadWritePtr::~JackShmReadWritePtr - Init not done for 4294967295,
-   skipping unlock
-   [JACK server not running, JACK sync disabled]
-\end{verbatim}
-
-   MORE TO COME.
+   JACK transport support is \textsl{separate} from native JACK MIDI support.
+   The JACK transport client is an invisible client with the
+   name "seq64-transport", while the JACK MIDI client is visible in
+   \textsl{QJackCtl}, and the ports created are part of the
+   "seq64" client.
 
 \subsection{Sequencer64 Native JACK MIDI}
 \label{subsec:seq64_jack_native_midi}
@@ -132,27 +101,52 @@
    \texttt{-t} or \texttt{--jack-midi}
    option.  Why \texttt{-t}?  We are running out of option letters.
    And eventually we will make the \texttt{-t} option the default.
+   If \textsl{Sequencer64} (in its native JACK mode, using the
+   \texttt{-t} or \texttt{--jack-midi} option)
+   is run in JACK mode \textsl{without JACK running} on
+   the system, it will take awhile to come up (in ALSA mode).  If run from the
+   console, one will see:
 
-   The next thing to note about \textsl{seq64}
-   is that the original JACK-transport options
-   are still present, but the JACK transport support is
-   \textsl{separate} from the JACK MIDI support.
-   The JACK transport client is an invisible client with the
-   name "seq64-transport", while the JACK MIDI client is visible in
-   \textsl{QJackCtl}, and the ports created are part of the
-   "seq64" client.
+\begin{verbatim}
+	$ ./Seq64rtmidi/seq64 -t
+	[Activating native JACK MIDI]
+	[Reading rc configuration /home/ahlstrom/.config/sequencer64/sequencer64.rc]
+	[Reading user configuration /home/ahlstrom/.config/sequencer64/sequencer64.usr]
+	[Activating native JACK MIDI]
+	Cannot connect to server socket err = No such file or directory
+	Cannot connect to server request channel
+	jack server is not running or cannot be started
+     . . .
+	[JACK server not running?]
+	connect: JACK server not running?
+	rtmidi_info: no compiled support for specified API     (???)
+	[Initialized, running without JACK sync]
+	9 rtmidi ports created:
+	Input ports (3):
+	  [0] 0:1 system:announce (system)
+	  [1] 14:0 Midi Through:Midi Through Port-0
+	  [2] 24:0 nanoKEY2:nanoKEY2 MIDI 1
+	Output ports (6):
+	  [0] 14:0 Midi Through:Midi Through Port-0 
+	  [1] 24:0 nanoKEY2:nanoKEY2 MIDI 1 
+	  [2] 128:0 TiMidity:TiMidity port 0 
+	  [3] 128:1 TiMidity:TiMidity port 1 
+	  [4] 128:2 TiMidity:TiMidity port 2 
+	  [5] 128:3 TiMidity:TiMidity port 3 
+\end{verbatim}
 
-   To enable the JACK MIDI support, the
-   \texttt{-t}/\texttt{--jack-midi} options are available.
+   To enable native JACK MIDI, use the
+   \texttt{-t}/\texttt{--jack-midi} options.
    When enabled, the "transport" button in the main window will show the word
    "Native" (even when JACK transport is also enabled).  Please note that, if you
    select the jack-midi option and JACK is not available,
    \textsl{seq64} will start in
    ALSA mode and \textsl{it will save} that mode when exiting.
 
-   The JACK options are sticky options.  That is, they are saved to the "rc"
-   configuration file, so one does not have to specify them in subsequent
-   \textsl{seq64} sessions.
+	\index{sticky options}
+   The JACK (\texttt{-t}) and ALSA (\texttt{-A}) options are sticky options.
+   That is, they are saved to the "rc" configuration file at exit,
+   so one does not have to specify them in subsequent \textsl{seq64} sessions.
 
 \subsubsection{Sequencer64 JACK MIDI Output}
 \label{subsubsec:seq64_jack_midi_output}
@@ -167,18 +161,30 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{jack/jack-nano-yosh-midi-auto-seq64.png}
-   \caption{JACK MIDI Auto-Connect}
+   \caption{JACK MIDI Ports and Auto-Connect}
    \label{fig:seq64_jack_nano_yosh_midi_auto}
 \end{figure}
 
    The \texttt{seq64:system midi\_playback\_1} output port shown
    in the left panel is created by \texttt{seq64}.  It connects it to the 
    \texttt{system:midi\_playback\_1} port in the right panel, which
-   is actually the input for the \textsl{Korg nanoKEY2} controller.  ALSA
-   detects the real name of this device, but JACK does not.  
-   Note that this connection is not useful unless \texttt{seq64} could send
-   setup information to the \textsl{nanoKEY2}, which is probably not the case
-   (as far as we know).
+   is actually the input for the \textsl{Korg nanoKEY2} controller.
+   ALSA detects the real name of this USB MIDI device, but JACK does not.  
+   Thus, the MIDI tab shows the "system" name of the USB MIDI port, while
+   the ALSA tab does show the name.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{jack/jack-nano-yosh-alsa-pre-seq64.png}
+   \caption{ALSA MIDI Ports}
+   \label{fig:seq64_jack_nano_yosh_alsa_pre}
+\end{figure}
+
+	Note that the input connection is not useful unless \texttt{seq64} could
+   send setup information to the \textsl{nanoKEY2}.
+   Korg provides a configuration application for \textsl{Windows}.
+   For \textsl{Linux}, a Python application called \textsl{Nano-Basket}
+	(\cite{nanobasket}) is available.
 
    More useful is the automatic connection between
    \texttt{seq64:yoshimi midi in} in the left (output) panel and
@@ -186,15 +192,26 @@
    \textsl{Sequencer64} patterns with the proper output-buss setting can play
    to the \textsl{Yoshimi} software synthesizer.
 
+	The output ports available are shown in \textsl{seq64}'s
+	\textbf{File / Options / MIDI Clock} tab, shown here:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{jack/jack-nano-yosh-midi-clock-seq64.png}
+   \caption{JACK MIDI Ports in Seq64}
+   \label{fig:seq64_jack_nano_yosh_midi_clock}
+\end{figure}
+
    Note that the index, client, and buss numbers are all the same.
    There's actually a bug here, since all \texttt{seq64} ports should have the
    same client number.  However, in JACK, clients and ports are referred to by
    name, not number, and so functionality is not affected.
 
-   Entry 0 is, as already noted, not useful unless the \textsl{nanoKEY2} can
+   Entry 0 (\texttt{seq64:system midi\_playback\_1}) is,
+   as already noted, not useful unless the \textsl{nanoKEY2} can
    accept input control.  Entry 1 allows \texttt{seq64} to send MIDI
    to \textsl{Yoshimi}.  A pattern must specify output buss 1 in order for the
-   MIDI to readh \textsl{Yoshimi}.  Another option, normally for testing only,
+   MIDI to reach \textsl{Yoshimi}.  Another option, normally for testing only,
    is to specify the "bus" option on the command line:
 
    \begin{verbatim}
@@ -252,11 +269,10 @@
    JACK MIDI ports, \textsl{do not} use the
    \texttt{-m}/\texttt{--manual-alsa-ports} option... use the
    \texttt{-a}/\texttt{--auto-alsa-ports} option.  Both options apply to both
-   ALSA and JACK, but we do not want to change the options names yet.
+   ALSA and JACK, but we do not want to change the option-names at this time.
 
    If one wants the freedom to make the connections oneself, or with a session
    manager, then use the manual/virtual option.
-
    Here are the ports created in manual/virtual mode:
 
 \begin{figure}[H]
@@ -308,6 +324,7 @@
    painted and advanced, but they are not previewed.  To preview them, click
    the "pass MIDI in to output" button in the pattern editor window to activate
    so that they will be passed to your sound generator.
+	Be careful of MIDI loops!
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
