@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-08-20
+% \update      2017-11-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -961,9 +961,10 @@
    \index{keys!right ctrl}
    \index{keys!queue}
    \index{queue!temporary}
-   Holding \texttt{Right Ctrl}
-   will queue a on/off toggle for a 
-   sequence when the loop ends. This is the "queue" functionality.
+   Holding the "queue" key and then hitting a pattern hot-key
+   will queue an on/off toggle for a pattern when the end of the loop is
+   reached.
+   This is the "queue" functionality.
    This means that the change in state of the pattern will not take hold
    immediately, but will kick in when the pattern restarts.
    This pending state is indicated by coloring the central box of the
@@ -983,20 +984,29 @@
    \textbf{File / Options / Ext Keys}.
 
    Note that queueing can also be used to turn a pattern \textsl{off}
-   at the end of a pattern.  Also note the "keep queue" functionality described
-   below.
+   at the end of a pattern.  Also note the "keep queue" functionality and
+   the "one-shot queue" functionality described below.
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/seq24-queueing-coloration.jpg}
+%  \includegraphics[scale=0.75]{pattern/seq24-queueing-coloration.jpg}
+   \includegraphics[scale=1.00]{new/seq64-queueing-coloration.png}
    \caption{Pattern Coloration when Queued}
    \label{fig:seq64_queueing_coloration}
 \end{figure}
 
+   This figure shows the coloring for queueing in the top two patterns with
+   dark grey backgrounds.  At the end of the patter, the left top pattern will
+   turn off, and the right top pattern will turn on.
+
+   The bottom two patterns show the light-grey coloring used to show
+   a "one-shot" queue.  The one-shot queue can only turn a pattern on, and it
+   will let the pattern automatically turn off after one play.
+
    Queue also works for mute/unmute pattern sets ("groups"); in this case,
    every sequence will toggle its status after its individual loop ends. 
 
-   Of course, the \texttt{Ctrl} key is used to manage the GUI (e.g.
+   Of course, if the \texttt{Ctrl} key is used to manage the GUI (e.g.
    \texttt{Ctrl-Q} will unceremoniously quit the application), so one will
    usually want to change this key to something else in the
    \textbf{File / Options / Keyboard / Queue} field.
@@ -1015,12 +1025,13 @@
    \index{queue!keep queue}
    Pressing the "keep queue" hot-key (we like the backslash key)
    \index{rc file}
-   assigned in the "rc" file
-   activates permanent queue mode until one click the regular
-   (i.e. temporary) queue function hot-key,
+   assigned in the "rc" file activates a permanent queue mode.
+   In this mode, clicking a pattern key immediately turns on queuing, instead
+   of mute/unmute. 
+   Keep-queue persists until one clicks the normal queue function hot-key,
    or changes the active (viewed) screen-set. 
    After pressing the "keep queue" hot-key, individual pattern
-   toggles occur at the end of the current pattern rather than immediately.
+   toggles are queued rather than happening immediately.
    While in queue mode, pressing a patterns hot-key, or clicking on the
    pattern, queues that pattern to change state at the beginning of the next
    loop.
@@ -1030,6 +1041,16 @@
    This hot-key can be changed in the
    \textbf{File / Options / Keyboard / Keep queue} field.
    Also note the "queued-replace" functionality, described a bit later.
+
+   \index{keys!one-shot queue}
+   Thanks to the \textsl{Kepler34} project, we now have "one-shot queue"
+   functionality.  This functionality queues a pattern up for unmuting only,
+   and, once the pattern has played, it is automatically muted.  This process
+   is easier than having to unqueue the pattern manually before the next
+   playback.
+
+   This hot-key can be changed in the
+   \textbf{File / Options / Ext Keys / One-shot queue} field.
 
    \index{keys!replace}
    Note that there is also a "replace" hot-key, which is the left \texttt{Ctrl}

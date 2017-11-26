@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2017-11-05
+% \update      2017-11-26
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.93.1}
+\title{Sequencer64 User Manual 0.94.0}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -78,9 +78,9 @@
 \section{Introduction}
 \label{sec:introduction}
 
-   This document describes how to use \textsl{Sequencer64}
-   \cite{sequencer64}, through version 0.92.0,
-   using the latest commit from the \textbf{master} branch.
+   This document describes \textsl{Sequencer64}
+   \cite{sequencer64}, through version 0.94.0,
+   the latest commit from the \textbf{master} branch.
    If one is impatient to get started mastering \textsl{Sequencer64},
    then proceed to \sectionref{subsec:introduction_lets_get_started}.
 
@@ -91,16 +91,16 @@
    However, as user \textsl{stazed} notes on GitHub, there is more that can be
    done (and he has done much with his \textsl{seq32} \cite{seq32} project).
 
-   We've added a many features to make song editing faster.
+   Many new features make song editing faster.
    There is now a Pause button/keystroke.
    More editing and navigation can be done using keystrokes.
    The armed/mute status of all of the \textsl{other} active patterns can be
    toggled.
 %  All playing patterns can be muted, then unmuted.
-   We've got zoom keys for the editors, current-sequence highlighting,
+   There are zoom keys for the editors, current-sequence highlighting,
    important bug fixes, some optimization, and much more.
 
-   We have many contributors to acknowledge.  Please see
+   Nonetheless, we have many contributors to acknowledge.  Please see
    \sectionref{sec:kudos}.
 
 \subsection{Sequencer64: What?}
@@ -114,8 +114,7 @@
    functionality, and even ports to Windows.
    We searched for these updates, and
    incorporated them into \textsl{Sequencer64} where feasible.
-   There are still some things to be done, including a port to
-   Windows.
+   There are still some things to be done, including a port to Windows.
 
    \textsl{Sequencer64} is not a synthesizer.  It requires a hardware
    synthesizer, or a software synthesizer such as Timidity \cite{timidity},
@@ -152,7 +151,7 @@
    bug fixes, improving the "user" configuration file,
    and a way to edit parts of the MIDI file textually.
 
-   Secondly, we view \textsl{Seq24} as a kind of "vi" of MIDI editing... spare,
+   Secondly, \textsl{Seq24} is a kind of "vi" of MIDI editing... spare,
    lean, and powerful.  It deserves to be a living project.  Without
    \textsl{Seq24} and its authors, \textsl{Sequencer64} would never have come
    into being.
@@ -166,7 +165,7 @@
    \begin{itemize}
       \item An important update is native JACK MIDI support!  At last!
       \item Tempo events are now supported, are recordable, and are editable.
-         The first track can serve as a "tempo track".
+         The first track (or a configurable track) serves as a "tempo track".
       \item A "Tap" button sets the BPM by tapping a button or a key.
       \item The user interface can show more than one set at
          once.  More information on the current screen!
@@ -176,7 +175,7 @@
       \item The \textsl{event editor} dialog
          provides viewing and editing of MIDI events as text.
          This editor is basic, but useful.
-      \item \textsl{Sequencer64} now reads SMF 0 MIDI files, splitting
+      \item \textsl{Sequencer64} reads SMF 0 MIDI files, splitting
          the file into patterns based on channel number.
       \item Additional MIDI controls, such as coarse versus fine BPM control.
       \item Some features have been ported from \textsl{Stazed}'s
@@ -279,6 +278,7 @@
          refactoring \textsl{Seq24} were also made.  These fixes are noted in
          detail in the project's ROADMAP and contrib/notes/bugs-to-investigate
          files.
+      \item Recording of performance changes into the Song Editor.
       \item More musical scales (harmonic minor, melodic minor,
          whole tone, etc.) have been added.
       \item A pause feature, added to ALSA-mode playback,
@@ -311,6 +311,7 @@
       \item New minor features.
       \begin{itemize}
          \item The size of the Patterns Panel (main window) is now locked.
+         \item A panic button.
          \item Support for LASH is a run-time or a build option.
          \item Support for reading and writing configuration files from the
             user's \texttt{\$HOME/.config/sequencer64} directory, or,
@@ -318,11 +319,10 @@
       \end{itemize}
    \end{itemize}
 
-   Version 1.0 will be more object-oriented,
-   faster, and easier to modify.  Eventually, we might get it to build
-   for Windows, using MingW, though this is a low priority and a fairly
-   significant task.  We've also been asked to incorporate support for native
-   JACK MIDI (\textbf{Done!}), a scripting language, for OSC (Open Sound
+   Eventually, we plan to create a build
+   for Windows, using MingW, a fairly significant task.
+   We've also been asked to incorporate support for 
+   a scripting language, for OSC (Open Sound
    Control), and for NSM (the Non Session Manager).
 
    One more note.  \textsl{Sequencer64} is extremely customizable, and
@@ -401,7 +401,8 @@
 %  \includegraphics[scale=0.75]{seq64-first-screen-new-buttons.png}
 %  \includegraphics[scale=0.75]{new/seq64-first-screen-jack.png}
 %  \caption{Sequencer64 Main Screen, Native JACK MIDI}
-   \includegraphics[scale=0.75]{new/seq64-first-screen-alsa.png}
+%  \includegraphics[scale=0.75]{new/seq64-first-screen-alsa.png}
+   \includegraphics[scale=0.75]{new/seq64-first-screen-alsa-panic.png}
    \caption{Sequencer64 Main Screen, ALSA MIDI}
    \label{fig:seq64_main_screen}
 \end{figure}
@@ -413,29 +414,40 @@
    and much more that is not shown.
    Most of these items can be configured via the "rc" and "user" configuration
    files or command-line options.
-   Note that the buttons show labels in the figure:
-   "Live" or "Song", "Mute", "Menu", and "JACK", "ALSA", or "Native" (native
-   JACK MIDI).
-   Another new item that \textsl{is} shown is the button with a "0" as its
-   label.  This is the \textbf{Tap Tempo} button (see
-   \sectionref{subsec:seq64_patterns_panel_bottom} for more information).
-   The light magenta button to the right of it, when click, logs the current
-   tempo as a Set Tempo event.  To the right of that is a darker button that
-   toggles the recording of all tempo changes.  (Currently, only those changes
-   made with the main window's BPM spinner are saved; later, incoming tempo
-   events will be recordable.)
-   Another new item is the \textbf{Q} button,
-   which both enables and shows the "keep-queue" status, which can also be
-   enabled using a keystroke.
+
+   There are many new front-panel items in \textsl{Sequencer64}:
+
+   \begin{itemize}
+      \item Top panel control buttons:
+      \begin{itemize}
+         \item Toggle and show the status of "Live" mode versus "Song" mode.
+         \item Mute/show the mute status of all tracks.
+         \item Enable/disable the menu bar and show its status.
+         \item Set/show "JACK" transport, "ALSA" mode, or "Native" (JACK) mode.
+      \end{itemize}
+      \item Current time in bars, beats, and ticks.
+      \item Panic button, to stop all tracks and turn off all notes.
+      \item Start, Stop, and Pause.
+      \item Song recording records all muting changes to the Song Editor.
+      \item Song-recording snap, the \textbf{S} button.
+      \item Tap Tempo, the \textbf{0} (zero) button.
+      \item Log Tempo, which inserts the current tempo into the tempo track
+         as an event.
+      \item Tempo recording, which inserts all tempo changes as tempo events.
+      \item Keep-queue toggling and status.
+   \end{itemize}
+
+   Many of these buttons have configurable keystrokes as well.
+   See \sectionref{subsec:seq64_patterns_panel_bottom} for more information.
 
 % This Tip needs to be put elsewhere.
-
-   \textbf{Tip:}
-   \index{tips!tooltips}
-   \index{tooltips}
-   As with most user-interfaces, holding the mouse over some user-interface
-   elements for a short period will let one view a description (tooltip)
-   of what it does.
+%
+%  \textbf{Tip:}
+%  \index{tips!tooltips}
+%  \index{tooltips}
+%  As with most user-interfaces, holding the mouse over some user-interface
+%  elements for a short period will let one view a description (tooltip)
+%  of what it does.
 
 % The following "input" sections are stored in separate files of the same
 % name with ".tex" appended.
