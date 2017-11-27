@@ -34,7 +34,7 @@
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=1.00]{menu/menu_file.png}
-   \includegraphics[scale=1.00]{new/menu_file.png}
+   \includegraphics[scale=0.75]{new/menu_file.png}
    \caption{Sequencer64 File Menu Items}
    \label{fig:seq64_menu_file_items}
 \end{figure}
@@ -694,8 +694,8 @@
    the equals ("=") key.  The second modifier key causes the usual
    pattern-toggle key (hot-key) for a given slot to instead bring up the event
    editor.  By default, this key is the minus ("-") key.
-   These keys are currently hard-wired, but we'll make them configurable
-   eventually.
+   These keys are configurable in the
+   \textbf{File / Options / Ext Keys} page.
 %  As with the other
 %  keys, these keys can be reconfigured to a different set of keys in the
 %  \textbf{File / Options / Keyboard} page.
@@ -747,37 +747,26 @@
    \itempar{Control keys}{keyboard!control keys}
    This block of fields in the \textbf{Options / Keyboard} tab
    provides shortcut keys for many operations of
-   \textsl{Sequencer64}.
+   \textsl{Sequencer64}.  There is a default mapping built into
+   \textsl{Sequencer64}, but open the keyboard options tab to see
+   the actual values.  Some of the old \textsl{Seq24} defaults were
+   ill-advised.
 
    \begin{enumber}
       \item \textbf{Start}.
-         Key: \index{keys!space} \textbf{space}.
       \item \textbf{Stop}.
-         Key: \index{keys!esc} \textbf{Escape}.
-      \item \textbf{Pause}. (new)
-         Key: \index{keys!period} \textbf{period}.
+      \item \textbf{Pause}.
       \item \textbf{Slot Shift}.
-         Key: \index{keys!slash} \textbf{slash}.
       \item \textbf{Snapshot 1}.
-         Key: \index{keys!alt-l} \textbf{Alt\_L}.
       \item \textbf{Snapshot 2}.
-         Key: \index{keys!alt-r} \textbf{Alt\_R}.
       \item \textbf{bpm up}.
-         Key: \index{keys!apostrophe} \textbf{apostrophe}.
       \item \textbf{bpm down}.
-         Key: \index{keys!semicolon} \textbf{semicolon}.
       \item \textbf{Replace}.
-         Key: \index{keys!ctrl-l} \textbf{Control\_L}.
       \item \textbf{Queue}.
-         Key: \index{keys!ctrl-r} \textbf{Control\_R}.
       \item \textbf{Keep queue}.
-         Key: \index{keys!backslash} \textbf{backslash}.
       \item \textbf{Screenset down}.
-         Key: \index{keys![} \textbf{bracketleft}.
       \item \textbf{Screenset up}.
-         Key: \index{keys!]} \textbf{bracketright}.
       \item \textbf{Set playing screenset}.
-         Key: \index{keys!home} \textbf{Home}.
    \end{enumber}
 
    Some of the keys have positional mnemonic value.  For example,
@@ -846,9 +835,7 @@
    \index{group-learn} \textsl{group-learn} mode.
 
    \index{mute-group}
-   One thing we need to explain is just what mute-grouping
-   means functionally.
-
+   One thing to explain is just what mute-grouping means functionally.
    \textsl{Mute groups} are shortcuts to play a defined group of patterns
    on the current set, while stopping other patterns from the current set, and
    all patterns from other sets.
@@ -908,7 +895,8 @@
 
    A number of additional functions have been added to \textsl{Sequencer64},
    and keystrokes have been provided for those new functions, in the
-   \textbf{Ext Keys} page.
+   \textbf{Ext Keys} page.  This page is needed because the original page is
+   completely filled.
 
 \begin{figure}[H]
    \centering 
@@ -925,32 +913,20 @@
    This block of fields in the \textbf{Options / Ext Keys} tab
    provides shortcut keys for more operations of \textsl{Sequencer64}, many of
    them ported from \textsl{Seq32} or \textsl{Kepler34}.
-   The default keys are shown.
 
    \begin{enumber}
       \item \textbf{Song/Live toggle}.
-         Key: \index{keys!F1} \textbf{F1}.
       \item \textbf{Toggle JACK}.
-         Key: \index{keys!F2} \textbf{F2}.
       \item \textbf{Menu mode}.
-         Key: \index{keys!F3} \textbf{F3}.
       \item \textbf{Follow transport}.
-         Key: \index{keys!F4} \textbf{F4}.
       \item \textbf{Fast forward}.
-         Key: \index{keys!F5} \textbf{F5}.
       \item \textbf{Rewind}.
-         Key: \index{keys!F6} \textbf{F6}.
       \item \textbf{Pointer Position}.
-         Key: \index{keys!F7} \textbf{F7}.
       \item \textbf{Toggle mutes}.
-         Key: \index{keys!F8} \textbf{F8}.
       \item \textbf{Tap BPM}.
-         Key: \index{keys!F9} \textbf{F9}.
-      \item \textbf{Song Record}
-         Key: \index{keys!P} \textbf{P}.
-      \item \textbf{One-shot Queue}
-         Key: \index{keys!p} \textbf{p}.  This new feature allows
-         one-shot queuing of a pattern.
+      \item \textbf{Song Record}.
+      \item \textbf{One-shot Queue}.
+         This new feature allows one-shot queuing of a pattern.
    \end{enumber}
 
    Most of these extended keys implement operations performed with button
@@ -1042,18 +1018,14 @@
    the song.
    This feature does not (yet) have a corresponding button.
    This feature also requires that the \textsl{Seq32} transport option be
-   enabled at build time.
-
-   Note that, since these keys are use only in the Song Editor,
-   the \textsl{seq32} keys \texttt{f} and \texttt{r} keys could be
-   used as well.  Be sure not to use the following keys, which are already
+   enabled at build time (and now that is the default).
+   Be sure not to use the following keys, which are already
    hardwired for other functions in the Song Editor:
 
    \begin{itemize}
       \item \texttt{p}.  Paint mode.
       \item \texttt{x}.  Escape paint mode.
    \end{itemize}
-
 
    \index{pointer position}
    The \textsl{pointer position} functionality is a feature ported
@@ -1062,9 +1034,6 @@
    Basically, when this key is pressed, the song pointer will move to the
    current position of the mouse, snapped.
    This feature does not have a corresponding button.
-   This feature also requires that the \textsl{Seq32} transport option be
-   enabled at build time, which is the case if the \textsl{Seq32} JACK build
-   option is selected (and now it is the default).
 
    \index{toggle mutes}
    The \textsl{toggle mutes} function toggles the mute status of every

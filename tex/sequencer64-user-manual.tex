@@ -72,7 +72,10 @@
 % paragraph.  This could be moved up into the preamble, but then would
 % affect the spacing of the TOC and LOF, LOT noted above.
 
-\setlength{\parindent}{0pt}
+% \setlength{\parindent}{0pt}
+% \setlength{\parindent}{3em}
+
+\setlength{\parindent}{2em}
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 
 \section{Introduction}
@@ -179,31 +182,28 @@
          the file into patterns based on channel number.
       \item Additional MIDI controls, such as coarse versus fine BPM control.
       \item Some features have been ported from \textsl{Stazed}'s
-         \textsl{Seq32} \cite{seq32} project.  Some features can be disabled at
+         \textsl{Seq32} \cite{seq32} project; they can be disabled at
          configure/build time, if desired.
          \begin{itemize}
-            \item The chord-generation feature of \textsl{Seq32}.
+            \item Chord-generation.
             \item Pattern-transposing.
             \item MIDI song export, which
                allows a song/performance to be exported into a MIDI file
                without \textsl{Sequencer64} loops, so that the performance can be
                played in a standard MIDI sequencer.
-            \item The extended undo/redo support of \textsl{Seq32} has been
-               ported to \textsl{Sequencer64}.
+            \item Extended undo/redo support.
             \item The ability to split triggers at the nearest snap, instead
                simply splitting them in half.
             \item Editing the amplitude of data events using a simple
                low-frequency oscillator (LFO).
             \item Enhanced JACK transport support.
-            \item A number of other \textsl{Seq32} features have been
-               ported, but they are still pending:
+            \item \textsl{Seq32} features still pending:
             \begin{itemize}
                \item Diverting multi-channel recorded MIDI so that each channel
                   is stored in the sequence/pattern configured for that channel
                \item Randomizing MIDI events.
                \item Selection extensions such as selecting odd/even notes, and
                   handles on data events.
-               \item More features for controlling transport.
             \end{itemize}
          \end{itemize}
       \item An optional second song editor window, to have a view
@@ -423,7 +423,8 @@
          \item Toggle and show the status of "Live" mode versus "Song" mode.
          \item Mute/show the mute status of all tracks.
          \item Enable/disable the menu bar and show its status.
-         \item Set/show "JACK" transport, "ALSA" mode, or "Native" (JACK) mode.
+         \item Set/show "JACK" transport, JACK "Master" transport,
+            "ALSA" mode, or "Native" (JACK) mode.
       \end{itemize}
       \item Current time in bars, beats, and ticks.
       \item Panic button, to stop all tracks and turn off all notes.
