@@ -749,8 +749,9 @@
    provides shortcut keys for many operations of
    \textsl{Sequencer64}.  There is a default mapping built into
    \textsl{Sequencer64}, but open the keyboard options tab to see
-   the actual values.  Some of the old \textsl{Seq24} defaults were
-   ill-advised.
+   the actual values.
+   
+%  Some of the old \textsl{Seq24} defaults were ill-advised.
 
    \begin{enumber}
       \item \textbf{Start}.
@@ -797,8 +798,8 @@
    play back the next time the pattern starts.
    A pattern can be queued by holding the queue key (defined in
    \textbf{File / Options / Keyboard / queue}) and pressing a pattern-slot
-   shortcut key.  Instead of the pattern turning on immediately, it turns on at
-   the next repeat of the pattern.
+   shortcut key.  Instead of the pattern turning on (or off)
+   immediately, it turns on at the next repeat of the pattern.
 
    \index{keep queue}
    \index{keys!keep queue}
@@ -814,7 +815,7 @@
    finished).
 
    Be sure to note the new option, "one-shot queue", in the extended-keys
-   section.
+   section (\sectionref{subsubsec:seq64_patterns_pattern_slot}).
 
    \itempar{Sequence toggle keys}{keyboard!sequence toggle keys}
    Each of these keys toggles the playing/muting of one of the 32
@@ -830,7 +831,7 @@
    keyboard, and will also be shown in each loop/pattern box.  No need to list
    them all here!  But basically, they are the shifted versions of the
    keyboard keys used as hot-keys for the patterns.
-   However, note that the mute-group keys will work only when
+   However, note that the mute-group keys will be set only when
    \textsl{Sequencer64} is in
    \index{group-learn} \textsl{group-learn} mode.
 
@@ -931,8 +932,7 @@
 
    Most of these extended keys implement operations performed with button
    presses.  However, some of the new keystrokes do not have a corresponding
-   button (yet).  Also, we still need to clarify the meaning of some of the new
-   functions.
+   button (yet).
 
    These values are saved as the \texttt{[extended-keys]} section of the "rc"
    configuration file.  However, not all builds of \textsl{Sequencer64} will
@@ -1342,6 +1342,8 @@
       \item \textbf{Toggle mute all tracks}
    \end{enumber}
 
+   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
    \itempar{Song Editor}{edit!song editor}
    \index{song editor}
    This item is the same as the 
@@ -1494,7 +1496,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{new/menu_help_build_info.png}
+   \includegraphics[scale=0.50]{new/menu_help_build_info.png}
    \caption{Help / Build Info}
    \label{fig:seq64_menu_help_build_info}
 \end{figure}

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-11-25
+% \update      2017-11-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -117,10 +117,11 @@
 
    \itempar{Toggle Tracks}{pattern!toggle tracks}
    \index{pattern!toggle tracks}
-   This button changes the status of all of the playing tracks, reversing the
+   This button changes the status of all of the
+   \textsl{playing} tracks, reversing the
    mute status of each pattern that is playing.
-   The next click will then unmute those tracks.
-   Because it can be confusing, this button will be disabled (not shown
+   The next click will then unmute only those tracks.
+   Because it can be confusing, this button is disabled (not shown
    in the figure) in Song mode.
    There is also a configurable hotkey associated with it, called
    \textbf{Toggle mutes},
@@ -154,6 +155,8 @@
    slow.  The whole field flashes in time with the beat.
    This field shows that something is going on.  It can also indicate
    the relative lengths of the various patterns.
+
+   Also included is a numeric representation of the "BBT" (bar:beat:ticks).
  
    Note that the individual pattern boxes in the main panel, for
    patterns that are not empty, have their own
@@ -400,7 +403,6 @@
 
    \index{pattern!slot}
    An empty box is a slot for a pattern.
-
    A pattern can show a number of different statuses based on the coloring
    of elements in the pattern slot. 
 
@@ -411,6 +413,8 @@
    \label{fig:pattern_slots_statuses}
 \end{figure}
 
+   (Not shown in the figure are the gray pattern
+   colors resulting from queueing and one-shot queueing.)
    The colors have meaning:
 
    \begin{itemize}
@@ -567,13 +571,13 @@
          needlessly scroll.
          However, if a pattern has even a single event (say, a program change),
          it will scroll.
-         \textbf{TODO:}
-         \index{todo:one-shot pattern}
-         It might be good to have some patterns marked as one-shot patterns.
-         They play once at the start of playback, and that is it.
-         They could be marked with a cyan background.
-         Currently, it is easy enough to use the Song Editor for this purpose,
-         but then one cannot play the patterns in live mode.
+%        \textbf{TODO:}
+%        \index{todo:one-shot pattern}
+%        It might be good to have some patterns marked as one-shot patterns.
+%        They play once at the start of playback, and that is it.
+%        They could be marked with a cyan background.
+%        Currently, it is easy enough to use the Song Editor for this purpose,
+%        but then one cannot play the patterns in live mode.
       \item \textbf{Sequence Number}.
          If the option to show the sequencer number is set
          in the \textbf{File / Options / Keyboard} section
@@ -1193,18 +1197,19 @@
    \label{fig:pattern_window_bottom_panel_items}
 \end{figure}
 
-   This figure is way out of date, and does not show the new items, marked as
-   "(new)", in the list below.
+   This figure shows a number of new items.
 
    \begin{enumber}
+      \item \textbf{Panic!} (new)
       \item \textbf{Stop}
-      \item \textbf{Play}
-      \item \textbf{Pause}
+      \item \textbf{Play and Pause}
+      \item \textbf{Song Record} (new)
+      \item \textbf{Song Record Snap} (new)
       \item \textbf{BPM}
       \item \textbf{Tap Tempo}
-      \item \textbf{Log Current Tempo} (new)
-      \item \textbf{Record Tempo Changes} (new)
-      \item \textbf{Keep-Queue Status} (new)
+      \item \textbf{Log Tempo}
+      \item \textbf{Record Tempo}
+      \item \textbf{Keep-Queue Status}
       \item \textbf{Name}
       \item \textbf{Set}
       \item \textbf{Toggle Song Editor}
@@ -1212,20 +1217,22 @@
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
+   \itempar{Panic!}{pattern!panic}
+   This new button stops the song and sends MIDI Off messages on all notes.
+
    \itempar{Stop}{pattern!stop}
    The red square button stops the playback of the song and all its patterns.
-   It is not clear if it also sends MIDI Off messages on all notes.
    \index{keys!esc (stop)}
    The keystroke for stopping playback is the \texttt{Escape} character.
    It can be changed to \texttt{Space}, so that the space-bar then becomes a
    playback toggle key.
 
-   \itempar{Play}{pattern!Play}
+   \itempar{Play and Pause}{pattern!Play}
+   \index{pattern!Pause}
    The green triangular button starts the playback of the whole song.
    \index{keys!space (play)}
    The keystroke for starting playback is the \texttt{Space} character.
 
-   \itempar{Pause}{pattern!Pause}
    \index{new!pause}
    A new feature is that the Play button can be used as a Pause button.
    When the Play button is clicked, the button icon changes to a Pause icon:
@@ -1240,6 +1247,20 @@
    Note that a corresponding Pause key (by default, the period) has also been
    defined.  The pause feature can be removed by rebuilding the application
    after configuring with the \texttt{--disable-pause} option.
+
+   \itempar{Song Record}{pattern!song record}
+   Song-recording is a new feature of \textsl{Sequencer64} adopted from the
+   \textsl{Kepler34} project.
+   This feature, when activated, takes live muting changes and records them as
+   triggers in the Song editor.
+   The default hot-key for this function is \texttt{P}.
+   At this time, this feature does not honor queueing...
+   rather than waiting until the end of the pattern when the queueing takes
+   effect, the trigger recording starts immediately.  Something to fix.
+
+   \itempar{Song Record Snap}{pattern!song record snap}
+   This button toggle snapping the beginning and end of a recorded trigger to
+   the nearest beat.  There is no hot-key for this button at this time.
 
    \itempar{BPM}{pattern!BPM}
    The spin widget adjusts the "Beats Per Minute" or BPM value.  The
@@ -1277,7 +1298,7 @@
    display the calculated tempo.  If the user stops tapping for 5 seconds, the
    label reverts to 0, the BPM value keeps its final value, and the user can
    try tapping the tempo again.
-   This function can also be performed using the keystroke defined
+   The tapping  function can also be performed using the keystroke defined
    in \textbf{File / Options / Ext Keys / Tap BPM}.  It defaults
    to the \texttt{F9} key.
 
