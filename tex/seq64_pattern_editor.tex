@@ -1370,13 +1370,15 @@
       pressed, then the existing notes in that loop are erased, and the new
       note is added.  This provides a good way of correcting major mistakes,
       live.  Note that this method will not work if adding notes while not
-      recording.
+      recording.  Also note that this mode can cause incomplete notes if one
+      holds the note and releases it in the next iteration, leaving a
+      partially-drawn note behind.  The workaround is to try again.
       \item \textbf{Expand}. \index{expand}
       \index{recording type!expand}
-      In this method of recording, once the end of the loop is nigh, whether or
+      In this method of recording, once the end of the loop is near, whether or
       not any notes are being input, another measure is added to the length of
       the loop.  This continues indefinitely, whether or not any notes are
-      being recorded.
+      being played/recorded.
    \end{enumber}
 
    \itempar{Vol}{pattern editor!vol}

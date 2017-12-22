@@ -355,11 +355,14 @@
    \sectionref{subsubsec:concepts_terms_screen_set}.
    One can switch between sets by using the
    \index{keys![}
+   \index{keys!screenset down}
    \texttt{[} and
    \index{keys!]}
+   \index{keys!screenset up}
    \texttt{]} keys on the keyboard, or by using
    the spin-widget-driven, labelled \textbf{Set} interface item, or
    \index{keys!Home}
+   \index{keys!screenset play}
    by hitting the (default) Home key to make it the playing screenset,
    or by hitting \texttt{Page-Up} or \texttt{Page-Down} with the pattern window
    in keyboard focus.
@@ -490,7 +493,9 @@
 
    \index{new!editing shortcut}
    \index{keys!=}
+   \index{keys!pattern edit}
    \index{keys!-}
+   \index{keys!event edit}
    A new feature is hitting the equals ("=") key, then hitting
    a pattern shortcut key (hotkey), to bring up a new sequence or edit an
    existing one in a pattern editor.  Another new feature is hitting the minus
@@ -687,8 +692,9 @@
    double-click on the empty slot, to bring up the sequence editor.
 
    \textbf{New:}
-   \index{new!pattern =}
+   \index{new!pattern edit}
    \index{keys!=}
+   \index{keys!pattern edit}
    Another way to bring up a pattern in the pattern editor is to
    click the \textbf{equal} key and then the pattern's shortcut key.
    For example, "\textbf{= q}" will open up the editor for the pattern with the
@@ -708,8 +714,9 @@
    See \figureref{fig:pattern_edit_window}.
 
    \textbf{New:}
-   \index{new!pattern -}
+   \index{new!event -}
    \index{keys!-}
+   \index{keys!event edit}
    Another way to bring up a pattern in the event editor is to
    click the \textbf{minus} key and then the pattern's shortcut key.
    For example, "\textbf{- q}" will open up the event editor for that pattern.
@@ -931,9 +938,11 @@
 
    \index{keys![}
    \index{keys!decrement set}
+   \index{keys!screenset down}
    The \texttt{[} and
    \index{keys!]}
    \index{keys!increment set}
+   \index{keys!screenset up}
    \texttt{]} keys on the keyboard
    switch between sets, either decrementing or incrementing the set number.
 
@@ -952,14 +961,15 @@
    original saved state of the patterns is restored.
 
    \index{keys!alt}
+   \index{keys!snapshot}
    Holding \texttt{Alt} will save the state of playing patterns and restore
    them when \texttt{Alt} is lifted.
-
    The handling of \texttt{Alt} is often taken over by the window
    manager, so there could be a need to change these items to some other
-   keys.  For example, we have the Fluxbox window manager
+   keys.  For example, we have the \textsl{Fluxbox} window manager
    set up so that the \texttt{Alt} keys can
-   be used for moving or resizing a window.
+   be used for moving or resizing a window.  Therefore, we use
+   keypad keys for this purpose.
 
 %  \index{keys!left ctrl alt}
 %  Holding \texttt{Left Ctrl} and \texttt{Alt} at the same time will enable
@@ -978,13 +988,14 @@
    This pending state is indicated by coloring the central box of the
    pattern grey, as shown in the figure below.
 
-   \index{keys!no ctrl/alt please}
+   \index{keys!avoid ctrl/alt}
    \textbf{Warning}:  We do \textbf{not}
    recommend using \texttt{Ctrl} or \texttt{Alt}
    keys for pattern control.  They conflict with application or desktop
    settings.  However, if one insists on such hot-key combinations,
    one can use the new \textbf{Menu} button in the main
-   window to disable the menu, which makes those operations available.
+   window to disable the menu, which makes those keystrokes more
+   safely available.
    The \texttt{Super} key can also be used, if not already used by the desktop
    environment.  Also available are some of the function keys, and, if
    available, the keypad keys.  These can be configured in
@@ -1004,12 +1015,12 @@
 \end{figure}
 
    This figure shows the coloring for queueing in the top two patterns with
-   dark grey backgrounds.  At the end of the patter, the left top pattern will
+   dark grey backgrounds.  At the end of the pattern, the left top pattern will
    turn off, and the right top pattern will turn on.
 
    The bottom two patterns show the light-grey coloring used to show
    a "one-shot" queue.  The one-shot queue can only turn a pattern on, and it
-   will let the pattern automatically turn off after one play.
+   will force the pattern off after one play.
 
    Queue also works for mute/unmute pattern sets ("groups"); in this case,
    every sequence will toggle its status after its individual loop ends. 
@@ -1027,11 +1038,9 @@
    For example, the minus key or the keypad's slash key can be used, with no
    noticeable flickering due to the keyboard repeat rate.
 
-   \index{keys!backslash}
    \index{keys!keep queue}
-   \index{queue!permanent}
-   \index{queue!keep queue}
-   Pressing the "keep queue" hot-key (we like the backslash key)
+   \index{queue!keep}
+   Pressing the "keep queue" hot-key
    \index{rc file}
    assigned in the "rc" file activates a permanent queue mode.
    In this mode, clicking a pattern key immediately turns on queuing, instead
@@ -1048,9 +1057,11 @@
 
    This hot-key can be changed in the
    \textbf{File / Options / Keyboard / Keep queue} field.
-   Also note the "queued-replace" functionality, described a bit later.
+   Also note the "queued replace/solo" functionality, described a bit later.
 
+   \index{new!one-shot queue}
    \index{keys!one-shot queue}
+   \index{queue!one-shot}
    Thanks to the \textsl{Kepler34} project, we now have "one-shot queue"
    functionality.  This functionality queues a pattern up for unmuting only,
    and, once the pattern has played, it is automatically muted.  This process
@@ -1064,12 +1075,13 @@
    Note that there is also a "replace" hot-key, which is the left \texttt{Ctrl}
    key by default (which cannot work, because \textsl{Sequencer64} uses
    \texttt{Ctrl} as a way to access a lot of other functions, interfering with
-   its use as a hot-key.
+   its use as a hot-key).
 
    Replacement is a form of muting/unmuting.  When the "replace" hot-key is
    pressed and held while clicking a pattern or clicking that pattern's
    hot-key, that sequence is unmuted, and all of the other sequences are muted.
-   Again, this is a very inconvenient default, so an alternative key mapping
+   Again, \texttt{Ctrl}
+   is a very inconvenient default, so an alternative key mapping
    should be set up in the "rc" file via the \textbf{File / Options / Keyboard}
    tab.  Note that the "replace" functionality is a form of "solo".  Also
    note that the "replace" functionality is also implemented via MIDI control,
@@ -1224,14 +1236,15 @@
    The red square button stops the playback of the song and all its patterns.
    \index{keys!esc (stop)}
    The keystroke for stopping playback is the \texttt{Escape} character.
-   It can be changed to \texttt{Space}, so that the space-bar then becomes a
-   playback toggle key.
+   It can be changed to \texttt{Space}, so that the space-bar then becomes
+   effectively a playback toggle key.
 
    \itempar{Play and Pause}{pattern!Play}
    \index{pattern!Pause}
    The green triangular button starts the playback of the whole song.
    \index{keys!space (play)}
-   The keystroke for starting playback is the \texttt{Space} character.
+   The keystroke for starting playback is the \texttt{Space} character by
+   default.
 
    \index{new!pause}
    A new feature is that the Play button can be used as a Pause button.
@@ -1245,8 +1258,8 @@
 \end{figure}
 
    Note that a corresponding Pause key (by default, the period) has also been
-   defined.  The pause feature can be removed by rebuilding the application
-   after configuring with the \texttt{--disable-pause} option.
+   defined.  (The pause feature can be removed by rebuilding the application
+   after configuring with the \texttt{--disable-pause} option.)
 
    \itempar{Song Record}{pattern!song record}
    Song-recording is a new feature of \textsl{Sequencer64} adopted from the
@@ -1269,8 +1282,10 @@
    Although this field looks editable, it is not.  Most keystrokes
    that are entered actually toggle one of the pattern boxes.
    However, the following keys can also modify the BPM in small increments:
-   \index{keys!semicolon} The \texttt{semicolon} reduces the BPM;
-   \index{keys!apostrophe} The \texttt{apostrophe} increases the BPM.
+   \index{keys!semicolon}
+   The \texttt{semicolon} reduces the BPM;
+   \index{keys!apostrophe}
+   The \texttt{apostrophe} increases the BPM.
    Also, if one right-clicks on the Up button, the BPM advances to its largest
    supported value, and if one right-clicks on the Down button, the BPM
    advances to its lowest value.

@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-11-25
+% \update      2017-12-10
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -74,10 +74,9 @@
 
    This dialog lets one type a file-name, highlighting the first file (if any)
    that matches the characters typed so far.
-
-   If unsaved changes are pending, the user will (usually)
+   If unsaved changes are pending, the user should
    be prompted to save the changes.
-   When in doubt, save!  If still in doubt, keep backups of your tunes!
+   When in doubt, save!  Keep backups of your tunes!
 
 \subsubsection{Menu / File / Recent MIDI Files}
 \label{subsubsec:seq64_menu_file_recent}
@@ -245,19 +244,19 @@
 
    Here is a short song, in two sets, shown in a composite view of four windows,
    showing each set and the performance layout of the tracks in the sets.
+   (Note the second Song Editor window.)
 
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.50]{export/original-song-to-export.png}
-   \caption{Composite View of Exportable Song}
+   \caption{Composite View of an Exportable Song}
    \label{fig:seq64_original_song_to_export}
 \end{figure}
 
    The left column shows the four tracks of the first set (Set 0), the next
    column shows the four tracks of the second set (Set 1), and the
    layouts of the two sets are shown in the remainder of the diagram.
-
-   Now let's export this song, and see the result:
+   Let's export this song, and see the result:
 
 \begin{figure}[H]
    \centering 
@@ -280,8 +279,8 @@
    This dialog allows one to select which sequence gets the MIDI
    clock, which incoming MIDI events control the sequencer, what keys are
    mapped to functions, how the mouse works, and some JACK parameters.
-   Note that there is now an extra tab-page for \textbf{Ext Keys}, to support
-   even more keystroke control of \textsl{Sequencer64}.
+   Note that there is a new tab-page for \textbf{Ext Keys}, to support
+   more keystroke controls.
 
 \begin{figure}[H]
    \centering 
@@ -303,7 +302,7 @@
       \item What MIDI devices are connected to the computer.  For example,
          MIDI controllers, USB MIDI cables, and other devices will add MIDI
          output devices (ports) to the system.
-      \item What MIDI software devices are running on the computer.
+      \item What MIDI software applications are running on the computer.
          For example, running MIDI software synthesizers such as
          \textsl{Timidity} and \textsl{Yoshimi} will add extra output devices
          (playback ports) to a system.
@@ -322,12 +321,12 @@
 
    For the current discussion, a USB MIDI cable was plugged into the system,
    and the \textsl{Timidity} and \textsl{Yoshimi} (in ALSA mode) software
-   synthesizers were running.  \textsl{Sequencer64} was also running, of
-   course, with the option of "manual ALSA ports" (\texttt{-m} or
+   synthesizers were running.  \textsl{Sequencer64} was also running,
+   with the option of "manual ALSA ports" (\texttt{-m} or
    \texttt{--manual-alsa-ports}) and ALSA (\texttt{-A} or
    \texttt{--alsa} turned on.
    Here are the devices shown by the ALSA MIDI playback
-   command-line application:
+   command-line application with the \texttt{-m} option:
 
    \begin{verbatim}
       $ aplaymidi -l
@@ -338,14 +337,19 @@
       128:1    TiMidity                         TiMidity port 1
       128:2    TiMidity                         TiMidity port 2
       128:3    TiMidity                         TiMidity port 3
-      129:16   sequencer64                      sequencer64 in
+      129:0    seq64                            seq64 in
    \end{verbatim}
+
+%     129:16   sequencer64                      sequencer64 in
 
 %  (For some reason, the \textsl{Yoshimi} input port is not showing up
 %  in the output of \texttt{aplaymidi}, though, as shown in
 %  \figureref{fig:seq64_midi_clock_4_devices_manual_0},
 %  \textsl{Sequencer64} sees it on port 7.  Perhaps that application is not
 %  providing a good ALSA device name.)
+%
+%  Also, currently we do NOT see sequencer64/seq64 in the output shown
+%  above!  What's up with that!?  Need the -m option!
 
    Turning to \figureref{fig:seq64_midi_clock_4_devices_manual_1},
    note the 16 devices provided by
@@ -361,13 +365,14 @@
 %  \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-1.png}
 %  \includegraphics[scale=0.75]{new/midi-clock-4-devices-manual-1.png}
    \includegraphics[scale=0.75]{jack/jack-nano-yosh-manual-clock-seq64.png}
-   \caption{MIDI Clock, Manual Option On}
+   \caption{MIDI Clock, Manual Option On, Condensed View}
    \label{fig:seq64_midi_clock_4_devices_manual_1}
 \end{figure}
 
-   It basically shows the 16 MIDI output busses that \textsl{Sequencer64} can
-   drive.  One would have to use a JACK or ALSA MIDI connection application to
-   put a device on each of those outputs.  The fact that the the buss names can
+   It shows the 16 MIDI output busses that \textsl{Sequencer64} can
+   drive, in the manual mode.  One would have to use a JACK or ALSA MIDI
+   connection application to put a device on each of those outputs.  The fact
+   that the the buss names can
    start with different numbers, depending on the system setup, can complicate
    the playing of MIDI in this manner.  Also, the "user" configuration file can
    change the names of the ports, causing further confusion.
@@ -466,8 +471,8 @@
 
    As shown by the figure above, with the "manual ALSA option" turned off,
    all of the devices that can be driven by MIDI output are shown,
-   including the MIDI Thru port, the MIDI port on the
-   \textsl{E-MU XMidi1x1} USB cable,
+   including the MIDI Thru port,
+%  the MIDI port on the \textsl{E-MU XMidi1x1} USB cable,
    the four ports provided by \textsl{Timidity}, and the unlabelled
    port provided by the \textsl{Yoshimi} synthesizer running in ALSA mode.
    (However, \texttt{seq64} does show the name "yoshimi" as the client name.)
@@ -509,29 +514,41 @@
        Port    Client name                      Port name
        14:0    Midi Through                     Midi Through Port-0
        24:0    USB2.0-MIDI                      USB2.0-MIDI MIDI 1
-      129:0    sequencer64                      [1] sequencer64 1
-      129:1    sequencer64                      [2] sequencer64 2
-      129:2    sequencer64                      [3] sequencer64 3
+      129:1    seq64                            seq64 midi out 0
+      129:2    seq64                            seq64 midi out 1
        . . .   . . .                               . . .
-      129:15   sequencer64                      [16] sequencer64 16
+      129:16   seq64                            seq64 midi out 15
    \end{verbatim}
+
+% Should the above be offset re 0, not 1?  Check it out!!!
+% Should the above be offset re 0, not 1?  Check it out!!!
+% Should the above be offset re 0, not 1?  Check it out!!!
 
    We see that we can record MIDI from the MIDI Thru port, from the USB MIDI
    cable, and MIDI from any of the 16 output ports provided by the manual ALSA
    port mode of \textsl{Sequencer64}.
 
-   If the "manual ALSA ports" option is turned on,
+   If the "manual ALSA ports" option is turned \textsl{off} (e.g. by using the
+   \texttt{-A} option),
    then the only item in the \textbf{MIDI Input} tab is the single MIDI input
-   buss provided by \textsl{Sequencer64}:  \textbf{[0] sequencer64 0}, or, since
-   the MIDI Thru port takes slot 0, \textbf{[1] sequencer64 1}.
+   buss provided by \textsl{Sequencer64}:  \textbf{[0] seq64 0}.
+   (The figure shown is currently out-of-date.)
+
+% Should the above be offset re 0, not 1?  Check it out!!!
 
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{menu/midi-input-4-devices-manual-1.png}
    \includegraphics[scale=0.75]{new/midi-input-4-devices-manual-1.png}
-   \caption{MIDI Input, Manual Ports On (Condensed View)}
+   \caption{MIDI Input, Manual Ports Off (Condensed View)}
    \label{fig:seq64_midi_input_4_devices_manual_1}
 \end{figure}
+
+% WE NEED a composite view of the -m, -A, and -a options for ALSA for
+% both the Clock and the Input tabs!!!!!
+
+% Check the following out!  I am not 100% certain it is correct!!!
+% The above is shown with the -A option.
 
    This item, if checked, allows \textsl{Sequencer64} to be used to record MIDI
    information from another source (which must be connected to this port by
@@ -556,14 +573,15 @@
 %  New in \textsl{Sequencer64} is the option to record MIDI input into
 %  more than one pattern based on the MIDI channel, as discussed below.
 
-   If the "manual ALSA ports" option is turned off, then
+   If the "auto ALSA ports" option is turned on, via the \texttt{-a} or
+   \texttt{--auto-alsa-ports} option, then
    the input ports from the system are shown:
 
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{menu/midi-input-4-devices-manual-0.png}
    \includegraphics[scale=0.75]{new/midi-input-4-devices-manual-0.png}
-   \caption{MIDI Input, Manual ALSA Ports Off (Condensed View)}
+   \caption{MIDI Input, \texttt{-a} Option (Condensed View)}
    \label{fig:seq64_midi_input_4_devices_manual_0}
 \end{figure}
 
@@ -1168,21 +1186,22 @@
    need some heavier testing.  Also note that some \textsl{Sequencer64} windows
    can use the ctrl-left-click as a middle click. 
  
-\paragraph{Menu / File / Options / Jack Sync and LASH}
+\paragraph{Menu / File / Options / Jack Sync}
 \label{paragraph:seq64_menu_file_options_jack_sync}
 
    This tab sets up options for JACK synchronization, if \textsl{Sequencer64}
    was built with JACK support.  (Why wouldn't it be?)
    It now also supports native JACK MIDI.
    This tab also sets up options for using LASH session management, \textsl{if}
-   \textsl{Sequencer64} was build with LASH support.
+   \textsl{Sequencer64} was build with LASH support, which is no longer the
+   default, even though it is shown in the figure below.
 
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{menu/menu_file_options_jack_sync.png}
 %  \includegraphics[scale=0.75]{new/menu_file_options_jack_sync.png}
    \includegraphics[scale=0.75]{jack/menu_file_options_jack_sync.png}
-   \caption{File / Options / JACK/LASH}
+   \caption{File / Options / JACK}
    \label{fig:seq64_menu_file_options_jack_sync}
 \end{figure}
 
@@ -1212,18 +1231,23 @@
          The behavior of this mode of operation is perhaps not quite
          correct.  Even as a slave, \textsl{Sequencer64} can start and
          stop playback.
+         Note that this option cannot be disabled via the mouse if the
+         \textbf{Transport Master} option is enabled.  Disable that one first.
       \item \textbf{Transport Master}.
          \index{JACK!transport master}
          \textsl{Sequencer64} will attempt to serve as the JACK Master.
          The command-line option is \texttt{--jack-master}.
          \textbf{Tip}:
-         \textsl{Sequencer64} generally works a little better as JACK
-         master.
+         \textsl{Sequencer64} generally works a little better as JACK Master.
+         If this option is enabled the \textbf{JACK Transport} option is
+         automatically enabled as well.
       \item \textbf{Master Conditional}.
          \index{JACK!master conditional}
          \textsl{Sequencer64} will fail to serve as the JACK Master if there is
          already a Master set.
          The command-line option is \texttt{--jack-master-cond}.
+         If this option is enabled the \textbf{JACK Transport} option is
+         automatically enabled as well.
       \item \textbf{Native JACK MIDI}.
          \index{JACK!native midi}
          This option is for the \texttt{seq64} version of
@@ -1312,13 +1336,18 @@
 
    This button not only brings up the JACK page, but also shows the current
    status of the MIDI connection:
-   \textbf{Master} (JACK Master),
-   \textbf{JACK} (JACK Slave),
-   \textbf{Native} (native JACK MIDI),
-   and \textbf{ALSA}.
+   \textbf{Master} (JACK Transport Master),
+   \textbf{Slave} (JACK Transport Slave),
+   \textbf{JACK} (native JACK MIDI, overrides any transport label),
+   and \textbf{ALSA} (overridden by any transport label).
    \index{jack page!ctrl-p}
    \index{keys!ctrl-p}
    The \texttt{Ctrl-P} key will also bring up this page.
+
+   One thing to note is that, while playing, the JACK/ALSA button is disabled.
+   However, one can still get to the JACK options via the main File menu.
+   JACK connection and disconnection are disabled during playback, but the
+   buttons don't yet reflect that status.
 
 \subsection{Menu / Edit}
 \label{subsec:seq64_menu_edit}

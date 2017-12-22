@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-01-28
-% \update      2017-11-05
+% \update      2017-12-10
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -84,6 +84,17 @@
    \textsl{QJackCtl}, and the ports created are part of the
    "seq64" client.
 
+   The first thing to note about JACK transport with \textsl{Sequencer64} is
+   that the progress bars will not move unless \textsl{Sequencer64} is
+   connected to a JACK client, such as \textsl{Hydrogen} (in JACK MIDI mode)
+   or \textsl{Yoshimi}.  Currently, \textsl{Sequencer64} will connect to a JACK
+   client automatically only at startup, where it will connect to all JACK
+   clients that it finds.  If it can't find a JACK client, then it will
+   fail to register a JACK port, and cannot play.
+
+   The second thing is that \textsl{Sequencer64} still has the issue where it
+   must be JACK Master to follow transport.  More on this issue later.
+
 \subsection{Sequencer64 Native JACK MIDI}
 \label{subsec:seq64_jack_native_midi}
 
@@ -138,8 +149,9 @@
    To enable native JACK MIDI, use the
    \texttt{-t}/\texttt{--jack-midi} options.
    When enabled, the "transport" button in the main window will show the word
-   "Native" (even when JACK transport is also enabled).  Please note that, if you
-   select the jack-midi option and JACK is not available,
+   "JACK" (no matter whether JACK transport is also enabled or not).
+   Please note that, if you
+   select the JACK-MIDI option and JACK is not available,
    \textsl{seq64} will start in
    ALSA mode and \textsl{it will save} that mode when exiting.
 

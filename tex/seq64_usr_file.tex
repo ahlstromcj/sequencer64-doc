@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-07-23
+% \update      2017-12-21
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -17,17 +17,17 @@
 \section{Sequencer64 "usr" Configuration File}
 \label{sec:seq64_usr_file}
 
-   The \textsl{Sequencer64} "usr" ("user")
+   The \textsl{Sequencer64} "usr" (or "user")
    configuration file provides a way to give more
    informative names to the MIDI busses, MIDI channels, and MIDI controllers of
    a given system setup.  This configuration will override the default values
    of some drop-down lists and menu items, and make them reflect your names for
-   them.  It now also includes some items that affect the user-interface's
-   look, and some new functionality.
+   them.  In \textsl{Sequencer64} it, also includes some items that affect the
+   user-interface's look, and other new configuration items.
 
    \index{usr!-u}
    \index{usr!--user-save}
-   Unlike the "rc" file, the "user" file is not written every time
+   Unlike the "rc" file, the "user" file is \textsl{not} written every time
    \textsl{Sequencer64} exits.  If the "user" files does not exist, one is
    created, but it is normally not overwritten thereafter.  To
    cause it to be overwritten at exit, run \textsl{Sequencer64} with the
@@ -37,8 +37,8 @@
       $ seq64 --user-save
    \end{verbatim}
 
-   This option is also useful when one installs a new version of
-   \textsl{Sequencer64} that adds new options to the "user" file.
+   This option is recommended when one installs a new version of
+   \textsl{Sequencer64}, which might add new options to the "user" file.
    See \sectionref{sec:seq64_man_page}; it discusses more options involving the
    "user" file.
 
@@ -61,13 +61,14 @@
    \label{fig:seq64_manual_0_buss_dropdown}
 \end{figure}
 
-   At the top center, the dropdown menu contains the 5 MIDI busses (also known
-   as "MIDI ports") supported by our system.  At right, the MIDI channel shows
+   At the top center, the dropdown menu contains the 5 MIDI busses/ports
+   supported by this computer.  At right, the MIDI channel shows
    the channels numbers that can be picked for buss 0.  At bottom left, we see
    the default controller values that \textsl{Sequencer64} includes.  We have
    no idea if these correspond to any controllers that the selected MIDI buss
    supports.  We \textsl{can} use this dropdown to see if any such controller
-   events are in the loaded MIDI file, of course.
+   events are in the loaded MIDI file, of course; a solid black square
+   indicates that such an event was found in the pattern.
 
    Now let's assume we have 3 MIDI "buss" devices hooked to our system:
    two Model "2x2" MIDI port devices, and an old PCR-30 MIDI controller
@@ -99,8 +100,8 @@
    produce.  The DrumStation accepts MIDI controllers that change various
    features of the sound of each type of drum it supports.
 
-   The buss devices can be configured (apparently) to route certain
-   MIDI channels to certain MIDI devices.  Let's assume we have them
+   The buss devices can be configured to route certain
+   MIDI channels to certain MIDI devices.  Assume we have them
    set up this way:
 
    \begin{enumerate}
@@ -133,12 +134,13 @@
    The \textsl{Seq24} configuration file was called
    \texttt{.seq24usr}, and it was stored in the user's \texttt{\$HOME}
    directory.
-   For \textsl{Sequencer64}, we created an new file-name
+   \textsl{Sequencer64} uses a new file-name
    to take its place, with a fall-back to the original file-name if the new
    file does not exist, or if \textsl{Sequencer64} is running in
+   \index{legacy mode}
    legacy mode.
-
-   After you run \textsl{Sequencer64} for the first time, it will generate a
+   After one runs \textsl{Sequencer64} for the first time (or after deleting
+   the configuration files), it will generate a
    \texttt{sequencer64.usr} file in your home directory:
 
    \begin{verbatim}
@@ -148,7 +150,7 @@
    It allows you to give an alias to 
    each MIDI bus, MIDI channel, and MIDI control 
    codes, per channel.
-   The name is a bit misleading... do not confuse this file with the
+   The file-name is a bit misleading... do not confuse this file with the
    \texttt{sequencer64.rc} file.
 
    The process for setting up the user file is to:
@@ -156,24 +158,58 @@
    \begin{enumber}
       \item Define one or more MIDI busses, the name of each, and what
          instruments are on which channels.  Each buss is configured in a
-         section of the form "\textbf{[user-midi-bus-X]}", where "X" ranges
-         from 0 on up.
-      \item Define all of the instruments and their control-code
-         names if they have them.  Each instrument is configured in a
-         section of the form "\textbf{[user-instrument-X]}", where "X"
+         section of the form "\texttt{[user-midi-bus-X]}", where "X" ranges
+         from 0 on up.  Each buss then defines up to 16 channel entries.
+         Each entry includes the channel number and the number of a
+         section in the user-instrument section described next.
+      \item Define all of the instruments and their controller
+         names, if they have them.  Each instrument is configured in a
+         section of the form "\texttt{[user-instrument-X]}", where "X"
          ranges from 0 on up.
    \end{enumber}
 
-   So, taking our list of devices and channels we created above,
+   Let's walk through the structure of this setup, since it is a little bit
+   tricky.  Here is a diagram of the relationships between the buss definitions
+   and instrument definitions:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{user-busses-and-instruments.png}
+   \caption{Busses and Instruments in the "usr" File}
+   \label{fig:seq64_manual_user_busses_and_instruments}
+\end{figure}
+
+   The first section in the "usr" file (after \texttt{[comments]})
+   is \texttt{[user-midi-bus-definitions]}.  The solid diamond link, with the
+   "*" marker, indicates that this section contains an arbitrary number ("*")
+   of \texttt{[user-midi-bus-N]} sections, where "N" ranges from 0 on upward.
+   These correspond to the MIDI busses expected to be in the system, ignoring
+   the "announce" buss.
+
+   Each of the busses contains 16 (0 to 15) channel entries.
+   These channels are referred to as "instrument numbers", and are
+   represented as and linked to "instruments" in the
+   \texttt{[user-instrument-definitions]} section.  Each instrument contains up
+   to 128 controller values; these controller values are available in the
+   \textbf{Event} button in the Pattern Editor, and their names are shown.
+
+   So, each instrument is setup as a "channel" in a particular "buss".
+   In the Pattern Editor, when a particular buss and channel is selected,
+   the \textbf{Event} menu entries should match the controller entries set up
+   in the "usr" file.
+
+   Taking our list of devices and channels we created above, which
+   can be seen in the \textsl{Sequencer64} sample file
+   \texttt{contrib/configs/sequencer64.usr.example}, and 
    deducting 1 from each device number and channel number (so that numbering
    starts from 0), and consulting the device manuals to determine the
    controller values it supports, we can assemble a "user" configuration file
    that makes the setup visible in \textsl{Sequencer64}.
 
    Peruse the next couple of sections to understand a bit about the format of
-   this file.  Look at the example file in the \texttt{contrib} directory as
-   well, to see the whole thing put together.
-   Once you're satisfied, go to
+   this file.  Look at the example files in the \texttt{contrib/configs}
+   directory as well, to see the whole thing put together.
+   Once satisfied, go to
    \sectionref{subsec:seq64_usr_file_midi_bus_results}, and 
    see what it all looks like.
 
@@ -205,31 +241,28 @@
       # NOTE: Channels are 0-15, not 1-16.  Instruments set to -1 = GM
 
       0 1                                       # channel and instrument
-      1 1 
+      1 1      # Instrument #1 of the [user-instrument-definitions] section
       2 1
-      3 1
-      4 1
-      5 1
-      6 1
+      . . .
       7 1
-      8 3
+      8 3      # Instrument #3 of the [user-instrument-definitions] section
       9 3
       10 3
-      11 0
-      12 0
+      11 0     # Instrument #0 of the [user-instrument-definitions] section
+      12 0     # This is the Waldorf Micro Q device defined below
       13 0
       14 0
-      15 2
+      15 2     # Instrument #2 of the [user-instrument-definitions] section
    \end{verbatim}
 
    Here's an example of one that needs only one override:
 
    \begin{verbatim}
-      [user-midi-bus-2]
+      [user-midi-bus-2]                         # Instrument 2, see ch. 15 above
       PCR-30 (303)
       1                                         # number of channels
       0 8                                       # channel and instrument
-      # The rest default to -1 - General MIDI
+      # The rest default to -1... General MIDI
    \end{verbatim}
 
    Please note that, as of version 0.9.10.1, these sections are read from the
@@ -251,7 +284,8 @@
    This section begins with an
    "INI" group marker \texttt{[user-instrument-definitions]}.
    It defines the number of user instruments that will be configured in this
-   file.
+   file.  This section defines characteristics of the instruments themselves,
+   not the MIDI busses to which they attached.
 
    \begin{verbatim}
       [user-instrument-definitions]
@@ -260,8 +294,8 @@
 
    \index{usr!user-instrument-n}
    \index{[user-instrument-n]}
-   So this "usr" file will define 9 instruments.  We will provide one section
-   as a sample.
+   So this "usr" file will define 9 instruments.  We provide only one section
+   as an example.
 
    \begin{verbatim}
       [user-instrument-0]
@@ -272,30 +306,25 @@
       2 Breath Control
       3 
       4 Foot Control
-      5 Glide Rate
-      6 
-      7 Channel Volume
-      8
-      9
-      10 Pan
-      11 
-      12 Arp Range (0-9) (1-10 octaves)
-      13 Arp Length (0-15) (1-16 steps)
-      14 Arp Active (0-3) (Off,On,One Shot,Hold)
-      15 LFO 1 Shape (0-5) (Sine,Tri,Square,Saw,Rand,S&H)
          . . .
       119
       120 All Sound Off (0)
       121 Reset All Controllers (0)
       122 Local Control (0-127) (Off,On)
       123 All Notes Off (0)
-      124
-      125
-      126
-      127
+      124                                 # defaults to GM
+      125 Unsupported
+      126 Unsupported
+      127                                 # defaults to GM
    \end{verbatim}
 
-   We assume that an unnamed control number is an unsupported control number.
+   Note the unnamed control numbers above.
+   An unnamed control number might be an unsupported control number.
+   It is termed to be "inactive".  In this case, the event menu of
+   the pattern editor will show the default name of this controller.
+   Again, though, the function denoted by this name might not be supported by
+   the device.  In that case, it might be better to call it "Unsupported".
+   See above.
 
    Here is an instrument where its synthesis parameters can be controlled:
 
@@ -307,23 +336,7 @@
       1 Modulation Wheel
       2 Breath Controller
       3 Arp Pattern Select
-      4 Ring Modulator 2 * 3 Mix Level
-      5 Portamento Time
-      6 Data Entry
-      7 Part / Program Volume
-      8 Effects Confg Morph Amount
-      9 Arp Speed (Internal Clock Rate) [*]
-      10 Pan
-      11 Osc 1 Fine Tune
-      12 Osc 3 Fine Tune
-      13 Osc 1 Soften
-      14 Osc 2 Soften
-      15 Osc 3 Soften
-      16 LFO 1 Speed
-      17 LFO 1 Delay
          . . .
-      119 Delay Mod Wheel Depth
-      120 All Sound Off
       121 Reset Controllers
       122 Local Control [*]
       123 All Notes Off
@@ -333,8 +346,8 @@
       127 All Notes Off
    \end{verbatim}
 
-   Here is an instrument that perhaps has no controllers, or maybe is simply
-   not configured yet.
+   Here is an instrument that perhaps has no controllers, or perhaps is simply
+   not configured by the musician yet:
 
    \begin{verbatim}
       [user-instrument-4]
@@ -342,21 +355,24 @@
       0
    \end{verbatim}
 
-   The sample file \texttt{contrib/scripts/dot-seq24usr} contains examples
-   of some other kinds of instruments, such as drum machines.
+   The sample file
+   \texttt{contrib/scripts/sequencer64-timidity-yoshimi.usr.example}
+   contains examples of some other kinds of instruments.  It is a good resource
+   to study when creating one's own settings.
 
 \subsection{Sequencer64 "usr" File / User Interface Settings}
 \label{subsec:seq64_usr_file_user_interface_settings}
 
    \index{usr!user-interface-settings}
    \index{[user-interface-settings]}
-   This section begins with an
+   This section, new to \textsl{Sequencer64}, begins with an
    "INI" group marker \texttt{[user-interface-settings]}.
 
    It provides for a feature we will hopefully be able to complete some day:
-   the absolute specificiation of the appearance of the user interface.
+   the complete specificition of the appearance of the user interface.
    There is plenty of room to change the appearance of
-   \textsl{Sequencer64} already!  Please try them and see what you like.
+   \textsl{Sequencer64} already!  Please try the settings and see what you
+   like.
 
    \index{usr!grid-style}
    \begin{verbatim}
@@ -585,9 +601,7 @@
    \index{[user-midi-settings]}
    This section begins with an
    "INI" group marker \texttt{[user-midi-settings]}.
-
-   It provides for a feature we will fully support (we are really close):
-   Being able to support files with different PPQN, and to specify the
+   It supports files with different PPQN, and and allows one to specify the
    global defaults for tempo, beats per measure, and so on.
 
    \index{usr!midi-ppqn}
@@ -609,7 +623,7 @@
       4       # midi_beats_per_measure/bar
    \end{verbatim}
 
-   \index{usr!midi-beats-per-mintue}
+   \index{usr!midi-beats-per-minute}
    \begin{verbatim}
       # Specifies the default beats per minute.  The default value
       # is 120, and the legal range is 1 to 600.
@@ -692,7 +706,7 @@
 
    \index{usr!velocity-override}
       The \texttt{velocity-override} option fixes a long standing (from
-      \textsl{Seq24} bug where the actual incoming note velocity was always
+      \textsl{Seq24}) bug where the actual incoming note velocity was always
       replaced by a hard-wired value.
 
    \index{usr!bpm-step-increment}
@@ -713,10 +727,10 @@
       By adjusting these values, one can more easily see the variations in
       tempo.  In a main window pattern slot, or in the song editor tempo track,
       this range is scaled to the full range of note values, 0 to 127.
-      Generally, one wants to select a range that keeps the tempo line at the
-      middle height of the pattern display.
+      Generally, one wants to select a range that keeps the main tempo line at
+      the middle height of the pattern display.
 
-   To obtain these new settings, remember to back up the
+   To obtain these new settings, remember to backup the existing
    \textsl{sequencer64.usr}, then run \textsl{Sequencer64} with the
    \texttt{--user-save} option, and then do a "diff" on the new file and the
    original to merge any old value that need to be preserved.  Then make any
@@ -731,8 +745,8 @@
    It provides for additional options keyed by the
    \texttt{-o}/\texttt{--option} options.
    This group of options serves to expand the options that are available, since
-   we are running out of single-character options.
-   This group of options current provides the options shown below.
+   \textsl{Sequencer64} is  running out of single-character options.
+   This group of options are shown below.
 
    \index{usr!option-daemonize}
    \begin{verbatim}
@@ -810,11 +824,11 @@
    This figure shows that we can also select the desired port and channel
    directly from the main window.
 
-   There's a lot more to the "user" configuration file than we've exposed here,
-   but finding more information about this file has proven a bit tricky.
+   There's more to the "user" configuration file than we've exposed here.
+%  but finding more information about this file has proven a bit tricky.
 
-   Sometime we would like to create a "user" that sets up the
-   \textsl{Yoshimi} 1.3.5+ software synthesizer as a device and instrument.
+%  Sometime we would like to create a "user" that sets up the
+%  \textsl{Yoshimi} 1.3.5+ software synthesizer as a device and instrument.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex

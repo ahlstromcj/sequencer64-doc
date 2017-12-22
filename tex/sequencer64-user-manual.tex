@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2017-11-26
+% \update      2017-12-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -58,7 +58,8 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.50]{Sequencer64-0_9_17.png}
+%  \includegraphics[scale=0.50]{Sequencer64-0_9_17.png}
+   \includegraphics[scale=0.40]{Sequencer64-0_94.png}
    \caption*{"Night" Mode}
 \end{figure}
 
@@ -121,8 +122,8 @@
 
    \textsl{Sequencer64} is not a synthesizer.  It requires a hardware
    synthesizer, or a software synthesizer such as Timidity \cite{timidity},
-   FluidSynth \cite{fluidsynth}, ZynAddSubFX \cite{zynaddsubfx}, Yoshimi
-   \cite{yoshimi} \cite{yoshimi2}, etc.
+   FluidSynth \cite{fluidsynth}, ZynAddSubFX \cite{zynaddsubfx}, and Yoshimi
+   \cite{yoshimi} \cite{yoshimi2}.
    See \cite{linuxsynths} for a long list of "Linux" synthesizers).
 
    \textsl{Sequencer64}, like \textsl{Seq24},
@@ -146,13 +147,13 @@
 
    The first reason to reboot \textsl{Seq24} is consolidation of many of the
    features and fixes that it has accumulated in various forks over the years.
-   Also, although "feature-complete", additional features would be useful, such
-   as support for modern session managers, more use of keystrokes,
+   Also, although "feature-complete", additional features would be useful.
+ % Such as support for modern session managers, more use of keystrokes,
 %  work-arounds for the need for two mouse buttons,
 %  a more modern user-interface framework,
-   more comprehensive undo/redo,
-   bug fixes, improving the "user" configuration file,
-   and a way to edit parts of the MIDI file textually.
+%  more comprehensive undo/redo,
+%  bug fixes, improving the "user" configuration file,
+%  and a way to edit parts of the MIDI file textually.
 
    Secondly, \textsl{Seq24} is a kind of "vi" of MIDI editing... spare,
    lean, and powerful.  It deserves to be a living project.  Without
@@ -170,11 +171,9 @@
       \item Tempo events are now supported, are recordable, and are editable.
          The first track (or a configurable track) serves as a "tempo track".
       \item A "Tap" button sets the BPM by tapping a button or a key.
-      \item The user interface can show more than one set at
-         once.  More information on the current screen!
-      \item The user interface can show more patterns in a
-         single set.  For example, 8 rows by 8 columns, fulfilling the promise
-         of the project name, \textsl{Sequencer64}.
+      \item The user interface can show more than one set at once, or
+         more patterns in a single set.  For example, 8 rows by 8 columns,
+         fulfilling the promise of the project name, \textsl{Sequencer64}.
       \item The \textsl{event editor} dialog
          provides viewing and editing of MIDI events as text.
          This editor is basic, but useful.
@@ -189,11 +188,12 @@
             \item Pattern-transposing.
             \item MIDI song export, which
                allows a song/performance to be exported into a MIDI file
-               without \textsl{Sequencer64} loops, so that the performance can be
-               played in a standard MIDI sequencer.
-            \item Extended undo/redo support.
+               without \textsl{Sequencer64} loops, so that the performance can
+               be played in a standard MIDI sequencer.
+            \item Extended undo/redo support, and more comprehensive detection
+               of changes to the song.
             \item The ability to split triggers at the nearest snap, instead
-               simply splitting them in half.
+               of splitting them in half.
             \item Editing the amplitude of data events using a simple
                low-frequency oscillator (LFO).
             \item Enhanced JACK transport support.
@@ -216,8 +216,7 @@
          settings are now saved to the \textsl{Sequencer64} MIDI file, either
          globally or per-sequence.
       \item In the sequence/pattern and song editors, the piano roll
-         now scrolls to keep up with the progress bar for patterns longer than
-         the width of the sequence editor window.
+         now scrolls to keep up with the progress bar for long patterns.
       \item Additional mouse and keystroke support in the pattern and song
          editor windows:
       \begin{itemize}
@@ -233,7 +232,7 @@
             (painting) mode enabled after releasing the right mouse button;
             useful with some "modern" crappy uni-touchpads.
          \item Shift-left-click on a pattern slot (pattern editor),
-            or on the pattern name or M (mute) (song editor)
+            or on the pattern name or "M" (mute) label (song editor)
             to toggle the status of all of the other active slots.
             Useful for listening to a single track by itself.
          \item Right-click on a the virtual keyboard in the pattern editor
@@ -241,7 +240,7 @@
             the MIDI note numbers.  
       \end{itemize}
       \item The "user" configuration can now be written to disk, and 
-         settings are adding to it as time goes on.  It currently offers the
+         it has many new settings.  It offers the
          long-standing feature of customizable buss, instrument, and controller
          information, plus some customizations of the user-interface, such as
          font, display of the main window's pattern grid, colored and thicker
@@ -250,8 +249,7 @@
          multiple sets in the main window.
       \item Support for mapping MIDI events to a single MIDI buss for testing
          or simple use cases.
-      \item On-going support for handling PPQN values other than the
-         default value of 192.
+      \item Support for handling PPQN values other than 192.
       \item Small improvements in appearance:
       \begin{itemize}
          \item Support for showing empty (having only meta
@@ -264,8 +262,8 @@
             one full measure, for smoother scrolling on the patterns panel.
          \item Modification of the colors of the scale and background sequence
             in the sequence editor to make it easier to see them all.
-         \item A new font, enabled at run time, that is bolder and has a
-            more modern, anti-aliased look.
+         \item A new font, enabled at run time, that is bolder and has an
+            anti-aliased look.
          \item Clean, solid lines to replace the dotted lines in the piano-roll
             grids.
          \item Additional zoom values have been added to support the display
@@ -275,9 +273,7 @@
       \end{itemize}
       \item Consolidated various patches in forks of the \textsl{Seq24}
          project found by searching the web.  Fixes to bugs found while
-         refactoring \textsl{Seq24} were also made.  These fixes are noted in
-         detail in the project's ROADMAP and contrib/notes/bugs-to-investigate
-         files.
+         refactoring \textsl{Seq24} were also made.
       \item Recording of performance changes into the Song Editor.
       \item More musical scales (harmonic minor, melodic minor,
          whole tone, etc.) have been added.
@@ -392,7 +388,7 @@
 \end{verbatim}
 
    If the \texttt{--alsa} option is used instead of
-   \texttt{--jack-midi}, then the "Native" button will show "ALSA" instead.
+   \texttt{--jack-midi}, then the "JACK" button will show "ALSA" instead.
 
 \begin{figure}[H]
    \centering 
@@ -402,7 +398,8 @@
 %  \includegraphics[scale=0.75]{new/seq64-first-screen-jack.png}
 %  \caption{Sequencer64 Main Screen, Native JACK MIDI}
 %  \includegraphics[scale=0.75]{new/seq64-first-screen-alsa.png}
-   \includegraphics[scale=0.75]{new/seq64-first-screen-alsa-panic.png}
+%  \includegraphics[scale=0.75]{new/seq64-first-screen-alsa-panic.png}
+   \includegraphics[scale=0.75]{new/seq64-first-screen-0-94.png}
    \caption{Sequencer64 Main Screen, ALSA MIDI}
    \label{fig:seq64_main_screen}
 \end{figure}
@@ -423,8 +420,10 @@
          \item Toggle and show the status of "Live" mode versus "Song" mode.
          \item Mute/show the mute status of all tracks.
          \item Enable/disable the menu bar and show its status.
-         \item Set/show "JACK" transport, JACK "Master" transport,
-            "ALSA" mode, or "Native" (JACK) mode.
+         \item Set/show JACK "Slave" transport, JACK "Master" transport,
+            "ALSA" mode, or "JACK" (native JACK) mode.
+         \item Set the kind of time display, between "bars:beat:ticks"
+            and "hours:minute:seconds".
       \end{itemize}
       \item Current time in bars, beats, and ticks.
       \item Panic button, to stop all tracks and turn off all notes.
@@ -438,7 +437,7 @@
       \item Keep-queue toggling and status.
    \end{itemize}
 
-   Many of these buttons have configurable keystrokes as well.
+   Many (but not all) of these buttons have configurable keystrokes as well.
    See \sectionref{subsec:seq64_patterns_panel_bottom} for more information.
 
 % This Tip needs to be put elsewhere.
