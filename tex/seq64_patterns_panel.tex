@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-08-20
+% \update      2017-11-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -62,33 +62,37 @@
 \subsection{Patterns / Top Panel}
 \label{subsec:seq64_patterns_panel_top}
 
-   The top panel of the Pattern window is simple, consisting of the name of
-   the program and a couple of controls.  The original version looked like
-   this:
+   The top panel of the Pattern window is relatively simple, consisting of the
+   name of the program and a few controls.  The latest version adds more
+   buttons.
+   
+%  The original version looked like
+%  this:
 
-\begin{figure}[H]
-   \centering 
-   \includegraphics[scale=0.75]{pattern-window-top-panel-items.png}
-   \caption{Patterns Panel, Top Panel, Older Version}
-   \label{fig:pattern_window_top_panel_items}
-\end{figure}
+% \begin{figure}[H]
+%    \centering 
+%    \includegraphics[scale=0.75]{pattern-window-top-panel-items.png}
+%    \caption{Patterns Panel, Top Panel, Older Version}
+%    \label{fig:pattern_window_top_panel_items}
+% \end{figure}
 
-   But, if compiled with \texttt{SEQ64\_STAZED\_MENU\_BUTTONS} defined,
-   there are some extra buttons available:
+%  But, if compiled with \texttt{SEQ64\_STAZED\_MENU\_BUTTONS} defined,
+%  there are some extra buttons available:
 
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.50]{pattern-window-top-panel-items-new.png}
-   \includegraphics[scale=0.50]{new/pattern-window-top-panel-items-new.png}
+%  \includegraphics[scale=0.50]{new/pattern-window-top-panel-items-new.png}
+   \includegraphics[scale=0.50]{new/pattern-window-top-panel.png}
    \caption{Patterns Panel, New Top Panel Items}
    \label{fig:pattern_window_new_top_panel_items}
 \end{figure}
 
-   This figure shows the possible appearance of the main window top panel.
-   If \textsl{Sequencer64} was built with
-   \texttt{SEQ64\_MENU\_BUTTON\_PIXMAPS} defined, then the buttons have icons
-   on them; otherwise they have text.  The figure shows what they look like,
-   and how they look with the song/live and toggle-menu functions activated.
+   This figure shows the appearance of the main window top panel.
+%  If \textsl{Sequencer64} was built with
+%  \texttt{SEQ64\_MENU\_BUTTON\_PIXMAPS} defined, then the buttons have icons
+%  on them; otherwise they have text.  The figure shows what they look like,
+%  and how they look with the song/live and toggle-menu functions activated.
  
    \begin{enumber}
       \item \textbf{Song/Live}
@@ -113,10 +117,11 @@
 
    \itempar{Toggle Tracks}{pattern!toggle tracks}
    \index{pattern!toggle tracks}
-   This button changes the status of all of the playing tracks, reversing the
+   This button changes the status of all of the
+   \textsl{playing} tracks, reversing the
    mute status of each pattern that is playing.
-   The next click will then unmute those tracks.
-   Because it can be confusing, this button will be disabled (not shown
+   The next click will then unmute only those tracks.
+   Because it can be confusing, this button is disabled (not shown
    in the figure) in Song mode.
    There is also a configurable hotkey associated with it, called
    \textbf{Toggle mutes},
@@ -150,6 +155,8 @@
    slow.  The whole field flashes in time with the beat.
    This field shows that something is going on.  It can also indicate
    the relative lengths of the various patterns.
+
+   Also included is a numeric representation of the "BBT" (bar:beat:ticks).
  
    Note that the individual pattern boxes in the main panel, for
    patterns that are not empty, have their own
@@ -348,11 +355,14 @@
    \sectionref{subsubsec:concepts_terms_screen_set}.
    One can switch between sets by using the
    \index{keys![}
+   \index{keys!screenset down}
    \texttt{[} and
    \index{keys!]}
+   \index{keys!screenset up}
    \texttt{]} keys on the keyboard, or by using
    the spin-widget-driven, labelled \textbf{Set} interface item, or
    \index{keys!Home}
+   \index{keys!screenset play}
    by hitting the (default) Home key to make it the playing screenset,
    or by hitting \texttt{Page-Up} or \texttt{Page-Down} with the pattern window
    in keyboard focus.
@@ -396,7 +406,6 @@
 
    \index{pattern!slot}
    An empty box is a slot for a pattern.
-
    A pattern can show a number of different statuses based on the coloring
    of elements in the pattern slot. 
 
@@ -407,6 +416,8 @@
    \label{fig:pattern_slots_statuses}
 \end{figure}
 
+   (Not shown in the figure are the gray pattern
+   colors resulting from queueing and one-shot queueing.)
    The colors have meaning:
 
    \begin{itemize}
@@ -482,7 +493,9 @@
 
    \index{new!editing shortcut}
    \index{keys!=}
+   \index{keys!pattern edit}
    \index{keys!-}
+   \index{keys!event edit}
    A new feature is hitting the equals ("=") key, then hitting
    a pattern shortcut key (hotkey), to bring up a new sequence or edit an
    existing one in a pattern editor.  Another new feature is hitting the minus
@@ -563,13 +576,13 @@
          needlessly scroll.
          However, if a pattern has even a single event (say, a program change),
          it will scroll.
-         \textbf{TODO:}
-         \index{todo:one-shot pattern}
-         It might be good to have some patterns marked as one-shot patterns.
-         They play once at the start of playback, and that is it.
-         They could be marked with a cyan background.
-         Currently, it is easy enough to use the Song Editor for this purpose,
-         but then one cannot play the patterns in live mode.
+%        \textbf{TODO:}
+%        \index{todo:one-shot pattern}
+%        It might be good to have some patterns marked as one-shot patterns.
+%        They play once at the start of playback, and that is it.
+%        They could be marked with a cyan background.
+%        Currently, it is easy enough to use the Song Editor for this purpose,
+%        but then one cannot play the patterns in live mode.
       \item \textbf{Sequence Number}.
          If the option to show the sequencer number is set
          in the \textbf{File / Options / Keyboard} section
@@ -679,8 +692,9 @@
    double-click on the empty slot, to bring up the sequence editor.
 
    \textbf{New:}
-   \index{new!pattern =}
+   \index{new!pattern edit}
    \index{keys!=}
+   \index{keys!pattern edit}
    Another way to bring up a pattern in the pattern editor is to
    click the \textbf{equal} key and then the pattern's shortcut key.
    For example, "\textbf{= q}" will open up the editor for the pattern with the
@@ -700,8 +714,9 @@
    See \figureref{fig:pattern_edit_window}.
 
    \textbf{New:}
-   \index{new!pattern -}
+   \index{new!event -}
    \index{keys!-}
+   \index{keys!event edit}
    Another way to bring up a pattern in the event editor is to
    click the \textbf{minus} key and then the pattern's shortcut key.
    For example, "\textbf{- q}" will open up the event editor for that pattern.
@@ -923,9 +938,11 @@
 
    \index{keys![}
    \index{keys!decrement set}
+   \index{keys!screenset down}
    The \texttt{[} and
    \index{keys!]}
    \index{keys!increment set}
+   \index{keys!screenset up}
    \texttt{]} keys on the keyboard
    switch between sets, either decrementing or incrementing the set number.
 
@@ -944,14 +961,15 @@
    original saved state of the patterns is restored.
 
    \index{keys!alt}
+   \index{keys!snapshot}
    Holding \texttt{Alt} will save the state of playing patterns and restore
    them when \texttt{Alt} is lifted.
-
    The handling of \texttt{Alt} is often taken over by the window
    manager, so there could be a need to change these items to some other
-   keys.  For example, we have the Fluxbox window manager
+   keys.  For example, we have the \textsl{Fluxbox} window manager
    set up so that the \texttt{Alt} keys can
-   be used for moving or resizing a window.
+   be used for moving or resizing a window.  Therefore, we use
+   keypad keys for this purpose.
 
 %  \index{keys!left ctrl alt}
 %  Holding \texttt{Left Ctrl} and \texttt{Alt} at the same time will enable
@@ -961,21 +979,23 @@
    \index{keys!right ctrl}
    \index{keys!queue}
    \index{queue!temporary}
-   Holding \texttt{Right Ctrl}
-   will queue a on/off toggle for a 
-   sequence when the loop ends. This is the "queue" functionality.
+   Holding the "queue" key and then hitting a pattern hot-key
+   will queue an on/off toggle for a pattern when the end of the loop is
+   reached.
+   This is the "queue" functionality.
    This means that the change in state of the pattern will not take hold
    immediately, but will kick in when the pattern restarts.
    This pending state is indicated by coloring the central box of the
    pattern grey, as shown in the figure below.
 
-   \index{keys!no ctrl/alt please}
+   \index{keys!avoid ctrl/alt}
    \textbf{Warning}:  We do \textbf{not}
    recommend using \texttt{Ctrl} or \texttt{Alt}
    keys for pattern control.  They conflict with application or desktop
    settings.  However, if one insists on such hot-key combinations,
    one can use the new \textbf{Menu} button in the main
-   window to disable the menu, which makes those operations available.
+   window to disable the menu, which makes those keystrokes more
+   safely available.
    The \texttt{Super} key can also be used, if not already used by the desktop
    environment.  Also available are some of the function keys, and, if
    available, the keypad keys.  These can be configured in
@@ -983,20 +1003,29 @@
    \textbf{File / Options / Ext Keys}.
 
    Note that queueing can also be used to turn a pattern \textsl{off}
-   at the end of a pattern.  Also note the "keep queue" functionality described
-   below.
+   at the end of a pattern.  Also note the "keep queue" functionality and
+   the "one-shot queue" functionality described below.
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/seq24-queueing-coloration.jpg}
+%  \includegraphics[scale=0.75]{pattern/seq24-queueing-coloration.jpg}
+   \includegraphics[scale=1.00]{new/seq64-queueing-coloration.png}
    \caption{Pattern Coloration when Queued}
    \label{fig:seq64_queueing_coloration}
 \end{figure}
 
+   This figure shows the coloring for queueing in the top two patterns with
+   dark grey backgrounds.  At the end of the pattern, the left top pattern will
+   turn off, and the right top pattern will turn on.
+
+   The bottom two patterns show the light-grey coloring used to show
+   a "one-shot" queue.  The one-shot queue can only turn a pattern on, and it
+   will force the pattern off after one play.
+
    Queue also works for mute/unmute pattern sets ("groups"); in this case,
    every sequence will toggle its status after its individual loop ends. 
 
-   Of course, the \texttt{Ctrl} key is used to manage the GUI (e.g.
+   Of course, if the \texttt{Ctrl} key is used to manage the GUI (e.g.
    \texttt{Ctrl-Q} will unceremoniously quit the application), so one will
    usually want to change this key to something else in the
    \textbf{File / Options / Keyboard / Queue} field.
@@ -1009,18 +1038,17 @@
    For example, the minus key or the keypad's slash key can be used, with no
    noticeable flickering due to the keyboard repeat rate.
 
-   \index{keys!backslash}
    \index{keys!keep queue}
-   \index{queue!permanent}
-   \index{queue!keep queue}
-   Pressing the "keep queue" hot-key (we like the backslash key)
+   \index{queue!keep}
+   Pressing the "keep queue" hot-key
    \index{rc file}
-   assigned in the "rc" file
-   activates permanent queue mode until one click the regular
-   (i.e. temporary) queue function hot-key,
+   assigned in the "rc" file activates a permanent queue mode.
+   In this mode, clicking a pattern key immediately turns on queuing, instead
+   of mute/unmute. 
+   Keep-queue persists until one clicks the normal queue function hot-key,
    or changes the active (viewed) screen-set. 
    After pressing the "keep queue" hot-key, individual pattern
-   toggles occur at the end of the current pattern rather than immediately.
+   toggles are queued rather than happening immediately.
    While in queue mode, pressing a patterns hot-key, or clicking on the
    pattern, queues that pattern to change state at the beginning of the next
    loop.
@@ -1029,18 +1057,31 @@
 
    This hot-key can be changed in the
    \textbf{File / Options / Keyboard / Keep queue} field.
-   Also note the "queued-replace" functionality, described a bit later.
+   Also note the "queued replace/solo" functionality, described a bit later.
+
+   \index{new!one-shot queue}
+   \index{keys!one-shot queue}
+   \index{queue!one-shot}
+   Thanks to the \textsl{Kepler34} project, we now have "one-shot queue"
+   functionality.  This functionality queues a pattern up for unmuting only,
+   and, once the pattern has played, it is automatically muted.  This process
+   is easier than having to unqueue the pattern manually before the next
+   playback.
+
+   This hot-key can be changed in the
+   \textbf{File / Options / Ext Keys / One-shot queue} field.
 
    \index{keys!replace}
    Note that there is also a "replace" hot-key, which is the left \texttt{Ctrl}
    key by default (which cannot work, because \textsl{Sequencer64} uses
    \texttt{Ctrl} as a way to access a lot of other functions, interfering with
-   its use as a hot-key.
+   its use as a hot-key).
 
    Replacement is a form of muting/unmuting.  When the "replace" hot-key is
    pressed and held while clicking a pattern or clicking that pattern's
    hot-key, that sequence is unmuted, and all of the other sequences are muted.
-   Again, this is a very inconvenient default, so an alternative key mapping
+   Again, \texttt{Ctrl}
+   is a very inconvenient default, so an alternative key mapping
    should be set up in the "rc" file via the \textbf{File / Options / Keyboard}
    tab.  Note that the "replace" functionality is a form of "solo".  Also
    note that the "replace" functionality is also implemented via MIDI control,
@@ -1162,23 +1203,25 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern-window-bottom-panel-items.png}
+%  \includegraphics[scale=0.75]{pattern-window-bottom-panel-items.png}
+   \includegraphics[scale=0.50]{new/pattern-window-bottom-panel.png}
    \caption{Patterns Panel, Bottom Panel Items}
    \label{fig:pattern_window_bottom_panel_items}
 \end{figure}
 
-   This figure is way out of date, and does not show the new items, marked as
-   "(new)", in the list below.
+   This figure shows a number of new items.
 
    \begin{enumber}
+      \item \textbf{Panic!} (new)
       \item \textbf{Stop}
-      \item \textbf{Play}
-      \item \textbf{Pause}
+      \item \textbf{Play and Pause}
+      \item \textbf{Song Record} (new)
+      \item \textbf{Song Record Snap} (new)
       \item \textbf{BPM}
       \item \textbf{Tap Tempo}
-      \item \textbf{Log Current Tempo} (new)
-      \item \textbf{Record Tempo Changes} (new)
-      \item \textbf{Keep-Queue Status} (new)
+      \item \textbf{Log Tempo}
+      \item \textbf{Record Tempo}
+      \item \textbf{Keep-Queue Status}
       \item \textbf{Name}
       \item \textbf{Set}
       \item \textbf{Toggle Song Editor}
@@ -1186,20 +1229,23 @@
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
+   \itempar{Panic!}{pattern!panic}
+   This new button stops the song and sends MIDI Off messages on all notes.
+
    \itempar{Stop}{pattern!stop}
    The red square button stops the playback of the song and all its patterns.
-   It is not clear if it also sends MIDI Off messages on all notes.
    \index{keys!esc (stop)}
    The keystroke for stopping playback is the \texttt{Escape} character.
-   It can be changed to \texttt{Space}, so that the space-bar then becomes a
-   playback toggle key.
+   It can be changed to \texttt{Space}, so that the space-bar then becomes
+   effectively a playback toggle key.
 
-   \itempar{Play}{pattern!Play}
+   \itempar{Play and Pause}{pattern!Play}
+   \index{pattern!Pause}
    The green triangular button starts the playback of the whole song.
    \index{keys!space (play)}
-   The keystroke for starting playback is the \texttt{Space} character.
+   The keystroke for starting playback is the \texttt{Space} character by
+   default.
 
-   \itempar{Pause}{pattern!Pause}
    \index{new!pause}
    A new feature is that the Play button can be used as a Pause button.
    When the Play button is clicked, the button icon changes to a Pause icon:
@@ -1212,8 +1258,22 @@
 \end{figure}
 
    Note that a corresponding Pause key (by default, the period) has also been
-   defined.  The pause feature can be removed by rebuilding the application
-   after configuring with the \texttt{--disable-pause} option.
+   defined.  (The pause feature can be removed by rebuilding the application
+   after configuring with the \texttt{--disable-pause} option.)
+
+   \itempar{Song Record}{pattern!song record}
+   Song-recording is a new feature of \textsl{Sequencer64} adopted from the
+   \textsl{Kepler34} project.
+   This feature, when activated, takes live muting changes and records them as
+   triggers in the Song editor.
+   The default hot-key for this function is \texttt{P}.
+   At this time, this feature does not honor queueing...
+   rather than waiting until the end of the pattern when the queueing takes
+   effect, the trigger recording starts immediately.  Something to fix.
+
+   \itempar{Song Record Snap}{pattern!song record snap}
+   This button toggle snapping the beginning and end of a recorded trigger to
+   the nearest beat.  There is no hot-key for this button at this time.
 
    \itempar{BPM}{pattern!BPM}
    The spin widget adjusts the "Beats Per Minute" or BPM value.  The
@@ -1222,8 +1282,10 @@
    Although this field looks editable, it is not.  Most keystrokes
    that are entered actually toggle one of the pattern boxes.
    However, the following keys can also modify the BPM in small increments:
-   \index{keys!semicolon} The \texttt{semicolon} reduces the BPM;
-   \index{keys!apostrophe} The \texttt{apostrophe} increases the BPM.
+   \index{keys!semicolon}
+   The \texttt{semicolon} reduces the BPM;
+   \index{keys!apostrophe}
+   The \texttt{apostrophe} increases the BPM.
    Also, if one right-clicks on the Up button, the BPM advances to its largest
    supported value, and if one right-clicks on the Down button, the BPM
    advances to its lowest value.
@@ -1251,7 +1313,7 @@
    display the calculated tempo.  If the user stops tapping for 5 seconds, the
    label reverts to 0, the BPM value keeps its final value, and the user can
    try tapping the tempo again.
-   This function can also be performed using the keystroke defined
+   The tapping  function can also be performed using the keystroke defined
    in \textbf{File / Options / Ext Keys / Tap BPM}.  It defaults
    to the \texttt{F9} key.
 

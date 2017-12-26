@@ -1,9 +1,13 @@
 Documentation for New Features
 Chris Ahlstrom
-2015-11-08 to 2016-06-04
+2015-11-08 to 2017-12-21
 
 -  New visual indicator for the event strip in the sequence editor, to warn
    about the dangers of editing Note On, Note Off, and Aftertouch events
    separately.
+-  For the "usr" midi device configuration:
+   -  Show the figures of the Clock and Input listing for various options:
+      -r, -R, -a, -m, -t with no other apps/devices connected, -t with devices
+      available for auto-connect.
 
 # vim: ts=3 sw=3 et ft=sh

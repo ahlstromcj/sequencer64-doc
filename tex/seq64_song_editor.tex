@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2016-11-06
+% \update      2017-09-30
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -127,7 +127,8 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.55]{song-editor/song-editor-top-panel-items.png}
+%  \includegraphics[scale=0.55]{song-editor/song-editor-top-panel-items.png}
+   \includegraphics[scale=0.55]{new/song-editor-top-panel-items.png}
    \caption{Song Editor / Top Panel Items}
    \label{fig:song_editor_top_panel_items}
 \end{figure}
@@ -139,6 +140,9 @@
       \item \textbf{Beats Per Bar}
       \item \textbf{Beat Unit}
       \item \textbf{Grid Snap}
+      \item \textbf{Transpose}
+      \item \textbf{Toggle JACK Sync}
+      \item \textbf{Toggle Following JACK Transport}
       \item \textbf{Redo}
       \item \textbf{Undo}
       \item \textbf{Collapse}
@@ -442,9 +446,12 @@
          the pattern or pattern subsection, that item can be moved
          horizontally, as long as their is room.  Or course, left-clicking
          inside the item will also cause it to show as selected.
-         One can also highlight a pattern section (making it gray), then click
-         the \texttt{p} key to enter "paint" mode, and move the pattern left or
-         right with the arrow keys.
+         One can also highlight a pattern section (making it gray),
+         then click the \texttt{p} key to enter "paint" mode, and move the
+         pattern left or right with the arrow keys.
+         In the near future, movement of selected trigger segments will not
+         require the paint mode to be active just to move the segments left or
+         right.
       \item \textbf{Expansion}.
          \index{song editor!section expansion}
          If, instead of grabbing the section length handle, one grabs inside
@@ -499,6 +506,11 @@
    While in the paint mode, one can add pattern clips with the left mouse
    button, via click or drag, and one can highlight a pattern clip and move it
    with the left and right arrow keys.
+
+   In the near future, movement of selected trigger segments will not
+   require the paint mode to be active just to move the segments left or
+   right.
+
    To get out of the paint mode, press the
    \index{keys!x}
    \texttt{x} key while in the sequence editor, to "x-scape" (get it?  get it?)
