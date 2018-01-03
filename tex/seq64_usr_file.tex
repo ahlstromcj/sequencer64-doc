@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-12-21
+% \update      2018-01-03
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -265,6 +265,9 @@
       # The rest default to -1... General MIDI
    \end{verbatim}
 
+   Note that these entries can be quickly disabled by changing the count values
+   to 0.
+
    Please note that, as of version 0.9.10.1, these sections are read from the
    "user" configuration file only if
    the \texttt{--reveal-alsa-ports} option is \textsl{off}.
@@ -274,7 +277,86 @@
    actual ALSA ports that exist on the system.
    Therefore, if the \texttt{--reveal-alsa-ports} option is turned on, then the
    definitions in the "user" configuration file are \textsl{not} read from that
-   file.
+   file.  The following figures show the results of various settings with an
+   active "user" file.  They have been clipped to save space.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{user/seq64-clock-m.png}
+   \caption{Clocks View with -m (--manual-alsa-ports) Option}
+   \label{fig:seq64_clock_m}
+\end{figure}
+
+   Above, the virtual (manual) output ports are shown just as created by
+   \textsl{Sequencer64}.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{user/seq64-input-m.png}
+   \caption{Inputs View with -m (--manual-alsa-ports) Option}
+   \label{fig:seq64_input_m}
+\end{figure}
+
+   Above, the single virtual (manual) input port is shown just as created by
+   \textsl{Sequencer64}.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{user/seq64-clock-m-R.png}
+   \caption{Clocks View with -m (--manual-alsa-ports) and -R (--hide-alsa-ports) Options}
+   \label{fig:seq64_clock_m_R}
+\end{figure}
+
+   Above, by adding the "hide" ports option, the system port labels are
+   replaced by the labels from the "usr" file.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{user/seq64-clock-r.png}
+   \caption{Clocks View with -r (--reveal-alsa-ports) Option}
+   \label{fig:seq64_clock_r}
+\end{figure}
+
+   Above, the "reveal" ports option overrides the device names given in the
+   "usr" file, so that the native system names of the output ports are shown.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{user/seq64-input-r.png}
+   \caption{Inputs View with -r (--reveal-alsa-ports) Option}
+   \label{fig:seq64_input_r}
+\end{figure}
+
+   Above, the "reveal" ports option overrides the device names given in the
+   "usr" file, so that the native system names of the input ports are shown.
+
+   However, note that \textsl{Sequencer64} no longer overrides the
+   names of the input ports via the "usr" file.  This is done to
+   save some trouble in displaying the input port names, which are shown
+   only in this dialog.  We may consider offering a separate override section
+   for the input ports in the future.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{user/seq64-clock-R.png}
+   \caption{Clocks View with -R (--hide-alsa-ports) Option}
+   \label{fig:seq64_clock_R}
+\end{figure}
+
+   The figure above shows how hiding the system port names shows the names
+   defined in the "usr" file.  But notice that the actual port names are shown
+   in square brackets, for reference.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.50]{user/seq64-input-R.png}
+   \caption{Inputs View with -R (--hide-alsa-ports) Option}
+   \label{fig:seq64_input_r}
+\end{figure}
+
+   Although the "hide" ports option is specified above, this view is
+   currently also the normal view of the input ports, even with device names
+   defined in the "usr" file.
 
 \subsection{Sequencer64 "usr" File / MIDI Instrument Definitions}
 \label{subsec:seq64_usr_file_midi_instrument_definitions}
@@ -771,7 +853,7 @@
 
    This log-file is written to the same directory as the "rc" and "usr" files.
 
-\subsection{Sequencer64 "usr" File / Results}
+\subsection{Sequencer64 "usr" File / Device and Control Names}
 \label{subsec:seq64_usr_file_midi_bus_results}
 
    Okay, now we have this file copied to our home directory:
@@ -786,7 +868,8 @@
 
    However, because we don't actually have all that equipment (we got the
    example from the Web, for cryin' out loud), let's see what we end up with
-   when we run \textsl{Sequencer64} this time.
+   when we run \textsl{Sequencer64} this time and show the pattern editor
+   settings:
 
 \begin{figure}[H]
    \centering 
