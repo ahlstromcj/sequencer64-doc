@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-12-10
+% \update      2018-01-07
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -46,7 +46,8 @@
       \item \textbf{Save}
       \item \textbf{Save As...}
       \item \textbf{Import MIDI...}
-      \item \textbf{Export song as MIDI...}
+      \item \textbf{Export Song as MIDI...}
+      \item \textbf{Export MIDI Only...}
       \item \textbf{Options...}
       \item \textbf{Exit}
    \end{enumber}
@@ -140,13 +141,26 @@
    The legacy and new formats of the final "track" are explained in
    \sectionref{subsec:legacy_midi_format}.
 
+   \textbf{Warning:}
+   \index{warnings!meta events}
+   Also note that meta data not handled by \textsl{Sequencer64},
+   such as Meta \texttt{FF 20 01 cc} (MIDI channel cc),
+   and Meta \texttt{FF 21 01 pp} (MIDI port pp),
+   are not saved
+   (or even read in!)
+   in the current release, and are lost.  The same is true upon import.
+   But note that the two meta events mentioned above are also considered
+   \textsl{obsolete}.
+
 \subsubsection{Menu / File / Import MIDI}
 \label{subsubsec:seq64_menu_file_import}
 
    The \textbf{Import} menu entry allows one to import an SMF 0
    or SMF 1 MIDI file into one or more patterns, one pattern per track in
    the MIDI file.  Even long tracks, that aren't short loops, are read in
-   properly.
+   properly.  The difference from \textbf{Open} is that the destination set
+   for the import can be specified, and the existing data is preserved, except
+   for the data in the destination set.
 
 \begin{figure}[H]
    \centering 
@@ -167,7 +181,8 @@
    \textbf{Select Screen Offset}.
    \index{import!select screen offset}
    \index{select screen offset}
-   This setting lets one place the imported data into a screen-set other than
+   This setting is actually a set offset.
+   It lets one place the imported data into a screen-set other than
    the first screen-set (screen-set 0).
    This field is not editable.  It requires using the scroll button to move the
    screen set offset up or down in value.  The legal values range from 0
@@ -185,14 +200,14 @@
    needed.  Note that this slot is used no matter which screen-set one imports
    the file into.  Bug, or feature?
 
-\subsubsection{Menu / File / Export song as MIDI}
+\subsubsection{Menu / File / Export Song as MIDI}
 \label{subsubsec:seq64_menu_file_export}
 
    Thanks to the \textsl{Seq32} project, the ability to export songs to MIDI
    format has been added.
-   "But wait,", you say, "Sequencer64 already saves to a MIDI-compatible
-   format.  Why the need for an Export function?"
-   Well, the \textbf{Export song as MIDI} function modifies the song in the
+   "But wait!", you say, "Sequencer64 already saves to a MIDI-compatible
+   format.  Why the need for an Export operation?"
+   Well, the \textbf{Export Song as MIDI} operation modifies the song in the
    following ways:
 
    \begin{itemize}
@@ -270,6 +285,25 @@
    Had there been gaps in layouts or repeats of layouts in the song/performance
    data, these would have been reflected in the triggers.
    Much more complex examples are, of course, possible.
+
+\subsubsection{Menu / File / Export MIDI Only}
+\label{subsubsec:seq64_menu_file_export_midi_only}
+
+   Sometimes it might be useful to export only the non-sequencer-specific
+   data from a \textsl{Sequencer64} song.  For example, some buggy sequencers
+   might balk at some SeqSpec item in the song, and refuse to load the MIDI
+   data.  For cases like this,
+   the \textbf{Export MIDI Only} menu item writes a file that does not contain
+   the SeqSpec data for each track, and does not include all the SeqSpec data
+   (such as mute groups) that is normally written to the end of the
+   \textsl{Sequencer64} MIDI file.
+
+   Note that the meta data for track name is still written, so that the
+   resulting file might be a little larger than the original
+   \texttt{.mid} file that was imported into \textsl{Sequencer64}.
+
+   Also note that other meta data not handled by \textsl{Sequencer64},
+   such as Meta \texttt{FF 21 01 pp} (MIDI port pp), are also lost.
 
 \subsubsection{Menu / File / Options}
 \label{subsubsec:seq64_menu_file_options}
