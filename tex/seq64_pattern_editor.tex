@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-08-02
+% \update      2018-01-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -32,6 +32,11 @@
 
    Not shown in this figure are:
    \begin{itemize}
+      \item The sequence number show as part of the updated window title, which
+         now shows the application name (e.g. "seq64" versus the old
+         "Sequencer64" title.
+      \item The sequencer number is now shown to the left of the
+         sequence/track name.
       \item The new \textbf{LFO} button in the bottom panel.
       \item The new \textbf{Rec Type}button in the bottom panel.
    \end{itemize}
@@ -111,6 +116,7 @@
 % \end{figure}
 
    \begin{enumber}
+      \item \textbf{Pattern Number} (not shown)
       \item \textbf{Pattern Name}
       \item \textbf{Beats Per Bar}
       \item \textbf{Beat Unit (Beat Width)}
@@ -121,6 +127,11 @@
    \end{enumber}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{Pattern Number}{pattern editor!number}
+   This item is a read-only item that shows the sequence/track/pattern/loop
+   number, to make it easier to pick it out when a lot of patterns are being
+   edited at once.
 
    \itempar{Pattern Name}{pattern editor!name}
    Provides the name of the pattern.
@@ -837,9 +848,9 @@
 
    The Piano Roll pane provides for a quite sophisticated set of note-editing
    actions.  Not only is there a native mouse-interaction mode, but there is a
-   "fruity" mouse-interaction mode that works more like the applications
-   "Fruity Loops", it's follow-on "FL Studio', and its Linux look-alike,
-   "LMMS".
+   "fruity" mouse-interaction mode that works more like the application
+   \textsl{Fruity Loops}, its follow-on \textsl{FL Studio},
+   and its Linux look-alike, \textsl{LMMS}.
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
@@ -847,6 +858,8 @@
    \index{todo!fruity mode}
    At some point, we will add a section detailing the usage of the "fruity"
    mode of mouse-interaction.
+   For now, \sectionref{paragraph:seq64_menu_file_options_mouse}, such as it
+   is, will have to do.
 
    Please study the following paragraphs carefully, ideally while
    trying them out in \textsl{Sequencer64}.
@@ -1199,6 +1212,7 @@
    This mode is a lot different, and we have yet to do the exhaustive testing
    needed to understand how this mode works.  Input from actual users of this
    mode would be welcome.
+   For now, see \sectionref{paragraph:seq64_menu_file_options_mouse}.
 
 \subsection{Pattern Editor / Bottom Panel}
 \label{subsec:seq64_pattern_editor_bottom}

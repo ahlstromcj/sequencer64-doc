@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-12-26
+% \update      2018-01-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -83,7 +83,8 @@
    \centering 
 %  \includegraphics[scale=0.50]{pattern-window-top-panel-items-new.png}
 %  \includegraphics[scale=0.50]{new/pattern-window-top-panel-items-new.png}
-   \includegraphics[scale=0.50]{new/pattern-window-top-panel.png}
+%  \includegraphics[scale=0.50]{new/pattern-window-top-panel.png}
+   \includegraphics[scale=0.75]{new/pattern-window-top-panel.png}
    \caption{Patterns Panel, New Top Panel Items}
    \label{fig:pattern_window_new_top_panel_items}
 \end{figure}
@@ -98,8 +99,9 @@
       \item \textbf{Song/Live}
       \item \textbf{Toggle Playing Tracks}
       \item \textbf{Toggle Menu}
-      \item \textbf{ALSA/JACK Mode}
-      \item \textbf{Song Progress}
+      \item \textbf{ALSA/JACK Modes}
+      \item \textbf{Song Progress Bar}
+      \item \textbf{Time Display Selection}
       \item \textbf{Mute Group Learn}
    \end{enumber}
 
@@ -138,17 +140,19 @@
    which defaults to \texttt{F3}, and is configurable in the "rc" file and
    the \textbf{File / Options / Ext Keys} page.
 
-   \itempar{ALSA/JACK Mode}{pattern!ALSA/JACK mode}
+   \itempar{ALSA/JACK Modes}{pattern!ALSA/JACK modes}
    \index{pattern!ALSA/JACK mode}
    This button used to be just a label, but now it can help set the ALSA versus
-   JACK modes.  When clicked, it brings up the JACK connection page from the
+   JACK modes, including JACK transport and native JACK MIDI playback and
+   recording.
+   When clicked, it brings up the JACK connection page from the
    \textbf{File / Options} dialog.  The hot-key for this button
    is \texttt{Ctrl-P}.
 
-   \itempar{Song Progress}{pattern!progress}
+   \itempar{Song Progress Bar}{pattern!progress bar}
    \index{pattern!progress}
    \index{pattern!"main time"}
-   The \textbf{Song Progress} bar is also known as the "main time" bar.
+   The \textbf{Song Progress Bar} is also known as the "main time" bar.
    This bar shows a number of small black cursors ("pills") that show the
    progress of the song through the various patterns.  For short patterns,
    the progress is fast.  For patterns that last longer, the progress is
@@ -171,6 +175,11 @@
 
 %  Even if not enabled, the currently-selected pattern will show as highlighted
 %  in dark-cyan.
+
+   \itempar{Time Display Selection}{pattern!time display}
+   The \textbf{Time Display Selection} is also known as the "main time" bar.
+   This button toggles between the states of \textbf{BBT} (bar:beats:ticks)
+   and \textbf{HMS} (hours:minutes:seconds).
 
    \itempar{Mute Group Learn}{pattern!mute group learn}
    \index{L button}

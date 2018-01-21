@@ -64,8 +64,11 @@
    \end{verbatim}
 
    See \sectionref{subsec:seq64_usr_file_user_midi_settings}, for more
-   information.  These settings can only be made by editing the "usr" file
+   information.  This setting can only be made by editing the "usr" file
    while \textsl{Sequencer64} is not running.
+   Note that this setting affects the global BPM setting ("c\_bpmtag").
+
+% DO THESE SETTINGS apply to the global BPM or the tempo-track BPM???
 
 \subsection{Composite Display of Tempos}
 \label{subsec:meta_events_composite_display}
@@ -86,7 +89,8 @@ editor and the main window's BPM settings can be used to add, delete, or adjust
 the tempo.
 
 The middle shows the very similar representation of the tempo in the Song
-Editor.  Again, this view does not (currently) allow editing of the tempo events.
+Editor.  Again, this view does not (currently) allow editing of the tempo
+events.
 
 The bottom shows tempo as an event (in the event strip) and a data value
 in the data pane.  A tempo event can be added here by holding the Ctrl key
@@ -116,7 +120,6 @@ discussed in the previous section.
 This pattern-slot tempo display is rudimentary.  It doesn't allow for ramping
 of the tempo at present (except by recording while holding the BPM
 spin-control), and cannot be directly edited in this window.
-
 However, tempos can be logged or recorded via magenta-colored controls at the
 bottom of the main window.
 

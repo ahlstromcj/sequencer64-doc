@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-01-07
+% \update      2018-01-21
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -75,9 +75,14 @@
 
    This dialog lets one type a file-name, highlighting the first file (if any)
    that matches the characters typed so far.
-   If unsaved changes are pending, the user should
-   be prompted to save the changes.
+   If unsaved changes are pending from the currently-open MIDI file,
+   the user will be prompted to save the changes.
    When in doubt, save!  Keep backups of your tunes!
+
+   Note that \textsl{Sequencer64} can also open regular MIDI files.
+   As of version 0.94.3, it will read and store various MIDI Meta events that
+   were not directly supported before.  In addition, the Tempo and Time
+   Signature events are now integral parts of \textsl{Sequencer64} handling.
 
 \subsubsection{Menu / File / Recent MIDI Files}
 \label{subsubsec:seq64_menu_file_recent}
@@ -141,16 +146,19 @@
    The legacy and new formats of the final "track" are explained in
    \sectionref{subsec:legacy_midi_format}.
 
-   \textbf{Warning:}
-   \index{warnings!meta events}
-   Also note that meta data not handled by \textsl{Sequencer64},
+   \textbf{New:}
+   \index{new!meta events}
+   Note that meta events are now partially handled by \textsl{Sequencer64}.
+   Meta events Set Tempo, \texttt{FF 51 03 tt tt tt},
+   and Time Signature, \texttt{FF 58 04 nn dd cc bb}, are now fully supported.
+   Other Meta events,
    such as Meta \texttt{FF 20 01 cc} (MIDI channel cc),
    and Meta \texttt{FF 21 01 pp} (MIDI port pp),
-   are not saved
-   (or even read in!)
-   in the current release, and are lost.  The same is true upon import.
-   But note that the two meta events mentioned above are also considered
-   \textsl{obsolete}.
+   are now read in as events, and are saved back when the file is saved.
+   They cannot be edited in \textsl{Sequencer64}, but at least they are
+   not lost.
+   Please note that the channel and port meta events mentioned above are also
+   considered \textsl{obsolete}.
 
 \subsubsection{Menu / File / Import MIDI}
 \label{subsubsec:seq64_menu_file_import}
@@ -1105,6 +1113,11 @@
    again if not satisfied.  At least two clicks are needed for this
    functionality to work.
 
+% VERIFY and the UNCOMMENT
+%
+%  Tap BPM causes events to be logged to the tempo track which is the first
+%  track (track 0) by default.
+
 \paragraph{Menu / File / Options / Mouse }
 \label{paragraph:seq64_menu_file_options_mouse}
 
@@ -1133,10 +1146,14 @@
    \begin{itemize}
       \item \textbf{Left-click left side}.
          Begin a grow/shrink operation for the left side.
+         However, even in \textsl{Seq24}, this action is \textsl{broken}.
+         It does allow one to move the note, however.
       \item \textbf{Left-click right side}.
          Begin a grow/shrink operation for the right side.
       \item \textbf{Left-click middle}.
-         Move the object.
+         Move the object.  To clarify, each note image
+         has an invisible "handle" on the left or the right side, with the
+         middle providing a third area of interaction in the "fruity" mode.
       \item \textbf{Left-click}.
          Add an event if nothing selected.
       \item \textbf{Middle-click}.
