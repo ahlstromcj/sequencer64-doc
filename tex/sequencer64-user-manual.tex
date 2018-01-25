@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2018-01-07
+% \update      2018-01-24
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.94.3}
+\title{Sequencer64 User Manual 0.94.4}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -58,7 +58,6 @@
 
 \begin{figure}[H]
    \centering 
-%  \includegraphics[scale=0.50]{Sequencer64-0_9_17.png}
    \includegraphics[scale=0.40]{Sequencer64-0_94.png}
    \caption*{"Night" Mode}
 \end{figure}
@@ -73,9 +72,6 @@
 % paragraph.  This could be moved up into the preamble, but then would
 % affect the spacing of the TOC and LOF, LOT noted above.
 
-% \setlength{\parindent}{0pt}
-% \setlength{\parindent}{3em}
-
 \setlength{\parindent}{2em}
 \setlength{\parskip}{1ex plus 0.5ex minus 0.2ex}
 
@@ -83,7 +79,7 @@
 \label{sec:introduction}
 
    This document describes \textsl{Sequencer64}
-   \cite{sequencer64}, through version 0.94.3,
+   \cite{sequencer64}, through version 0.94.4,
    the latest commit from the \textbf{master} branch.
    If one is impatient to get started mastering \textsl{Sequencer64},
    then proceed to \sectionref{subsec:introduction_lets_get_started}.
@@ -100,11 +96,10 @@
    More editing and navigation can be done using keystrokes.
    The armed/mute status of all of the \textsl{other} active patterns can be
    toggled.
-%  All playing patterns can be muted, then unmuted.
    There are zoom keys for the editors, current-sequence highlighting,
    important bug fixes, some optimization, and much more.
 
-   Nonetheless, we have many contributors to acknowledge.  Please see
+   We have many contributors to acknowledge.  Please see
    \sectionref{sec:kudos}.
 
 \subsection{Sequencer64: What?}
@@ -148,7 +143,7 @@
    The first reason to reboot \textsl{Seq24} is consolidation of many of the
    features and fixes that it has accumulated in various forks over the years.
    Also, although "feature-complete", additional features would be useful.
- % Such as support for modern session managers, more use of keystrokes,
+%  Such as support for modern session managers, more use of keystrokes,
 %  work-arounds for the need for two mouse buttons,
 %  a more modern user-interface framework,
 %  more comprehensive undo/redo,

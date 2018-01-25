@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-01-05
+% \update      2018-01-24
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -20,7 +20,7 @@
    There are two \textsl{Sequencer64} configuration files:
    \texttt{sequencer64.rc} and \texttt{sequencer64.usr}.
    See \sectionref{sec:seq64_rc_file}; it describes the "rc" file.
-   They are bit different in how they are handled.
+   They are a bit different in how they are handled.
 
    The \textsl{Sequencer64} "usr" (or "user")
    configuration file provides a way to give more
@@ -270,15 +270,19 @@
       # The rest default to -1... General MIDI
    \end{verbatim}
 
-   Note that these entries can be quickly disabled by changing the count values
-   to 0.
+   Note that these user-instrument entries can be quickly disabled by changing
+   the count values to 0.
 
-   Please note that, as of version 0.9.10.1, these sections are read from the
-   "user" configuration file only if
-   the \texttt{--reveal-alsa-ports} option is \textsl{off}.
+   Please note that, as of version 0.9.10.1, these instrument-definition
+   sections are read from the "user" configuration file only if
+   the \texttt{--reveal-alsa-ports} option is \textsl{off} ("0");
+   this command-line option can also be specified in the
+   \texttt{[reveal-alsa-ports]} section of the "rc" file,
+   see \sectionref{subsec:seq64_rc_file_other_midi}, where this section is
+   discussed.
    Otherwise, the actual port names reported by ALSA are shown.
    The \texttt{user-midi-bus-definitions} and \texttt{user-midi-bus-N} sections
-   are misleading if one wants to have access to the
+   can be misleading if one wants to have access to the
    actual ALSA ports that exist on the system.
    Therefore, if the \texttt{--reveal-alsa-ports} option is turned on, then the
    definitions in the "user" configuration file are \textsl{not} read from that
@@ -288,12 +292,13 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.50]{user/seq64-clock-m.png}
-   \caption{Clocks View with -m (--manual-alsa-ports) Option}
+   \caption{Clocks View, -m (--manual-alsa-ports)}
    \label{fig:seq64_clock_m}
 \end{figure}
 
    Above, the virtual (manual) output ports are shown just as created by
    \textsl{Sequencer64}.
+   The \texttt{--reveal-alsa-ports} option is \textsl{off} here.
 
 \begin{figure}[H]
    \centering 
@@ -304,11 +309,12 @@
 
    Above, the single virtual (manual) input port is shown just as created by
    \textsl{Sequencer64}.
+   Again, the \texttt{--reveal-alsa-ports} option is \textsl{off} here.
 
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.50]{user/seq64-clock-m-R.png}
-   \caption{Clocks View with -m (--manual-alsa-ports) and -R (--hide-alsa-ports) Options}
+   \caption{Clocks View, -m (--manual-alsa-ports) and -R (--hide-alsa-ports)}
    \label{fig:seq64_clock_m_R}
 \end{figure}
 
@@ -318,7 +324,7 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.50]{user/seq64-clock-r.png}
-   \caption{Clocks View with -r (--reveal-alsa-ports) Option}
+   \caption{Clocks View, -r (--reveal-alsa-ports)}
    \label{fig:seq64_clock_r}
 \end{figure}
 
@@ -362,6 +368,11 @@
    Although the "hide" ports option is specified above, this view is
    currently also the normal view of the input ports, even with device names
    defined in the "usr" file.
+   At this time, there's no real need to show the user-instrument names
+   on the input port.  If there turns out to be such a need, the definitions
+   would likely need to be different from the definitions for the output ports.
+   Another complexity is the possible existence, under ALSA, of the
+   \texttt{system:announce} port.
 
 \subsection{Sequencer64 "usr" File / MIDI Instrument Definitions}
 \label{subsec:seq64_usr_file_midi_instrument_definitions}
@@ -371,7 +382,8 @@
    This section begins with an
    "INI" group marker \texttt{[user-instrument-definitions]}.
    It defines the number of user instruments that will be configured in this
-   file.  This section defines characteristics of the instruments themselves,
+   file.  This section defines characteristics, such as
+   the meanings of MIDI controller values, of the instruments themselves,
    not the MIDI busses to which they attached.
 
    \begin{verbatim}
@@ -382,7 +394,8 @@
    \index{usr!user-instrument-n}
    \index{[user-instrument-n]}
    So this "usr" file will define 9 instruments.  We provide only one section
-   as an example.
+   as an example.  Note that items without text default to the values
+   prescribed by the General MIDI (GM) specification.
 
    \begin{verbatim}
       [user-instrument-0]
@@ -411,9 +424,8 @@
    the pattern editor will show the default name of this controller.
    Again, though, the function denoted by this name might not be supported by
    the device.  In that case, it might be better to call it "Unsupported".
-   See above.
-
-   Here is an instrument where its synthesis parameters can be controlled:
+   See the examples above.
+   Here is an instrument that has synthesis parameters that can be controlled:
 
    \begin{verbatim}
       [user-instrument-1]
@@ -443,9 +455,9 @@
    \end{verbatim}
 
    The sample file
-   \texttt{contrib/scripts/sequencer64-timidity-yoshimi.usr.example}
-   contains examples of some other kinds of instruments.  It is a good resource
-   to study when creating one's own settings.
+   \texttt{contrib/configs/sequencer64-timidity-yoshimi.usr.example}
+   contains examples of some other kinds of instruments.
+   It is a minimal resource, useful to study when creating one's own settings.
 
 \subsection{Sequencer64 "usr" File / User Interface Settings}
 \label{subsec:seq64_usr_file_user_interface_settings}
@@ -463,7 +475,6 @@
 
    \index{usr!grid-style}
    \begin{verbatim}
-
       #   ======== Sequencer64-Specific Variables Section ========
 
       [user-interface-settings]
