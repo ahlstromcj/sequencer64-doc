@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-01-15
+% \update      2018-01-31
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -1229,6 +1229,9 @@
    \label{fig:pattern_editor_bottom_panel_items}
 \end{figure}
 
+   Missing from this diagram is the new "Existing Event Selector" which zeroes
+   in only on events already present in the pattern.
+
 %  Until we can get a completely labelled screenshot, here is the
 %  latest bottom panel, with the new \textbf{LFO}
 %  and \textbf{Recording Type} buttons, and the popup menu for the latter.
@@ -1242,6 +1245,7 @@
 
    \begin{enumber}
       \item \textbf{Event Selector}
+      \item \textbf{Existing Event Selector}
       \item \textbf{Event Selection}
       \item \textbf{LFO}
 %     \item \textbf{Time Scroll}
@@ -1283,6 +1287,13 @@
 
    (legacy mode: \texttt{\$HOME/.seq24usr}), to make it match one's
    instrument.  See \sectionref{sec:seq64_usr_file}.
+
+   \itempar{Existing Event Selector}{pattern editor!existing events}
+   Not yet shown in the figure above is a small button that will contain either
+   an empty square (no editable events) or a black square (at least one
+   editable event).  Unlike the event-selector described above, this one
+   shows only the actual events existing in the track, for quicker selection.
+   The event-selector above is more useful for creating new events.
 
    \itempar{Event Selection}{pattern editor!event selection}
    Shows the selection event, with its number shown in hexadecimal notation,
