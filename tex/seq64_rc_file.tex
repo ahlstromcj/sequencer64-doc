@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-01-25
+% \update      2018-02-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -67,26 +67,43 @@
    pattern on, off, or to toggle it.  This setup is in the 
    MIDI Control section of \texttt{sequencer64.rc}, and begins with the
    "INI-style" group marker \texttt{[midi-control]}.
-
-   Each MIDI control line has the following format:
+   Each MIDI control line has the following format (ignore the explanatory
+   lines):
 
    \begin{verbatim}
-      74  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+               ------------------ on/off
+              | ----------------- inverse
+              | |  -------------- MIDI status (event) byte (e.g. note on)
+              | | |  ------------ data 1 (e.g. note number)
+              | | | |  ---------- data 2 min
+              | | | | |  -------- data 2 max
+              | | | | | |
+              v v v v v v
+      74     [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+    Index     Toggle          On              Off
    \end{verbatim}
 
-   The first number is an index number, starting at 0.
-   The leftmost brackets define a \textsl{toggle} filter;
-   the middle brackets define a \textsl{on} filter;
-   the rightmost brackets define a \textsl{off} filter.
+   The first number is an index number, starting at 0.  It indicates what
+   function the control line will affect.
+   The numbers in the leftmost brackets define a \textsl{toggle} filter;
+   the numbers in the middle brackets define a \textsl{on} filter;
+   the rnumbers in the ightmost brackets define a \textsl{off} filter.
    The numbers inside the brackets define six values that set up the control:
    \textbf{on/off}; \textbf{inverse}; \textbf{MIDI status byte};
    \textbf{data1}; \textbf{data2 min}; and \textbf{data2 max}
-   This layout of values is explained below.
+   This set of values is explained below.
 
    The MIDI control setup resembles a matrix.
    The first block of matrix elements, the entries numbered from 0 to 63,
    represent control for control functions (toggle, mute, unmute)
-   of the active screen-set.
+   of the active screen-set.  The first 32 of these values represent the
+   immediate mute/unmute functions that correspond to the hot-keys assigned in
+   the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
+   configuration panel.
+   The second 32 of these values represent the same actions as the
+   the \textbf{File / Options / Keyboard / Mute-group slot [mute-group]} 
+   configuration panel.
+   See \sectionref{paragraph:seq64_menu_file_options_keyboard}.
    Legacy control keys occupy the entries from 64 to 73.  These entries control
    \textsl{Sequencer64} actions like changing the BPM value, screen-set, etc.
    \textsl{Sequencer64} adds some more entries, from 74 to 83, to control
@@ -94,7 +111,7 @@
    record, solo, etc.
    
    The \texttt{[midi-control]}
-   section is explicitly broken into subsections, though those
+   section is explicitly broken into subsections; those
    subsections are marked with comment-lines for better comprehensibility.  The
    subsections of the MIDI Control section are:
 
@@ -178,7 +195,7 @@
       \item \textbf{Extended automation group}.
          \index{rc!extended automation}
          These additional control items were requested by users, to control
-         addition features of the application.
+         additional features of the application.
          Each item in this group consists of one line.
          \begin{enumber}
             \item \textbf{stop/pause/start}.  Emulate the Stop, Pause, and
@@ -192,7 +209,7 @@
                Not yet functional.
             \item \textbf{thru toggle}.
                Not yet functional.
-            \item \textbf{reserved for expansion} (six of these are reserved).
+            \item \textbf{reserved for expansion} (a few of these are reserved).
          \end{enumber}
    \end{enumber}
 
@@ -283,18 +300,20 @@
       78  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
       # bpm page down:
       79  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # reserved for expansion:
+      # screen set by number:
       80  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # reserved for expansion:
+      # MIDI RECORD (toggle, on, off):
       81  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # reserved for expansion:
+      # MIDI Quantized RECORD (toggle, on, off)
       82  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
       # reserved for expansion:
       83  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
    \end{verbatim}
 
-   Not all of these new values are yet usable.  Currently, just the
-   "start", "pause", "stop", and "bpm" page controls have been implemented.
+   Not all of these new values are yet usable.  Currently, the
+   "start", "pause", "stop", and "bpm" page controls, and the "performance
+   record", "MIDI THRU", "MIDI RECORD", and "MIDI Quantized RECORD"
+   have been implemented.
    So let's focus again on one line of data, and describe it in greater detail:
 
    \begin{verbatim}
@@ -312,7 +331,7 @@
       \item \textbf{64 to 73}.  These items represent the legacy \textsl{Seq24}
          controls, from \textbf{bpm up} to \textbf{screen set play}.
       \item \textbf{74 to 83}.  These items, if present, represent the
-         new extended controls, to control addition playback features of
+         new extended controls, to control additional playback features of
          \textsl{Sequencer64}.
    \end{itemize}
    
@@ -580,17 +599,15 @@
    \index{rc!start/stop control}
    This section shows how to set up an extended automation control.
 
-   Currently, this control is enabled only in the \textbf{wip} branch of the
-   \textsl{Sequencer64} project, and the only extended control that works is
+   Not all of the extended controls work; some that do are the
    the \textsl{stop/pause/start} functionality (which requires that the pause
    functionality be enabled at build time, which is the default).
-
    Here, we will set up \textsl{Sequencer64} so that the first three MIDI
    white keys (notes 0, 2, and 4) will become "Stop", "Pause", and "Start"
    buttons.
 
-   The first step, if not already done, is to install the new version
-   (\textbf{0.90.2 * wip} and above) of \textsl{Sequencer64},
+   The first step, if not already done, is to install the newest version
+   (\textbf{0.91.} and above) of \textsl{Sequencer64},
    run it, and then exit.
    Verify in the regenerated "rc" file
    (\texttt{\textasciitilde/.config/sequencer64/sequencer64.rc}) that the
@@ -600,10 +617,9 @@
       84      # MIDI controls count (74 or 84)
    \end{verbatim}
 
-   and
-
    \begin{verbatim}
       # Extended MIDI controls:
+
       # start playback (pause, start, stop):
       74 [0 0   0   0   0   0] [0 0   0   0   0   0] [0 0   0   0   0   0]
    \end{verbatim}
@@ -617,13 +633,12 @@
    \end{verbatim}
 
    This sets up MIDI Note On (144) values 2 (toggle/pause), 4 (on/start), and 0
-   (off/stop).
+   (off/stop).  Any velocity (0 to 127) will work to trigger these actions.
    Now we are ready to test this feature.  One can use a MIDI keyboard to do
    so, but here we will use the \textsl{VMPK} (\cite{vmpk}) virtual MIDI
-   piano keyboard application for this test.  Refer to the following figure.
-
-   In addition, let's set up the standard and the new BPM (beats/minute) MIDI
-   control values.  
+   piano keyboard application for this test.  Refer to the figure below.
+   In addition, let's set up the standard and the new, extended, BPM
+   (beats/minute) MIDI control values.  
 
    \begin{verbatim}
       # bpm up: Note On 9
@@ -632,11 +647,11 @@
       65 [0 0   0   0   0   0] [1 0 144   7   0 127] [0 0   0   0   0   0]
    \end{verbatim}
 
-   That section sets up the standard (step-size) BPM controls, which correspond
-   to the fine control possible with the up and down arrows of the BPM spinner
-   in the main window.  It sets up Note On 7 to be the BPM-down control, and
-   Note On 9 to be the BPM-up control.  These two keys are the dark-cyan keys
-   shown in the figure.
+   The section above sets up the standard (step-size) BPM controls, which
+   correspond to the fine control possible with the up and down arrows of the
+   BPM spinner in the main window.  It sets up Note On 7 to be the BPM-down
+   control, and Note On 9 to be the BPM-up control.  These two keys are the
+   dark-cyan keys shown in the figure.
 
    \begin{verbatim}
       # bpm page up:  Note On 11
@@ -661,11 +676,15 @@
 
    One can copy these settings from the sample file
    \texttt{contrib/simple-midi-control-section.rc}, if one wants to
-   try them.
+   try them.  It also illustrates some other setups that we use for testing
+   purposes, but are not described here.
 
    Set up \textsl{VMPK} to use the lowest octave by setting
    \textbf{Base Octave} to \texttt{0}.  The red, yellow, and green
    keys shown will be our stop, pause, and start keys.
+   Also set the velocity to a value ranging from 1 to 127.
+   Do not use a zero velocity, as it seems that VMPK will not transmit Note On
+   messages with a zero velocity.
 
    Next, run \textsl{Sequencer64}, using the following command line to make
    sure that it is using ALSA and using automatic mode to connect the ALSA MID
@@ -752,7 +771,11 @@
    \index{[midi-clock]}
    The MIDI Clock fields will contain the clocking state from the last 
    time \textsl{Sequencer64} was run.  Turn off the clock with a 0, or on
-   with a 1.
+   with a 1 (which means to send MIDI Song Position, and MIDI Continue if
+   starting after tick 0), or on with positioning with a 2, which sends MIDI
+   Start and then bbegins clocking after the position reaches a modulo of the
+   \textbf{Clock Start Modulo value)}.  Luckily, the user-interface makes it
+   easy to select the desire value, and has tool-tips to instruct the user.
    This section has 16 entries, one for each MIDI output buss that
    \textsl{Sequencer64} supports.
 

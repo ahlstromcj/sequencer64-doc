@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2017-05-02
+% \update      2018-02-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -138,7 +138,8 @@
    together. MIDI clock runs at a rate of 24 ppqn (pulses per quarter note).
    This means that the actual speed of the MIDI clock varies with the tempo
    of the clock generator (as contrasted with time code, which runs at a
-   constant rate).
+   constant rate). \textsl{Sequencer64} emits MIDI clock events, but does not
+   (yet) follow MIDI clock.
 
 \subsubsection{Concepts / Terms / pattern}
 \label{subsubsec:concepts_terms_pattern}
