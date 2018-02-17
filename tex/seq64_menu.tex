@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-01-21
+% \update      2018-02-17
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -168,7 +168,9 @@
    the MIDI file.  Even long tracks, that aren't short loops, are read in
    properly.  The difference from \textbf{Open} is that the destination set
    for the import can be specified, and the existing data is preserved, except
-   for the data in the destination set.
+   for the data in the destination set.  If the imported file is a
+   \textsl{Sequencer64} file, it's proprietary sections will
+   \textsl{not} be imported, in order to preserve the performance setup.
 
 \begin{figure}[H]
    \centering 

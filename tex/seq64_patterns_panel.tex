@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-01-15
+% \update      2018-02-17
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -379,6 +379,18 @@
    Only one screen set can be controlled at a time, according to other notes we
    have found; have not yet tried to verify this assertion.  But any number of
    screensets can be playing at the same time.
+
+   Note that the Page Up and Page Down keystrokes, and their
+   counter parts in
+   \textbf{File / Options / Keyboard / Control Keys / Screenset Up}
+   and \textbf{Screenset Down}, can be used in lieu of the
+   \textbf{Set} spinbutton.
+
+   It is important to note that keystroke control of the screen-set will
+   wrap-around in screen-set values (i.e. screen-set down at 0 results in
+   screen-set 31, and screen-set up at 31 results in screen-set 0).
+   However, the spinbuttons will stop up at 31 and stop down at 0.
+   We consider this a feature rather than a bug, at this time.
 
 \begin{figure}[H]
    \centering 
@@ -1395,10 +1407,10 @@
 \label{subsec:seq64_patterns_panel_multiple}
 
    If \textsl{Sequencer64} is built with the \texttt{--enable-multiwid}
-   option (currently the default), this defines the 
+   option (the default), this defines the 
    \texttt{SEQ64\_MULTI\_MAINWID} macro, and allows for
    \index{multi-wid} multiple main windows showing more than one set at a time.
-   The default is to show the usual single mainwid.
+   The default is to show the usual single "mainwid".
 
 \begin{figure}[H]
    \centering 
@@ -1410,10 +1422,20 @@
    Also note that either one spinner for all, or one spinner for each, is
    available.  The latter is the "independent" mode.
    Note that it is possible, in this mode, to show the same set in two
-   different mainwids, but this is not recommended, as there are minor
+   different "mainwids", but this is not recommended, as there may be minor
    unavoidable issues with that.
 
-   Also see 
+   Note that Page Up and Page Down keystrokes, as well as their
+   configurable counterparts in
+   \textbf{File / Options / Keyboard / Control Keys / Screenset Up}
+   and \textbf{Screenset Down}, apply only to the top leftmost "mainwid".
+   Of course, if the "mainwids" are synced, then all are affected by these
+   keystrokes.
+
+   In multi-wid mode, each "mainwid" frame shows the corresponding set number
+   and, if present, the set notepad text for each "mainwid" set.
+
+   See 
    \sectionref{sec:seq64_man_page}, for how the
    \texttt{-o wid=3x2,i} option can be used to set this mode, and
    \sectionref{subsec:seq64_usr_file_user_interface_settings}, for
