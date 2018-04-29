@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-06-11
+% \update      2018-04-29
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -93,8 +93,11 @@
       the system's current hardware/software synthesizer setup.
       Also note that this option applies the MIDI buss override to any new
       sequences, as well.
+
       Format: \texttt{--bus bussnumber} or
       \texttt{--buss bussnumber}.
+
+      Most of the time, one will want to set this value to -1.
 
    \optionpar{-q}{--ppqn [ppqn]}
       \textbf{New:}
@@ -251,12 +254,16 @@
             Makes the \texttt{seq64cli} application
             run in the foreground, where it is easy to see the informational
             output written to the console.
-         \item \texttt{log=filename}.
+         \item \texttt{log=filename.log}.
             \index{log}
             Reroutes standard error and standard
             output messages to the given log-file.  This file is located in the
             directory for the "rc" and "usr" files (which can be altered via
-            the \texttt{-H}/\texttt{--home} directory option).
+            the \texttt{-H}/\texttt{--home} directory option).  If this file is
+            already present, additional log information is appended to it.  If
+            the "=filename.log" portion is missing, the log-file name in the
+            \texttt{[user-options]} section of the "usr" file is used as the
+            default log-file, if this file-name is not empty.
          \item \texttt{wid=3x2,i}.
             \index{multi-wid}
             Provides for multiple main windows ("mainwids") to be shown in a

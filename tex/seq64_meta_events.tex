@@ -20,7 +20,7 @@
 
    In recent versions of \textsl{Sequencer64} we are attempting better support
    for MIDI Meta and System Exclusive events, as well as a Tempo track.
-   At present (v. 0.93.1), \textsl{Sequencer64} now supports the display of Set
+   At present (v. 0.93+), \textsl{Sequencer64} now supports the display of Set
    Tempo and Time Signature events.  They can also be added and edited, in
    various ways.  For example, see \sectionref{sec:seq64_event_editor}.
    Only the first Time Signature event is used to modify playback.
@@ -53,7 +53,8 @@
 \label{subsec:meta_events_usr}
 
    \textsl{Sequencer64} allows the tempo to range from 1 to 600 BPM
-   (beats per minute).    This range is hardwired into the application.
+   (beats per minute).
+   This range is hardwired into the application.
    But we need to be able to display tempo with a little more granularity.
    Therefore, \textsl{Sequencer64} provides some scaling for the tempo
    displays.  These values are found in the "usr" file:

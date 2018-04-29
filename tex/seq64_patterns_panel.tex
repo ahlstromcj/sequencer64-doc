@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-02-17
+% \update      2018-04-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -34,25 +34,25 @@
 
    \index{live mode}
    \index{mode!live}
-   \index{mode!ALSA}
-   When the Patterns Panel has the application focus (in ALSA mode),
-   and \textsl{Sequencer64}
-   is \textsl{not} running in JACK mode, it puts
-   \textsl{Sequencer64} in "live mode".  The musician can
+   \index{mode!song}
+   When the Patterns Panel has the application focus,
+   and \textsl{Sequencer64} is \textsl{not} running in \textbf{Song} mode,
+   it puts \textsl{Sequencer64} in \textbf{Live} mode.
+   The musician can
    control the playback and muting/unmuting of each pattern in
    the song, while it is playing, from within this window.
 
    \index{song mode}
    \index{mode!song}
-   \index{mode!ALSA}
-   If the song editor
-   (see \sectionref{sec:seq64_song_editor})
-   has the input focus in ALSA mode, then it controls the muting/unmuting of
-   each pattern, and \textsl{Sequencer64} runs in "song mode".
-   However, if \textsl{Sequencer64} is using JACK transport, then, instead of
-   the behavior described above, live versus song mode is controlled by the
-   JACK start mode option (see the \textbf{JACK Start mode} item in
-   \sectionref{paragraph:seq64_menu_file_options_jack_sync}).
+   If the song editor (see \sectionref{sec:seq64_song_editor})
+   has the input focus, it controls the muting/unmuting of
+   each pattern, and \textsl{Sequencer64} runs in \textbf{Song} mode.
+%  THIS NEEDS TO BE RE-EVALUATED
+%
+%  However, if \textsl{Sequencer64} is using JACK transport, then, instead of
+%  the behavior described above, live versus song mode is controlled by the
+%  JACK start mode option (see the \textbf{JACK Start mode} item in
+%  \sectionref{paragraph:seq64_menu_file_options_jack_sync}).
 
    Back to the patterns panel....  For exposition, we break the Patterns Panel
    into a menu bar, a top panel, a pattern panel, and a bottom panel.
@@ -427,6 +427,11 @@
 
    \index{pattern!slot}
    An empty box is a slot for a pattern.
+   If a pattern is present in the slot, the top line will show
+   the title of the pattern, and the number of measures in the pattern.
+   The latter is not shown on some of the figures in this manual, a
+   lack we will ave to rectify someday.
+
    A pattern can show a number of different statuses based on the coloring
    of elements in the pattern slot. 
 
@@ -438,7 +443,8 @@
 \end{figure}
 
    (Not shown in the figure are the gray pattern
-   colors resulting from queueing and one-shot queueing.)
+   colors resulting from queueing and one-shot queueing, nor is the
+   number-of-measures number shown.)
    The colors have meaning:
 
    \begin{itemize}
@@ -1350,17 +1356,20 @@
    in \textbf{File / Options / Ext Keys / Tap BPM}.  It defaults
    to the \texttt{F9} key.
 
-   \itempar{Log Current Tempo}{pattern!log tempo}
+   \itempar{Log Tempo}{pattern!log tempo}
    This light-magenta button, when pressed, logs the current tempo at the
    current playback spot as a Set Tempo meta-event, but only in the first
-   track (pattern slot \#0), and only if it is active.  According to the MIDI 
-   standard, such events should be present \textsl{only} in the first track,
+   track (pattern slot \#0), or the alternate tempo track if that is defined,
+   and only if it is active.  According to the MIDI standard, such events
+   should be present \textsl{only} in the first track,
    and so \textsl{Sequencer64} follows this rule, and also makes tempo events
    officially supported.  They can be edited in the pattern editor or in the
    event editor.
+   The main or global tempo is not written to the tempo track; it is stored in
+   a SeqSpec section.
    See \sectionref{sec:meta_events}, for more information.
 
-   \itempar{Record Tempo Changes}{pattern!record tempo}
+   \itempar{Record Tempo}{pattern!record tempo}
    This dark-magenta button becomes light-magenta when activated, and turns on
    the recording of any tempo changes made in the BPM spinner.  If the spinner
    is held down indefinitely, a ramping stream of tempo events is created.  If

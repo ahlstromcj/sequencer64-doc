@@ -546,6 +546,12 @@
    See \sectionref{subsec:seq64_rc_file_midi_meta_events}, which discusses this
    new item in the "rc" configuration file.
 
+   One thing is important to remember about tempo...
+   there is a "global" tempo which is saved as part of the song in a SeqSpec
+   section.  However, it is not saved in the tempo track.  In order to do so,
+   one can clock the \textbf{Log Tempo} button to write it to the tempo track
+   as a tempo event.
+
 \paragraph{Menu / File / Options / MIDI Input}
 \label{paragraph:seq64_menu_file_options_midi_input}
 
@@ -1358,7 +1364,7 @@
    patterns in the main window by clicking on sequences, using their hot-keys,
    and by using the group-mode and learn-mode features.
    The song editor causes playback to be in performance mode, also known as
-   "playback mode", or "song mode".
+   "playback mode", or \textbf{Song} mode.
 
    \itempar{Connect}{jack sync!connect}
    Connect to JACK Sync.
