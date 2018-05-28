@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2018-02-04
+% \update      2018-05-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -50,7 +50,7 @@
 
 \begin{document}
 
-\title{Sequencer64 User Manual 0.94.5}
+\title{Sequencer64 User Manual 0.95.0}
 \author{Chris Ahlstrom \\
    (\texttt{ahlstromcj@gmail.com})}
 \date{\today}
@@ -79,7 +79,7 @@
 \label{sec:introduction}
 
    This document describes \textsl{Sequencer64}
-   \cite{sequencer64}, through version 0.94.5,
+   \cite{sequencer64}, through version 0.95.0,
    the latest commit from the \textbf{master} branch.
    If one is impatient to get started mastering \textsl{Sequencer64},
    then proceed to \sectionref{subsec:introduction_lets_get_started}.
@@ -98,6 +98,13 @@
    toggled.
    There are zoom keys for the editors, current-sequence highlighting,
    important bug fixes, some optimization, and much more.
+
+   With version 0.95, \textsl{Sequencer64} now supports the
+   \textsl{Microsoft Windows} operating system.  This support was achieved by
+   incorporating a modified and stripped-down version of PortMidi and by
+   adopting and extending the Qt 5 user-interface of the
+   \textsl{Kepler34} project (\cite{kepler34}).
+   See \sectionref{sec:qt_portmidi}, right away, if this excites you.
 
    We have many contributors to acknowledge.  Please see
    \sectionref{sec:kudos}.
@@ -210,6 +217,9 @@
       \item The scale, key, and background sequence
          settings are now saved to the \textsl{Sequencer64} MIDI file, either
          globally or per-sequence.
+      \item Each sequence can be colored differently, if desired.  The color
+         from the color palette is saved as part of the pattern data for that
+         sequence.
       \item In the sequence/pattern and song editors, the piano roll
          now scrolls to keep up with the progress bar for long patterns.
       \item Additional mouse and keystroke support in the pattern and song
@@ -488,6 +498,10 @@
 % Man page
 
 \input{seq64_manpage}
+
+% Qt / PortMidi / Windows version
+
+\input{seq64_qt_portmidi}
 
 % MIDI implementation chart
 

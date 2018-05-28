@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-02-17
+% \update      2018-05-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -89,7 +89,23 @@
 
    Provides a list of the last few MIDI files that were created or opened.
    This list is saved in the \texttt{[recent-files]} section of the
-   "rc" configuration file.
+   "rc" configuration file.  In the menu, only the last part of the file-name is
+   shown, but in the "rc" configuration file, the full path to the file-name is
+   stored.  This path is in "UNIX" format, using the forward slash, or solidus,
+   as the path separator, even in \textsl{Windows}.
+   Only unique entries are included in the recent-files list.
+   The limit is 10 recent-file entries.
+   This is another feature from \textsl{Kepler34} (\cite{kepler34}).
+   Here is an example from an "rc" file:
+
+\begin{verbatim}
+   [recent-files]
+   # Holds a list of the last few recently-loaded MIDI files.
+   3
+   /home/chris/git/sequencer64/data/b4uacuse-gm-patchless.midi
+   /home/chris/git/sequencer64/contrib/midi/colours.midi
+   /home/chris/git/sequencer64/Julian-data/TestBeeps.midi
+\end{verbatim}
 
 \subsubsection{Menu / File / Save and Save As}
 \label{subsubsec:menu_file_open_save_as}
@@ -404,6 +420,10 @@
    version of \textsl{Sequencer64}, which has an executable named
    \texttt{seq64}.
 
+   Also note that the new \textbf{Port Disabled} radio button is not shown in
+   here.
+   See \sectionref{fig:qt5_prefs_clock_windows}, it shows this button.
+
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-1.png}
@@ -428,6 +448,7 @@
       \item \textbf{Port Number}
       \item \textbf{Buss Name}
       \item \textbf{Off}
+      \item \textbf{Port Disabled}  (new with 0.95)
       \item \textbf{On (Pos)}
       \item \textbf{On (Mod)}
       \item \textbf{Clock Start Modulo}
@@ -472,6 +493,17 @@
    with MIDI data, we found that this
    setting is the one that must be made in order for \textsl{Yoshimi} to
    produce a sound.
+
+   \itempar{Port Disabled}{midi clock!port disabled}
+   The Port Disabled clock choice is a way to mark that one does not want to
+   use a port, or to mark that the operating system
+   (\textsl{Windows}, I am looking at \textsl{you})
+   is locking the usage of that output port.
+   Previously, this status of any inaccessible port would cause
+   \textsl{Sequencer64} to exit.  Now, the inaccessible port is
+   ignored, and the user can use those ports that are accessible.
+   See \sectionref{fig:qt5_prefs_clock_windows}, it shows this
+   new feature.
 
    \itempar{On (Pos)}{midi clock!on (pos)}
    The MIDI clock will be sent to this buss.
