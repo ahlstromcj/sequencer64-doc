@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2018-05-28
-% \update      2018-05-28
+% \update      2018-06-03
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -44,9 +44,10 @@
       \item A reduced-functionality options/preferences dialog, lacking an
          editor for keystroke commands.
       \item No event-editor window.
+      \item No LFO (low-frequency oscillator) window.
       \item No support background sequences, chord entry, event merging and
          extension, scales, snap, etc. in the pattern-edit window.
-      \item Export of performance data as a MIDI file.
+      \item No Export of performance data as a MIDI file.
    \end{enumerate}
 
    Some of these lacks can be made up for by editing the "rc" and "usr" files
@@ -178,6 +179,10 @@
    In a fewer version of this document, we will show the other preferences
    tabs.  There are many tabs we still need to add to this dialog.
 
+   In particular, be sure to go to the \textbf{MIDI Input} tab and
+   make sure that your desired input device (e.g. a MIDI keyboard) are shown
+   and are enabled.
+
    Since the Qt GUI pretty much hardwires the keystrokes used for various
    functions such as muting and queuing, we might not provided a keystroke
    mapping editor.  To be determined.
@@ -189,7 +194,7 @@
    as a portable Zip package anywhere the user desires.  The package is
    self-contained, and contains all the the DLLs needed to run the program.
    \textsl{qpseq64} can also be installed via an NSIS-based installer,
-   currently \texttt{sequencer64\_setup\_0.95.0.exe}.
+   currently \texttt{sequencer64\_setup\_0.95.0-0.exe}.
 
 \subsubsection{Sequencer64 Windows Issues}
 \label{subsubsec:qt_portmidi_windows_setup_issues}
@@ -199,7 +204,7 @@
     Mapper}, rumored to be removed in \textsl{Windows 8} and beyond, is still
     detected by the internal PortMidi library used in \textsl{qpseq64}.
     Another issue is that the built-in \textsl{Microsoft} wave-table
-    synthesizer is not accessible.
+    synthesizer might not be accessible.
 
     We installed the
     \textsl{CoolSoft MIDIMapper} (\cite{midimapper}) and
@@ -210,8 +215,10 @@
     But we still had
     inaccessible devices, and the resulting errors would cause
     \textsl{qpseq64} to
-    abort.  So we had to spend a lot of time supporting the disabling of
-    inaccessible ports, and saving and restoring the "rc" setup properly.
+    abort.  So we had to spend a lot of time adding support for
+    the disabling of
+    inaccessible ports, and saving and restoring the "rc" setup properly
+    in the face of device-access errors.
 
     Here is some output logging on our Windows, generated using the
     \texttt{qpseq64} command-line option
@@ -271,7 +278,7 @@
     On \textsl{Windows},
     the conventional location is different, and the location used
     is \textsl{C:/Users/username/AppData/Local/sequencer64}.
-    The file is:
+    The files are:
 
 \begin{verbatim}
         qpseq64.rc          The PortMidi Qt 5 version for Windows.
@@ -311,7 +318,7 @@
 	 # indicates whether it is disabled (0), or enabled (1).
 
 	 # [1] 0:1 PortMidi:nanoKEY2
-	 0 0
+	 0 1
 \end{verbatim}
 
    These settings can be accessed via
