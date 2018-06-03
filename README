@@ -1,6 +1,6 @@
-Sequencer64 User Manual for version 0.90.2 (pending in "wip" branch)
+Sequencer64 User Manual for version 0.95.0
 Chris Ahlstrom
-2015-11-01 to 2017-03-19
+2015-11-01 to 2017-06-03
 
 This project provides two things:
 
@@ -15,7 +15,8 @@ whole new version of the manual, specific to Sequencer64, is a necessity.
 
 Here are just some of the new features of Sequencer64:
 
-   -  Native JACK MIDI support, new with version 0.90.0.
+   -  Native JACK MIDI support.
+   -  Support for Qt 5, PortMidi, and Windows.
    -  Added MIDI control for Stop, Pause, and Start.
    -  Faster file loading and support for SMF 0 files.
    -  More mouse and keystroke support in the sequence and song editor windows:
