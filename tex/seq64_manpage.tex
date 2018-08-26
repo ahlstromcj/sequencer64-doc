@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-04-29
+% \update      2018-08-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -102,16 +102,18 @@
    \optionpar{-q}{--ppqn [ppqn]}
       \textbf{New:}
       \index{new!ppqn override}
-      Supports modifying the PPQN value of Sequencer64, which is currently
-      hardwired to a value of 192.  This setting should allow MIDI files to
+      Supports modifying the PPQN value of Sequencer64, which is
+      defaults to a value of 192.  This setting should allow MIDI files to
       play back at the proper speed, and be written with the new PPQN value.
       This feature is basically done.
-      It seems to work -- one can load MIDI files of arbitrary PPQN, and they
+      One can load MIDI files of arbitrary PPQN, and they
       play normally and look normal in the editor windows.  They can also be
-      saved, and load with the new PPQN value. 
-      But use the feature carefully for now, and save your work.
-      We'll have more to say on this topic in the future.
+      saved, and reloaded with the new PPQN value. 
       Format: \texttt{--ppqn ppqnnumber}.
+      The \textsl{ppqnnumber} can range from 32 to 19200.
+      \index{new!ppqn from MIDI file}
+      It can also be set to 0... in this case, \textsl{Sequencer64}
+      uses the PPQN from the loaded file as its internal PPQN value.
 
    \optionpar{-L}{--lash}
       \textbf{New:}

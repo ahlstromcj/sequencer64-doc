@@ -17,6 +17,10 @@
 
    The \textsl{Sequencer64 Pattern Editor} is used to edit and preview a
    pattern, as well as to configure its buss and channel settings.
+   Please note that the \textbf{Qt 5} user-interface (which will eventually
+   supercede the Gtkmm-2.4 user-interface) provides an \textbf{Edit Tab}, which
+   has limited functionality, and an external window interface, which is on par
+   with the Gtkmm-2.4 version.
 
 %  In programmer's jargon, this window is represented by the seqroll class (and
 %  the other "seq" classes).
@@ -851,6 +855,12 @@
    "fruity" mouse-interaction mode that works more like the application
    \textsl{Fruity Loops}, its follow-on \textsl{FL Studio},
    and its Linux look-alike, \textsl{LMMS}.
+
+   This option is currently \textsl{not available} in the
+   \textbf{Qt 5} version of \textsl{Sequencer64}.
+   We really want to refactor the code to be able to 
+   completely reconfigure the mouse interface according to any user's
+   preferences, but that is currently a low priority.
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 

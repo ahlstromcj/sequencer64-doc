@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2018-05-28
-% \update      2018-06-03
+% \update      2018-08-25
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -18,9 +18,9 @@
 \section{Sequencer64 Qt5/PortMidi}
 \label{sec:qt_portmidi}
 
-   With version 0.95 of \textsl{Sequencer64}, it now provides builds using the
-   Qt5 GUI framework and using a heavily modified version of the PortMidi
-   framework.
+   With version 0.95.1 of \textsl{Sequencer64}, we now provides builds using
+   the \textsl{Qt 5} GUI framework and a heavily modified version of the
+   PortMidi framework.
    With this additional work, we now have
    \index{Windows}
    \index{Sequencer64 for Windows}
@@ -35,30 +35,44 @@
    window (the "Live" tab), the performance window (the "Song" tab), and the
    editing window (the "Edit" tab).
 
-   There is a fair amount of \textsl{Sequencer64} functionality that the
-   Qt5/PortMidi version lacks:
+   There is still a little amount of \textsl{Sequencer64} functionality that
+   the Qt5/PortMidi version lacks:
 
    \begin{enumerate}
       \item No support for the special coloring of empty pattern slots
          or the pattern currently being edited.
       \item A reduced-functionality options/preferences dialog, lacking an
          editor for keystroke commands.
-      \item No event-editor window.
-      \item No LFO (low-frequency oscillator) window.
-      \item No support background sequences, chord entry, event merging and
-         extension, scales, snap, etc. in the pattern-edit window.
-      \item No Export of performance data as a MIDI file.
+      \item Keystroke support is not as comprehensive as the Linux version.
+      \item No support yet for variset or multi-wid.  What we will probably
+         implement is variset and allow for any number of external live frames
+         so that an arbitrary number of sets (banks) can be shown at once,
+         each in its own window.
    \end{enumerate}
 
-   Some of these lacks can be made up for by editing the "rc" and "usr" files
-   manually.
-   We plan to slowly incorporate existing \textsl{Sequencer64} user-interface
-   features into this Qt5/PortMidi version.
-   We will also add support for detachable song and edit windows, since
-   some people do not like tabbed interfaces.
+   We are incorporating existing \textsl{Sequencer64} user-interface
+   features into this Qt5/PortMidi version as time and bug-fixes allow.
+
+   With version 0.95.1, we have improved the Qt/Windows version by adding the
+   following features:
+
+   \begin{enumerate}
+      \item An external pattern editor has been added that pretty much matches
+         the standard \textsl{Sequencer64} pattern editor.  The tabbed
+         pattern editor is still in place, but, due to space considerations,
+         it will never support all of the features of the external window.
+      \item The LFO (low-frequency oscillator) window now exists, and it can be
+         called up from the external pattern editor.
+      \item The external pattern editor supports background sequences, chord
+         entry, event merging and extension, scales, snap, etc.
+      \item The song editor has been improved, and also made available as an
+         external window.
+      \item The pattern and song editors now have better support for zooming
+         via keystrokes.
+   \end{enumerate}
    Some ill-advised features from \textsl{Sequencer64} will not be migrated.
    Ultimately, we want to replace the Gtkmm-2.4 user-interface completely.
-   But this is years down the road.
+   But this is awhile down the road.
 
    There are a number of alternate versions of \textsl{Sequencer64} using
    PortMidi:
@@ -79,17 +93,21 @@
    \index{Mac OSX}
    \textsl{Mac OSX},
    but currently have no OSX system on which to build and test this
-   code.  Help Wanted!
+   code.  HELP WANTED!
 
-   In the following sections, we will cover the basic differences between the
+   In the following sections, we cover the basic differences between the
    Gtkmm-2.4 and Qt 5 versions of the application, as well as how to set up
    \textsl{Sequencer64 for Windows}.
 
-   We will not show all of the user interface element, but we will mention some
-   differences one will find.
+   We will not show all of the user interface elements, but we will mention
+   some differences one will find.
 
 \subsection{The Qt 5 User Interface}
 \label{subsec:qt_portmidi_qt5_user_interface}
+
+   \textsl{This section is out-of-date; many upgrades were made for version
+   0.95.1.  And there is more to come.  Once we get it all finalized, we will
+   update this section and its screen-shots.}
 
    The Qt5/PortMidi version of \textsl{Sequencer64} has an executable name of
    \texttt{qpseq64} (Linux) or \texttt{qpseq64.exe} (Windows).
@@ -108,9 +126,9 @@
    \label{fig:qt5_main_window_linux}
 \end{figure}
 
-   Note the difference in layout from the Gtkmm-2.4 version.  Also notice that
-   a number of controls from the Gtkmm version are missing, such as the "Q" and
-   "tempo logging" buttons.  These lacks will ultimately be rectified.
+   Note the difference in layout from the Gtkmm-2.4 version.
+   Also notice that a number of controls from the Gtkmm version are missing.
+   Some of these missing item will ultimately be added.
 
    Here is a similar screenshot in Windows 10.
 
@@ -120,6 +138,9 @@
    \caption{Qt 5 Main Window, Windows 10}
    \label{fig:qt5_main_window_windows}
 \end{figure}
+
+   Coding an application for both Windows and Linux is very instructive, and
+   often improves the overall code significantly.
 
 \subsubsection{Qt 5 Live Tab}
 \label{subsubsec:qt_portmidi_qt5_live_tab}
@@ -134,6 +155,12 @@
    range from 0.4 to 3.0.  This can be made permanent via the
    \texttt{window-scale} setting in the "usr" file.
 
+   In fact, all of the tabs except for the Events tab will expand properly to
+   use additional space if the application is resized.
+
+   In the future, we will likely provide external windows so that the user can
+   view and work with a number of set/banks at the same time.
+
 \subsubsection{Qt 5 Song Tab}
 \label{subsubsec:qt_portmidi_qt5_song_tab}
 
@@ -145,7 +172,9 @@
 \end{figure}
 
    This window is very similar to the \textsl{seq64} version.
-   Additional features may be added as time goes on.
+   Additional features may be added as time goes on.  In addition,
+   this frame can be opened in its own external window by
+   pressing the "Song Editor" button at the bottom of the main window.
 
 \subsubsection{Qt 5 Edit Tab}
 \label{subsubsec:qt_portmidi_qt5_edit_tab}
@@ -157,14 +186,49 @@
    \label{fig:qt5_edit_window_linux}
 \end{figure}
 
-   This version of the pattern editor is quite a bit behind
-   \textsl{seq64} for features.
+   This version of the pattern editor is a bit behind
+   \textsl{seq64} for features, and currently looks more like the Gtkmm-2.4
+   version.
+
    In addition, note that the event-data editor panel is not visible here.
    One must scroll down to the bottom of the window to see it and use it.
-   Also note that there is currently no \textbf{LFO} window in
-   \textsl{qpseq64}.
-   
-   Additional features will be added as time goes on.
+   Also note that that the \textbf{LFO} window is not accessible here.
+   Finally, note that the note heights and vertical grid spacing are
+   modifiable via
+
+   With version 0.95.1, the pattern/slot popup menu has an option to open the
+   pattern in an external window that has a lot more features than the
+   pattern editor in the tab.  It also has a different scrolling mechanism,
+   more like that of \textsl{seq64}.
+   Note that only one of the tab/external pattern
+   editors can be shown at the same time for a given pattern.
+   This pattern editor is pretty much identical to the Gtkmm-2.4 version,
+   except that it does not provide a "fruity" mode of mouse usage.
+
+\subsubsection{Qt 5 Events Tab}
+\label{subsubsec:qt_portmidi_qt5_events_tab}
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{kepler34/qt5-event-editor.png}
+   \caption{Qt 5 Events Window}
+   \label{fig:qt5_events_window}
+\end{figure}
+
+This window works a lot like
+\sectionref{sec:seq64_event_editor}; please see that section for user
+instructions.
+Please remember that, at the present time, this view is meant
+only for viewing events and making minor tweaks to a pattern, such
+as eliminating problematic events.  It is not intended to be a full-featured
+event editor.  In particular, note that editing within each cell in the event
+table is not supported.  Event editing must be done in the right panel.
+An event must be explicitly selected by clicking on it, before it can be
+modified or deleted.
+
+Also, if one adds or modifies an event to show up an the end of the pattern,
+by modifying the time stamp, the event will appear there, but the
+user-interface will remain at the current event.
 
 \subsubsection{Qt 5 Edit / Preferences}
 \label{subsubsec:qt_portmidi_qt5_edit_prefs}
@@ -176,7 +240,7 @@
    \label{fig:qt5_prefs_clock_windows}
 \end{figure}
 
-   In a fewer version of this document, we will show the other preferences
+   In a newer version of this document, we will show the other preferences
    tabs.  There are many tabs we still need to add to this dialog.
 
    In particular, be sure to go to the \textbf{MIDI Input} tab and
@@ -186,6 +250,10 @@
    Since the Qt GUI pretty much hardwires the keystrokes used for various
    functions such as muting and queuing, we might not provided a keystroke
    mapping editor.  To be determined.
+
+   In any event, many of the keystrokes configured in the "rc" file are
+   supported, but one might have to edit the "rc" file directly, keeping
+   in mind that it uses Gtkmm-2.4 conventions for keystrokes.
 
 \subsection{Sequencer64 Windows Setup}
 \label{subsec:qt_portmidi_windows_setup}
@@ -230,15 +298,16 @@
    qpseq64 
    C:/Users/chris/AppData/Local/sequencer64/virtualmidi.log 
    2018-05-13 09:06:58 
-   [MIDIMAPPER] 'mapper in : midiInGetDevCaps() error for device 'MIDIMAPPER': 'The specified device identifier is out of range'
-   '
+   [MIDIMAPPER] 'mapper in : midiInGetDevCaps() error for device 'MIDIMAPPER':
+      'The specified device identifier is out of range'
    pm_winmm_general_inputs(): no input devices
    PortMidi MMSystem 0: Microsoft MIDI Mapper output opened
    PortMidi MMSystem 1: CoolSoft MIDIMapper output closed
    PortMidi MMSystem 2: Microsoft GS Wavetable Synth output opened
    PortMidi MMSystem 3: VirtualMIDISynth #1 output closed
-   [Opened MIDI file, 'C:\Users\chris\Documents\Home\sequencer64\data\b4uacuse-gm-patchless.midi']
-   [Writing rc configuration C:\Users\chris\AppData\Local\sequencer64\qpseq64.rc]
+   [Opened MIDI file,
+      'C:/Users/chris/Documents/Home/sequencer64/data/b4uacuse-gm-patchless.midi']
+   [Writing rc configuration C:/Users/chris/AppData/Local/sequencer64/qpseq64.rc]
    PortMidi call failed: [-1] 'Bad pointer'
    PortMidi call failed: [-1] 'Bad pointer'
    Begin closing open devices...

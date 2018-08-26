@@ -64,7 +64,8 @@
 \label{subsubsec:seq64_menu_file_open}
 
    The \textbf{Open} menu entry opens a song (MIDI file)
-   that had been saved previously.  It opens up a standard GTK+2 file dialog:
+   that had been saved previously.  It opens up a standard GTKmm-2.4 or
+   Qt 5 file dialog:
 
 \begin{figure}[H]
    \centering 
@@ -334,9 +335,22 @@
 \subsubsection{Menu / File / Options}
 \label{subsubsec:seq64_menu_file_options}
 
+   \textbf{Note:}
+      In the \textsl{Portmidi / Windows / Qt 5} version of
+      \textsl{Sequencer64}, the \textbf{Options} dialog has been moved to 
+      \textbf{Files / Options / Preferences} menu entry.
+
    The \textbf{Options} menu item provides a number of settings in one
    tabbed dialog, shown in the figures that follow.
-   This dialog allows one to select which sequence gets the MIDI
+
+   In the \textbf{Qt 5} version of \textsl{Sequencer64}, this
+   menu item has been moved to
+   \sectionref{subsubsec:qt_portmidi_qt5_edit_prefs}, and there are still a few
+   configuration items to be represented in that new user interface.
+   Please see that section.
+
+   The \textbf{File / Options}
+   dialog allows one to select which sequence gets the MIDI
    clock, which incoming MIDI events control the sequencer, what keys are
    mapped to functions, how the mouse works, and some JACK parameters.
    Note that there is a new tab-page for \textbf{Ext Keys}, to support
@@ -713,6 +727,12 @@
    fields in the \textbf{Keyboard} tab:
 
    \begin{itemize}
+      \item This configuration dialog is not yet present in the
+         \textbf{Qt 5} version of \textsl{Sequencer64}.  For now,
+         one has to edit the "rc" file to configure the keystrokes.
+         It is easiest to just use the sample \texttt{qpseq64.rc} from the
+         \texttt{data} directory in the source-code package.  It gets installed
+         in \texttt{/usr/share/sequencer64-0.95} (on Linux).
       \item Whenever one of the text fields in this dialog has the focus (and
          that is usually the case), then any keystroke, including keys like
          Ctrl, Alt, and Super (Mod4 or Windows key), can alter the value of a
