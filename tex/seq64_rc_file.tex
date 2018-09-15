@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-02-02
+% \update      2018-09-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -19,23 +19,26 @@
 
    There are two \textsl{Sequencer64} configuration files:
    \texttt{sequencer64.rc} and \texttt{sequencer64.usr}.
-   See \sectionref{sec:seq64_usr_file}; it describes the "usr" file.
-   They are bit different in how they are handled.
+   See \sectionref{sec:seq64_usr_file}; it describes the "usr" file,
+   is handled a bit differently than the "rc" file.
 
    \index{sequencer64.rc}
-   \index{[sequencer64.rc]}   % for convenience
    The \textsl{Sequencer64} configuration file originally was
    named \texttt{.seq24rc},
-   and it was stored in the user's \texttt{\$HOME} directory.
-   This is the same name used by \textsl{Seq24}, so we created an new file
+   and it was stored directly in the user's \texttt{\$HOME} directory,
+   following the convention of \textsl{Seq24}.
+   To avoid interference with one's existing installation of 
+   \textsl{Seq24}, we created a new file
    to take its place, with a fall-back to the original file-name if the new
    file does not exist, or if \textsl{Sequencer64} is running in
    \index{legacy mode}
    legacy mode.
+   In addition, one can change the configuration directory and the base name of
+   the "rc" and "usr" files from the command-line.
 
    After you run \textsl{Sequencer64} for the first time (in non-legacy
    mode), it will generate a \texttt{sequencer64.rc} file in your home
-   directory:
+   \textsl{configuration} directory:
 
    \begin{verbatim}
       /home/ahlstrom/.config/sequencer64/sequencer64.rc
@@ -44,16 +47,40 @@
    It contains the the data for remote MIDI control, computer keyboard
    control, MIDI clock, JACK transport, and a few other settings.
 
-   \textsl{Sequencer64} will overwrite the \texttt{sequencer6.rc} file upon
-   quitting.  One should therefore quit \textsl{Sequencer64} before making
-   manual modifications to the \texttt{sequencer64.rc} file.  Note that most of
+   \textsl{Sequencer64} will
+   \textsl{always} overwrite the \texttt{sequencer6.rc} file upon
+   quitting.  One must therefore quit \textsl{Sequencer64} before making
+   manual modifications to the \texttt{sequencer64.rc} file.
+   Note that many of
    its settings can be modified in the \textbf{Options} dialog
    (see \sectionref{subsubsec:seq64_menu_file_options}).
    There is an old, but complete, example of the \textsl{Seq24}
-   "rc" file at \cite{seq24launchpadmapper}.  It includes a setup for the
+   "rc" file at \cite{seq24launchpadmapper}.
+   It includes a setup for the
    Novation Launchpad device.
 
-\subsection{Sequencer64 "rc" File / MIDI Control Section}
+   Now let's covered each section of the "rc" file in order.
+
+\subsection{Sequencer64 "rc" File / Comments}
+\label{subsec:seq64_rc_file_midi_comments}
+
+   The very top of the "rc" file that \textsl{Sequencer64} generates is a stock
+   banner showing the version of \textsl{Sequencer64} to which this file
+   applies, the name of the configuration file, and when it was written.  The
+   user can also add a comments section that explain what the user's setup is
+   in brief:
+
+   \begin{verbatim}
+   [comments]
+
+   Comments added to this section are preserved.  Lines starting with
+   a '#' or '[', or that are blank, are ignored.  Start lines that must
+   be blank with a space.
+   \end{verbatim}
+
+   A blank line (not even a space) ends the comment section.
+
+\subsection{Sequencer64 "rc" File / MIDI Control}
 \label{subsec:seq64_rc_file_midi_control}
 
    Like \textsl{Seq24}, \textsl{Sequencer64} provides a way to control the
@@ -63,12 +90,45 @@
    (\cite{midicontrol}).
 
    \index{[midi-control]}
-   For each pattern, we can set up MIDI events to turn a 
-   pattern on, off, or to toggle it.  This setup is in the 
-   MIDI Control section of \texttt{sequencer64.rc}, and begins with the
-   "INI-style" group marker \texttt{[midi-control]}.
-   Each MIDI control line has the following format (ignore the explanatory
-   lines):
+   The MIDI control section begins with the following "INI"-style
+   group marker tag:
+
+   \begin{verbatim}
+   [midi-control]
+      74      # MIDI controls count (74/84/96)
+   \end{verbatim}
+
+   The number (74) is the number of lines in the MIDI Control section.
+   The extended automation values bring this number up to 84, and the most recent
+   version of \textsl{Sequencer64} brings this up to 96.  Note that earlier version
+   will complain about numbers higher than what they can handle.
+   If so, edit the "rc" file to reduce that number.
+
+   Even in the latest version of \textsl{Sequencer64}, 
+   not all of these new values are yet usable, and there are also some values
+   reserved for future expansion.  Currently, the
+   "start", "pause", "stop", and "bpm" page controls, and the "performance
+   record", "MIDI THRU", "MIDI RECORD", and "MIDI Quantized RECORD"
+   have been implemented.
+   (To come:  playlist control).
+
+   Each MIDI control line has the following format:
+
+   \begin{verbatim}
+      74     [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
+   \end{verbatim}
+
+   The first number is an \textsl{internal} control number ranging from
+   0 to 73, 83, or 95 depending on the version of \textsl{Sequencer64}.
+   The three bracketed sections represent MIDI controls to
+   \index{[midi-control]!toggle}
+   toggle,
+   \index{[midi-control]!on}
+   turn on, and
+   \index{[midi-control]!off}
+   turn off a pattern or mute group.
+   However, some MIDI controls extend the meanings of these brackets
+   for additional functionality.
 
    \begin{verbatim}
                ------------------ on/off
@@ -80,272 +140,20 @@
               | | | | | |
               v v v v v v
       74     [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-    Index     Toggle          On              Off
+    Index:    Toggle          On              Off
+    Playback: Pause           Start/Play      Stop
+    Playlist: By-Value        Next            Previous
    \end{verbatim}
 
    The first number is an index number, starting at 0.  It indicates what
    function the control line will affect.
    The numbers in the leftmost brackets define a \textsl{toggle} filter;
    the numbers in the middle brackets define a \textsl{on} filter;
-   the rnumbers in the ightmost brackets define a \textsl{off} filter.
-   The numbers inside the brackets define six values that set up the control:
-   \textbf{on/off}; \textbf{inverse}; \textbf{MIDI status byte};
-   \textbf{data1}; \textbf{data2 min}; and \textbf{data2 max}
-   This set of values is explained below.
+   the numbers in the rightmost brackets define a \textsl{off} filter.
+   Additional functions are shown that extend these basic functions,
+   such as changing a selection, controlling playback, or activating a feature.
 
-   The MIDI control setup resembles a matrix.
-   The first block of matrix elements, the entries numbered from 0 to 63,
-   represent control for control functions (toggle, mute, unmute)
-   of the active screen-set.  The first 32 of these values represent the
-   immediate mute/unmute functions that correspond to the hot-keys assigned in
-   the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
-   configuration panel.
-   The second 32 of these values represent the same actions as the
-   the \textbf{File / Options / Keyboard / Mute-group slot [mute-group]} 
-   configuration panel.
-   See \sectionref{paragraph:seq64_menu_file_options_keyboard}.
-   Legacy control keys occupy the entries from 64 to 73.  These entries control
-   \textsl{Sequencer64} actions like changing the BPM value, screen-set, etc.
-   \textsl{Sequencer64} adds some more entries, from 74 to 83, to control
-   additional \textsl{Sequencer64} functions such as performance
-   record, solo, etc.
-   
-   The \texttt{[midi-control]}
-   section is explicitly broken into subsections; those
-   subsections are marked with comment-lines for better comprehensibility.  The
-   subsections of the MIDI Control section are:
-
-   \begin{enumber}
-      \item \textbf{Pattern group}.
-         \index{rc!pattern group}
-         Consists of 32 lines (0 to 31), one for each
-         pattern box shown in the Pattern window.
-         It provides a way to control the arming/disarming (muting/unmuting) of
-         each pattern shown in the main window.  Note that the main window
-         shows the \textsl{active} screen-set.  These controls affect the
-         \textsl{active} screen-set.
-      \item \textbf{Mute-in group}.
-         \index{rc!mute-in group}
-         Consists of 32 lines (32 to 63), one for each
-         pattern box shown in the Pattern window.
-         It provides a way to control the mute groups.
-         A group is a set of sequences that can arm their playing state
-         together; every group contains all 32 sequences in the
-         \textsl{active} screen-set.
-      \item \textbf{Automation group}.
-         \index{rc!automation group}
-         Each item in this group consists of one line.  Each line
-         specifies a MIDI event that can cause a given
-         \textsl{Sequencer64} user-interface operation to occur.
-%        Now, from our vantage point, the "up" versus "down" functions should
-%        not need two entries to effect them... we should be able to use the
-%        "on" control to perform "up", and the "off" control to perform "down".
-%        But this is the legacy setup and we shall respect that.
-         \begin{enumber}
-            \item \textbf{bpm up}.
-               This MIDI control increments the beats-per-minute setting, as if
-               the up-arrow has been clicked, or the up-arrow key pressed, in
-               this control.  This increment is the
-               \index{bpm step increment}
-               \index{usr!step increment}
-               "step increment" which defaults to 1, but can be modified by
-               changing the "bpm\_step\_increment" value in the "usr"
-               configuration file.
-               See \sectionref{subsec:seq64_usr_file_user_midi_settings}.
-            \item \textbf{bpm down}.
-               Similarly, this MIDI control decrements the beats-per-minute
-               setting, as if the down-arrow has been clicked/pressed.
-            \item \textbf{screen-set up}.
-               This MIDI control increments to the next screen-set. 
-               Once the screen-set has been altered, mute-groups and other
-               actions apply to that screen set.
-            \item \textbf{screen-set down}.
-               Similarly, this MIDI control decrements to the previous
-               screen-set.
-            \item \textbf{mod replace}.
-               This MIDI control sets the "replace" status flag.
-               Then, when the user manually clicks a pattern slot,
-%              or when a pattern-group (see above) MIDI control on comes in,
-               that pattern is unmuted, and all the rest are muted.
-               This works whether in "Live" or "Song" mode.
-            \item \textbf{mod snapshot}.
-               This MIDI control causes the playing statuses of all active
-               (i.e. having data) patterns to be saved.  When turned off, the
-               original playing status is restored.  Thus, two MIDI events
-               need to be allocated to this functionality. Compare
-               to section \sectionref{paragraph:seq64_patterns_pattern_keys}
-               for a better idea of how it works.
-            \item \textbf{mod queue}.
-               This MIDI control sets up the "queue" status flag.
-               Then, when the user manually clicks a pattern slot,
-               that pattern is queued, and will play at the next cycle of the
-               pattern.
-            \item \textbf{mod gmute}.
-               This MIDI control sets up a "mute group".
-               More to come on this one,
-               see \sectionref{subsec:seq64_patterns_panel_top}.
-            \item \textbf{mod glearn}.
-               This MIDI control sets up a "group learn".
-               However, as the group-learn key is a modifier key that needs to
-               be held, we're not quite sure how this works with MIDI control.
-            \item \textbf{screen-set play}.
-               This MIDI control sets the playing screen-set, 
-               but we're not completely sure how it works yet.
-         \end{enumber}
-      \item \textbf{Extended automation group}.
-         \index{rc!extended automation}
-         These additional control items were requested by users, to control
-         additional features of the application.
-         Each item in this group consists of one line.
-         \begin{enumber}
-            \item \textbf{stop/pause/start}.  Emulate the Stop, Pause, and
-               Start keys, using Toggle for pause, Off for stop, and On for
-               start.
-            \item \textbf{record}.  For recording a live performance by
-               recording the mute/unmute states that the musician played.
-               Not yet functional, thought the feature has been added as of
-               version 0.94.
-            \item \textbf{solo on/off}.
-               Not yet functional.
-            \item \textbf{thru toggle}.
-               Not yet functional.
-            \item \textbf{reserved for expansion} (a few of these are reserved).
-         \end{enumber}
-   \end{enumber}
-
-   For all of these MIDI control lines,
-   the three fields, each between the brackets, on each line, correspond to a
-   \textsl{MIDI filter} to toggle, enable, or disable a sequence, or to
-   change a selection, or activate a feature.
-   If the incoming MIDI event value matches a value present in the filter, it
-   will \textsl{toggle} (first field), \textsl{enable} (second field) or
-   \textsl{disable} (third field) the sequence.
-
-   We see the following lines in the MIDI Control section, which is broken
-   into groups or subsections marked by comments:
-
-   \index{rc!midi-control}
-   \index{[midi-control]}
-   \index{rc!pattern-group}
-   \index{rc!mute-in-group}
-   \index{rc!bpm-up}
-   \index{rc!bpm-down}
-   \index{rc!screen-set-up}
-   \index{rc!screen-set-down}
-   \index{rc!mod-replace}
-   \index{rc!mod-snapshot}
-   \index{rc!mod-queue}
-   \index{rc!mod-gmute}
-   \index{rc!mod-glearn}
-   \index{rc!screen-set-play}
-   \begin{verbatim}
-      [midi-control]
-      74      # MIDI controls count (84 in the latest Sequencer64)
-
-      # pattern group
-       0  [0 0 0 0 0 0]   [1 0 144  96 0 127]   [1 0 128  96 0 127]            
-       1  [0 0 0 0 0 0]   [1 0 144  97 0 127]   [1 0 128  97 0 127]            
-       2  [0 0 0 0 0 0]   [1 0 144  98 0 127]   [1 0 128  98 0 127]            
-      ...     ...            ...              ...
-      31  [0 0 0 0 0 0]   [1 0 144 127 0 127]   [1 0 128 127 0 127]            
-
-      # mute in group section:
-      32  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      33  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      ...     ...            ...              ...
-      63  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-
-      # bpm up:
-      64  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      # bpm down:
-      65  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      # screen set up:
-      66  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      # screen set down:
-      67  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      # mod replace:
-      68  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      # mod snapshot:
-      69  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      # mod queue:
-      70  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      # mod gmute:
-      71  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      # mod glearn:
-      72  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-      # screen set play:
-      73  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]   
-   \end{verbatim}
-
-   The number (74) is the number of lines in the MIDI Control section.
-   The new extended automation values bring this number up to 84:
-
-   \index{rc!pause-start-stop}
-   \index{rc!performance-record}
-   \index{rc!midi-thru}
-   \index{rc!bpm-page-up}
-   \index{rc!bpm-page-down}
-   \index{rc!reserved-for-expansion}
-   \begin{verbatim}
-      # Extended MIDI controls:
-      # start playback (pause, start, stop):
-      74  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # performance record:
-      75  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # solo (toggle, on, off):
-      76  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # MIDI THRU (toggle, on, off):
-      77  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # bpm page up:
-      78  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # bpm page down:
-      79  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # screen set by number:
-      80  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # MIDI RECORD (toggle, on, off):
-      81  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # MIDI Quantized RECORD (toggle, on, off)
-      82  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-      # reserved for expansion:
-      83  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-   \end{verbatim}
-
-   Not all of these new values are yet usable.  Currently, the
-   "start", "pause", "stop", and "bpm" page controls, and the "performance
-   record", "MIDI THRU", "MIDI RECORD", and "MIDI Quantized RECORD"
-   have been implemented.
-   So let's focus again on one line of data, and describe it in greater detail:
-
-   \begin{verbatim}
-      74  [0 0 0 0 0 0]   [0 0 0 0 0 0]   [0 0 0 0 0 0]
-   \end{verbatim}
-
-   The first number represents one of the following entities, depending on its
-   value:
-
-   \begin{itemize}
-      \item \textbf{0 to 31}.  These items represent the \textbf{Pattern group}
-         for patterns (sequences) 1 to 32.
-      \item \textbf{32 to 63}.  These items represent the \textbf{Mute-in
-         group} for patterns (sequences) 1 to 32.
-      \item \textbf{64 to 73}.  These items represent the legacy \textsl{Seq24}
-         controls, from \textbf{bpm up} to \textbf{screen set play}.
-      \item \textbf{74 to 83}.  These items, if present, represent the
-         new extended controls, to control additional playback features of
-         \textsl{Sequencer64}.
-   \end{itemize}
-   
-   Each set of brackets on the line corresponds to a "MIDI filter":
-
-   \begin{itemize}
-      \item The leftmost bracket set defines the \textsl{toggle} filter.
-      \item The middle bracket set defines the \textsl{on} filter.
-      \item The rightmost bracket set defines the \textsl{off} filter.
-   \end{itemize}
-
-   If the incoming MIDI event matches the filter, it will either
-   \textbf{[toggle]}, \textbf{[on]}, or \textbf{[off]}
-   the pattern/sequence, respectively.
+   The numbers inside the brackets define six values that set up the control.
    The layout of each filter inside the brackets is as follows:
 
       \textbf{[OPR INV STAT D1 D2min D2max]}
@@ -395,6 +203,15 @@
    The \textbf{D2max (data2 max)} field is the maximum value of the event for
    the filter to match.
 
+%  This set of values is explained below.
+
+   For each pattern, we can set up MIDI events to turn a 
+   pattern on, off, or to toggle it, or to control some other function.
+   If the incoming MIDI event value matches a value present in the filter, it
+   will \textsl{toggle} (first field), \textsl{enable} (second field) or
+   \textsl{disable} (third field) the sequence, or perform some kind of automation
+   control.
+
    As a quick example, let us set up a Note On event on channel 2 and key value
    48 that will increment \textsl{Sequencer64}'s BPM value each time it is
    pressed.  A Note On event is 0x90 hex, or 144 decimal.  Channel 2 is 0x1 hex
@@ -414,22 +231,65 @@
    Now, whenever we press key 48 (C), we see that the BPM value in the main
    patterns panel increments by 1.
 
-\subsubsection{Sequencer64 "rc" File / MIDI Control Pattern Group}
-\label{subsubsec:seq64_rc_file_midi_control_pattern_group}
+   The MIDI control setup resembles a matrix.  This matrix is divided into a
+   number of sections depending on the overall functionality of the MIDI
+   controls in the section:
 
-   Complex?  Here is an example for the some of the first 32 lines, which
-   comprise the \textsl{pattern group}.
-   The following is an example of responding
-   to Note On events for note 0, with any velocity, to turn the pattern on,
-   and Note Off events for note 0, and any velocity, to turn the pattern
-   off.
+   \index{rc!pattern-group}
+   \index{rc!mute-in-group}
+   \index{rc!automation-group}
+   \index{rc!extended-group}
+   \begin{enumerate}
+      \item \textbf{Pattern Group} (rows 0 to 31).
+      \item \textbf{Mute-In Group} (rows 32 to 63).
+      \item \textbf{Automation Group} (rows 64 to 73).
+      \item \textbf{Extended Automation Group} (row 74 to 95).
+   \end{enumerate}
+
+\subsubsection{Sequencer64 "rc" File / MIDI Control / Pattern Group}
+\label{subsubsec:seq64_rc_file_midi_ctrl_pattern}
+
+   The pattern group consists of 32 lines (0 to 31), one for each
+   pattern slot shown in the Pattern window.
+   It provides a way to control the arming/disarming (muting/unmuting) of
+   each pattern shown in the main window.  Note that the main window
+   shows the \textsl{active} screen-set.  These MIDI controls affect the
+   \textsl{active} screen-set.
+
+   This block of matrix elements, numbered from 0 to 31,
+   represent control functions (toggle, mute, unmute) for the 32 patterns
+   of the active screen-set.
+   These 32 rows correspond to the hot-keys assigned in
+   the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
+   configuration panel.
+
+   Here is an example of setting mute/unmute control for the first four
+   patterns of the active screen-set.  Note that the numbers are decimal
+   numbers, and that 144 is 90 hex (a Note On event) and 128 is 80 hex (a Note
+   Off event).
 
    \begin{verbatim}
-             Toggle                 On                      Off
-        1 [0 0 0 0 0 0]      [1 0  144 0 0 127]       [1 0 128 0 0 127]
+                          on (enabled)------------
+                            |  Note On            | Note Off
+                            |    |  Note #        |    | Note #
+                            |    |    |   Vel     |    |    |
+       --- off (disabled)   |    |    |   Range   |    |    |
+      |                     |    |    |   |  |    |    |    |
+      v                     v    v    v   v  v    v    v    v
+   0 [0 0   0   0   0   0] [1 0 144   0   0 127] [1 0 128   0   0 127]
+   1 [0 0   0   0   0   0] [1 0 144  16   0 127] [1 0 128  16   0 127]
+   2 [0 0   0   0   0   0] [1 0 144  32   0 127] [1 0 128  32   0 127]
+   3 [0 0   0   0   0   0] [1 0 144  48   0 127] [1 0 128  48   0 127]
+   #    Toggle                 On                      Off
    \end{verbatim}
 
-   The first number, 1, indicates the second pattern (pattern numbering starts
+   The "toggle" section is empty and disabled.  The "on" section specifies that
+   a Note On event of any velocity will unmute a pattern, and the note number
+   determines which pattern.  A Note Off of any velocity will mute a pattern.
+   These settings are for the control grid of a Novation Launchpad.
+
+   Look at line "0.
+   The first number, 0, indicates the first pattern (pattern numbering starts
    from 0).
    The first section, \textbf{Toggle}, is off (inactive).  All values are 0.
    There is no setup to use MIDI control to toggle pattern 1 here.
@@ -475,13 +335,23 @@
 
    Obviously, one might not want Note On/Off events from any channel to trigger
    events, so some other event would likely be more useful.
-   (Hmmmm, we could add an option to not strip the channel value....)
+   Here's a little table of the decimal numbers for some commonly-used MIDI
+   controls:
+
+   \begin{itemize}
+      \item \textbf{128} or \textbf{129} for any Note On or Note Off events.
+      \item \textbf{160} Polyphonic aftertouch.
+      \item \textbf{176} Control Change event.
+      \item \textbf{192} Program change.
+      \item \textbf{208} Aftertouch.
+      \item \textbf{224} Pitch wheel.
+   \end{itemize}
 
    The following example would map a row of sequences to one knob sending
    out changes for Control Code 1:
 
    \begin{verbatim}
-             Toggle                 On                      Off
+        #    Toggle                 On                      Off
         0 [0 0 0 0 0 0]      [1 1 176 1   0   15]     [0 0 0 0 0 0]
         1 [0 0 0 0 0 0]      [1 1 176 1  16   31]     [0 0 0 0 0 0]
         2 [0 0 0 0 0 0]      [1 1 176 1  32   47]     [0 0 0 0 0 0]
@@ -500,7 +370,161 @@
    turned, so to speak), patterns 0 through 7 come on one at a time until
    all are running.
 
-   Here is another example from \cite{midicontrol}, which shows how to set up
+\subsubsection{Sequencer64 "rc" File / MIDI Control / Mute-In Group}
+\label{subsubsec:seq64_rc_file_midi_ctrl_mutein}
+
+   \index{mute-in group}
+   \index{[midi-control]!mute-in group}
+   This section controls 32 groups of mutes.
+   A group is a set of patterns that can toggle their playing state
+   together.  Every group contains all 32 sequences in the active screen set.
+   So, this part of the MIDI Control section is used for muting and unmuting
+   (and toggling) a group of patterns.
+
+   The mute-in group onsists of 32 lines (32 to 63), one for each
+   pattern box shown in the Pattern window.
+   It provides a way to control the mute groups.
+   A group is a set of sequences that can arm their playing state
+   together; every group contains all 32 sequences in the
+   \textsl{active} screen-set.
+
+   These 32 values represent the same actions as the
+   the \textbf{File / Options / Keyboard / Mute-group slot [mute-group]} 
+   configuration panel.
+   See \sectionref{paragraph:seq64_menu_file_options_keyboard}.
+
+   What is the different between the \textbf{mute-in group}
+   section and the \textbf{mute group} section?  The former defines the MIDI
+   control values that can affect the muting of a group, while the latter
+   specifies the armed patterns that are part of a group.
+
+\subsubsection{Sequencer64 "rc" File / MIDI Control / Automation Group}
+\label{subsubsec:seq64_rc_file_midi_ctrl_automation}
+
+   The automation control keys occupy the entries from 64 to 73.
+   These entries control
+   \textsl{Sequencer64} actions like changing the BPM value, screen-set, etc.
+   \textsl{Sequencer64} adds some more entries, from 74 to 83, to control
+   additional \textsl{Sequencer64} functions such as performance
+   record, solo, etc.
+   
+   One issue with this group is that the original control functions are a bit
+   wasteful.  For example there are two control lines for BPM:  BPM up and BPM
+   down.  These could have been combined into one line, with the "on" group
+   meaning "up", and the "off" group meaning "down".  
+   \textsl{Sequencer64} at present does not change this setup, to avoid
+   breaking existing MIDI control sections.
+
+   Each item in this group consists of one line.  Each line
+   specifies a MIDI event that can cause a given
+   \textsl{Sequencer64} user-interface operation to occur.
+   Here are the original automation-group settings:
+
+   \begin{enumerate}
+      \item \textbf{bpm up}
+      \item \textbf{bpm down}
+      \item \textbf{screen-set up}
+      \item \textbf{screen-set down}
+      \item \textbf{mod replace}
+      \item \textbf{mod snapshot}
+      \item \textbf{mod queue}
+      \item \textbf{mod gmute}
+      \item \textbf{mod glearn}
+      \item \textbf{screen-set play}
+   \end{enumerate}
+
+\paragraph{Automation Group: BPM Up and Down}
+\label{paragraph:seq64_rc_file_midi_ctrl_bpmupdn}
+
+   The BPM Up MIDI control increments the beats-per-minute setting, as if
+   the up-arrow has been clicked, or the up-arrow key pressed, in
+   the BPM user-interface control.
+   This increment is the
+   \index{bpm!step increment}
+   \index{usr!step increment}
+   "step increment" which defaults to 1, but can be modified by
+   changing the "bpm\_step\_increment" value in the "usr"
+   configuration file.
+   See \sectionref{subsec:seq64_usr_file_user_midi_settings}.
+
+   Similarly, the BPM Down MIDI control decrements the beats-per-minute
+   setting, as if the down-arrow has been clicked/pressed.
+
+   Here is a sample group for changing the BPM in both directions.  The value
+   176 is B0 hex, which is a Control Change event.  104 is 68 hex, and
+   represents an undefined control.  105 is 69 hex, and is also undefined. So
+   both MIDI events can be used without interfering with playback.
+
+   Question: Why are both the "on" and "off" sections defined?
+
+   \begin{verbatim}
+   # bpm up
+   64 [0 0   0   0   0   0] [1 0 176 104 127 127] [1 0 176 104 127 127]
+   # bpm down
+   65 [0 0   0   0   0   0] [1 0 176 105 127 127] [1 0 176 105 127 127]
+   \end{verbatim}
+
+   Note that these controls correspond to the hot-keys assigned in
+   the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
+   "BPM Up" and "BPM Down" configuration panel items.
+
+\paragraph{Automation Group: Screen-Set Up and Down}
+\label{paragraph:seq64_rc_file_midi_ctrl_ssupdn}
+
+   The Screen-Set Up MIDI control increments to the next screen-set. 
+   Once the screen-set has been altered, mute-groups and other
+   actions apply to that screen set.
+
+   Similarly, the Screen-Set Up MIDI control decrements to the previous
+   screen-set.
+
+   \begin{verbatim}
+   # bpm up
+   66 [0 0   0   0   0   0] [1 0 176 104 127 127] [1 0 176 104 127 127]
+   # bpm down
+   67 [0 0   0   0   0   0] [1 0 176 105 127 127] [1 0 176 105 127 127]
+   \end{verbatim}
+
+   Note that these controls correspond to the hot-keys assigned in
+   the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
+   "BPM Up" and "BPM Down" configuration panel items.
+
+\paragraph{Automation Group: Mod Replace}
+\label{paragraph:seq64_rc_file_midi_ctrl_modrep}
+
+   The Mod Replace MIDI control sets the "replace" status flag.
+   Then, when the user manually clicks a pattern slot,
+   that pattern is unmuted, and all the rest are muted.
+   Thus, this MIDI control is kind a of "Solo" function.
+   It works whether in "Live" or "Song" mode.
+
+   Note that this control corresponds to the hot-key assigned in
+   the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
+   "Replace/Solo" configuration panel item.
+
+\paragraph{Automation Group: Mod Snaphot}
+\label{paragraph:seq64_rc_file_midi_ctrl_modsnap}
+
+   The Mod Snapshot MIDI control causes the playing statuses of all active
+   (i.e. having data) patterns to be saved.  When turned off, the
+   original playing status is restored.  Thus, two MIDI events
+   need to be allocated to this functionality. Compare
+   to section \sectionref{paragraph:seq64_patterns_pattern_keys}
+   for a better idea of how it works.
+
+   Note that this control corresponds to the hot-keys assigned in
+   the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
+   "Snapshot 1" and "Snapshot 2" configuration panel items.
+
+\paragraph{Automation Group: Mod Queue}
+\label{paragraph:seq64_rc_file_midi_ctrl_modqueue}
+
+   The Mod Queue MIDI control sets up the "queue" status flag.
+   Then, when the user manually clicks a pattern slot,
+   that pattern is queued, and will play at the next cycle of the
+   pattern.
+
+   Here is an example from \cite{midicontrol}, which shows how to set up
    the "Sustain" control-change event to queue or un-queue a sequence:
    The \textsl{Akai MPK Mini} has a Sustain button and we can set the
    Sustain MIDI event (with MIDI status byte 176 [0xB0] to represent a
@@ -510,10 +534,8 @@
 
    \begin{verbatim}
    # mod queue
-   #  [   toggle-filter       ] [      on-filter       ] [      off-filter   ]
-
+   #    Toggle                 On                      Off
    70 [0   0   0   0   0   0  ] [1   0   176 64 127 127] [1   0  176 64  0  0]
-
    #   OPR INV STA D1  mn mx     OPR INV STA D1 mn  mx   OPR INV STA D1  mn mx
    #                                      ^  ^                    ^  ^
    #                                      |  |                    |  |
@@ -523,117 +545,106 @@
 
    So when the Sustain button is held down, and one presses one of the pads
    on the \textsl{MPK Mini}, the corresponding sequence gets queued.
-   Here's a little table of the decimal numbers for some commonly-used MIDI
-   controls:
 
-   \begin{itemize}
-      \item \textbf{128} or \textbf{129} for any Note On or Note Off events.
-      \item \textbf{160} Polyphonic aftertouch.
-      \item \textbf{176} Controller event.
-      \item \textbf{192} Program change.
-      \item \textbf{208} Aftertouch.
-      \item \textbf{224} Pitch wheel.
-   \end{itemize}
+   Note that this control corresponds to the hot-key assigned in
+   the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
+   "Queue" configuration panel item.  There is also a "Q" button on the
+   Gtkmm-2.4 user interface.
 
-\subsubsection{Sequencer64 "rc" File / MIDI Control Mute In Group}
-\label{subsubsec:seq64_rc_file_midi_control_mute_in_group}
+\paragraph{Automation Group: Mod Mute Group}
+\label{paragraph:seq64_rc_file_midi_ctrl_modgmute}
 
-   \index{mute-in group}
-   \index{[midi-control]!mute-in group}
-   This section controls 32 groups of mutes in the same way as 
-   defined for \texttt{[midi-control]}, and is in fact placed in the
-   \texttt{[midi-control]} section.
-   A group is a set of patterns that can toggle their playing state
-   together.  Every group contains all 32 sequences in the active screen set.
-   So, this part of the MIDI Control section is used for muting and unmuting
-   (and toggling) a group of patterns.
+   The Mod Group Mute MIDI control sets up a "mute group".
+   More to come on this one,
+   see \sectionref{subsec:seq64_patterns_panel_top}.
 
-   What is the different between the \textbf{mute-in group}
-   section and the \textbf{mute group} section?  The former defines the MIDI
-   control values that can affect the muting of a group, while the latter
-   specifies the armed patterns that are part of a group.
+   This control sets an internal "mode-group" flag on.
 
-\subsubsection{Sequencer64 "rc" File / MIDI Control Automation Group}
-\label{subsubsec:seq64_rc_file_midi_control_automation_group}
+   When activated, \textsl{Sequencer64} loops through all of the 32
+   screen-sets, and through the active pattern in each screen-set, and
+   sets each pattern as muted or unmuted, depending on the saved mute state.
 
-   \index{automation group}
-   \index{[midi-control]!automation group}
+\paragraph{Automation Group: Mod Mute Group}
+\label{paragraph:seq64_rc_file_midi_ctrl_modgmute}
 
-   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+   The Mod Group Learn MIDI control sets up a "group learn".
+   However, as the group-learn key is a modifier key that needs to
+   be held, we're not quite sure how this works with MIDI control.
 
-   \itempar{bpm up}{[midi-control]!bpm up}
-   Increases the BPM (speed) of the sequencer based on MIDI input.
+   This control sets two internal flags on : "mode-group" and "group-learn".
+   The first flag indicates that we will be handling mute-groups.
+   The second flag indicates that we are learning these mute-groups,
+   effectively recording the current status of all the patterns in all of the
+   screen-sets.
 
-   \itempar{bpm down}{[midi-control]!bpm down}
-   Decreases the BPM (speed) of the sequencer based on MIDI input.
+   These statuses ultimately get saved in the \texttt{[mute-group]} section of
+   the "rc" file.
 
-   \itempar{screen-set up}{[midi-control]!screen-set up}
-   Increases the active screen-set of the sequencer based on MIDI input.
+   \index{L button}
+   Note that this control corresponds to the "L" button in the main window
+   user-interface.
+   \index{keys!Ctrl-L}
+   It can also be accessed by the hard-wired hot-key, Ctrl-L.
 
-   \itempar{screen-set down}{[midi-control]!screen-set down}
-   Decreases the active screen-set of the sequencer based on MIDI input.
+\paragraph{Automation Group: Screen-Set Play}
+\label{paragraph:seq64_rc_file_midi_ctrl_ssplay}
 
-   \itempar{mod replace}{[midi-control]!mod replace}
-   This item provides a way to automate replacement.
+This MIDI control sets the playing screen-set, 
+but we're not completely sure how it works yet.
 
-   \itempar{mod snapshot}{[midi-control]!mod snapshot}
-   This item provides a way to automate snapshots.
+\subsubsection{Sequencer64 "rc" File / MIDI Control / Extended Automation Group}
+\label{subsubsec:seq64_rc_file_midi_ctrl_automationex}
 
-   \itempar{mod queue}{[midi-control]!mod queue}
-   This item provides a way to automate queueing.
+   These additional control items were requested by users, to control
+   additional features of the application.
+   Each item in this group consists of one line.
+   The following sections show how to set up extended automation controls.
 
-   \itempar{mod gmute}{[midi-control]!mod gmute}
-   \index{group!muting}
-   This item provides a way to automate group-muting.
+      \begin{enumber}
+         \item \textbf{Stop/Pause/Start}.  Emulate the Stop, Pause, and
+            Start keys, using Toggle for pause, Off for stop, and On for
+            start.
+         \item \textbf{Record}.  For recording a live performance by
+            recording the mute/unmute states that the musician played.
+            Not yet functional, thought the feature has been added as of
+            version 0.94.
+         \item \textbf{Solo on/off}.
+            Not yet functional.  See the "Mod Replace" functionality.
+         \item \textbf{Thru toggle}.
+            Not yet functional.
+         \item \textbf{Reserved for expansion} (a few of these are reserved).
+      \end{enumber}
 
-   \itempar{mod glearn}{[midi-control]!mod glearn}
-   \index{group!learning}
-   This item provides a way to automate group-learning.
-
-   \itempar{screen-set play}{[midi-control]!screen-set play}
-   This item provides a way to automate screen set play.
-
-\subsection{Sequencer64 "rc" File / MIDI Control Extended Automation Section}
-\label{subsubsec:seq64_rc_file_midi_control_extended_automation_group}
+\paragraph{Extended Automation Group: Stop/Pause/Start}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_stopps}
 
    \index{rc!start/stop control}
-   This section shows how to set up an extended automation control.
-
-   Not all of the extended controls work; some that do are the
-   the \textsl{stop/pause/start} functionality (which requires that the pause
-   functionality be enabled at build time, which is the default).
    Here, we will set up \textsl{Sequencer64} so that the first three MIDI
    white keys (notes 0, 2, and 4) will become "Stop", "Pause", and "Start"
    buttons.
 
    The first step, if not already done, is to install the newest version
-   (\textbf{0.91.} and above) of \textsl{Sequencer64},
+   (\textbf{0.96.0} and above) of \textsl{Sequencer64},
    run it, and then exit.
    Verify in the regenerated "rc" file
    (\texttt{\textasciitilde/.config/sequencer64/sequencer64.rc}) that the
-   following lines exist:
+   following line exists:
 
    \begin{verbatim}
-      84      # MIDI controls count (74 or 84)
+      96      # MIDI controls count (74/84/96)
    \end{verbatim}
 
-   \begin{verbatim}
-      # Extended MIDI controls:
+   Then go to line 74, which is the Stop/Pause/Play MIDI control.
+   Replace it with:
 
+   \begin{verbatim}
       # start playback (pause, start, stop):
-      74 [0 0   0   0   0   0] [0 0   0   0   0   0] [0 0   0   0   0   0]
-   \end{verbatim}
-
-   MIDI control 74's toggle/on/off sections will be used to implement the
-   stop/pause/start functionality.  Replace the "74" line with the following
-   line:
-
-   \begin{verbatim}
       74 [1 0 144   2   0 127] [1 0 144   4   0 127] [1 0 144   0   0 127]
    \end{verbatim}
 
-   This sets up MIDI Note On (144) values 2 (toggle/pause), 4 (on/start), and 0
-   (off/stop).  Any velocity (0 to 127) will work to trigger these actions.
+   This sets up MIDI Note On (144) with note numbers 2 (toggle/pause),
+   4 (on/start), and 0 (off/stop).
+   Any velocity (0 to 127) will work to trigger these actions.
    Now we are ready to test this feature.  One can use a MIDI keyboard to do
    so, but here we will use the \textsl{VMPK} (\cite{vmpk}) virtual MIDI
    piano keyboard application for this test.  Refer to the figure below.
@@ -727,6 +738,71 @@
    is really no need to have two lines for pairs such as BPM up/down and
    screen-set up/down.  Also, is screen-set play now partly redundant?
    No matter, we will not break the user's existing setup.
+
+\paragraph{Extended Automation Group: Performance Record}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_precord}
+
+   To do.
+
+\paragraph{Extended Automation Group: Solo}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_solo}
+
+   To do.
+
+\paragraph{Extended Automation Group: MIDI Thru}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_thru}
+
+   To do.
+
+\paragraph{Extended Automation Group: BPM Page Up}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_bpmpageup}
+
+   To do.
+
+\paragraph{Extended Automation Group: BPM Page Down}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_bpmpageup}
+
+   To do.
+
+\paragraph{Extended Automation Group: Screen-Set By Number}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_ssnumber}
+
+   To do.
+
+\paragraph{Extended Automation Group: MIDI Record}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_mrecord}
+
+   To do.
+
+\paragraph{Extended Automation Group: MIDI Quantized Record}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_qrecord}
+
+   To do.
+
+\paragraph{Extended Automation Group: Fast Forward}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_fforward}
+
+   To do.
+
+\paragraph{Extended Automation Group: Rewind}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_rewind}
+
+   To do.
+
+\paragraph{Extended Automation Group: Top}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_top}
+
+   To do.
+
+\paragraph{Extended Automation Group: Select Playlist}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_sellist}
+
+   To do.
+
+\paragraph{Extended Automation Group: Select Song}
+\label{paragraph:seq64_rc_file_midi_ctrl_ex_selsong}
+
+   To do.
 
 \subsection{Sequencer64 "rc" File / Mute-Group Section}
 \label{subsec:seq64_rc_file_mute_group}
@@ -1019,16 +1095,12 @@
    \index{--jack-start-mode}
    \begin{verbatim}
       [jack-transport]
-
       # jack_transport - Enable slave sync with JACK Transport.
       0
-
       # jack_master - Sequencer64 attempts to serve as JACK Master.
       0
-
       # jack_master_cond - Sequencer64 is master if no other master exists.
       0
-
       # song_start_mode (applies mainly if JACK is enabled)
       # 0 = Playback in live mode. Allows muting and unmuting of loops.
       # 1 = Playback uses the song editor's data.
@@ -1051,8 +1123,8 @@
    Also note that JACK transport is separately configurable from
    JACK MIDI, and each uses a different JACK client internally.
 
-\subsection{Sequencer64 "rc" File / Other Sections}
-\label{subsec:seq64_rc_file_other_midi}
+\subsection{Sequencer64 "rc" File / MIDI Clock Mod Ticks}
+\label{subsec:seq64_rc_file_midi_cmt}
 
    \index{[midi-clock-mod-ticks]}
    This configuration item is the same as the
@@ -1064,11 +1136,28 @@
       64
    \end{verbatim}
 
+\subsection{Sequencer64 "rc" File / MIDI Meta Events}
+\label{subsec:seq64_rc_file_midi_meta}
+
+   This section defines some features of MIDI meta-event handling.  Normally,
+   tempo events are supposed to occur in the first track (pattern 0).  But one
+   can move this track elsewhere to accomodate one's existing body of tunes.
+   If affects where tempo events are recorded.  The default value is 0, the
+   maximum is 1023.  A pattern must exist at this number for it to work.
+
+   \begin{verbatim}
+      [midi-meta-events]
+      0    # tempo_track_number
+   \end{verbatim}
+
+\subsection{Sequencer64 "rc" File / MIDI Input}
+\label{subsec:seq64_rc_file_midi_input}
+
    \index{[midi-input]}
    This configuration item is the same as the 
    \textbf{MIDI Input} tab described in
    \paragraphref{paragraph:seq64_menu_file_options_midi_input}.
-   The "1" is undoubtedly a record count, and would equal the number of
+   The "1" is a line count, and would equal the number of
    supported input ports.
    This "rc" entry here has two variables; the first is the record number or
    port number, and the second number indicates whether it is disabled (0),
@@ -1077,18 +1166,14 @@
    \begin{verbatim}
       [midi-input]
       1   # number of MIDI busses
-
       # The first number is the port number, and the second number
       # indicates whether it is disabled (0), or enabled (1).
-
       # [0] 0:0 seq64 midi in
       0 0
-
       # If set to 1, this option allows the master MIDI bus to record
       # (filter) incoming MIDI data by channel, allocating each incoming
       # MIDI event to the sequence that is set to that channel.
       # This is an option adopted from the Seq32 project at GitHub.
-
       0   # flag to record incoming data by channel
    \end{verbatim}
 
@@ -1096,15 +1181,33 @@
    it does correspond to the \texttt{--manual-alsa-ports} command-line
    option.
 
+\subsection{Sequencer64 "rc" File / Manual ALSA Ports}
+\label{subsec:seq64_rc_file_manual_ports}
+
+   The name of this setting is a bit of a misnomer in a couple of ways:
+
+   \index{ports!virtual}
+   \index{ports!manual}
+   \begin{enumerate}
+      \item It actually refers to the usage of \textsl{virtual} MIDI ports.
+         These are ports that are set up by the application so that other
+         devices or applications can connect to the MIDI application.
+         Where the "manual" idea comes in is that the user can manually choose
+         the connections to be made.
+      \item This option is not just for ALSA.  It can also be used when
+         \textsl{Sequencer64} is running in native JACK mode, so support
+         virtual JACK ports that can be connected manually (e.g. in the
+         \textsl{QJackCtl} application.)
+   \end{enumerate}
+
    \index{[manual-alsa-ports]}
    \begin{verbatim}
+      [manual-alsa-ports]
       # Set to 1 to have sequencer64 create its own ALSA ports and not
       # connect to other clients.  Use 1 to expose all 16 MIDI ports to
       # JACK (e.g. via a2jmidid).  Use 0 to access the ALSA MIDI ports
       # already running on one's computer, or to use the autoconnect
       # feature (Sequencer64 connects to existing JACK ports on startup.
-
-      [manual-alsa-ports]
       1
    \end{verbatim}
 
@@ -1132,13 +1235,17 @@
    actual ALSA ports that exist on the system.
    The next option gets around that issue.
 
+\subsection{Sequencer64 "rc" File / Reveal ALSA Ports}
+\label{subsec:seq64_rc_file_reveal_ports}
+
+   Again, this option applies to both ALSA and native JACK.
+
    \index{[reveal-alsa-ports]}
    \begin{verbatim}
+      [reveal-alsa-ports]
       # Set to 1 to have sequencer64 ignore any system port names
       # declared in the 'user' configuration file.  Use this option if
       # you want to be able to see the port names as detected by ALSA.
-
-      [reveal-alsa-ports]
       1   # flag for reveal ALSA ports
    \end{verbatim}
 
@@ -1150,6 +1257,9 @@
    If this option is turned on, the definitions in the
    "user" configuration file are \textsl{not} read from that file.
 
+\subsection{Sequencer64 "rc" File / Interaction Method}
+\label{subsec:seq64_rc_file_interaction}
+
    \index{[interaction-method]}
    This configuration item is the same as the 
    \textbf{Mouse} tab described in
@@ -1157,17 +1267,18 @@
 
    \begin{verbatim}
       [interaction-method]
-
       # 0 - 'seq24' (original seq24 method)
       # 1 - 'fruity' (similar to a certain fruity sequencer we like)
-
       0   # interaction_method
    \end{verbatim}
 
+   \index{qt!fruity}
+   Note that the "fruity" mouse support is not available in the Qt
+   user-interface.
+
    \index{[allow-mod4-mode]}
-   \textbf{New:}
-   \index{new!Mod4 edit-lock}
-   There is now an option to use the Mod4 (Super, or Windows) key in the
+   \index{new!mod4 edit-lock}
+   There is an option to use the Mod4 (Super, or Windows) key in the
    Pattern Editor to lock the editing of a note.  When this mode is enabled,
    and Mod4 is pressed while the mouse right-button is released, the
    editing pencil icon remains, and notes can be added.  This feature is
@@ -1178,12 +1289,15 @@
       # Set to 1 to allow seq24 to stay in note-adding mode when
       # the right-click is released while holding the Mod4 (Super or
       # Windows) key.
-
       1   # allow_mod4_mode
    \end{verbatim}
 
+   \index{qt!mod4 edit-lock}
+   Note that the "edit-lock" support is not available in the Qt
+   user-interface.  It is just as easy to click in that pattern editor and
+   press the 'p' key to enter "paint" (edit) mode.
+
    \index{[allow-snap-split]}
-   \textbf{New:}
    \index{new!snap-split}
    This option comes from the \textsl{seq32} project.  It allows for
    pattern-splitting in the Song editor at snap points, rather than just
@@ -1194,12 +1308,13 @@
       # triggers at the closest snap position, instead of splitting the
       # trigger exactly in its middle.  Remember that the split is
       # activated by a middle click.
-
       0   # allow_snap_split
    \end{verbatim}
 
+   \index{qt!snap-split}
+   Not sure that this support is available in the Qt user-interface.
+
    \index{[allow-click-edit]}
-   \textbf{New:}
    \index{new!click-edit}
    This option allows one to enable/disable the ability to double-click
    in a pattern slot in the main window to bring it up for editing.  This
@@ -1210,9 +1325,14 @@
       # Set to 1 to allow a double-click on a slot to bring it up in
       # the pattern editor.  This is the default.  Set it to 0 if
       # it interferes with muting/unmuting a pattern.
-
       1   # allow_click_edit
    \end{verbatim}
+
+   \index{qt!click-edit}
+   Not sure that this support is available in the Qt user-interface.
+
+\subsection{Sequencer64 "rc" File / LASH Session}
+\label{subsec:seq64_rc_file_lash_session}
 
    \index{[lash-session]}
    The following configuration item is the same as the
@@ -1235,6 +1355,9 @@
       1     # LASH session management support flag
    \end{verbatim}
 
+\subsection{Sequencer64 "rc" File / Auto Option Save}
+\label{subsec:seq64_rc_file_auto_rc_save}
+
    \index{[auto-option-save]}
    This new item determines if the "rc" configuration file is saved
    upon exit of \textsl{Sequencer64}.  The legacy behavior is to save it,
@@ -1254,31 +1377,48 @@
       0     # auto-save-options-on-exit support flag
    \end{verbatim}
 
+\subsection{Sequencer64 "rc" File / Last Used Directory}
+\label{subsec:seq64_rc_file_last_used_dir}
+
    The following item refers to the last directory in which one opened or
    saved a MIDI file.
 
    \index{[last-used-dir]}
    \begin{verbatim}
       [last-used-dir]
-
-      # Last used directory.
-
       /home/ahlstrom/Home/ca/mls/git/sequencer64/contrib/midi/
    \end{verbatim}
 
+\subsection{Sequencer64 "rc" File / Recent Files}
+\label{subsec:seq64_rc_file_recent_files}
+
    The following item preserves a list of the last few MIDI files loaded.
+   It is not filled when a MIDI file is loaded via a play-list.
 
    \index{[recent-files]}
    \begin{verbatim}
       [recent-files]
-
-      # Holds a list of the last few recently-loaded MIDI files.
-
       4
       /home/ahlstrom/Home/ca/mls/git/sequencer64-alternate/contrib/midi/2Bars.midi
       contrib/midi/b4uacuse-seq24.midi
       contrib/midi/Bars.midi
       contrib/midi/b4uacuse-GM-format.midi
+   \end{verbatim}
+
+\subsection{Sequencer64 "rc" File / Play-List}
+\label{subsec:seq64_rc_file_playlist}
+
+   This is a feature new with version 0.96.0 of \textsl{Sequencer64}.
+   It provides a configured set of named play-lists in a play-list file,
+   and a flag to activate it.
+   
+   \index{[recent-files]}
+   \begin{verbatim}
+      [playlist]
+      0     # playlist_active, 1 = active, 0 = do not use it
+      # Provides the name of a play-list.  If there is none, use '""'.
+      # Or set the flag above to 0.
+      /home/ahlstrom/.config/sequencer64/sample.playlist
    \end{verbatim}
 
 %-------------------------------------------------------------------------------
