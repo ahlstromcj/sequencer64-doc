@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2018-09-15
+% \update      2018-09-16
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -58,8 +58,9 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.40]{Sequencer64-0_94.png}
-   \caption*{"Night" Mode}
+%  \includegraphics[scale=0.40]{Sequencer64-0_94.png}
+   \includegraphics[scale=0.40]{Sequencer64-0_96.png}
+   \caption*{"Old and New"}
 \end{figure}
 
 \clearpage                             % moves Contents to next page
@@ -93,14 +94,15 @@
       \item \url{https://github.com/ahlstromcj/sequencer64-packages.git}.
    \end{itemize}
 
-   \textsl{Sequencer64} has added native JACK MIDI support,
-   and it fixes some bugs in JACK transport, MIDI clocking, and
-   JACK Master mode (with code from the \textsl{SooperLooper} 
-   and \textsl{Seq32} projects).
+   \textsl{Sequencer64} adds native JACK MIDI support,
+   fixes bugs in JACK transport, MIDI clocking,
+   JACK Master mode (via code from the \textsl{SooperLooper} 
+   and \textsl{Seq32} projects), an additional \textsl{Qt 5} user-interface for
+   Linux and for Window, a daemon mode, and play-list support with MIDI control.
    However, as user \textsl{stazed} notes on GitHub, there is more that can be
    done (and he has done much with his \textsl{seq32} \cite{seq32} project).
 
-   Many new features make song editing faster.
+   New features make song editing faster.
    There is now a Pause button/keystroke.
    More editing and navigation can be done using keystrokes.
    The armed/mute status of all of the \textsl{other} active patterns can be
@@ -108,13 +110,13 @@
    There are zoom keys for the editors, current-sequence highlighting,
    important bug fixes, some optimization, and much more.
 
-   With version 0.95.0, \textsl{Sequencer64} now supports the
+   With version 0.95.0, \textsl{Sequencer64} supports the
    \textsl{Microsoft Windows} operating system.  This support was achieved by
    incorporating a modified and stripped-down version of PortMidi and by
    adopting and extending the \textsl{Qt 5} user-interface of the
    \textsl{Kepler34} project (\cite{kepler34}).
    The \textsl{Qt 5} interface has been greatly improved in version
-   0.95.2, but there's still a small amount of catching up to do.
+   0.96.0, but there's still a small amount of catching up to do.
    We intend to make the \textsl{Qt 5} interface comparable to the
    \textsl{Gtkmm-2.4} interface in the 0.95 series, develop the two
    versions in parallel for awhile, and ultimately standardize on
@@ -138,14 +140,13 @@
    functionality, and even ports to Windows.
    We searched for these updates, and
    incorporated them into \textsl{Sequencer64} where feasible.
-   There are still some things to be done, such as adding playlists and a way
-   to access them through MIDI control.
 
    \textsl{Sequencer64} is not a synthesizer.  It requires a hardware
    synthesizer, or a software synthesizer such as Timidity \cite{timidity},
-   FluidSynth \cite{fluidsynth}, ZynAddSubFX \cite{zynaddsubfx}, and Yoshimi
-   \cite{yoshimi} \cite{yoshimi2}.
-   See \cite{linuxsynths} for a long list of "Linux" synthesizers).
+   FluidSynth \cite{fluidsynth}, ZynAddSubFX \cite{zynaddsubfx}, Yoshimi
+   \cite{yoshimi} \cite{yoshimi2}, or the Windows built-in
+   GS wave-table synthesizer.
+   See \cite{linuxsynths} for a long list of "Linux" synthesizers.
 
    \textsl{Sequencer64}, like \textsl{Seq24},
    works a bit like an \textsl{Alesis SR16} drum machine,
@@ -153,7 +154,7 @@
    If one has worked with trackers like \textsl{SoundTracker} and
    \textsl{ShakeTracker}, then "you are a tracker guy and it gonna go fast".
    With \textsl{Sequencer64}, one creates several patterns, and then
-   combines them.  They can be layed out as a song, and exported to a standaryd
+   combines them.  They can be layed out as a song, and exported to a standard
    MIDI file.
 
    Unfortunately, \textsl{Seq24} spent some time in limbo
@@ -161,7 +162,7 @@
    recent update to fix a MIDI clock issue).  There are a number of
    forks for it on \textsl{GitHub}, and some conversions
    to code in other languages, and some patches.
-   There is also a fairly extensive port to Windows.
+   There is also a Gtkmm port to Windows.
    So, why would we bother creating yet another fork of \textsl{Seq24}?
 
 \subsection{Sequencer64: Why?}
@@ -180,8 +181,8 @@
    Secondly, \textsl{Seq24} is a kind of "vi" of MIDI editing... spare,
    lean, and powerful.  It deserves to be a living project.  Without
    \textsl{Seq24} and its authors, \textsl{Sequencer64} would never have come
-   into being.  And we owe the \textbf{Qt} support to \textsl{Kepler34}.
-   \cite{kepler34}.
+   into being.
+%  And we owe the \textbf{Qt} support to \textsl{Kepler34} \cite{kepler34}.
 
 \subsection{Improvements}
 \label{subsec:improvements}
@@ -190,12 +191,13 @@
    \textsl{Sequencer64}.
 
    \begin{itemize}
-      \item An important update is native JACK MIDI support!  At last!
-      \item Tempo events are now supported, are recordable, and are editable.
+      \item Native JACK MIDI support!  At last!
+      \item Tempo events are now supported, recordable, and editable.
          The first track (or a configurable track) serves as a "tempo track".
       \item A "Tap" button sets the BPM by tapping a button or a key.
-      \item The user interface can show more than one set at once, or
-         more patterns in a single set.  For example, 8 rows by 8 columns,
+      \item The user-interface can show more than one set at once (multiset), or
+         more patterns in a single set (variset),
+         for example, 8 rows by 8 columns,
          fulfilling the promise of the project name, \textsl{Sequencer64}.
       \item The \textsl{event editor} dialog
          provides viewing and editing of MIDI events as text.
@@ -203,6 +205,11 @@
       \item \textsl{Sequencer64} reads SMF 0 MIDI files, splitting
          the file into patterns based on channel number.
       \item Additional MIDI controls, such as coarse versus fine BPM control.
+      \item Support for reading \textsl{Cakewalk} "WRK" files.
+         \index{Cakewalk}
+         No support for writing them, however, and not all features of the
+         "WRK" file are supported.
+      \item Play-list support, with the option to control via MIDI events.
       \item Some features have been ported from \textsl{Stazed}'s
          \textsl{Seq32} \cite{seq32} project; they can be disabled at
          configure/build time (for those who like programming in C++),
@@ -221,10 +228,10 @@
             \item Editing the amplitude of data events using a simple
                low-frequency oscillator (LFO).
             \item Enhanced JACK transport support.
+            \item Diverting multi-channel recorded MIDI so that each channel
+               is stored in the sequence/pattern configured for that channel
             \item \textsl{Seq32} features still pending:
             \begin{itemize}
-               \item Diverting multi-channel recorded MIDI so that each channel
-                  is stored in the sequence/pattern configured for that channel
                \item Randomizing MIDI events.
                \item Selection extensions such as selecting odd/even notes, and
                   handles on data events.
@@ -278,7 +285,7 @@
       \item Support for mapping MIDI events to a single MIDI buss for testing
          or simple use cases.
       \item Support for handling PPQN values other than 192, and for using
-         the PPQN defined by the MIDI file, if desired.
+         the PPQN defined in the MIDI file, if desired.
       \item Small improvements in appearance:
       \begin{itemize}
          \item Support for showing empty (having only meta
@@ -323,20 +330,23 @@
          \item Note-transpose now also works on aftertouch events.
          \item Non-note events are now copied, moved, or pasted, even if not
             visible, in the pattern editor.
-         \item The code was reformatted using \textsl{astyle} and
-            personal preferences, and refactored into smaller modules.
-         \item Much documentation was added to the code as we figured
-            out how it worked.  Generation of Doxygen output (including a PDF
-            file) provides a developer's reference manual.
-         \item Debian packaging was incorporated into the project to make it
+%        \item The code was reformatted using \textsl{astyle} and
+%           personal preferences, and refactored into smaller modules.
+         \item Much documentation was added to the code during reverse
+            engineering.
+         \item Debian packaging is incorporated into the project to make it
             easier to install without source code.  Bootstrapping and
             packing scripts were added so that other developers can rebuild the
-            project from scratch.
+            project from scratch easily.
+         \item The Qt 5 version (the future of \textsl{Sequencer64}) for both
+            Linux and Windows can be built using qmake and the mingw compiler.
+         \item The Windows version of \textsl{Sequencer64} provides either a
+            portable zip package or an NSIS-based installer.
       \end{itemize}
       \item New minor features.
       \begin{itemize}
-         \item The size of the Patterns Panel (main window) is now locked (only
-         for the Gtkmm-2.4 version)..
+%        \item The size of the Patterns Panel (main window) is now locked (only
+%        for the Gtkmm-2.4 version).
          \item A panic button.
          \item Support for LASH is a run-time or a build option.
          \item Support for reading and writing configuration files from the
@@ -345,12 +355,10 @@
       \end{itemize}
    \end{itemize}
 
-   We have created a build
-   for Windows, using MingW and QtCreator, a fairly significant task.
-   We've also been asked to incorporate support for 
-   a scripting language, for OSC (Open Sound
-   Control), and for NSM (the Non Session Manager).
-   Still thinking about those.
+%  We've also been asked to incorporate support for 
+%  a scripting language, for OSC (Open Sound
+%  Control), and for NSM (the Non Session Manager).
+%  Still thinking about those.
 
    One more note.  \textsl{Sequencer64} is extremely customizable, and
    it features can be configured by defining macro names in the source code,
@@ -364,53 +372,50 @@
 
    The structure of this document follows the user-interface of
    \textsl{Sequencer64}.  The sections are provided in the order
-   their contents appear in the user interface of \textsl{Sequencer64}.  To
+   their contents appear in the user-interface of \textsl{Sequencer64}.  To
    help the reader jump around this document, it provides
    multiple links, references, and index entries.
 
-   \textsl{Usage tips}
-   \index{tips!documented}
-   for each of the functions provided in
-   \textsl{Sequencer64} are sprinkled throughout this document.
-   Each tip occurs in a section beginning with "\textbf{Tip:}".
-   Each tip is provided with an entry in the index, under the
-   main topic "tips".
+%  \textsl{Usage tips}
+%  \index{tips!documented}
+%  for each of the functions provided in
+%  \textsl{Sequencer64} are sprinkled throughout this document.
+%  Each tip occurs in a section beginning with "\textbf{Tip:}".
+%  Each tip is provided with an entry in the index, under the
+%  main topic "tips".
 
-   \textsl{Bug notes}
-   \index{bugs!documented}
-   for some of the oddities found in \textsl{Sequencer64} are
-   sprinkled throughout this document.
-   Each bug occurs in a sentence beginning with "\textbf{Bug:}".
-   Each bug is provided with an entry in the index, under the
-   main topic "bugs".  These bugs are items that we will try to
-   fix as time goes on.
+%  \textsl{Bug notes}
+%  \index{bugs!documented}
+%  for some of the oddities found in \textsl{Sequencer64} are
+%  sprinkled throughout this document.
+%  Each bug occurs in a sentence beginning with "\textbf{Bug:}".
+%  Each bug is provided with an entry in the index, under the
+%  main topic "bugs".  These bugs are items that we will try to
+%  fix as time goes on.
 
-   \textsl{"To-do" items}
-   \index{todo!documented}
-   are also present, again in the same vein.
-   Each to-do occurs in a sentence beginning with "\textbf{TODO:}".
-   This document currently has a lot of them!
+%  \textsl{"To-do" items}
+%  \index{todo!documented}
+%  are also present, again in the same vein.
+%  Each to-do occurs in a sentence beginning with "\textbf{TODO:}".
+%  This document currently has a lot of them!
 
-   \textsl{"New" items}
-   \index{new!documented}
-   are also present, in the same vein.
-   New features (post version 0.9.2) will be noted with the tag
-   "\textbf{New:}".
+%  \textsl{"New" items}
+%  \index{new!documented}
+%  are also present, in the same vein.
+%  New features (post version 0.9.2) will be noted with the tag
+%  "\textbf{New:}".
 
 \subsection{Let's Get Started!}
 \label{subsec:introduction_lets_get_started}
 
-   Let us run \textsl{Sequencer64}.
-   The first
-   thing to do is make sure one has no other sound application running
+   Let's run \textsl{Sequencer64}!
+   First, make sure one has no other sound application running
    (unless one wants to risk blocking \textsl{Sequencer64} or hearing two
    sounds simultaneously, depending on one's operating system,
-   sound card and ALSA setup).
+   sound card, and ALSA setup).
    Then start \textsl{Sequencer64} so that it uses JACK for MIDI.
-   (On \textsl{Windows} just run it; the executable is
-   \texttt{qpseq64.exe}.
-   Provide a
-   default MIDI file so that all elements of the user interface can come
+   (On \textsl{Windows} just run it; the executable is \texttt{qpseq64.exe}).
+   Provide a MIDI file so that all elements of the user-interface can come
    into play.  Also use the "\&" character so that we get back to the
    command-line prompt.  Finally, on our system the main synthesizer
    (\textsl{Yoshimi}) comes up on MIDI buss 5, so we add an option to remap
@@ -436,19 +441,24 @@
 %  \caption{Sequencer64 Main Screen, Native JACK MIDI}
 %  \includegraphics[scale=0.75]{new/seq64-first-screen-alsa.png}
 %  \includegraphics[scale=0.75]{new/seq64-first-screen-alsa-panic.png}
-   \includegraphics[scale=0.75]{new/seq64-first-screen-0-94.png}
+   \includegraphics[scale=0.5]{new/seq64-first-screen-0-94.png}
    \caption{Sequencer64 Main Screen, ALSA MIDI}
    \label{fig:seq64_main_screen}
 \end{figure}
 
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{new/seq64-first-screen-0-96-qt.png}
+   \caption{Sequencer64 Main Screen, Qt 5 Interface}
+   \label{fig:seq64_main_screen_qt}
+\end{figure}
+
    Then the \textsl{Sequencer64} main window appears, as shown in
-   \figureref{fig:seq64_main_screen}.
-   It has some differences from the \textsl{Seq24} main window
-   (and even more differences for the \textsl{Windows/Qt version}:
-   the highlighting of
-   empty patterns in yellow, a different font, additional control buttons,
-   and much more that is not shown.
-   Most of these items can be configured via the "rc" and "user" configuration
+   \figureref{fig:seq64_main_screen} and
+   \figureref{fig:seq64_main_screen_qt}.
+   These figures have some differences from the \textsl{Seq24} main window
+   and from each other, but the functionality is roughly the same.
+   Most of these features can be configured via the "rc" and "user" configuration
    files or command-line options.
 
    There are many new front-panel items in \textsl{Sequencer64}:
@@ -478,6 +488,8 @@
 
    Many (but not all) of these buttons have configurable keystrokes as well.
    See \sectionref{subsec:seq64_patterns_panel_bottom} for more information.
+
+   Some of these items are not in the Qt interface.  Some might never be!
 
 % This Tip needs to be put elsewhere.
 %
@@ -528,6 +540,10 @@
 % User file
 
 \input{seq64_usr_file}
+
+% Playlists
+
+\input{seq64_playlist}
 
 % Man page
 

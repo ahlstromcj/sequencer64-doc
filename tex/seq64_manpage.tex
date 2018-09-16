@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-08-25
+% \update      2018-09-15
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -184,6 +184,17 @@
       Changes the color scheme for the sequence editor and performance editor
       piano rolls.  It basicially inverts the colors.  It can be considered
       kind of a "night mode".
+
+   \optionpar{-X}{--playlist [filename]}
+      \index{playlist}
+      This option loads the given file-name as a play-list file.
+      See \sectionref{sec:playlist}. This file provides one or more play-list
+      entries, each provided a list of one or more songs.  Once loaded, the
+      user can use the four arrow keys to move between play-lists and the songs
+      in each play-list.  The play-list entries are also controllable via MIDI
+      control values set in the "rc" file.  See the Sequencer64 manual for
+      more information.  Note that, once set, this option is, by default, saved
+      in the "rc" file.
 
    \optionpar{-x}{--interaction-method [number]}
       Select the mouse interaction method.

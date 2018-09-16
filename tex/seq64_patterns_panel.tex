@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-06-03
+% \update      2018-09-16
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -90,6 +90,11 @@
 \end{figure}
 
    This figure shows the appearance of the main window top panel.
+   These items appear in the Gtkmm-2.5 user-interface.
+   The Qt user-interface is arranged differently, but has roughly the
+   same functionality.
+   See \figureref{fig:seq64_main_screen_qt}.
+
 %  If \textsl{Sequencer64} was built with
 %  \texttt{SEQ64\_MENU\_BUTTON\_PIXMAPS} defined, then the buttons have icons
 %  on them; otherwise they have text.  The figure shows what they look like,
@@ -153,12 +158,16 @@
    \index{pattern!progress}
    \index{pattern!"main time"}
    The \textbf{Song Progress Bar} is also known as the "main time" bar.
-   This bar shows a number of small black cursors ("pills") that show the
+   In the Gtkmm-2.4 user-interface,
+   this bar shows a number of small black cursors ("pills") that show the
    progress of the song through the various patterns.  For short patterns,
    the progress is fast.  For patterns that last longer, the progress is
    slow.  The whole field flashes in time with the beat.
    This field shows that something is going on.  It can also indicate
    the relative lengths of the various patterns.
+
+   In the Qt user-interface, this bar is shown as four boxes
+   which blink in time with playback.
 
    Also included is a numeric representation of the "BBT" (bar:beat:ticks).
  
@@ -437,6 +446,7 @@
    the title of the pattern, and the number of measures in the pattern.
    The latter is not shown on some of the figures in this manual, a
    lack we will ave to rectify someday.
+   Also, these colors are not yet supported in the Qt user-interface.
 
    A pattern can show a number of different statuses based on the coloring
    of elements in the pattern slot. 

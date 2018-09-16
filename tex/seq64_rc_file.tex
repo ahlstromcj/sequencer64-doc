@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-09-15
+% \update      2018-09-16
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -89,6 +89,22 @@
    additional resources and ideas can be found at \url{linuxaudio.org}
    (\cite{midicontrol}).
 
+   \index{[midi-control-file]}
+   New with version 0.96 of \textsl{Sequencer64} is the ability
+   to offload the MIDI control section to a separate file.  Simply move
+   the whole \texttt{[midi-control]} section to a separate file in
+   the \textsl{Sequencer64} configuration directory, and add the following
+   snippet:
+
+   \begin{verbatim}
+   [midi-control-file]
+      nanomap.rc        # contains a whole [midi-control] section
+   \end{verbatim}
+
+   As with the normal "rc", this file is rewritten upon exit, so
+   don't bother trying to add comments to it.  The rest of this section
+   applied either to that "rc" or the normal "rc" file.
+
    \index{[midi-control]}
    The MIDI control section begins with the following "INI"-style
    group marker tag:
@@ -98,11 +114,11 @@
       74      # MIDI controls count (74/84/96)
    \end{verbatim}
 
-   The number (74) is the number of lines in the MIDI Control section.
-   The extended automation values bring this number up to 84, and the most recent
-   version of \textsl{Sequencer64} brings this up to 96.  Note that earlier version
-   will complain about numbers higher than what they can handle.
-   If so, edit the "rc" file to reduce that number.
+   The number (74) is the number of lines in the MIDI Control section.  The
+   extended automation values bring this number up to 84, and the most recent
+   version of \textsl{Sequencer64} brings this up to 96.  Note that earlier
+   version will complain about numbers higher than what they can handle.  If
+   so, edit the "rc" file to reduce that number.
 
    Even in the latest version of \textsl{Sequencer64}, 
    not all of these new values are yet usable, and there are also some values
@@ -398,7 +414,7 @@
    control values that can affect the muting of a group, while the latter
    specifies the armed patterns that are part of a group.
 
-\subsubsection{Sequencer64 "rc" File / MIDI Control / Automation Group}
+\subsubsection{Sequencer64 "rc" File / MIDI Control / Automation}
 \label{subsubsec:seq64_rc_file_midi_ctrl_automation}
 
    The automation control keys occupy the entries from 64 to 73.
@@ -433,7 +449,7 @@
       \item \textbf{screen-set play}
    \end{enumerate}
 
-\paragraph{Automation Group: BPM Up and Down}
+\paragraph{Automation / BPM Up and Down}
 \label{paragraph:seq64_rc_file_midi_ctrl_bpmupdn}
 
    The BPM Up MIDI control increments the beats-per-minute setting, as if
@@ -468,7 +484,7 @@
    the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
    "BPM Up" and "BPM Down" configuration panel items.
 
-\paragraph{Automation Group: Screen-Set Up and Down}
+\paragraph{Automation / Screen-Set Up and Down}
 \label{paragraph:seq64_rc_file_midi_ctrl_ssupdn}
 
    The Screen-Set Up MIDI control increments to the next screen-set. 
@@ -489,7 +505,7 @@
    the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
    "BPM Up" and "BPM Down" configuration panel items.
 
-\paragraph{Automation Group: Mod Replace}
+\paragraph{Automation / Mod Replace}
 \label{paragraph:seq64_rc_file_midi_ctrl_modrep}
 
    The Mod Replace MIDI control sets the "replace" status flag.
@@ -502,7 +518,7 @@
    the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
    "Replace/Solo" configuration panel item.
 
-\paragraph{Automation Group: Mod Snaphot}
+\paragraph{Automation / Mod Snaphot}
 \label{paragraph:seq64_rc_file_midi_ctrl_modsnap}
 
    The Mod Snapshot MIDI control causes the playing statuses of all active
@@ -516,7 +532,7 @@
    the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
    "Snapshot 1" and "Snapshot 2" configuration panel items.
 
-\paragraph{Automation Group: Mod Queue}
+\paragraph{Automation / Mod Queue}
 \label{paragraph:seq64_rc_file_midi_ctrl_modqueue}
 
    The Mod Queue MIDI control sets up the "queue" status flag.
@@ -549,9 +565,9 @@
    Note that this control corresponds to the hot-key assigned in
    the \textbf{File / Options / Keyboard / Control keys [keyboard-group]} 
    "Queue" configuration panel item.  There is also a "Q" button on the
-   Gtkmm-2.4 user interface.
+   Gtkmm-2.4 user-interface.
 
-\paragraph{Automation Group: Mod Mute Group}
+\paragraph{Automation / Mod Mute Group}
 \label{paragraph:seq64_rc_file_midi_ctrl_modgmute}
 
    The Mod Group Mute MIDI control sets up a "mute group".
@@ -564,7 +580,7 @@
    screen-sets, and through the active pattern in each screen-set, and
    sets each pattern as muted or unmuted, depending on the saved mute state.
 
-\paragraph{Automation Group: Mod Mute Group}
+\paragraph{Automation / Mod Mute Group}
 \label{paragraph:seq64_rc_file_midi_ctrl_modgmute}
 
    The Mod Group Learn MIDI control sets up a "group learn".
@@ -586,13 +602,13 @@
    \index{keys!Ctrl-L}
    It can also be accessed by the hard-wired hot-key, Ctrl-L.
 
-\paragraph{Automation Group: Screen-Set Play}
+\paragraph{Automation / Screen-Set Play}
 \label{paragraph:seq64_rc_file_midi_ctrl_ssplay}
 
 This MIDI control sets the playing screen-set, 
 but we're not completely sure how it works yet.
 
-\subsubsection{Sequencer64 "rc" File / MIDI Control / Extended Automation Group}
+\subsubsection{Sequencer64 "rc" File / MIDI Control / Extended Automation}
 \label{subsubsec:seq64_rc_file_midi_ctrl_automationex}
 
    These additional control items were requested by users, to control
@@ -615,7 +631,7 @@ but we're not completely sure how it works yet.
          \item \textbf{Reserved for expansion} (a few of these are reserved).
       \end{enumber}
 
-\paragraph{Extended Automation Group: Stop/Pause/Start}
+\paragraph{Ext Automation / Stop/Pause/Start}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_stopps}
 
    \index{rc!start/stop control}
@@ -739,67 +755,67 @@ but we're not completely sure how it works yet.
    screen-set up/down.  Also, is screen-set play now partly redundant?
    No matter, we will not break the user's existing setup.
 
-\paragraph{Extended Automation Group: Performance Record}
+\paragraph{Ext Automation / Performance Record}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_precord}
 
    To do.
 
-\paragraph{Extended Automation Group: Solo}
+\paragraph{Ext Automation / Solo}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_solo}
 
    To do.
 
-\paragraph{Extended Automation Group: MIDI Thru}
+\paragraph{Ext Automation / MIDI Thru}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_thru}
 
    To do.
 
-\paragraph{Extended Automation Group: BPM Page Up}
+\paragraph{Ext Automation / BPM Page Up}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_bpmpageup}
 
    To do.
 
-\paragraph{Extended Automation Group: BPM Page Down}
+\paragraph{Ext Automation / BPM Page Down}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_bpmpageup}
 
    To do.
 
-\paragraph{Extended Automation Group: Screen-Set By Number}
+\paragraph{Ext Automation / Screen-Set By Number}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_ssnumber}
 
    To do.
 
-\paragraph{Extended Automation Group: MIDI Record}
+\paragraph{Ext Automation / MIDI Record}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_mrecord}
 
    To do.
 
-\paragraph{Extended Automation Group: MIDI Quantized Record}
+\paragraph{Ext Automation / MIDI Quantized Record}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_qrecord}
 
    To do.
 
-\paragraph{Extended Automation Group: Fast Forward}
+\paragraph{Ext Automation / Fast Forward}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_fforward}
 
    To do.
 
-\paragraph{Extended Automation Group: Rewind}
+\paragraph{Ext Automation / Rewind}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_rewind}
 
    To do.
 
-\paragraph{Extended Automation Group: Top}
+\paragraph{Ext Automation / Top}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_top}
 
    To do.
 
-\paragraph{Extended Automation Group: Select Playlist}
+\paragraph{Ext Automation / Select Playlist}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_sellist}
 
    To do.
 
-\paragraph{Extended Automation Group: Select Song}
+\paragraph{Ext Automation / Select Song}
 \label{paragraph:seq64_rc_file_midi_ctrl_ex_selsong}
 
    To do.
@@ -1412,7 +1428,7 @@ but we're not completely sure how it works yet.
    It provides a configured set of named play-lists in a play-list file,
    and a flag to activate it.
    
-   \index{[recent-files]}
+   \index{[playlist]}
    \begin{verbatim}
       [playlist]
       0     # playlist_active, 1 = active, 0 = do not use it
@@ -1420,6 +1436,10 @@ but we're not completely sure how it works yet.
       # Or set the flag above to 0.
       /home/ahlstrom/.config/sequencer64/sample.playlist
    \end{verbatim}
+
+   See \sectionref{sec:playlist}.
+   It describes the setup, layout, and usage of a
+   \textsl{Sequencer64} playlist.
 
 %-------------------------------------------------------------------------------
 % vim: ts=3 sw=3 et ft=tex
