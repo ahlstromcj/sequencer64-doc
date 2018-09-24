@@ -6,7 +6,7 @@
 # \library    	Documents
 # \author     	Chris Ahlstrom
 # \date       	2015-11-01
-# \update     	2015-11-01
+# \update     	2018-09-24
 # \version    	$Revision$
 # \license    	$XPC_SUITE_GPL_LICENSE$
 #
@@ -22,7 +22,7 @@
 all: cookbook
 
 cookbook: tex-stamp
-	latexmk -silent -pdf sequencer64-user-manual
+	latexmk -g -silent -pdf sequencer64-user-manual
 
 tex-stamp:
 	touch tex-stamp

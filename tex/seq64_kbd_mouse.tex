@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-04-07
-% \update      2018-01-21
+% \update      2018-09-21
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -25,7 +25,8 @@
    see \sectionref{paragraph:seq64_menu_file_options_keyboard}).
    It also does not cover the "fruity" mouse actions, though they are touched
    on in \sectionref{paragraph:seq64_menu_file_options_mouse}.
-   Any volunteers to fill in the table?
+
+%  Any volunteers to fill in the table?
 
    This section describes the keystrokes that are currently hardwired
    in \textsl{Sequencer64}.
@@ -33,6 +34,14 @@
    items not defined in the \textbf{File / Options}
    dialog.  That is, hardwired values.
    Note that "KP" stands for "keypad".
+
+   \index{keys!focus}
+   Also note that the effect that keystrokes have will generally depend upon
+   which window has the keyboard and mouse focus.
+
+   \index{keys!qt}
+   And it must be noted that the Qt 5 user-interface does not (yet) support the
+   full set of keystrokes supported by the legacy Gtkmm-2.4 user-interface.
 
 \subsection{Main Window}
 \label{subsec:kbd_mouse_main_window}
@@ -261,7 +270,7 @@
    editor;
    \tableref{table:pattern_editor_piano_roll},
    doesn't begin to cover its functionality.
-   Here are the keystrokes handle by the main frame of the window:
+   Here are the keystrokes handles by the main frame of the piano roll:
 
    \begin{itemize}
       \item \texttt{Ctrl-L}.  Bring up the LFO event modulation editor, if
@@ -280,9 +289,10 @@
       \item \texttt{Page Up}.  Scroll upward.
       \item \texttt{Home}.  Scroll upward to the beginning.
       \item \texttt{End}.  Scroll downward to the end.
+      \item \texttt{Delete}.  Deletes (not cuts!) the currently-selected notes
+         in the piano roll.
+         This operation can be undone withe the \textbf{Undo} button.
    \end{itemize}
-
-   Where is Delete?
 
 \subsubsection{Pattern Editor Piano Roll}
 \label{subsubsec:kbd_mouse_pattern_editor_piano_roll}
@@ -354,7 +364,8 @@
 
    \begin{itemize}
       \item \textsl{p}:  Enters the paint mode, until right-click is pressed or
-         until the \texttt{x} key is pressed.
+         until the \texttt{x} key is pressed.  In this mode, notes can be added
+         by clicking or click-dragging.
       \item \textsl{x}:  Exits the paint mode.  Think of the made-up term
          "x-scape".
       \item \textsl{z}:  Zooms out the performance view.  It makes the view

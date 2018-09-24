@@ -340,17 +340,25 @@
    A mute/unmute pattern (group) is stored by holding a
    \index{group!learn}
    \textsl{group learn} key (\texttt{Insert} by default) while pressing the
-   corresponding \textsl{group arm} key.
-   There are also keys assigned to turn on/off the group functionality.
+   corresponding \textsl{group arm} key.  The "L" button can also be used to
+   enter "Learn" mode.
+   Once a learn-key is pressed, the set of muted/unmuted patterns in the
+   current set is memorized, and can be recalled later.
+
+%  There are also keys assigned to turn on/off the group functionality.
+
+   Once learned, the "Shifted" version of the keyboard keys can be
+   used to select a learned group.
    Remember that groups work with the playing ("in-view") screen set.
    One must change the screenset and give it the command to make it the
-   playing one
+   playing one.
    \index{keys!Home}
-   (some set the \texttt{Home} key for this purpose).
+   By default, the \texttt{Home} key is configured for this purpose.
+
    So, for example, if one sets \texttt{A} to turn on the
    patterns in slots 1 and 2 in set 0 (the first set), then pressing
    \texttt{A} in another set will arm the patterns in the same relative
-   location in that set.
+   location in the current set.
    This setup is flexible, but takes some thought.
    One can set up a number of mute-groups, and decide to use them
    for all sets, or mentally allocate one mute-group per set.
@@ -358,7 +366,24 @@
    armed patterns... it can only turn them on.
 
    \index{rc file}
-   Everything is configurable in the "rc" file.
+   It is all configurable in the "rc" file.
+
+   Let's go through an example using the \texttt{Home} key (or whatever key is
+   configured as the \textbf{Set Playing Screenset} key.)
+
+   \begin{enumber}
+      \item Load a song with more than one screen-set.
+      \item Unmute the pattern(s) in the first set and start playback.
+      \item Use the \texttt{]} (\textbf{Screenset Up}) key to move to the next
+         set.  Note that the first set is still playing.  Also note that the
+         now-current set is \textsl{not} playing.
+      \item Press the \texttt{Home} key.
+         Note that the first set turns off, and the current set turns on.
+         These steps can be repeated at will.
+      \item Finally, hit the \texttt{F8} (\textbf{Toggle Mutes}) key.
+         Note that all tracks on all sets toggle muting each time this key is
+         pressed.
+   \end{enumber}
 
 \subsection{Patterns / Main Panel}
 \label{subsec:seq64_patterns_panel_main}
