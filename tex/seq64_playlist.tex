@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2018-09-15
-% \update      2018-09-16
+% \update      2018-09-30
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -30,10 +30,11 @@
    Movement between the playlists and the songs is accomplished via 
    MIDI control; see
    \sectionref{subsec:seq64_rc_file_midi_control}.
-   It can also be done manually via the four arrow keys on the computer
-   keyboard.
    Using MIDI control makes it possible to use the \texttt{seq64cli}
    headless version of \textsl{Sequencer64} in a live setting.
+   In the normal user-interface, play-list movement
+   can also be done manually via the four arrow keys on the computer
+   keyboard.
 
    The playlist can be specified on the command-line, or in
    the "rc" file (see \sectionref{subsec:seq64_rc_file_playlist}).
@@ -62,8 +63,17 @@
    \end{verbatim}
 
    A blank line (not even a space) ends the comment section.
+   Following the comments section is a \texttt{[playlist-options]} section.
 
-   Following the comments section are one or more \texttt{[playlist]} sections.
+   \begin{verbatim}
+   [playlist-options]
+   1   # If set to 1, when a new song is selected, unmute all its patterns
+   \end{verbatim}
+
+   That option allows the load of the next song to enable the patterns in that
+   song.
+
+   Following the options section are one or more \texttt{[playlist]} sections.
    Here is the layout of a sample playlist section.
 
    \begin{verbatim}

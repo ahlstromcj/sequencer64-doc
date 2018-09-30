@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2018-05-28
-% \update      2018-08-25
+% \update      2018-09-30
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -15,7 +15,7 @@
 %
 %-------------------------------------------------------------------------------
 
-\section{Sequencer64 Qt5/PortMidi}
+\section{Sequencer64 Qt5, PortMidi, and Windows}
 \label{sec:qt_portmidi}
 
    With version 0.95.1 of \textsl{Sequencer64}, we now provides builds using
@@ -27,13 +27,15 @@
    \index{qpseq64.exe}
    \textsl{Sequencer64 for Windows}.
 
-   Currently, the Qt 5 user-interface is fundamentally the same as
+   The Qt 5 user-interface is similar
    the \textsl{Kepler34} project (\cite{kepler34}).
    But it uses the internal functions of \textsl{Sequencer64} and adds a few
-   features not yet present in \textsl{Kepler34}.
+   features not present in \textsl{Kepler34}.
    It uses a tabbed interface, and slightly different ways of handling the main
    window (the "Live" tab), the performance window (the "Song" tab), and the
    editing window (the "Edit" tab).
+   For portability reasons, the Qt user-interface will eventually be the
+   \textsl{official} version for \textsl{Sequencer64}.
 
    There is still a little amount of \textsl{Sequencer64} functionality that
    the Qt5/PortMidi version lacks:
@@ -44,16 +46,17 @@
       \item A reduced-functionality options/preferences dialog, lacking an
          editor for keystroke commands.
       \item Keystroke support is not as comprehensive as the Linux version.
-      \item No support yet for variset or multi-wid.  What we will probably
-         implement is variset and allow for any number of external live frames
-         so that an arbitrary number of sets (banks) can be shown at once,
-         each in its own window.
+      \item No support yet for variset.  This will be added in the next
+         version.
+      \item Modified support for multi-wid.  The Qt interface allows
+         for any number of external live frames.
+         An arbitrary number of sets (banks) can be shown at once,
+         each in its own window.  The window in focus is the active set.
    \end{enumerate}
 
    We are incorporating existing \textsl{Sequencer64} user-interface
    features into this Qt5/PortMidi version as time and bug-fixes allow.
-
-   With version 0.95.1, we have improved the Qt/Windows version by adding the
+   With version 0.96.0, we have improved the Qt/Windows version by adding the
    following features:
 
    \begin{enumerate}
@@ -69,6 +72,9 @@
          external window.
       \item The pattern and song editors now have better support for zooming
          via keystrokes.
+      \item A playlist tab has been added to support the new play-list
+         functionality.
+         See section \sectionref{sec:playlist}.
    \end{enumerate}
    Some ill-advised features from \textsl{Sequencer64} will not be migrated.
    Ultimately, we want to replace the Gtkmm-2.4 user-interface completely.
@@ -105,12 +111,11 @@
 \subsection{The Qt 5 User Interface}
 \label{subsec:qt_portmidi_qt5_user_interface}
 
-   \textsl{This section is out-of-date; many upgrades were made for version
-   0.95.1.  And there is more to come.  Once we get it all finalized, we will
-   update this section and its screen-shots.}
-
    The Qt5/PortMidi version of \textsl{Sequencer64} has an executable name of
    \texttt{qpseq64} (Linux) or \texttt{qpseq64.exe} (Windows).
+   It is also possible to build a Qt5 version with the RtMidi interface
+   (\texttt{qseq64}), and
+   that will ultimately become the default version for Linux.
    To keep explanations simple, we will refer to the Qt5/PortMidi version of
    \textsl{Sequencer64} as \textbf{qpseq64}.
    The Gtkmm-2.4/RtMidi version (Linux only) will be referred to as
@@ -128,19 +133,22 @@
 
    Note the difference in layout from the Gtkmm-2.4 version.
    Also notice that a number of controls from the Gtkmm version are missing.
-   Some of these missing item will ultimately be added.
+   Some of these missing items will ultimately be added.
 
-   Here is a similar screenshot in Windows 10.
+%  Here is a similar screenshot in Windows 10.
+%
+% \begin{figure}[H]
+%  \centering 
+%  \includegraphics[scale=0.75]{kepler34/qt5-main-window-windows.png}
+%  \caption{Qt 5 Main Window, Windows 10}
+%  \label{fig:qt5_main_window_windows}
+% \end{figure}
 
-\begin{figure}[H]
-   \centering 
-   \includegraphics[scale=0.75]{kepler34/qt5-main-window-windows.png}
-   \caption{Qt 5 Main Window, Windows 10}
-   \label{fig:qt5_main_window_windows}
-\end{figure}
-
-   Coding an application for both Windows and Linux is very instructive, and
-   often improves the overall code significantly.
+   Apart from different window decoration, the Windows version looks exactly
+   the same.  Coding an application for both Windows and Linux is very
+   instructive, and can improve the overall code significantly.  It certainly
+   forced us to add some new features to handle the operating-system
+   differences!
 
 \subsubsection{Qt 5 Live Tab}
 \label{subsubsec:qt_portmidi_qt5_live_tab}
@@ -204,6 +212,7 @@
    editors can be shown at the same time for a given pattern.
    This pattern editor is pretty much identical to the Gtkmm-2.4 version,
    except that it does not provide a "fruity" mode of mouse usage.
+   Sorry.
 
 \subsubsection{Qt 5 Events Tab}
 \label{subsubsec:qt_portmidi_qt5_events_tab}
@@ -215,20 +224,40 @@
    \label{fig:qt5_events_window}
 \end{figure}
 
-This window works a lot like
-\sectionref{sec:seq64_event_editor}; please see that section for user
-instructions.
-Please remember that, at the present time, this view is meant
-only for viewing events and making minor tweaks to a pattern, such
-as eliminating problematic events.  It is not intended to be a full-featured
-event editor.  In particular, note that editing within each cell in the event
-table is not supported.  Event editing must be done in the right panel.
-An event must be explicitly selected by clicking on it, before it can be
-modified or deleted.
+   This window works a lot like \sectionref{sec:seq64_event_editor}; please see
+   that section for user instructions.  Please remember that, at the present
+   time, this view is meant only for viewing events and making minor tweaks to
+   a pattern, such as eliminating problematic events.  It is not intended to be
+   a full-featured event editor.  In particular, note that editing within each
+   cell in the event table is not supported.  Event editing must be done in the
+   right panel.  An event must be explicitly selected by clicking on it, before
+   it can be modified or deleted.
 
-Also, if one adds or modifies an event to show up an the end of the pattern,
-by modifying the time stamp, the event will appear there, but the
-user-interface will remain at the current event.
+   Also, if one adds or modifies an event to show up an the end of the pattern,
+   by modifying the time stamp, the event will appear there, but the
+   user-interface will remain at the current event.
+
+\subsubsection{Qt 5 Playlist Tab}
+\label{subsubsec:qt_portmidi_qt5_playlist_tab}
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{kepler34/qt5-playlist-editor.png}
+   \caption{Qt 5 Playlist Window}
+   \label{fig:qt5_playlist_window}
+\end{figure}
+
+   The play-list functionality can be viewed in this tab.
+   Currently, this tab only shows the playlist items.  One can
+   select a playlist, and view the song-titles in it, but
+   editing and loading the play-lists and songs does not yet
+   work.  One must edit the play-list file manually for now.
+
+   Also note that the play-list can be seen in the main live frame, 
+   and that play-lists and songs-can be selected with the arrow keys in that
+   window.
+
+   See section \sectionref{sec:playlist}.
 
 \subsubsection{Qt 5 Edit / Preferences}
 \label{subsubsec:qt_portmidi_qt5_edit_prefs}

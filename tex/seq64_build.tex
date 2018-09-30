@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-06
-% \update      2017-04-29
+% \update      2018-09-30
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -152,16 +152,20 @@
         This option can be bootstrapped directly using (for example)
         "\texttt{./bootstrap -er -cli}".
         It builds a command-line version of \texttt{seq64} that has the command
-        name \texttt{seq64cli}.  Currently, this application can only be
+        name \texttt{seq64cli}.  This application can be
         controlled via MIDI controls set up in the
         [midi-control] section of the "rc" file.
         See \sectionref{subsec:seq64_rc_file_midi_control}, for more
-        information on those controls, which now also include start, stop, and
-        pause commands.  Also, currently the only way to load a MIDI file is as
-        the last command-line argument.  There is also an option to make
+        information on those controls, which include start, stop,
+        pause, play-list navigation, and other commands.
+        A single song can be loaded via
+        the last command-line argument.
+        A number of songs can be loaded via a play-list.
+        See \sectionref{sec:playlist}.
+        There is also an option to make
         the application fork into the background as a daemon.
-        We're looking in to using OSC as a control mechanism, but, until then,
-        this executable is of limited usefulness.
+        We're looking in to using OSC as a control mechanism, but the available
+        MIDI control might be sufficient.
 
    \itempar{\texttt{--enable-alsamidi}}{build!enable alsamidi}
         \index{BUILD\_ALSAMIDI}

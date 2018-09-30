@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-09-16
+% \update      2018-09-30
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -17,16 +17,16 @@
 \section{Menu}
 \label{sec:seq64_menu}
 
-   The \textsl{Sequencer64} menu, as seen at the top of
-   \figureref{fig:seq64_main_screen}, is fairly simple, but it is important to
-   understand the structure of the menu entries.
+   The \textsl{Sequencer64} menu
+   (\figureref{fig:seq64_main_screen}) is simple, but important to
+   understand.
 
 \subsection{Menu / File}
 \label{subsec:seq64_menu_file}
 
-   The \textbf{File} menu is used to save and load standard MIDI files.
-   \textsl{Sequencer64} will handle any Format 0 or
-   Format 1 standard files that other sequencers export.
+   The \textbf{File} menu is used to save and load standard MIDI files
+   (Standard MIDI Format 0 or 1), save and load \textsl{Sequencer64} MIDI
+   files.
    The \textsl{Sequencer64} menu entry contains the sub-items shown in
    \figureref{fig:seq64_menu_file_items}.  The next few sub-sections discuss
    the sub-items in the \textsl{File} sub-menu.
@@ -35,34 +35,39 @@
    \centering 
 %  \includegraphics[scale=1.00]{menu/menu_file.png}
 %  \includegraphics[scale=0.75]{new/menu_file.png}
-   \includegraphics[scale=0.50]{new/menu_file_0_96.png}
+   \includegraphics[scale=0.85]{new/menu_file_0_96.png}
    \caption{Sequencer64 File Menu Items}
    \label{fig:seq64_menu_file_items}
 \end{figure}
 
+   There are some minor and unimportant differences between the \textsl{Qt} and
+   the \textsl{Gtkmm} (shown in the figure) versions of this menu.
+   We will comment on other differences only if they are not obvious to the
+   user.
+
    \begin{enumber}
       \item \textbf{New}
-      \item \textbf{Open...}
-      \item \textbf{Open Playlist...}
-      \item \textbf{Recent MIDI files...}
+      \item \textbf{Open}
+      \item \textbf{Open Playlist}
+      \item \textbf{Recent MIDI files}
       \item \textbf{Save}
-      \item \textbf{Save As...}
-      \item \textbf{Import MIDI...}
-      \item \textbf{Export Song as MIDI...}
-      \item \textbf{Export MIDI Only...}
-      \item \textbf{Options...}
-      \item \textbf{Exit}
+      \item \textbf{Save As}
+      \item \textbf{Export Song as MIDI}
+      \item \textbf{Export MIDI Only}
+      \item \textbf{Import MIDI}
+      \item \textbf{Options}
+      \item \textbf{Exit or Quit}
    \end{enumber}
 
    The Qt version of this menu is similar, except that the
-   \textbf{Options...} menu is placed in
-   \textbf{Edit / Preferences}.
+   \textbf{Options...} menu is placed in \textbf{Edit / Preferences}.
 
 \subsection{Menu / File / New}
 \label{subsec:menu_file_new}
 
    The \textbf{New} menu entry clears out any current song and patterns,
    allowing one to create new ones from scratch.
+   It also unloads the play-list, if it is loaded.
    If unsaved changes are pending, the user will be prompted to save the
    changes.  Prompting for changes is more comprehensive than \textsl{Seq24}.
 
@@ -76,7 +81,7 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.65]{menu/menu_file_open.png}
-   \caption{File / Open}
+   \caption{File / Open (Gtkmm version)}
    \label{fig:seq64_menu_file_open}
 \end{figure}
 
@@ -86,15 +91,16 @@
    the user will be prompted to save the changes.
    When in doubt, save!  Keep backups of your tunes!
 
-   Note that \textsl{Sequencer64} can also open regular MIDI files.
+   Note that \textsl{Sequencer64} can also open regular MIDI files and
+   Cakewalk WRK files.
    As of version 0.94.3, it will read and store various MIDI Meta events that
    were not directly supported before.  In addition, the Tempo and Time
    Signature events are now integral parts of \textsl{Sequencer64} handling.
 
-\subsubsection{Menu / File / Open playlist}
+\subsubsection{Menu / File / Open Playlist}
 \label{subsubsec:seq64_menu_file_open}
 
-   The \textbf{Open playlist...} menu entry opens a \textsl{Sequencer}
+   The \textbf{Open Playlist...} menu entry opens a \textsl{Sequencer}
    play-list file.  This file contains a list of "playlist sections",
    each listing a number of MIDI songs.  These playlists and songs can be
    selected by the arrow keys or by MIDI control.
@@ -103,6 +109,10 @@
    Once activated, the current play-list file-name is saved in the
    \texttt{[playlist]} section of the "rc" configuration file when
    \textsl{Sequencer64} exits.
+
+   The Qt user-interface will eventually support some editing of the play-list
+   file.  Currently, the user must understand the format and use a text editor
+   to edit the play-list file.
 
 \subsubsection{Menu / File / Recent MIDI files}
 \label{subsubsec:seq64_menu_file_recent}
@@ -141,7 +151,7 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.65]{menu/menu_file_save_as.png}
-   \caption{File / Save As}
+   \caption{File / Save As (Gtkmm version)}
    \label{fig:seq64_menu_file_save_as}
 \end{figure}
 
@@ -156,33 +166,33 @@
    \end{verbatim}
 
    It looks like a simple MIDI file, and yet, if one re-opens it in
-   \textsl{Sequencer64}, one sees that all of the labelling, pattern information,
-   and song layout has been preserved in this file.
+   \textsl{Sequencer64}, one sees that all of the labelling, pattern
+   information, and song layout has been preserved in this file.
    Even the pattern layout (arrangement), as discussed in
    \sectionref{subsubsec:seq64_song_editor_arrangement_panel_roll},
    have been saved.
    (But the L and R marker positions are not saved.)
 
    Compare the sizes of the original project MIDI file
-   and the output MIDI file after \textsl{Sequencer64} saves them
+   and the output MIDI file after \textsl{Sequencer64} saves them; they
    are different.
    The reason is that, after the last track in the file, a number of
+   \index{SeqSpec}
    sequencer-specific (SeqSpec) items are saved, to preserve this extra
-   information.  In legacy mode, \textsl{Sequencer64} saves this information
-   in the same format as \textsl{Seq24}. Otherwise, it saves it
-   in an even more MIDI-compatible format.  There is also an option to strip
-   this extra information if it is empty.
-
-   \index{new!seqspec format}
-   In its normal mode, \textsl{Sequencer64} saves this
-   information by marking each SeqSpec section
-   as vendor-specific information, and marking this section as a regular
-   MIDI track.
+   information.
+   In legacy mode, \textsl{Sequencer64} saves this information
+   in the same format as \textsl{Seq24}.
+   Otherwise, it saves it in a more MIDI-compatible format.
+   some of this extra information (mute-groups) will be stripped from the MIDI
+   file.
+   In its normal mode, \textsl{Sequencer64} saves this information by marking
+   each SeqSpec section as vendor-specific information, and marking this
+   section as a regular MIDI track.
    The legacy and new formats of the final "track" are explained in
    \sectionref{subsec:legacy_midi_format}.
 
-   \index{new!meta events}
-   Note that meta events are now partially handled by \textsl{Sequencer64}.
+   \index{Meta events}
+   Note that Meta events are now partially handled by \textsl{Sequencer64}.
    Meta events Set Tempo (\texttt{FF 51 03 tt tt tt}),
    and Time Signature (\texttt{FF 58 04 nn dd cc bb}), are now fully supported.
    Other Meta events,
@@ -197,12 +207,14 @@
 \subsubsection{Menu / File / Import MIDI}
 \label{subsubsec:seq64_menu_file_import}
 
-   The \textbf{Import} menu entry allows one to import an SMF 0
-   or SMF 1 MIDI file into one or more patterns, one pattern per track in
-   the MIDI file.  Even long tracks, that aren't short loops, are read in
-   properly.  The difference from \textbf{Open} is that the destination set
-   for the import can be specified, and the existing data is preserved, except
-   for the data in the destination set.  If the imported file is a
+   The \textbf{Import} menu entry imports an SMF 0
+   or SMF 1 MIDI file as one or more patterns, one pattern per track in
+   the MIDI file.
+   Even long tracks, that aren't short loops, are read in properly.
+   The difference from \textbf{Open} is that the destination set
+   for the import can be specified, and the existing data in the
+   currently-loaded MIDI file is preserved.
+   If the imported file is a
    \textsl{Sequencer64} file, it's proprietary sections will
    \textsl{not} be imported, in order to preserve the performance setup.
 
@@ -214,25 +226,25 @@
 \end{figure}
 
    When imported, each track, whether a music track or an information track,
-   is entered into its own loop/pattern box.  The import operation can
-   handle reasonably complex files,
+   is entered into its own loop/pattern box (slot).  The import operation can
+   handle reasonably complex files.
 %  as shown in the following diagram, which shows an import of
-   such as the \texttt{contrib/b4uacuse.mid} file, which contains
-   a transcription of an Eric Clapton / Robert Cray tune made over 20 years ago.
+%  such as the \texttt{contrib/b4uacuse.mid} file, which contains
+%  a transcription of an Eric Clapton / Robert Cray tune made over 20 years ago.
 %  and had uploaded to the \textsl{GEnie} network service.
 
    Note the additional file-dialog field,
    \textbf{Select Screen Offset}.
+   Currently, only present in Gtkmm, but not Qt, which is a "bug" of sorts.
    \index{import!select screen offset}
    \index{select screen offset}
    This setting is actually a set offset.
    It lets one place the imported data into a screen-set other than
    the first screen-set (screen-set 0).
    This field is not editable.  It requires using the scroll button to move the
-   screen set offset up or down in value.  The legal values range from 0
-   to 31.
+   screen set offset up or down in value, from 0 to 31.
 
-   When the file is imported, the sequence number for each track read in is
+   When the file is imported, the sequence number for each track read is
    adjusted to put the track in the desired screen-set.
    The import can placed the imported data into any of the 32 available
    screen-sets.  Quite large songs can be built up by importing patterns from
@@ -267,11 +279,11 @@
          play of the track information.  If there is a gap in the layout (e.g.
          due to the \textbf{Expand} operation in the Song Editor), then there
          is a corresponding gap in the events that are played. The result is
-         one consolidated trigger that reconstructs the original playback
-         layout.  This trigger is not needed (or even usable) in any
+         one consolidated track that reconstructs the original playback
+         layout.  This track is not needed (or even usable) in any
          non-Seq24-based MIDI sequencer; the events themselves are sufficient
-         to play the performance exactly.  But the trigger is useful for
-         further editing of the song/performance, as will be seen later,
+         to play the performance exactly.  But the triggers for that are useful
+         for further editing of the song/performance, as will be seen later,
          so it is kept (in a \textbf{SeqSpec} section).
       \item All the tracks that are exported are consolidated, so that any
          empty pattern slots between them are removed.  No matter what set the
@@ -300,7 +312,6 @@
    Once the file has been exported, it can be opened in order to see
    the results of the export.  Both the main window view and the
    song performance view will show the results of the export.
-
    Here is a short song, in two sets, shown in a composite view of four windows,
    showing each set and the performance layout of the tracks in the sets.
    (Note the second Song Editor window.)
@@ -334,15 +345,16 @@
 \label{subsubsec:seq64_menu_file_export_midi_only}
 
    Sometimes it might be useful to export only the non-sequencer-specific
-   data from a \textsl{Sequencer64} song.  For example, some buggy sequencers
+   (non-SeqSpec) data from a \textsl{Sequencer64} song.
+   For example, some buggy sequencers
    (hello \textsl{Windows Media Player})
    might balk at some SeqSpec item in the song, and refuse to load the MIDI
-   data.  For cases like this,
+   data.
+   For cases like this,
    the \textbf{Export MIDI Only} menu item writes a file that does not contain
    the SeqSpec data for each track, and does not include all the SeqSpec data
    (such as mute groups) that is normally written to the end of the
    \textsl{Sequencer64} MIDI file.
-
    Note that the meta data for track name is still written, so that the
    resulting file might be a little larger than the original
    \texttt{.mid} file that was imported into \textsl{Sequencer64}.
@@ -353,13 +365,12 @@
 \subsubsection{Menu / File / Options}
 \label{subsubsec:seq64_menu_file_options}
 
-   \textbf{Note:}
-      In the \textsl{Portmidi / Windows / Qt 5} version of
-      \textsl{Sequencer64}, the \textbf{Options} dialog has been moved to 
-      \textbf{Files / Options / Preferences} menu entry.
-      See \sectionref{subsubsec:qt_portmidi_qt5_edit_prefs}.
-      There are still a few configuration items yet to be represented in that
-      new user-interface.
+   In the \textsl{Portmidi / Windows / Qt 5} version of
+   \textsl{Sequencer64}, the \textbf{Options} dialog has been moved to 
+   \textbf{Edit / Preferences}.
+   See \sectionref{subsubsec:qt_portmidi_qt5_edit_prefs}.
+   There are still a few configuration items yet to be represented in that
+   new user-interface.
 
    The \textbf{Options} menu item provides a number of settings in one
    tabbed dialog, shown in the figures that follow.
@@ -372,7 +383,7 @@
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{menu/options-tab-0-9-18.png}
-   \caption{File / Options Tabs for Version 0.9.18+}
+   \caption{File / Options (Gtkmm Version)}
    \label{fig:seq64_options_tab_0_9_18}
 \end{figure}
 
@@ -381,7 +392,7 @@
 
    The \textbf{MIDI Clock} tab provides a way to send the MIDI clock to one
    or more of the \textsl{Sequencer64} output busses.
-   It is used to configure to what busses the MIDI clock gets dumped.
+   It is used to configure to what busses the MIDI clock and data gets dumped.
    It also shows the devices that can play music.
    The items that appear in this tab depend on four things:
 
@@ -390,6 +401,7 @@
          MIDI controllers, USB MIDI cables, applications with virtual
          ports, and other connected devices will add MIDI
          output devices (ports) to the system.
+         In \textsl{Windows}, the available devices are shown/
       \item What MIDI software applications are running on the computer.
          For example, running MIDI software synthesizers such as
          \textsl{Timidity} and \textsl{Yoshimi} will add extra output devices
@@ -452,24 +464,24 @@
    version of \textsl{Sequencer64}, which has an executable named
    \texttt{seq64}.
 
-   Also note that the new \textbf{Port Disabled} radio button is not shown in
-   here.
-   See \sectionref{fig:qt5_prefs_clock_windows}, it shows this button.
-   It was added because Windows can have issues with its built-in MIDI mapper,
-   causing some ports to be uninitialized, and hence not available.
-   We need to ignore those ports.
+%  Also note that the new \textbf{Port Disabled} radio button is not shown in
+%  here.
+%  See \sectionref{fig:qt5_prefs_clock_windows}, it shows this button.
+%  It was added because Windows can have issues with its built-in MIDI mapper,
+%  causing some ports to be uninitialized, and hence not available.
+%  We need to ignore those ports.
 
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-1.png}
 %  \includegraphics[scale=0.75]{new/midi-clock-4-devices-manual-1.png}
    \includegraphics[scale=0.75]{jack/jack-nano-yosh-manual-clock-seq64.png}
-   \caption{MIDI Clock, Manual Option On, Condensed View}
+   \caption{MIDI Clock, Manual Option On (Gtkmm Version)}
    \label{fig:seq64_midi_clock_4_devices_manual_1}
 \end{figure}
 
    It shows the 16 MIDI output busses that \textsl{Sequencer64} can
-   drive, in the manual mode.  One would have to use a JACK or ALSA MIDI
+   drive, in the manual/virtual mode.  One would have to use a JACK or ALSA MIDI
    connection application to put a device on each of those outputs.  The fact
    that the the buss names can
    start with different numbers, depending on the system setup, can complicate
@@ -483,11 +495,23 @@
       \item \textbf{Port Number}
       \item \textbf{Buss Name}
       \item \textbf{Off}
-      \item \textbf{Port Disabled}  (new with 0.95/Windows, not shown here)
+      \item \textbf{Port Disabled}
       \item \textbf{On (Pos)}
       \item \textbf{On (Mod)}
       \item \textbf{Clock Start Modulo}
    \end{enumber}
+
+   The format of the left side of the entry listing is like the following:
+
+   \begin{verbatim}
+      [4] 4:4 seq64 midi out 4:5
+       ^  ^ ^ ^
+       |  | | |
+       |  | |  -------- Buss name
+       |  |  ---------- Port number
+       |   ------------ Client number
+        --------------- Index number
+   \end{verbatim}
 
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
@@ -495,8 +519,9 @@
    \index{index number}
    The number in square brackets is simply an ordinal indicating the position
    of the output buss in the list of busses.
-   It can be used with the \texttt{--bus} option to redirect all output to that
-   one buss.
+   It can be used with the \texttt{-b --buss --bus} option to redirect all
+   output to that one buss, which is useful if only one buss is usable, and the
+   MIDI song is, by default, routed to a non-existent buss.
 
    \itempar{Client Number}{midi clock!client number}
    \index{client number}
@@ -520,34 +545,39 @@
    in the native JACK application, \texttt{seq64}.
 
    \itempar{Off}{midi clock!off}
-   This setting disables the MIDI clock for the given output buss.
-   However, note that MIDI output can still be sent to those ports, and
+   Disables the MIDI \textsl{clock} for the given output buss.
+   However, MIDI output can still be sent to those ports, and
    each port that has a device connected to it will play music.
-
-   For feeding \textsl{Yoshimi} (running in ALSA mode)
-   with MIDI data, we found that this
-   setting is the one that must be made in order for \textsl{Yoshimi} to
-   produce a sound.
+   Some synthesizers may require this setting.
+%  For feeding \textsl{Yoshimi} (running in ALSA mode)
+%  with MIDI data, we found that this
+%  setting is the one that must be made in order for \textsl{Yoshimi} to
+%  produce a sound.
 
    \itempar{Port Disabled}{midi clock!port disabled}
-   The Port Disabled clock choice is a way to mark that one does not want to
-   use a port, or to mark that the operating system
+   The \textbf{Port Disabled} clock choice is a way to mark a port
+   that one does not want to use, or to mark that the operating system
    (\textsl{Windows}, I am looking at \textsl{you})
-   is locking the usage of that output port.
-   Previously, this status of any inaccessible port would cause
-   \textsl{Sequencer64} to exit.  Now, the inaccessible port is
-   ignored, and the user can use those ports that are accessible.
-   See \sectionref{fig:qt5_prefs_clock_windows}, it shows this
-   new feature.
+   is locking/blocking/disabling the usage of that output port.
+   Normally, this inaccessible port would cause \textsl{Sequencer64} to exit.
+   With the port disabled, the inaccessible port is
+   ignored, and the ports that are accessible can be used.
+   When the \textsl{Windows} version of \textsl{Sequencer64}
+   (\texttt{qpseq64} is first started, it may error out.
+   It will then write "erroneous" configuration "rc" and "usr" files, which
+   can be fixed to enable only available devices, which allows
+   \texttt{qpseq64} to run.
+%  See \sectionref{fig:qt5_prefs_clock_windows}, it shows this
+%  new feature.
 
    \itempar{On (Pos)}{midi clock!on (pos)}
-   The MIDI clock will be sent to this buss.
-   MIDI Song Position and MIDI Continue will be sent if playback is starting
+   Indicates that the MIDI clock will be sent to this buss.
+   MIDI Song Position and MIDI Continue will be sent if playback starts
    at greater than tick 0 in Song mode.  Otherwise, MIDI Start will be sent.
 
    \itempar{On (Mod)}{midi clock!on (mod)}
-   The MIDI clock will be sent to this buss.
-   MIDI Start will be sent and clocking will begin
+   Indicates that the MIDI clock will be sent to this buss.
+   MIDI Start will be sent, and clocking will begin
    once the Song Position has reached the start modulo of the specified size
    (see the next item's description).
    This setting is used for gear that does not respond to Song Position.
@@ -555,7 +585,7 @@
    \itempar{Clock Start Modulo}{midi clock!clock start modulo}
    Clock Start Modulo (1/16 Notes).
    This value starts at 1 and ranges on upward to 16384.
-   It  defaults to 64.
+   It defaults to 64.
    It is used by the \textbf{On (Mod)} setting discussed above.
    It is the \texttt{[midi-clock-mod-ticks]} option in the \textsl{Sequencer64}
    "rc" file as described in
@@ -563,8 +593,8 @@
 
    \itempar{Meta Events}{midi clock!meta events}
    \index{tempo-track-number}
-   This new item currently consists of just one item, the tempo track number.
-   This item allows the user to change the tempo track from pattern 0 to
+   This item currently consists of one item, the Tempo Track number.
+   It allows the user to move the tempo track from pattern 0 to
    another pattern.  Changing this option is not recommended, since track 1 (0)
    is the official track for tempo events, but \textsl{Sequencer64} allows the
    user to record tempo events to another track.  \textsl{Sequencer64} will
@@ -572,42 +602,7 @@
    \textsl{Not supported yet in the Qt user-interface, but
    it can be set manually in the "rc" configuration file.}
 
-\begin{figure}[H]
-   \centering 
-%  \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-0.png}
-%
-%  Updated for version 0.93.1:
-   \includegraphics[scale=0.75]{new/midi-clock-4-devices-manual-0.png}
-   \caption{MIDI Clock, Manual Option Off (ALSA View)}
-   \label{fig:seq64_midi_clock_4_devices_manual_0}
-\end{figure}
-
-   As shown by the figure above, with the "manual ALSA option" turned off,
-   all of the devices that can be driven by MIDI output are shown,
-   including the MIDI Thru port,
-%  the MIDI port on the \textsl{E-MU XMidi1x1} USB cable,
-   the four ports provided by \textsl{Timidity}, and the unlabelled
-   port provided by the \textsl{Yoshimi} synthesizer running in ALSA mode.
-   (However, \texttt{seq64} does show the name "yoshimi" as the client name.)
-   One could theoretically play music through 6 or 7 devices using
-   \textsl{Sequencer64} with this setup.
-
-   See \sectionref{subsec:seq64_jack_native_midi},
-   for a lot more information about native JACK support, and examples of JACK
-   MIDI ports and connections.
-
-   \textbf{TODO:}
-   \index{todo!manual alsa gui option}
-   There is currently no user-interface item corresponding to the "manual ALSA"
-   command-line and "rc" configuration file option.
-   We also want to rename this option to simply "manual" or "virtual"
-   in the near future, since it can also apply to JACK MIDI.
-
-   There is a new option shown only in the figure above, and it supports the
-   Set Tempo events introduced in version 0.93.  This option, which lets the
-   user change the default tempo track from 0 (the first pattern) to another
-   value that accommodates the user's existing tunes.
-   In addition, the \textbf{Set as Song Tempo Track} button will set this tempo
+   In addition, the \textbf{Set as Song Tempo Track} button sets this
    track as part of the currently-load MIDI song file, and will be saved when
    exited.  This value will override the global tempo-track value, which is
    stored in the 'rc' configuration file.  However, if 0, it will be ignored,
@@ -620,6 +615,36 @@
    section.  However, it is not saved in the tempo track.  In order to do so,
    one can clock the \textbf{Log Tempo} button to write it to the tempo track
    as a tempo event.
+
+\begin{figure}[H]
+   \centering 
+%  \includegraphics[scale=0.75]{menu/midi-clock-4-devices-manual-0.png}
+%  Updated for version 0.93.1:
+   \includegraphics[scale=0.75]{new/midi-clock-4-devices-manual-0.png}
+   \caption{MIDI Clock, Manual Option Off (ALSA View, Old Screenshot)}
+   \label{fig:seq64_midi_clock_4_devices_manual_0}
+\end{figure}
+
+   As shown by the figure above, with the "manual ALSA option" turned off,
+   all of the real (non-virtual) devices that can be driven by MIDI output are
+   shown, including the MIDI Thru port, and
+%  the MIDI port on the \textsl{E-MU XMidi1x1} USB cable,
+   the four ports provided by \textsl{Timidity}.
+%  , and the unlabelled
+%  port provided by the \textsl{Yoshimi} synthesizer running in ALSA mode.
+%  (However, \texttt{seq64} does show the name "yoshimi" as the client name.)
+%  One could theoretically play music through 6 or 7 devices using
+%  \textsl{Sequencer64} with this setup.
+
+   See \sectionref{subsec:seq64_jack_native_midi},
+   for a lot more information about native JACK support, and examples of JACK
+   MIDI ports and connections.
+
+   \index{todo!manual alsa gui option}
+   There is currently no user-interface item corresponding to the "manual ALSA"
+   command-line and "rc" configuration file option.
+   We should rename this option to simply "manual" or "virtual"
+   eventually, since it can also apply to JACK MIDI.
 
 \paragraph{Menu / File / Options / MIDI Input}
 \label{paragraph:seq64_menu_file_options_midi_input}
@@ -639,8 +664,6 @@
       129:16   seq64                            seq64 midi out 15
    \end{verbatim}
 
-% Should the above be offset re 0, not 1?  Check it out!!!
-% Should the above be offset re 0, not 1?  Check it out!!!
 % Should the above be offset re 0, not 1?  Check it out!!!
 
    We see that we can record MIDI from the MIDI Thru port, from the USB MIDI
@@ -669,12 +692,14 @@
 % Check the following out!  I am not 100% certain it is correct!!!
 % The above is shown with the -A option.
 
-   This item, if checked, allows \textsl{Sequencer64} to be used to record MIDI
-   information from another source (which must be connected to this port by
-   another application), or pass it through to the output busses
-   that are configured to allow pass-through
-   (in the Pattern Editor, as discussed in 
-   \sectionref{subsec:seq64_pattern_editor_bottom}.)
+   Any item checked allows \textsl{Sequencer64} to record MIDI
+   from another source,
+   which must be connected to this port via
+   another application).
+%  , or pass it through to the output busses
+%  that are configured to allow pass-through
+%  (in the Pattern Editor, as discussed in 
+%  \sectionref{subsec:seq64_pattern_editor_bottom}.)
 
    \textbf{Warning:}
    \index{warnings!usr config}
@@ -728,21 +753,31 @@
    \textbf{Input Options} adds further refinements to MIDI input.
 
    \index{input by channel}
-   \textbf{Record input into sequence according to channel},
-   is a new feature ported from \textsl{Seq32}.
-   When enabled, MIDI input with multiple channels is distributed to
-   each sequence according to what MIDI channel the sequence is set to.
+   \textbf{Record input into sequence according to channel}
+   causes MIDI input with multiple channels to be distributed to
+   each sequence according to MIDI channel number.
    When disabled, the legacy recording behavior dumps all data into the current
    sequence, regardless of channel.
+
+%  Needs to be clarified!!!
 
 \paragraph{Menu / File / Options / Keyboard }
 \label{paragraph:seq64_menu_file_options_keyboard}
 
    \textsl{Seq24} allows extensive use of
-   keyboard shortcuts to make operations go faster than when using a mouse,
+   keyboard shortcuts to make operations go faster than with a mouse,
    and \textsl{Sequencer64} extends that tradition.
    The \textbf{Keyboard} tab allows for the configuration of these keyboard
    shortcuts.
+
+   These settings can also be modified by editing the appropriate configuration
+   files, stored in one of the following directories, depending on the
+   operating system:
+   
+   \begin{verbatim}
+         /home/username/.config/sequencer64
+         C:/Users/you/AppData/Local/sequencer64
+   \end{verbatim}
 
    \textbf{Warning:}
    \index{keys!gotchas}
@@ -753,14 +788,21 @@
       \item This configuration dialog is not yet present in the
          \textbf{Qt 5} version of \textsl{Sequencer64}.  For now,
          one has to edit the "rc" file to configure the keystrokes.
-         It is easiest to just use the sample \texttt{qpseq64.rc} from the
-         \texttt{data} directory in the source-code package.  It gets installed
-         in \texttt{/usr/share/sequencer64-0.95} (on Linux).
+         It is easiest to just use the sample \texttt{qpseq64.rc}
+         or \texttt{qseq64.rc} from the
+         \texttt{data} directory in the source-code package.
+         Another option is to just run \textsl{Sequencer64} the first time and
+         tweak the "rc" and "usr" files that are created in the directories
+         noted above.
          Also note that, internally, the Qt key-codes are remapped to
          Gtk key-codes.
       \item Whenever one of the text fields in this dialog has the focus (and
-         that is usually the case), then any keystroke, including keys like
-         Ctrl, Alt, and Super (Mod4 or Windows key), can alter the value of a
+         that is usually the case), then
+         \textsl{any} keystroke, including keys like
+         \texttt{Ctrl},
+         \texttt{Alt}, and
+         \texttt{Super} (also known as Mod4 or the Windows key),
+         can alter the value of a
          field to that of the keystroke.  This change is very easy to do
          accidentally!  \textsf{Use the mouse} to move this window and to click
          its \textbf{OK} button!
@@ -780,25 +822,22 @@
          Instead, look to the remaining keys: \texttt{F11}, \texttt{F12},
          and the "keypad" keys if more options are wanted.  Be sure to
          look at the \textbf{Ext Keys} tab to see what other keys are in use.
-         Also, for the group-learn feature, the Shift key is 
+         \index{auto-shift}
+         Also, for the group-learn feature, the \texttt{Shift} key is 
          automatically enabled, using an "auto-shift" feature.
    \end{itemize}
 
 \begin{figure}[H]
    \centering 
-%  \includegraphics[scale=0.75]{menu/menu_file_options_keyboard.png}
-%  \includegraphics[scale=0.75]{menu/menu_file_options_keyboard-0_9_12.png}
-%
-%  WAY OUT OF DATE!!!!!
-%
    \includegraphics[scale=0.75]{new/menu_file_options_keyboard.png}
    \caption{File / Options / Keyboard}
    \label{fig:seq64_menu_file_options_keyboard}
 \end{figure}
 
+   \texttt{[keyboard-control]}.
    We won't attempt to cover every user-interface item in this busy
-   dialog, just the categories.  Some items are discussed in other parts of
-   this manual.
+   dialog, just the categories.  Some items might be discussed in other parts
+   of this manual.
 
    There are a few things to note in the \texttt{[keyboard-control]} section.
    First, it is laid out like the main patterns panel, in an 8 x 4 grid.
@@ -807,27 +846,27 @@
    Second, if one is looking for more keys to map to other functions, the
    conventional layout keeps open the following keys:
    \texttt{9 o l 0 p}.
-   Third, these key-mappings are stored in the
-   \texttt{[keyboard-control]} section of the "rc" configuration file.
+%  Third, these key-mappings are stored in the
+%  \texttt{[keyboard-control]} section of the "rc" configuration file.
 
    The \texttt{[mute-group]} section is laid out in a similar manner, except
    that the upper-case versions of the keys are used.  Additional keys
    are available for other functions:
    \texttt{( O L ) P}.
    Currently, one must be very carefully about assigning the same key to
-   different functions.  Confusion will ensue!
-   Note that these key-mappings are stored in the
-   \texttt{[mute-group]} section of the "rc" configuration file.
+   different functions.  Confusion will ensue!  We've done it!
+%  Note that these key-mappings are stored in the
+%  \texttt{[mute-group]} section of the "rc" configuration file.
 
-   \index{new!pause}
+%  \index{new!pause}
    \index{pause}
    If the application has been built with the "pause" option, an
    additional key definition is shown for the Pause key.
    By default, the Pause key is the period (".").  An old version of
    the "rc" file is automatically fixed to include this new option.
-   (The pause feature can be removed by rebuilding the application
-   after configuring with the \texttt{--disable-pause} option, but
-   why would you want to do that?)
+%  (The pause feature can be removed by rebuilding the application
+%  after configuring with the \texttt{--disable-pause} option, but
+%  why would you want to do that?)
 
 % \begin{figure}[H]
 %    \centering 
@@ -836,16 +875,14 @@
 %    \label{fig:seq64_menu_file_options_keyboard_pause}
 % \end{figure}
 
-   \index{new!pattern edit}
    \index{pattern edit}
-   \index{new!event edit}
-   \index{event edit}
-   With version 0.9.12, we add a new feature as we try to achieve the goal of
-   being able to edit a pattern using only the keyboard.
-   \textsl{Sequencer64} now supports two modifier keys.
+   New features try to achieve being able to edit a pattern using only the
+   keyboard.  \textsl{Sequencer64} now supports two modifier keys.
    The first modifier key causes the usual pattern-toggle key (hot-key) for a
    given slot to instead bring up the pattern editor.  By default, this key is
-   the equals ("=") key.  The second modifier key causes the usual
+   the equals ("=") key.
+   \index{event edit}
+   The second modifier key causes the usual
    pattern-toggle key (hot-key) for a given slot to instead bring up the event
    editor.  By default, this key is the minus ("-") key.
    These keys are configurable in the
@@ -867,20 +904,21 @@
       \item \textbf{Enable}
    \end{enumber}
 
+   These categories are described below.
+
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Show key labels on sequence}{keyboard!show labels}
-   This item, if enabled, shows the key labels in the lower-right corner of
-   each loop/pattern in the Patterns window (the main window).  This feature is
-   useful for live playback and control of a song.
-   Note that this option is also available in the "rc" configuration file.
-   Also note that this option will enable the display of the pattern length, in
-   measures, at the top right of the pattern slot, not shown in the current
-   diagram.
+   This item shows the key labels in the lower-right corner of
+   each loop/pattern slot in the Patterns window (the main window).
+   This feature is useful for live playback and control of a song.
+   This option is configurable in the "rc" configuration file.
+   This option also enables the display of the pattern length, in
+   measures, at the top right of the pattern slot.
 
    \itempar{Show sequence numbers on sequence}{keyboard!sequence numbers}
    \index{new!sequence numbers}
-   If this option is turned on, the
+   If this option is on, the
    empty slots in the Patterns window show the prospective sequence number.
    See the following figure for one look of this feature.
 
@@ -888,16 +926,17 @@
    \centering 
 %  \includegraphics[scale=0.75]{pattern-window-with-numbering.png}
    \includegraphics[scale=0.75]{new/pattern-window-with-numbering.png}
-   \caption{Pattern Window with Numbering}
+   \caption{Pattern Window with One Kind of Numbering}
    \label{fig:seq64_build_with_numbering}
 \end{figure}
 
    If one doesn't like it, turn off the option in the "rc" configuration file,
    or try other grid options in the "user" configuration file.
    Also note that the option also changes the visibility of sequence numbers
-   in active sequences and in the Song Editor's names column.
+   in active sequences and in the Song Editor's Names column.
 
    \itempar{Control keys}{keyboard!control keys}
+   \texttt{[keyboard-group]}.
    This block of fields in the \textbf{Options / Keyboard} tab
    provides shortcut keys for many operations of
    \textsl{Sequencer64}.  There is a default mapping built into
@@ -932,108 +971,131 @@
 
    \index{slot-shift}
    \index{keys!slot-shift}
-   The \textsl{slot shift} key is useful when using pattern grids larger
+   The \textbf{slot shift} key is useful when using pattern grids larger
    than 8 x 4 patterns.  Pressing the slot-shift key basically adds 32 to the
    pattern number of the slot-key that is pressed.
    Not all builds of \textsl{Sequencer64} support this option.
 
    \index{snapshot}
    \index{keys!snapshot}
-   A \textsl{snapshot} is a briefly preserved state of the patterns.
+   A \textbf{snapshot} is a briefly-preserved state of the patterns.
    One can press a snapshot key, change the state of the patterns for live
    playback, and then release the snapshot key to revert to the state when
    the snapshot key was first pressed.
 
+%  TODO:  Investigate this note from SEQ24:
+%
+%   Holding 'Alt' will save the state of playing sequences
+%   and restore them when 'Alt' is lifted.
+%
+%   Holding 'Left Ctrl' and 'Alt' at the same time will enable
+%   you to flip over to new sequences briefly and then
+%   flip right back upon lifting 'Alt'.
+%
+%	Is this Snapshot 1 versus Snapshot 2?  In Seq24's code, either key
+%  does exactly the same thing!
+
+
    \index{queue}
    \index{keys!queue}
-   To \textsl{queue}
+   To \textbf{queue}
    a pattern means to ready it for playback upon the next repeat
-   of a pattern.  A pattern can be armed immediately, or it can be queued to
-   play back the next time the pattern starts.
+   of a pattern.  A pattern can be armed immediately with a hot-key,
+   or it can be queued to play back the next time the pattern repeats.
    A pattern can be queued by holding the queue key (defined in
    \textbf{File / Options / Keyboard / queue}) and pressing a pattern-slot
-   shortcut key.  Instead of the pattern turning on (or off)
+   hot-key.  Instead of the pattern turning on
    immediately, it turns on at the next repeat of the pattern.
 
    \index{keep queue}
    \index{keys!keep queue}
    \index{queue!keep}
-   The \textsl{keep queue}
-   functionality allows the queue to be held without holding
+   \textbf{Keep queue}
+   allows the queue to be held without holding
    down the queue button the whole time.  First, press the keep-queue key
    (defined in \textbf{File / Options / Keyboard / Keep queue}).  Now, hitting
-   any of the shortcut keys, no matter how many, sets up the corresponding
+   any of the hot-keys, no matter how many, sets up the corresponding
    pattern slot to be queued.  Also, in keep-queue mode, clicking on the
    pattern slot will queue the pattern.  The keep-queue mode is disabled by
-   hitting the "queue" key (any currently active queues remain active until
-   finished).
+   hitting the "queue" key again (any currently active queues remain active
+   until finished).
 
-   Be sure to note the new option, "one-shot queue", in the extended-keys
-   section (\sectionref{subsubsec:seq64_patterns_pattern_slot}).
+   Be sure to note the new option, \textbf{one-shot queue}, in the
+   extended-keys section (\sectionref{subsubsec:seq64_patterns_pattern_slot}).
 
    \itempar{Sequence toggle keys}{keyboard!sequence toggle keys}
    Each of these keys toggles the playing/muting of one of the 32
    loop/pattern boxes.  These keys are layed out logically on the keyboard,
    and can also be shown in each loop/pattern box.  No need to list them all
    here!  Please note that we often call them "shortcut keys" or
-   "hot keys" where the context
+   "hot-keys" where the context
    makes it clear that they apply to the armed/unarmed state of a pattern.
-   Sometimes they are called "hot keys".
 
    \itempar{Mute-group slots}{keyboard!mute-group slots}
+   There can be up to 32 mute-groups.
+   \index{playing set}
+   When activated, a mute-group
+   sets the muted/unmuted status of the current "playing set"
+   to the pattern-muting statuses of the selected mute-group.
    Each of these keys operates on the mute-grouping of one of the 32
    loop/pattern boxes (sets).  These keys are layed out logically on the
-   keyboard, and will also be shown in each loop/pattern box.  No need to list
-   them all here!  But basically, they are the shifted versions of the
+   keyboard.
+   No need to list them all here!
+   Generally, they are the shifted versions of the
    keyboard keys used as hot-keys for the patterns.
-   However, note that the mute-group keys will be set only when
+   Note that a mute-group key will be set only when
    \textsl{Sequencer64} is in
    \index{group-learn} \textsl{group-learn} mode.
 
-   \index{mute-group}
-   One thing to explain is just what mute-grouping means functionally.
-   \textsl{Mute groups} are shortcuts to play a defined group of patterns
-   on the current set, while stopping other patterns from the current set, and
-   all patterns from other sets.
+%  \index{mute-group}
+%  One thing to explain is just what mute-grouping means.
+%  \textsl{Mute groups} are shortcuts to play a defined group of patterns
+%  on the current set, while stopping other patterns from the current set, and
+%  all patterns from other sets.
 
-   To define the group of patterns for one mute group, press and hold the Learn
-   key (the \texttt{Insert} key by default or the "L" button in the
-   user-interface, but see the current configuration)
-   and, simultaneously, press one of the mute group keys: \textsl{Sequencer64}
+   \itempar{Learn}{keyboard!learn}
+   \index{group!learn}
+
+   To define the group of patterns for one mute group, press and hold the
+   configured Learn key (the \texttt{Insert} key by default,
+   the \texttt{Ctrl-L} key, or the "L" button in the user-interface.
+   Simultaneously, press one of the mute group keys: \textsl{Sequencer64}
    will save the currently-playing pattern slots into the corresponding mute
    group.
    \index{auto-shift}
-   The default mute group keys need the \texttt{Shift}
-   modifier, but one does not need the \texttt{Shift} key while pressing
+   The default mute group keys need to be the shifted version of the key,
+   but one does not need the \texttt{Shift} key while pressing
    \texttt{Insert} to learn the group, only to trigger it.
-   (\textsl{Sequencer64} will automatically assign the corresponding key with
-   \texttt{Shift} activated.)
+   \textsl{Sequencer64} will automatically assign the corresponding key with
+   \texttt{Shift} activated.  Try pressing the \texttt{Shift} key in learn mode
+   and see what happens!
 
-   Now, on some keyboards (like the author's), 
-   the \texttt{Insert} key is a clumsy two-key button.  So, an alternative
-   is to click the \index{L button} \textbf{L button} and release it,
-   then hit the desired mute-group (no need for the \texttt{Shift} key).
+%  Now, on some keyboards (like the author's), 
+%  the \texttt{Insert} key is a clumsy two-key button.  So, an alternative
+%  is to click the \index{L button} \textbf{L button} and release it,
+%  then hit the desired mute-group (no need for the \texttt{Shift} key).
+%  One can also press \texttt{Ctrl-L} to enter group-learn.
 
    Group-mute can be globally enabled or disabled (with default keys apostrophe
    \texttt{'} \index{grave} \index{igrave} and igrave or grave \texttt{`}).
    So make sure it is enabled before trying to use it.
 
-   \itempar{Learn}{keyboard!learn}
-   \index{group!learn}
-   Learn (while pressing a mute-group key).
-   This items sets the key used to initiate a learn mode.
-   It is the \textbf{Insert} key by default.
-   \index{auto-shift}
-   \index{group-learn!auto-shift}
-   When in group-learn mode, the \texttt{Shift} key cannot be hit, so the
-   group-learn mode automatically converts the keys to their shifted versions.
-   \index{shift-lock}
-   \index{group-learn!shift-lock}
-   This feature known as \textsl{shift-lock} or \textsl{auto-shift}.
-   It is new to \textsl{Sequencer64}.
-
-   Also, currently necessary because pressing \texttt{Shift} can clear the
-   arming of the patterns in the current set.
+%  \itempar{Learn}{keyboard!learn}
+%  \index{group!learn}
+%  Learn (while pressing a mute-group key).
+%  This items sets the key used to initiate a learn mode.
+%  It is the \textbf{Insert} key by default.
+%  \index{auto-shift}
+%  \index{group-learn!auto-shift}
+%  When in group-learn mode, the \texttt{Shift} key cannot be hit, so the
+%  group-learn mode automatically converts the keys to their shifted versions.
+%  \index{shift-lock}
+%  \index{group-learn!shift-lock}
+%  This feature known as \textsl{shift-lock} or \textsl{auto-shift}.
+%  It is new to \textsl{Sequencer64}.
+%
+%  Also, currently necessary because pressing \texttt{Shift} can clear the
+%  arming of the patterns in the current set.
 
    \itempar{Disable}{keyboard!disable}
    \index{keys!apostrophe}
@@ -1052,10 +1114,11 @@
 \paragraph{Menu / File / Options / Ext Keys }
 \label{paragraph:seq64_menu_file_options_ext_keys}
 
+   \texttt{[extended-keys]}.
    A number of additional functions have been added to \textsl{Sequencer64},
    and keystrokes have been provided for those new functions, in the
    \textbf{Ext Keys} page.  This page is needed because the original page is
-   completely filled.
+   completely filled.  It has its own section in the "rc" file.
 
 \begin{figure}[H]
    \centering 
@@ -1091,14 +1154,16 @@
    \end{enumber}
 
    Most of these extended keys implement operations performed with button
-   presses.  However, some of the new keystrokes do not have a corresponding
-   button (yet).
-
+   presses.  Some of the new keystrokes may not have a corresponding
+   button.
    These values are saved as the \texttt{[extended-keys]} section of the "rc"
-   configuration file.  However, not all builds of \textsl{Sequencer64} will
-   support the new keys.  Some of the new features can be enabled or disabled
-   during the build-configure step, and one's favorite Linux distro may decide to
-   disable some features.  In this case, although the values will still be
+   configuration file.
+%  However, not all builds of \textsl{Sequencer64} will
+%  support the new keys.  Some of the new features can be enabled or disabled
+%  during the build-configure step, and one's favorite Linux distro may decide to
+%  disable some features.
+   An option might be disabled during the build process.
+   In this case, although the values will still be
    stored in the "rc" file, they will be disabled or missing in this tab:
 
 \begin{figure}[H]
@@ -1115,45 +1180,49 @@
    window, if enabled by pressing this key.  There is also
    a button in the main window for this function, which shows the current state
    of this flag.  Note that this flag is also stored in the "rc" configuration
-   file, as well as this hotkey value, which defaults to \texttt{F1}.
+   file, as well as this hot-key value, which defaults to \texttt{F1}.
 
    \index{toggle JACK}
    \index{JACK toggle}
-   The \textsl{JACK mode} is normally set via the
+   The \textsl{JACK mode} is set via the
    \textbf{File / Options / JACK / JACK Connect} or 
    \textbf{JACK Disconnect} buttons.
-   But, if \textsl{Sequencer64} is built for using the \textsl{Seq32} JACK
-   support, then this keystroke will toggle between JACK connect and JACK
-   disconnect.
+%  But, if \textsl{Sequencer64} is built for
+%  using the \textsl{Seq32} JACK support, then
+   This keystroke will toggle between JACK connect and JACK disconnect.
    Note that, with this kind of build, the \textbf{Song Editor} will also have
    a \textbf{JACK} button.
-   The hotkey for this function defaults to \texttt{F2}.
+   The hot-key for this function defaults to \texttt{F2}.
 
    \index{menu mode}
    The \textsl{menu mode} simply indicates if the main menu of the
    main window is accessible or not.  It will be disabled in playback
-   so that more hotkeys can be used without triggering menu function.
-   It can also be disabled by the user; the default hotkey is \texttt{F3}.
-   Here is Stazed's explanation of the feature, mildly edited:
+   so that more hot-keys can be used without triggering menu function.
+   It can also be disabled by the user; the default hot-key is \texttt{F3}.
+   This feature is needed because the original \textsl{Seq24} had numerous
+   conflicts between the menu key bindings and the default key bindings for the
+   main window sequence triggers.
 
-   \begin{quotation}
-      \textsl{"why disabling is needed when playing"}
-      The original seq24 had numerous conflicts between the menu key binding
-      and the default seq24 key binding for the mainwind sequence triggers.
-      For example: Ctrl-q (quits the program without prompt). If you place a
-      sequence in the default 'q' slot, you cannot use it with Ctrl-l or Ctrl-r
-      (default replace or queue) because the menu grabs the keys. Same goes for
-      the Alt-l or Alt-r (default snapshot 1 or 2). Try same as above with
-      Alt-f, Alt-v, Alt-h, Ctrl-n, Ctrl-o...  etc. So I just shut off all the
-      menus by default when playing because it seems that they should not be
-      needed then... especially in a live performance.
-
-      \textsl{"why a button?"}
-      On occasion I wanted to use the mainwnd key binding when stopped to set
-      the sequences to be ready before starting. It's also a sort of safety
-      feature as well, just toggle the menus off before going live so that you
-      don't hit Ctrl-q, Ctrl-n etc. forgetting things are not playing....
-   \end{quotation}
+%  Here is Stazed's explanation of the feature, mildly edited:
+%
+%  \begin{quotation}
+%     \textsl{"why disabling is needed when playing"}
+%     The original seq24 had numerous conflicts between the menu key binding
+%     and the default seq24 key binding for the mainwind sequence triggers.
+%     For example: Ctrl-q (quits the program without prompt). If you place a
+%     sequence in the default 'q' slot, you cannot use it with Ctrl-l or Ctrl-r
+%     (default replace or queue) because the menu grabs the keys. Same goes for
+%     the Alt-l or Alt-r (default snapshot 1 or 2). Try same as above with
+%     Alt-f, Alt-v, Alt-h, Ctrl-n, Ctrl-o...  etc. So I just shut off all the
+%     menus by default when playing because it seems that they should not be
+%     needed then... especially in a live performance.
+%
+%     \textsl{"why a button?"}
+%     On occasion I wanted to use the mainwnd key binding when stopped to set
+%     the sequences to be ready before starting. It's also a sort of safety
+%     feature as well, just toggle the menus off before going live so that you
+%     don't hit Ctrl-q, Ctrl-n etc. forgetting things are not playing....
+%  \end{quotation}
 
    \index{follow transport}
    The \textsl{follow transport} functionality is a feature ported
@@ -1202,7 +1271,7 @@
    \textbf{Song / Toggle All Tracks}
    menu entries.  There is also a button in the main window for this function,
    which shows the current state of this flag.  Note that this
-   hotkey value is stored in the "rc" configuration file, and
+   hot-key value is stored in the "rc" configuration file, and
    defaults to \texttt{F8}.
 
    \index{tap bpm}
@@ -1244,7 +1313,7 @@
    \index{mouse!fruity}
    The alternate method is presumably that of the \textsl{Fruity Loops}
    (now \textsl{FL Studio}) sequencer.  The fruity mode seems to involve the
-   following (based on scanning the source code):
+   following rules:
 
    \begin{itemize}
       \item \textbf{Left-click left side}.
@@ -1273,77 +1342,75 @@
    Notes are inserted only up to the boundary of the sequence length.
    And, once notes are inserted, moving the mouse with the left button still
    held down simply moves the notes to the new note value of the mouse.
-
    If one releases the left button, then presses and holds it again,
    more notes will be added in the same way.
    This is strange, but it is a powerful way to layer notes into a short
    sequence.
    We call it the \index{draw mode} \index{mode!draw } "draw mode" or
    \index{paint mode} \index{mode!paint } "paint mode".
-
-   Note that drawing/painting can also be done while the sequence is playing,
+   Drawing/painting can also be done while the sequence is playing,
    and notes will be added to be played the next time the progress bar crosses
    them.
 
    \index{sequencer64 options}
-   \textbf{Sequencer64 Options}
-
-   This section currently contains a couple of new options.
+   The \textbf{Sequencer64 Options} section
+   currently contains a couple of new options.
 
    \index{keys!Mod4}
    \index{mouse!Mod4}
    \label{new_mod4_mode}
-   \textbf{Mod4 key preserves add (paint) mode in song and pattern editors}
-
-   In order to work better with certain trackpads, the
+   \textbf{Mod4 key preserves add (paint) mode in song and pattern editors}.
+   In order to work better with trackpads that don't permit simultaneous left
+   and right clicks, the
    "Seq24" mode of mouse interaction can be modified in the
    Pattern or Song editors so that the Mod4 key (Super or Windows key)
    can be pressed when releasing the right mouse button.
    This keeps the mouse in note-add mode.
    Another right-click, without pressing Mod4, will exit this mode.
-   The reason for this feature is the crummy FocalTech touchpad on one of
-   the author's laptops.  This trackpad seems to have only a single button,
-   which the driver interprets as left or right depending where the finger
-   is when it is clicked.  There's no way to click the right and left
-   buttons at the same time.  There's no way to make a middle-click action.
-   What a crock!
 
-   Note that this option will not interfere with the Mod4 key being set
+%  The reason for this feature is the crummy FocalTech touchpad on one of
+%  the author's laptops.  This trackpad seems to have only a single button,
+%  which the driver interprets as left or right depending where the finger
+%  is when it is clicked.  There's no way to click the right and left
+%  buttons at the same time.  There's no way to make a middle-click action.
+%  What a crock!
+
+   This option will not interfere with the Mod4 key being set
    in the \textbf{Keyboard} option tab, since the keys there mainly apply to
-   the Patterns Panel (main window).
+   the Patterns Panel (main window), not the pattern-editor window.
 
    \index{mouse!split mode}
    \label{new_split_mode}
    \textbf{Middle click splits song triggers at nearest snap (instead of
-   halfway point)}
-
+   halfway point)}.
 % Move this section to the right place and simply create a section-reference to
 % it here.
-
    \index{paint mode}
-   Another way to turn on the paint mode has been added, based on a feature
-   found in a patch that someone posted about in some mailing list somewhere on
-   the internet.
+   Another way to turn on the paint mode has been added.
+%  , based on a feature
+%  found in a patch that someone posted about in some mailing list somewhere on
+%  the internet.
    To turn on the paint mode, press the
    \index{keys!p}
    \texttt{p} key while in the sequence editor.
    This is just like pressing the right mouse button, but the draw/paint mode
-   sticks (as if the Mod4 mode were in force).
+   stays on.
    To get out of the paint mode, press the
    \index{keys!x}
    \texttt{x} key while in the sequence editor.
-   These keys, however, do not work (currently) while the sequence is playing.
+   These keys, however, do not work while the sequence is playing.
 
-   \index{todo:extend mouse support}
-   These convenience options are limited to the
-   pattern/sequence editor window and the performance editor window, and may
-   need some heavier testing.  Also note that some \textsl{Sequencer64} windows
+%  \index{todo:extend mouse support}
+%  These convenience options are limited to the
+%  pattern/sequence editor window and the performance editor window, and may
+%  need some heavier testing.
+   Note that some \textsl{Sequencer64} windows
    can use the ctrl-left-click as a middle click. 
  
 \paragraph{Menu / File / Options / Jack Sync}
 \label{paragraph:seq64_menu_file_options_jack_sync}
 
-   This tab sets up options for JACK synchronization, if \textsl{Sequencer64}
+   This tab sets up options for JACK transport, if \textsl{Sequencer64}
    was built with JACK support.  (Why wouldn't it be?)
    It now also supports native JACK MIDI.
    This tab also sets up options for using LASH session management, \textsl{if}
@@ -1449,11 +1516,9 @@
          The command-line option is \texttt{--jack-start-mode 1}.
    \end{itemize}
 
-   Note that \textsl{Sequencer64} 
-   selects the playback modes
-   according to which window started the playback
-   (reverting back to legacy \textsl{Seq24} behavior).
-
+   \textsl{Sequencer64} also selects the playback modes
+   according to which window started the playback,
+   reverting back to legacy \textsl{Seq24} behavior.
    \textsl{The main window}, or pattern
    window, causes playback to be in live mode.  The user can arm and mute
    patterns in the main window by clicking on sequences, using their hot-keys,
@@ -1475,6 +1540,7 @@
    management.  Currently, \textsl{Sequencer64} needs to be restarted to
    complete the enabling or disabling of LASH support.  Like the rest of the
    options, this one is written to the "rc" configuration file.
+   However, LASH is no longer supported in the default build.
 
    Finally, there is a new button (labelled \textsl{Master} in the following
    figure) in the main window to bring up directly the
@@ -1516,6 +1582,7 @@
 \end{figure}
 
    \begin{enumber}
+      \item \textbf{Preferences...} (only in the Qt user-interface)
       \item \textbf{Song Editor...}
       \item \textbf{Apply song transpose}
       \item \textbf{Clear mute groups}
@@ -1525,11 +1592,12 @@
       \item \textbf{Toggle mute all tracks}
    \end{enumber}
 
+   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{Preferences}{edit!preferences}
    In the Qt user-interface, there is also a \textbf{Preferences} menuentry,
    corresponding to the Gtkmm user-interface's \textbf{File / Options}
    menu entry.
-
-   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Song Editor}{edit!song editor}
    \index{song editor}
@@ -1539,14 +1607,12 @@
 
    \itempar{Apply song transpose}{edit!song transpose}
    \index{song transpose}
-
    Selecting this item applies the song transposition value to
    \textbf{all} sequences/patterns that are marked as transposable.
    (Normally, drum tracks are \textsl{not} transposable).
    This actively changes the note/pitch value of all note and aftertouch events
    in the pattern.
-
-   Once the transpositions are done, the transposition value is set to 0.
+%  Once the transpositions are done, the transposition value is set to 0.
    For the setting of song transpose, see
    \sectionref{sec:seq64_song_editor}, for more information.
    Also note that transpose can be enabled in the patterns panel for each
@@ -1556,7 +1622,6 @@
 
    \itempar{Clear mute groups}{edit!clear mute groups}
    \index{mute groups}
-
    A feature of \textsl{Seq24} and \textsl{Sequencer64} is that the mute groups
    are saved in both the "rc" file
    (see \sectionref{subsec:seq64_rc_file_mute_group})
@@ -1573,7 +1638,6 @@
 
    \itempar{Reload mute groups}{edit!load mute groups}
    \index{rc!mute groups}
-
    This menu entry reloads the mute-groups from the "rc" file.
    So, if one loads a MIDI file that has its own mute groups that one does not
    like, this command will restore one's favorite mute-grouping from the "rc"
@@ -1581,23 +1645,19 @@
 
    \itempar{Mute all tracks}{edit!mute all tracks}
    \index{mute all}
-
    This menu entry, available only in \textbf{Live} mode,
    immediately mutes \textsl{all} patterns in the entire song.
 
    \itempar{Unmute all tracks}{edit!unmute all tracks}
    \index{unmute all}
-
    This menu entry, available only in \textbf{Live} mode,
    immediately unmutes \textsl{all} patterns in the entire song.
 
    \itempar{Toggle mute all tracks}{edit!toggle all tracks}
    \index{toggle mute all}
-
    This option toggles the mute/armed status of \textbf{all} tracks.
    It is only available in \textbf{Live} mode, which overrides \textbf{Song}
    mode even if the Song Editor is focussed.
-
    \textsl{Do not confuse it with the main \textbf{Mute} button, which toggles the
    status only of the tracks that are armed and remembers them.}
 
@@ -1628,16 +1688,17 @@
    Note that only the first Song Editor has a user-interface button and
    a hot-key.  Also note that there can be issues bringing up the second
    song-editor with the hot-key.  The menu entry will always work.
-
    If two song editors are up, they each track any changes made in the other
    song editor.  But the main purpose of two song editors is to arrange two
    different parts of the performance at the same time when not all the
    patterns will fit in one window.
 
-   For the Qt user-interface, there is a \textbf{Song} tab in the main window.
-   But there is also the "Song Editor" button in the main window, which brings
-   up a separate window for the "Song Editor".  Currently, do not try to use
-   both windows for song-editing at the same time.
+   In the Qt user-interface, there is a \textbf{Song} tab in the main window.
+   But there is also song-editor button in the main window
+   and a menu entry in \textbf{Edit / Song Editor},
+   which bring up a separate window for the song-editor.
+   Do not try to use both windows for song-editing at the same time; they
+   are not synchronized.
 
 \subsection{Menu / Help / About...}
 \label{subsec:seq64_menu_about}

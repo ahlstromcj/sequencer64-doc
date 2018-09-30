@@ -8,7 +8,7 @@
 # \library    	Sequencer64-doc
 # \author     	Chris Ahlstrom
 # \date       	2014-08-31
-# \update     	2014-11-01
+# \update     	2018-09-25
 # \version    	$Revision$
 # \license    	$XPC_SUITE_GPL_LICENSE$
 #
@@ -23,10 +23,10 @@
 CURRENTDATE=`date +%Y-%m-%d`
 CURRENTDIR=`pwd`
 WORKINGDIR=${CURRENTDIR##/*/}       # strip all but last part of path
-
+PACKAGENAME="bogus"
 TAGSTRING="pack"
 DODRYRUN="no"
-DOCLEAN="yes"
+DOCLEAN="no"
 
 BRANCH=`git symbolic-ref -q HEAD 2> /dev/null`
 
@@ -45,9 +45,9 @@ fi
 if [ "$1" == "--help" ] || [ "$1" == "help" ] ; then
 
    echo
-   echo "Sequencer64-doc pack 0.1 (2015-11-01)"
+   echo "Sequencer64-doc pack 0.2 (2018-09-25)"
    echo
-   echo "Usage:  ./pack [--dry-run] [--no-clean] [tag]"
+   echo "Usage:  ./pack [--dry-run] [--clean] [tag]"
    echo
    echo "where tag is alternate information you want to include in the"
    echo "name of the tarball; it replaces the current date."
@@ -88,6 +88,10 @@ else
             DODRYRUN="yes"
             ;;
 
+        --clean)
+            DOCLEAN="yes"
+            ;;
+
         --no-clean)
             DOCLEAN="no"
             ;;
@@ -119,44 +123,50 @@ else
 
    if [ "$DOCLEAN" == "yes" ] ; then
       pushd tex
+      echo "Cleaning the project's derived files..."
       make clean
       popd
    fi
 
+# Here, we exclude the LaTeX derived files, including the PDFs.
+# The PDFs are large and are derived from the real soure code files,
+# the *.tex files.  And they're already compressed, and so take forever
+# to tar up.
+
    pushd ..
    if [ -d $WORKINGDIR ] ; then
 
-   tar cJf $TARBALLNAME $WORKINGDIR/ \
-  --exclude-vcs         \
-  --exclude="tex-stamp" \
-  --exclude="out.*"     \
-  --exclude="*.aux"     \
-  --exclude="*.bak"     \
-  --exclude="*.fdb_latexmk" \
-  --exclude="*.fls"     \
-  --exclude="*.idx"     \
-  --exclude="*.ilg"     \
-  --exclude="*.ind"     \
-  --exclude="*.lof"     \
-  --exclude="*.log"     \
-  --exclude="*.lot"     \
-  --exclude="*.out"     \
-  --exclude="*.toc"     \
-  --exclude="*.bak"     \
-  --exclude=".*.swp"    \
-  --exclude="*.t"       \
-  --exclude="*.tmp"
-
+   tar cJf $TARBALLNAME \
+ --exclude-vcs         \
+ --exclude="tex-stamp" \
+ --exclude="out.*"     \
+ --exclude="*.aux"     \
+ --exclude="*.BAK"     \
+ --exclude="*.bak"     \
+ --exclude="*.bz2"     \
+ --exclude="*.fdb_latexmk" \
+ --exclude="*.fls"     \
+ --exclude="*.gz"      \
+ --exclude="*.idx"     \
+ --exclude="*.ilg"     \
+ --exclude="*.ind"     \
+ --exclude="*.lof"     \
+ --exclude="*.log"     \
+ --exclude="*.lot"     \
+ --exclude="*.out"     \
+ --exclude="*.pdf"     \
+ --exclude="*.toc"     \
+ --exclude=".*.swp"    \
+ --exclude="*.t"       \
+ --exclude="*.tmp"     \
+ --exclude="*.xz"      \
+ $WORKINGDIR/
       echo
-
    else
-
       echo "? Working directory $WORKINGDIR does not exist above this directory."
       echo "  Are you running pack.sh from the proper directory?"
       echo "  That is what you must do.  See './pack --help'."
-
    fi
-
    popd
 
 fi
