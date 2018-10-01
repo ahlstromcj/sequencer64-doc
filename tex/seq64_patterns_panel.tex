@@ -254,7 +254,7 @@
    \label{fig:pattern_window_group_learn_failure}
 \end{figure}
 
-   \index{new!caps lock in learn mode}
+   \index{caps lock in learn mode}
    \index{auto-shift}
    \index{group-learn!auto-shift}
    \index{shift-lock}
@@ -575,14 +575,14 @@
    so that one can fill in the new pattern.
 
    In addition to right-clicking and selecting \textbf{New}, the user can
-   \index{new!empty slot double-click}
+   \index{empty slot double-click}
    double-click on the empty slot, to bring up a new instance of the sequence
    editor.  For the double-click, the effect can be a bit confusing at first,
    because it currently also toggles the arming/mute status of the slot
    quickly twice (leaving it as it was), as well.  It might take some getting
    used to, but we miss it when using \textsl{Seq24}.
 
-   \index{new!editing shortcut}
+   \index{editing shortcut}
    \index{keys!=}
    \index{keys!pattern edit}
    \index{keys!-}
@@ -594,7 +594,7 @@
    configuration file settings for the the '=' and
    '-' keys can be altering in the \textbf{File / Options / Keyboard} tab.
 
-   \index{new!current slot highlight}
+   \index{current slot highlight}
    When an unarmed (muted) pattern is first brough up for sequence editing (or
    event editing), the slot in the main window is now highlighted, using black
    text on a cyan background, as being the "currently-edited" slot.
@@ -662,7 +662,7 @@
          tracks the position of the playback of the pattern or loop; it
          returns to the beginning of the box every time that pattern starts
          over again.
-         \index{new!empty pattern}
+         \index{empty pattern}
          With \textsl{Sequencer64}, an imported empty pattern will no longer
          needlessly scroll.
          However, if a pattern has even a single event (say, a program change),
@@ -767,6 +767,9 @@
       \item \textbf{MIDI Bus}
    \end{enumber}
 
+   Note that the Qt 5 version of this menu is a bit different.
+   See \sectionref{subsubsec:qt_portmidi_qt5_live_slot_menu}.
+
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Edit...}{pattern!edit}
@@ -777,13 +780,11 @@
    See \figureref{fig:pattern_edit_window}.
    Also known as the "sequence editor".
 
-   \textbf{New:}
    In addition to right-clicking and selecting \textbf{Edit...}, the user can
-   \index{new!empty slot double-click}
+   \index{empty slot double-click}
    double-click on the empty slot, to bring up the sequence editor.
 
-   \textbf{New:}
-   \index{new!pattern edit}
+   \index{pattern edit}
    \index{keys!=}
    \index{keys!pattern edit}
    Another way to bring up a pattern in the pattern editor is to
@@ -795,8 +796,7 @@
    \textbf{File / Options / Keyboard / Control keys / Pattern Edit} item.
 
    \itempar{Event Edit...}{pattern!event edit}
-   \textbf{New:}
-   \index{new!pattern event edit}
+   \index{pattern event edit}
    Edits an existing loop or pattern, but using a detailed event editor that
    shows events as text and numbers, and allows editing them as text and
    numbers.
@@ -804,8 +804,7 @@
    so that one can view and modify the events in the existing pattern.
    See \figureref{fig:pattern_edit_window}.
 
-   \textbf{New:}
-   \index{new!event -}
+   \index{event -}
    \index{keys!-}
    \index{keys!event edit}
    Another way to bring up a pattern in the event editor is to
@@ -952,8 +951,7 @@
    \label{fig:pattern_window_right_click_midi_bus}
 \end{figure}
 
-   \textbf{New:}
-   \index{new!--bus option}
+   \index{--bus option}
    Note that another way of specifying the busses is to supply the
    new \texttt{--buss n} option.  This option is currently available
    only from the command line.  It causes \textsl{every} pattern in the MIDI
@@ -1150,7 +1148,7 @@
    \textbf{File / Options / Keyboard / Keep queue} field.
    Also note the "queued replace/solo" functionality, described a bit later.
 
-   \index{new!one-shot queue}
+   \index{one-shot queue}
    \index{keys!one-shot queue}
    \index{queue!one-shot}
    Thanks to the \textsl{Kepler34} project, we now have "one-shot queue"
@@ -1349,7 +1347,7 @@
    The keystroke for starting playback is the \texttt{Space} character by
    default.
 
-   \index{new!pause}
+   \index{pause}
    A new feature is that the Play button can be used as a Pause button.
    When the Play button is clicked, the button icon changes to a Pause icon:
 

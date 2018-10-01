@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2018-05-28
-% \update      2018-09-30
+% \update      2018-10-01
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -20,8 +20,9 @@
 
    With version 0.95.1 of \textsl{Sequencer64}, we now provides builds using
    the \textsl{Qt 5} GUI framework and a heavily modified version of the
-   PortMidi framework.
-   With this additional work, we now have
+   PortMidi framework (it cleans up the code and removes the need for
+   \textsl{Java}.
+   With this additional work, we now have ...
    \index{Windows}
    \index{Sequencer64 for Windows}
    \index{qpseq64.exe}
@@ -76,10 +77,10 @@
          functionality.
          See section \sectionref{sec:playlist}.
    \end{enumerate}
+
    Some ill-advised features from \textsl{Sequencer64} will not be migrated.
    Ultimately, we want to replace the Gtkmm-2.4 user-interface completely.
    But this is awhile down the road.
-
    There are a number of alternate versions of \textsl{Sequencer64} using
    PortMidi:
 
@@ -149,6 +150,79 @@
    instructive, and can improve the overall code significantly.  It certainly
    forced us to add some new features to handle the operating-system
    differences!
+
+\subsubsection{Qt 5 Live Slot Menu}
+\label{subsubsec:qt_portmidi_qt5_live_slot_menu}
+
+   The Qt 5 version of the pattern menu (seqmenu) is a bit different from the
+   Gtkmm-2.4 version.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{kepler34/qt5-live-frame-slot-menu.png}
+   \caption{Qt 5 Slot Menu}
+   \label{fig:qt5_main_window_slot_menu}
+\end{figure}
+   
+   \begin{enumber}
+      \item \textbf{New pattern}
+      \item \textbf{External live frame}
+      \item \textbf{Edit pattern in tab}
+      \item \textbf{Edit pattern in window}
+      \item \textbf{Edit events in tab}
+      \item \textbf{Copy pattern}
+      \item \textbf{Cut pattern}
+      \item \textbf{Delete pattern}
+   \end{enumber}
+
+   \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
+
+   \itempar{New pattern}{qt!new pattern}
+      Creates a new pattern in the slot which was right-clicked.
+      If there is already a pattern there, the user is prompted about a
+      sequence already present, and a yes/no question about overwriting it and
+      creating a new blank sequence.
+
+   \itempar{External live frame}{qt!external live frame}
+      This option creates a second "Live" frame, which is external to the Live
+      frame tab.
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{kepler34/qt5-external-live-frame.png}
+   \caption{Qt 5 External Live Frame}
+   \label{fig:qt5_main_window_external_live_frame}
+\end{figure}
+
+   With Qt 5, we decided not to reimplement the Gtkmm-2.4 version's "multiwid"
+   features, which allows one to specify a matrix of screen-sets.  Instead,
+   the user can create one or more Live frames in external windows.  
+   Whichever live frame has the focus determines the active set.
+   This number is shown in the \textbf{Active Set} field in the main window's
+   Live tab.
+
+   \itempar{Edit pattern in tab}{qt!edit pattern in tab}
+   Sets up a pattern editor in the "Edit" tab.  This editor is not as
+   versatile as the external-window pattern editor described in the next
+   section.
+
+   \itempar{Edit pattern in window}{qt!edit pattern in window}
+   Sets up a pattern editor a separate window.  This pattern editor works a lot
+   like the Gtkmm-2.4 version, though it does not support the "fruity" mode of
+   editing.
+
+   \itempar{Edit events in tab}{qt!edit events in tab}
+   Sets up an event editor in the "Edit" tab.  This editor is a basic editor
+   and mostly useful for finding and deleting unwanted events.
+
+   \itempar{Copy pattern}{qt!copy pattern}
+   Copies the selected pattern.
+
+   \itempar{Cut pattern}{qt!cut pattern}
+   Cuts (and copies) the selected pattern.
+
+   \itempar{Delete pattern}{qt!delete pattern}
+   Deletes the selected pattern.
 
 \subsubsection{Qt 5 Live Tab}
 \label{subsubsec:qt_portmidi_qt5_live_tab}
@@ -251,9 +325,10 @@
    Currently, this tab only shows the playlist items.  One can
    select a playlist, and view the song-titles in it, but
    editing and loading the play-lists and songs does not yet
-   work.  One must edit the play-list file manually for now.
+   work.  One must edit the play-list file manually for now,
+   and load it from the \textbf{File / Open playlist} menu.
 
-   Also note that the play-list can be seen in the main live frame, 
+   Also note that the play-list title can be seen in the main live frame, 
    and that play-lists and songs-can be selected with the arrow keys in that
    window.
 
@@ -347,6 +422,10 @@
     to play a tune on the wavetable synthesizer using the
     \texttt{--bus 2} option, which forces output to PortMidi buss 2,
     "Microsoft GS Wavetable Synth".
+
+    If an error occurs at start-up, a file called \texttt{erroneous.rc} is
+    written to the configuration directory, and can be examined for issues with
+    ports.
 
 \subsubsection{Sequencer64 Windows Configuration Files}
 \label{subsubsec:qt_portmidi_windows_setup_config}
