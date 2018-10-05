@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-09-16
+% \update      2018-10-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -61,7 +61,7 @@
 
    Now let's covered each section of the "rc" file in order.
 
-\subsection{Sequencer64 "rc" File / Comments}
+\subsection{"rc" File / Comments}
 \label{subsec:seq64_rc_file_midi_comments}
 
    The very top of the "rc" file that \textsl{Sequencer64} generates is a stock
@@ -80,7 +80,7 @@
 
    A blank line (not even a space) ends the comment section.
 
-\subsection{Sequencer64 "rc" File / MIDI Control}
+\subsection{"rc" File / MIDI Control}
 \label{subsec:seq64_rc_file_midi_control}
 
    Like \textsl{Seq24}, \textsl{Sequencer64} provides a way to control the
@@ -262,7 +262,7 @@
       \item \textbf{Extended Automation Group} (row 74 to 95).
    \end{enumerate}
 
-\subsubsection{Sequencer64 "rc" File / MIDI Control / Pattern Group}
+\subsubsection{"rc" File / MIDI Control / Pattern Group}
 \label{subsubsec:seq64_rc_file_midi_ctrl_pattern}
 
    The pattern group consists of 32 lines (0 to 31), one for each
@@ -386,7 +386,7 @@
    turned, so to speak), patterns 0 through 7 come on one at a time until
    all are running.
 
-\subsubsection{Sequencer64 "rc" File / MIDI Control / Mute-In Group}
+\subsubsection{"rc" File / MIDI Control / Mute-In Group}
 \label{subsubsec:seq64_rc_file_midi_ctrl_mutein}
 
    \index{mute-in group}
@@ -414,7 +414,7 @@
    control values that can affect the muting of a group, while the latter
    specifies the armed patterns that are part of a group.
 
-\subsubsection{Sequencer64 "rc" File / MIDI Control / Automation}
+\subsubsection{"rc" File / MIDI Control / Automation}
 \label{subsubsec:seq64_rc_file_midi_ctrl_automation}
 
    The automation control keys occupy the entries from 64 to 73.
@@ -608,7 +608,7 @@
 This MIDI control sets the playing screen-set, 
 but we're not completely sure how it works yet.
 
-\subsubsection{Sequencer64 "rc" File / MIDI Control / Extended Automation}
+\subsubsection{"rc" File / MIDI Control / Extended Automation}
 \label{subsubsec:seq64_rc_file_midi_ctrl_automationex}
 
    These additional control items were requested by users, to control
@@ -820,7 +820,7 @@ but we're not completely sure how it works yet.
 
    To do.
 
-\subsection{Sequencer64 "rc" File / Mute-Group Section}
+\subsection{"rc" File / Mute-Group Section}
 \label{subsec:seq64_rc_file_mute_group}
      
    This section is delimited by the \texttt{[mute-group]} construct.
@@ -857,7 +857,7 @@ but we're not completely sure how it works yet.
    control values that can affect the muting of a group, while the latter
    specifies the patterns that are part of a group.
 
-\subsection{Sequencer64 "rc" File / MIDI-Clock Section}
+\subsection{"rc" File / MIDI-Clock Section}
 \label{subsec:seq64_rc_file_midi_clock}
 
    \index{[midi-clock]}
@@ -918,7 +918,7 @@ but we're not completely sure how it works yet.
       4 0  # buss number, clock status
    \end{verbatim}
 
-\subsection{Sequencer64 "rc" File / MIDI-Meta-Events Section}
+\subsection{"rc" File / MIDI-Meta-Events Section}
 \label{subsec:seq64_rc_file_midi_meta_events}
 
    \index{[midi-meta-events]}
@@ -942,7 +942,7 @@ but we're not completely sure how it works yet.
    pattern editor or the event editor.  But, when recording tempo events, they
    will always be written to the patten having the tempo-track number.
 
-\subsection{Sequencer64 "rc" File / Keyboard Control Section}
+\subsection{"rc" File / Keyboard Control Section}
 \label{subsec:seq64_rc_file_keyboard_control}
         
    \index{[keyboard control]}
@@ -989,7 +989,7 @@ but we're not completely sure how it works yet.
       122  3        # z
    \end{verbatim}
 
-\subsection{Sequencer64 "rc" File / Keyboard Group Section}
+\subsection{"rc" File / Keyboard Group Section}
 \label{subsec:seq64_rc_file_keyboard_group}
 
    \index{[keyboard-group]}
@@ -1091,7 +1091,7 @@ but we're not completely sure how it works yet.
    \index{group-learn!shift-lock}
    This feature known as \textsl{shift-lock} or \textsl{auto-shift}.
 
-\subsection{Sequencer64 "rc" File / JACK Transport}
+\subsection{"rc" File / JACK Transport}
 \label{subsec:seq64_rc_file_jack_transport}
 
    This section holds the settings for both JACK transport and for native JACK
@@ -1139,7 +1139,7 @@ but we're not completely sure how it works yet.
    Also note that JACK transport is separately configurable from
    JACK MIDI, and each uses a different JACK client internally.
 
-\subsection{Sequencer64 "rc" File / MIDI Clock Mod Ticks}
+\subsection{"rc" File / MIDI Clock Mod Ticks}
 \label{subsec:seq64_rc_file_midi_cmt}
 
    \index{[midi-clock-mod-ticks]}
@@ -1152,7 +1152,7 @@ but we're not completely sure how it works yet.
       64
    \end{verbatim}
 
-\subsection{Sequencer64 "rc" File / MIDI Meta Events}
+\subsection{"rc" File / MIDI Meta Events}
 \label{subsec:seq64_rc_file_midi_meta}
 
    This section defines some features of MIDI meta-event handling.  Normally,
@@ -1166,7 +1166,7 @@ but we're not completely sure how it works yet.
       0    # tempo_track_number
    \end{verbatim}
 
-\subsection{Sequencer64 "rc" File / MIDI Input}
+\subsection{"rc" File / MIDI Input}
 \label{subsec:seq64_rc_file_midi_input}
 
    \index{[midi-input]}
@@ -1197,7 +1197,7 @@ but we're not completely sure how it works yet.
    it does correspond to the \texttt{--manual-alsa-ports} command-line
    option.
 
-\subsection{Sequencer64 "rc" File / Manual ALSA Ports}
+\subsection{"rc" File / Manual ALSA Ports}
 \label{subsec:seq64_rc_file_manual_ports}
 
    The name of this setting is a bit of a misnomer in a couple of ways:
@@ -1251,7 +1251,7 @@ but we're not completely sure how it works yet.
    actual ALSA ports that exist on the system.
    The next option gets around that issue.
 
-\subsection{Sequencer64 "rc" File / Reveal ALSA Ports}
+\subsection{"rc" File / Reveal ALSA Ports}
 \label{subsec:seq64_rc_file_reveal_ports}
 
    Again, this option applies to both ALSA and native JACK.
@@ -1273,7 +1273,7 @@ but we're not completely sure how it works yet.
    If this option is turned on, the definitions in the
    "user" configuration file are \textsl{not} read from that file.
 
-\subsection{Sequencer64 "rc" File / Interaction Method}
+\subsection{"rc" File / Interaction Method}
 \label{subsec:seq64_rc_file_interaction}
 
    \index{[interaction-method]}
@@ -1347,7 +1347,7 @@ but we're not completely sure how it works yet.
    \index{qt!click-edit}
    Not sure that this support is available in the Qt user-interface.
 
-\subsection{Sequencer64 "rc" File / LASH Session}
+\subsection{"rc" File / LASH Session}
 \label{subsec:seq64_rc_file_lash_session}
 
    \index{[lash-session]}
@@ -1371,7 +1371,7 @@ but we're not completely sure how it works yet.
       1     # LASH session management support flag
    \end{verbatim}
 
-\subsection{Sequencer64 "rc" File / Auto Option Save}
+\subsection{"rc" File / Auto Option Save}
 \label{subsec:seq64_rc_file_auto_rc_save}
 
    \index{[auto-option-save]}
@@ -1393,7 +1393,7 @@ but we're not completely sure how it works yet.
       0     # auto-save-options-on-exit support flag
    \end{verbatim}
 
-\subsection{Sequencer64 "rc" File / Last Used Directory}
+\subsection{"rc" File / Last Used Directory}
 \label{subsec:seq64_rc_file_last_used_dir}
 
    The following item refers to the last directory in which one opened or
@@ -1405,7 +1405,7 @@ but we're not completely sure how it works yet.
       /home/ahlstrom/Home/ca/mls/git/sequencer64/contrib/midi/
    \end{verbatim}
 
-\subsection{Sequencer64 "rc" File / Recent Files}
+\subsection{"rc" File / Recent Files}
 \label{subsec:seq64_rc_file_recent_files}
 
    The following item preserves a list of the last few MIDI files loaded.
@@ -1421,7 +1421,7 @@ but we're not completely sure how it works yet.
       contrib/midi/b4uacuse-GM-format.midi
    \end{verbatim}
 
-\subsection{Sequencer64 "rc" File / Play-List}
+\subsection{"rc" File / Play-List}
 \label{subsec:seq64_rc_file_playlist}
 
    This is a feature new with version 0.96.0 of \textsl{Sequencer64}.

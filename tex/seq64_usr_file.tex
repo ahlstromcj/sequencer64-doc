@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-04-29
+% \update      2018-10-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -218,7 +218,7 @@
    \sectionref{subsec:seq64_usr_file_midi_bus_results}, and 
    see what it all looks like.
 
-\subsection{Sequencer64 "usr" File / MIDI Bus Definitions}
+\subsection{"usr" File / MIDI Bus Definitions}
 \label{subsec:seq64_usr_file_midi_bus_definitions}
 
    \index{usr!user-midi-bus-definitions}
@@ -374,7 +374,7 @@
    Another complexity is the possible existence, under ALSA, of the
    \texttt{system:announce} port.
 
-\subsection{Sequencer64 "usr" File / MIDI Instrument Definitions}
+\subsection{"usr" File / MIDI Instrument Definitions}
 \label{subsec:seq64_usr_file_midi_instrument_definitions}
 
    \index{usr!user-instrument-definitions}
@@ -459,7 +459,7 @@
    contains examples of some other kinds of instruments.
    It is a minimal resource, useful to study when creating one's own settings.
 
-\subsection{Sequencer64 "usr" File / User Interface Settings}
+\subsection{"usr" File / User Interface Settings}
 \label{subsec:seq64_usr_file_user_interface_settings}
 
    \index{usr!user-interface-settings}
@@ -666,6 +666,10 @@
       2      # block_rows (number of rows of set blocks/wids)
    \end{verbatim}
 
+      This option is \textsl{not supported} in the Qt version.
+      Instead, the user can create an arbitrary number of
+      live-frame windows.
+
    \index{multi-wid}
    \index{usr!block-columns}
    \begin{verbatim}
@@ -693,7 +697,7 @@
    than anything else.  It probably doesn't affect CPU usage much, but might
    provide a smoother-running cursor on some systems.
 
-\subsection{Sequencer64 "usr" File / User MIDI Settings}
+\subsection{"usr" File / User MIDI Settings}
 \label{subsec:seq64_usr_file_user_midi_settings}
 
    \index{[user-midi-settings]}
@@ -834,7 +838,7 @@
    original to merge any old value that need to be preserved.  Then make any
    further tweaks to the new values.
 
-\subsection{Sequencer64 "usr" File / User Options}
+\subsection{"usr" File / User Options}
 \label{subsec:seq64_usr_file_user_options}
 
    \index{[user-options]}
@@ -872,7 +876,7 @@
    in the "--option log=filename.log" option.  Note that this file
    is always written to the \textsl{Sequencer64} configuration directory.
 
-\subsection{Sequencer64 "usr" File / Device and Control Names}
+\subsection{"usr" File / Device and Control Names}
 \label{subsec:seq64_usr_file_midi_bus_results}
 
    Okay, now we have this file copied to our home directory:

@@ -6,49 +6,59 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2018-05-28
-% \update      2018-10-01
+% \update      2018-10-05
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
-%     Provides a discussion of the Qt5 GUI and portmidi, along with a Windows
+%     Provides a discussion of the Qt 5 GUI and portmidi, along with a Windows
 %     implementation that Sequencer64 supports.
+%
+%     However, the Qt user-interface can be combine with the more powerful
+%     Rtmidi framework in the Linux version.
 %
 %-------------------------------------------------------------------------------
 
-\section{Sequencer64 Qt5, PortMidi, and Windows}
+\section{Sequencer64 Qt 5 and Windows}
 \label{sec:qt_portmidi}
 
-   With version 0.95.1 of \textsl{Sequencer64}, we now provides builds using
-   the \textsl{Qt 5} GUI framework and a heavily modified version of the
+   With version 0.95.1 and above,
+   \textsl{Sequencer64} provides builds using
+   the \textsl{Qt 5} GUI framework and a modified version of the
    PortMidi framework (it cleans up the code and removes the need for
-   \textsl{Java}.
+   \textsl{Java}).
    With this additional work, we now have ...
    \index{Windows}
    \index{Sequencer64 for Windows}
    \index{qpseq64.exe}
    \textsl{Sequencer64 for Windows}.
 
+   In \textsl{Linux}, the Qt 5 user-interface can be used with either the
+   modified \textsl{PortMidi} library or the more powerful modified
+   \textsl{RtMidi} library.
+
    The Qt 5 user-interface is similar
-   the \textsl{Kepler34} project (\cite{kepler34}).
-   But it uses the internal functions of \textsl{Sequencer64} and adds a few
-   features not present in \textsl{Kepler34}.
-   It uses a tabbed interface, and slightly different ways of handling the main
+   the \textsl{Kepler34} project \cite{kepler34}.
+   But it uses the internal functions of \textsl{Sequencer64} and adds a
+   number of features not present in \textsl{Kepler34}.
+   The Qt version has a tabbed interface, plus some separate windows,
+   and different ways of handling the main
    window (the "Live" tab), the performance window (the "Song" tab), and the
    editing window (the "Edit" tab).
+   It adds an "Events" tab and a "Playlists" tab.
    For portability reasons, the Qt user-interface will eventually be the
    \textsl{official} version for \textsl{Sequencer64}.
+%  It will eventually be the main version of \textsl{Sequencer64},
+%  simply because Qt 5 has fewer portability issues than Gtkmm-3.
 
-   There is still a little amount of \textsl{Sequencer64} functionality that
-   the Qt5/PortMidi version lacks:
+   There is still some \textsl{Sequencer64} functionality that
+   the Qt 5 version lacks:
 
    \begin{enumerate}
       \item No support for the special coloring of empty pattern slots
-         or the pattern currently being edited.
+         or the pattern currently being edited. A low priority.
       \item A reduced-functionality options/preferences dialog, lacking an
          editor for keystroke commands.
       \item Keystroke support is not as comprehensive as the Linux version.
-      \item No support yet for variset.  This will be added in the next
-         version.
       \item Modified support for multi-wid.  The Qt interface allows
          for any number of external live frames.
          An arbitrary number of sets (banks) can be shown at once,
@@ -56,25 +66,25 @@
    \end{enumerate}
 
    We are incorporating existing \textsl{Sequencer64} user-interface
-   features into this Qt5/PortMidi version as time and bug-fixes allow.
+   features into this Qt 5 version as time and bug-fixes allow.
    With version 0.96.0, we have improved the Qt/Windows version by adding the
    following features:
 
    \begin{enumerate}
-      \item An external pattern editor has been added that pretty much matches
-         the standard \textsl{Sequencer64} pattern editor.  The tabbed
-         pattern editor is still in place, but, due to space considerations,
-         it will never support all of the features of the external window.
-      \item The LFO (low-frequency oscillator) window now exists, and it can be
-         called up from the external pattern editor.
-      \item The external pattern editor supports background sequences, chord
-         entry, event merging and extension, scales, snap, etc.
-      \item The song editor has been improved, and also made available as an
+      \item An external pattern editor has been added that matches
+         the Gtkmm-2.4 \textsl{Sequencer64} pattern editor.  It supports
+         background sequences, chord entry, event merging and extension,
+         scales, snap, etc.  The tabbed pattern editor is still in place, but,
+         due to space, it will never support all of the features of the
          external window.
+      \item The LFO (low-frequency oscillator) window can be
+         called up from the external pattern editor.
+      \item The song/performance/trigger editor has been improved, and also
+         made available as an external window.
       \item The pattern and song editors now have better support for zooming
          via keystrokes.
       \item A playlist tab has been added to support the new play-list
-         functionality.
+         functionality.  This tab is still a work in progress.
          See section \sectionref{sec:playlist}.
    \end{enumerate}
 
@@ -87,9 +97,9 @@
    \begin{enumerate}
       \item A Gtkmm-2.4 user-interface and PortMidi.  This version is
          Linux-only, and is useful for debugging the internal PortMidi code
-         without worrying about the Qt5 user-interface.
+         without worrying about the Qt 5 user-interface.
       \item A Qt 5 user-interface and PortMidi on Linux.  This version is
-         useful for people who like to experiment, and for debugging Qt5 and
+         useful for people who like to experiment, and for debugging Qt 5 and
          PortMidi issues at the same time.
       \item A Qt 5 user-interface and PortMidi on Windows.  This version is
          basically working, but takes some special setup.
@@ -100,25 +110,25 @@
    \index{Mac OSX}
    \textsl{Mac OSX},
    but currently have no OSX system on which to build and test this
-   code.  HELP WANTED!
+   code.  \textbf{HELP WANTED!}
 
    In the following sections, we cover the basic differences between the
    Gtkmm-2.4 and Qt 5 versions of the application, as well as how to set up
    \textsl{Sequencer64 for Windows}.
-
    We will not show all of the user-interface elements, but we will mention
-   some differences one will find.
+   important differences one will find.
 
 \subsection{The Qt 5 User Interface}
 \label{subsec:qt_portmidi_qt5_user_interface}
 
-   The Qt5/PortMidi version of \textsl{Sequencer64} has an executable name of
+   The Qt 5 version of \textsl{Sequencer64} has an executable name of
    \texttt{qpseq64} (Linux) or \texttt{qpseq64.exe} (Windows).
-   It is also possible to build a Qt5 version with the RtMidi interface
+   It is also possible to build a Qt 5 version with the RtMidi interface
    (\texttt{qseq64}), and
    that will ultimately become the default version for Linux.
-   To keep explanations simple, we will refer to the Qt5/PortMidi version of
-   \textsl{Sequencer64} as \textbf{qpseq64}.
+   To keep explanations simple, we will refer to the Qt 5 version of
+   \textsl{Sequencer64}, using the \textsl{PortMidi} engine,
+   as \textbf{qpseq64}.
    The Gtkmm-2.4/RtMidi version (Linux only) will be referred to as
    \textbf{seq64}.
 
@@ -133,8 +143,26 @@
 \end{figure}
 
    Note the difference in layout from the Gtkmm-2.4 version.
-   Also notice that a number of controls from the Gtkmm version are missing.
+   Also notice that some controls from the Gtkmm-2.4 version are missing.
    Some of these missing items will ultimately be added.
+
+   There are some issues, in our opinion, with the \textsl{Kepler34} coloring
+   under various situations (e.g. muting and queuing).  So we have adapted the
+   \texttt{grid\_style} option in the "usr" configuration file so that, if set
+   to "1", the slots look more like the Gtkmm-2.4 version of the slots:
+
+\begin{figure}[H]
+   \centering 
+   \includegraphics[scale=0.75]{kepler34/qt5-main-window-slots-gtkstyle.png}
+   \caption{Qt 5 Slots in Gtk Style}
+   \label{fig:qt5_main_window_slots_gtkstyle}
+\end{figure}
+
+   In this style, the outer border is either white (muted) or black (unmuted).
+   Also, queuing is indicated in the legacy manner (the central box is colored
+   gray), rather than with a black frame drawn around the slot.
+   Choose which style you like, and send feedback about what changes would
+   be desirable for either style.
 
 %  Here is a similar screenshot in Windows 10.
 %
@@ -145,7 +173,7 @@
 %  \label{fig:qt5_main_window_windows}
 % \end{figure}
 
-   Apart from different window decoration, the Windows version looks exactly
+   Apart from different window decoration, the Windows version looks
    the same.  Coding an application for both Windows and Linux is very
    instructive, and can improve the overall code significantly.  It certainly
    forced us to add some new features to handle the operating-system
@@ -154,8 +182,8 @@
 \subsubsection{Qt 5 Live Slot Menu}
 \label{subsubsec:qt_portmidi_qt5_live_slot_menu}
 
-   The Qt 5 version of the pattern menu (seqmenu) is a bit different from the
-   Gtkmm-2.4 version.
+   The Qt 5 version of the right-click pattern/slot menu is slightly different
+   from the Gtkmm-2.4 version.
 
 \begin{figure}[H]
    \centering 
@@ -163,6 +191,11 @@
    \caption{Qt 5 Slot Menu}
    \label{fig:qt5_main_window_slot_menu}
 \end{figure}
+
+   It lets one add an external window for the pattern slots (live-frame),
+   and lets one open a pattern editor in a tab or in an external window.
+   It lets one edit events textually in a tab.  Here are the menu entries to
+   describe:
    
    \begin{enumber}
       \item \textbf{New pattern}
@@ -175,17 +208,25 @@
       \item \textbf{Delete pattern}
    \end{enumber}
 
+   Let's describe them.
+
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{New pattern}{qt!new pattern}
-      Creates a new pattern in the slot which was right-clicked.
+      Creates a new pattern in the slot.
       If there is already a pattern there, the user is prompted about a
-      sequence already present, and a yes/no question about overwriting it and
+      sequence already present, with a yes/no question about overwriting it and
       creating a new blank sequence.
 
    \itempar{External live frame}{qt!external live frame}
-      This option creates a second "Live" frame, which is external to the Live
-      frame tab.
+      With Qt 5, we decided not to reimplement the Gtkmm-2.4 version's
+      "multiwid" features, which allows one to specify a matrix of screen-sets.
+      This option creates an additional "Live" frame, which is external to the
+      Live frame tab.  This live-frame shows the set/bank corresponding to the
+      slot number (tricky!) over which the menu was opened.  This won't work if
+      used on a higher set.  When an external live-frame has focus, it
+      represents the \textsl{active set/bank}.  The active set is shown in the
+      main window in the \textbf{Active Set} field, just to be clear.
 
 \begin{figure}[H]
    \centering 
@@ -194,54 +235,53 @@
    \label{fig:qt5_main_window_external_live_frame}
 \end{figure}
 
-   With Qt 5, we decided not to reimplement the Gtkmm-2.4 version's "multiwid"
-   features, which allows one to specify a matrix of screen-sets.  Instead,
-   the user can create one or more Live frames in external windows.  
-   Whichever live frame has the focus determines the active set.
-   This number is shown in the \textbf{Active Set} field in the main window's
-   Live tab.
-
    \itempar{Edit pattern in tab}{qt!edit pattern in tab}
-   Sets up a pattern editor in the "Edit" tab.  This editor is not as
-   versatile as the external-window pattern editor described in the next
-   section.
+      Sets up a pattern editor in the "Edit" tab.  This editor is not as
+      versatile as the external-window pattern editor described in the next
+      section.
 
    \itempar{Edit pattern in window}{qt!edit pattern in window}
-   Sets up a pattern editor a separate window.  This pattern editor works a lot
-   like the Gtkmm-2.4 version, though it does not support the "fruity" mode of
-   editing.
+      Sets up a pattern editor a separate window.  This pattern editor works a
+      lot like the Gtkmm-2.4 version, though it does not support the "fruity"
+      mode of editing.
 
    \itempar{Edit events in tab}{qt!edit events in tab}
-   Sets up an event editor in the "Edit" tab.  This editor is a basic editor
-   and mostly useful for finding and deleting unwanted events.
+      Sets up an event editor in the "Edit" tab.  This editor is a basic editor
+      and mostly useful for finding and deleting unwanted events, or adding
+      events that are not otherwise available.
 
    \itempar{Copy pattern}{qt!copy pattern}
-   Copies the selected pattern.
+      Copies the selected pattern.
 
    \itempar{Cut pattern}{qt!cut pattern}
-   Cuts (and copies) the selected pattern.
+      Cuts (and copies) the selected pattern.
 
    \itempar{Delete pattern}{qt!delete pattern}
-   Deletes the selected pattern.
+      Deletes the selected pattern.
 
 \subsubsection{Qt 5 Live Tab}
 \label{subsubsec:qt_portmidi_qt5_live_tab}
 
    The \textbf{Live} tab of \textsl{qpseq64}, as shown above, is very similar
-   to the \textsl{seq64} version.  However, it currently doesn't support the
-   varisets mode and the alternate row-by-column sizes of \textsl{seq64}.
-   Additional features will be added as time goes on.
+   to the \textsl{seq64} version.  It supports the
+   varisets mode (the alternate row-by-column sizes of \textsl{seq64}).
+   In addition, external versions of the Live frame can be instantiated outside
+   of the main window, so that the user can
+   view and work with a number of set/banks at the same time.
 
    The size of this window can be changed to a certain degree via
    the command-line option \texttt{--option scale=x.y}, where \texttt{x.y} can
    range from 0.4 to 3.0.  This can be made permanent via the
    \texttt{window-scale} setting in the "usr" file.
+   For example, these two options should be used together:
+   \texttt{-o sets=8x8 -o scale=1.5}.  Experiment with varying values for these
+   options.
 
-   In fact, all of the tabs except for the Events tab will expand properly to
-   use additional space if the application is resized.
-
-   In the future, we will likely provide external windows so that the user can
-   view and work with a number of set/banks at the same time.
+   In fact, all of the tabs except for the \textbf{Events} and
+   \textbf{Playlist}
+   tabs will expand properly to
+   use additional space if the application is resized, whether by a
+   command-line option or by dragging a corner of the window.
 
 \subsubsection{Qt 5 Song Tab}
 \label{subsubsec:qt_portmidi_qt5_song_tab}
@@ -269,14 +309,14 @@
 \end{figure}
 
    This version of the pattern editor is a bit behind
-   \textsl{seq64} for features, and currently looks more like the Gtkmm-2.4
-   version.
-
-   In addition, note that the event-data editor panel is not visible here.
+   \textsl{seq64} for features.  There really isn't enough space in the
+   main window for all the features of the \textsl{Sequencer64} pattern editor.
+   Note that the event-data editor panel is not visible here.
    One must scroll down to the bottom of the window to see it and use it.
-   Also note that that the \textbf{LFO} window is not accessible here.
+   Note that that the \textbf{LFO} window is not accessible here.
    Finally, note that the note heights and vertical grid spacing are
-   modifiable via
+   modifiable via a key-height option, which is a feature the Gtkmm-2.4
+   user-interface does not offer.
 
    With version 0.95.1, the pattern/slot popup menu has an option to open the
    pattern in an external window that has a lot more features than the
@@ -326,13 +366,14 @@
    select a playlist, and view the song-titles in it, but
    editing and loading the play-lists and songs does not yet
    work.  One must edit the play-list file manually for now,
-   and load it from the \textbf{File / Open playlist} menu.
+   and load it from the \textbf{File / Open Playlist} menu.
 
    Also note that the play-list title can be seen in the main live frame, 
    and that play-lists and songs-can be selected with the arrow keys in that
    window.
 
-   See section \sectionref{sec:playlist}.
+   See section \sectionref{sec:playlist}; there are many things that can be
+   done with the playlist feature, including controlling it via MIDI events.
 
 \subsubsection{Qt 5 Edit / Preferences}
 \label{subsubsec:qt_portmidi_qt5_edit_prefs}
@@ -346,18 +387,17 @@
 
    In a newer version of this document, we will show the other preferences
    tabs.  There are many tabs we still need to add to this dialog.
-
    In particular, be sure to go to the \textbf{MIDI Input} tab and
    make sure that your desired input device (e.g. a MIDI keyboard) are shown
    and are enabled.
-
    Since the Qt GUI pretty much hardwires the keystrokes used for various
    functions such as muting and queuing, we might not provided a keystroke
    mapping editor.  To be determined.
-
    In any event, many of the keystrokes configured in the "rc" file are
    supported, but one might have to edit the "rc" file directly, keeping
    in mind that it uses Gtkmm-2.4 conventions for keystrokes.
+   \textsl{Linux} users can edit the keystrokes and copy the "rc" configuration
+   into the Qt 5 "rc" file, \texttt{qpseq64.rc}.
 
 \subsection{Sequencer64 Windows Setup}
 \label{subsec:qt_portmidi_windows_setup}
@@ -366,7 +406,7 @@
    as a portable Zip package anywhere the user desires.  The package is
    self-contained, and contains all the the DLLs needed to run the program.
    \textsl{qpseq64} can also be installed via an NSIS-based installer,
-   currently \texttt{sequencer64\_setup\_0.95.0-0.exe}.
+   such as \texttt{sequencer64\_setup\_0.96.0-0.exe}.
 
 \subsubsection{Sequencer64 Windows Issues}
 \label{subsubsec:qt_portmidi_windows_setup_issues}
@@ -394,9 +434,11 @@
 
     Here is some output logging on our Windows, generated using the
     \texttt{qpseq64} command-line option
-    \texttt{-o log=virtualmidi.log},
-    which dumps the log file into
-    \texttt{C:/Users/chris/AppData/Local/sequencer64/virtualmidi.log}:
+    \texttt{-o log=virtualmidi.log}, which dumps the log file into
+
+   \begin{verbatim}
+       C:/Users/chris/AppData/Local/sequencer64/virtualmidi.log
+   \end{verbatim}
 
 \begin{verbatim}
    qpseq64 
@@ -417,6 +459,24 @@
    Begin closing open devices...
    Warning: devices were left open. They have been closed.
 \end{verbatim}
+
+    By disabling the "closed" devices in the \texttt{qpseq64.rc} file,
+    we are able to start.  Here are the settings:
+
+\begin{verbatim}
+      5    # number of MIDI clocks/busses
+      # Output buss name: [0] 0:0 PortMidi:Microsoft MIDI Mapper
+      0 0    # buss number, clock status
+      # Output buss name: [1] 1:2 PortMidi:CoolSoft MIDIMapper
+      1 -1    # buss number, clock status
+      # Output buss name: [2] 2:3 PortMidi:Microsoft GS Wavetable Synth
+      2 0    # buss number, clock status
+      # Output buss name: [3] 3:4 PortMidi:VirtualMIDISynth #1
+      3 -1    # buss number, clock status
+\end{verbatim}
+
+   These settings tell \textsl{Sequencer64} to ignore output busses 1 and 3,
+   in order to allow it to start without error.
 
     We still have some minor issues at start up and at exit, but are now able
     to play a tune on the wavetable synthesizer using the
@@ -440,21 +500,32 @@
     On \textsl{Linux},
     the normal directory location of the \textsl{Sequencer64} configuration
     files is
-    \texttt{/home/username/.config/sequencer64}.  There are various
-    configuration file names, depending on the name of the built application:
+
+\begin{verbatim}
+    /home/username/.config/sequencer64
+\end{verbatim}
+
+   There are various configuration file names, depending on the name of the
+   built application:
 
 \begin{verbatim}
         sequencer64.rc      The RtMidi Native ALSA/JACK version.
         sequencer64.usr     The same, but for user-interface settings.
         seq64portmidi.rc    The PortMidi Gtkmm 2.4 version.
         seq64portmidi.usr   The same, but for user-interface settings.
-        qpseq64.rc          The PortMidi Qt 5 version.
+        qseq64.rc           The RtMidi Qt 5 version for Linux.
+        qseq64.usr          The same, but for user-interface settings.
+        qpseq64.rc          The PortMidi Qt 5 version for Windows.
         qpseq64.usr         The same, but for user-interface settings.
 \end{verbatim}
 
-    On \textsl{Windows},
-    the conventional location is different, and the location used
-    is \textsl{C:/Users/username/AppData/Local/sequencer64}.
+    On \textsl{Windows}, the conventional configuration file
+    location is different:
+    
+\begin{verbatim}
+    C:/Users/username/AppData/Local/sequencer64
+\end{verbatim}
+
     The files are:
 
 \begin{verbatim}
@@ -468,34 +539,28 @@
     (e.g. \texttt{C:/Users/chris}, then append
     "AppData" to the end of it.  Voila! It is now visible in
     \textsl{Windows Explorer}.
-    It is a Windows thang.
-
+    It is a Windows \textsl{thang}.
     Then click on the \texttt{sequencer64} directory.
-    Open \texttt{qplseq64.rc} and see what is in it (scroll down a bit):
+    Open \texttt{qpseq64.rc} and see what is in it (scroll down a bit):
 
 \begin{verbatim}
     [midi-clock]
-
     2    # number of MIDI clocks/busses
-
     # Output buss name: [0] 0:0 PortMidi:Microsoft MIDI Mapper
     0 0  # buss number, clock status
-
     # Output buss name: [2] 1:1 PortMidi:Microsoft GS Wavetable Synth (virtual)
     1 0  # buss number, clock status
-
     # Output buss name: [3] 1:1 PortMidi:nanoKEY2
     2 0  # buss number, clock status
+\end{verbatim}
     
+\begin{verbatim}
     [midi-input]
-    
     1    # number of input MIDI busses
-
-	 # The first number is the port number, and the second number
-	 # indicates whether it is disabled (0), or enabled (1).
-
-	 # [1] 0:1 PortMidi:nanoKEY2
-	 0 1
+    # The first number is the port number, and the second number
+    # indicates whether it is disabled (0), or enabled (1).
+    # [1] 0:1 PortMidi:nanoKEY2
+    0 1
 \end{verbatim}
 
    These settings can be accessed via
@@ -504,10 +569,9 @@
 	alter the ports accessible, in the \textsl{Windows}
    version of \textsl{Sequencer64}.
    The operating system may have some devices locked out, though.
-
    Generally, the device needs to have a "System Sound" setting that allows an
    application to grab exclusive access to the device.
-   For now, do a web search for this error message:
+   For now, do a web search for this error message, if you have issues:
 
 \begin{verbatim}
    'The specified device is already in use.  Wait until it is free, and then

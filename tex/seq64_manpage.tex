@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-09-15
+% \update      2018-10-02
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -188,8 +188,9 @@
    \optionpar{-X}{--playlist [filename]}
       \index{playlist}
       This option loads the given file-name as a play-list file.
-      See \sectionref{sec:playlist}. This file provides one or more play-list
-      entries, each provided a list of one or more songs.  Once loaded, the
+      See \sectionref{sec:playlist}.
+      This file provides one or more play-list
+      entries, each providing a list of one or more songs.  Once loaded, the
       user can use the four arrow keys to move between play-lists and the songs
       in each play-list.  The play-list entries are also controllable via MIDI
       control values set in the "rc" file.  See the Sequencer64 manual for
@@ -279,6 +280,8 @@
             default log-file, if this file-name is not empty.
          \item \texttt{wid=3x2,i}.
             \index{multi-wid}
+            Not supported in the Qt version.  Instead, an arbitrary number of
+            external live-frame windows can be created.
             Provides for multiple main windows ("mainwids") to be shown in a
             big grid, so that multiple sets can be viewed at the same time.
             The default is to show the usual single mainwid.
@@ -301,7 +304,7 @@
             This option, informally known as "variset", allow some changes in
             the set size and layout from the default 4x8 = 32 sets layout.
             \textbf{Warning:}
-            \textsl{seq24} was fairly hardwired for supporting 32 patterns per
+            \textsl{seq24} was hardwired for supporting 32 patterns per
             set, and there are still places where that is true.  Thus,
             consider this option to be experimental.
             To save these options to the "usr" file, add the

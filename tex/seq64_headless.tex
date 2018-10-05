@@ -52,15 +52,14 @@
 
    Sometimes odd problems, such as the output synthesizer not working, not
    appearing in the list of outputs, can prove a real puzzle.
-   
    Here are the steps used in this test; adapt them to your setup.  For
    simplicity, JACK is not running, and so ALSA is in force.
 
    \textbf{First}, after booting, plug in the MIDI keyboard or MIDI control
-   pad.  Our example here will use the Korg nanoKEY2 keyboard.
+   pad.  Our example here will use the Korg nanoKEY2 keyboard.  
 
    \textbf{Second}, start the desired (software) synthesizer.  We will use the
-   nice synth \textsl{Yoshimi}, with a stock setup from our "Yoshimi Cookbook"
+   synth \textsl{Yoshimi}, with a stock setup from our "Yoshimi Cookbook"
    project.  The order of starting the keyboard/pad and the synthesiser
    will alter the port numbers of these items.  Best to do things in the same
    order every time... be consistent.
@@ -74,7 +73,7 @@
 
    The buss number ("2") may need to be different on your setup to get sound
    routed to the correct synthesizer.  Also, the path to the playlist might
-   need to be a full absolute path, though normally playlists are stored in the
+   need to be an absolute path; normally playlists are stored in the
    \texttt{HOME/.config/sequencer64} directory and accessed from there.
    Verify that the main window shows the playlist name, and that the arrow keys
    modify the play-list or song selection.  If that works, verify that the MIDI
@@ -87,15 +86,15 @@
    files as described below so that the former's settings of
    \texttt{[midi-clock]} or \texttt{[midi-clock-file]} are entered into the
    latter "rc" configuration.
-
-   For our testing, we use a separate MIDI-control file which is set up
+   For our testing, we use a separate MIDI-control file 
+   (\texttt{nanomap.rc}), which is set up
    in the main "rc" file to be read via a \texttt{[midi-clock-file]}
-   setting.  This separate MIDI-control file is
-   \texttt{nanomap.rc}.  It sets up our \textsl{nanoKEY2} as follows:
+   setting.  The \texttt{nanomap.rc} file sets up our \textsl{nanoKEY2} as
+   shown in this figure:
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=1.75]{examples/nanokey-sample-rc.png}
+   \includegraphics[scale=1.6]{examples/nanokey-sample-rc.png}
    \caption{Sample nanoKEY2 Control Setup}
    \label{fig:headless_nanokey2_setup}
 \end{figure}
