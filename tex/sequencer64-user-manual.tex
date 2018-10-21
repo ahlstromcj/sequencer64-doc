@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-11-01
-% \update      2018-10-04
+% \update      2018-10-20
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -91,8 +91,8 @@
 
    If impatient to get started mastering \textsl{Sequencer64},
    proceed to \sectionref{subsec:introduction_lets_get_started}.
-   Otherwise, read about the new features of \textsl{Sequencer64}
-   relative to \textsl{Seq24}.
+   Otherwise, read about the features of \textsl{Sequencer64}.
+%  relative to \textsl{Seq24}.
 
    \textsl{Sequencer64} adds native JACK MIDI support,
    fixes bugs in JACK transport, MIDI clocking,
@@ -101,7 +101,7 @@
    a daemon mode, play-list support with MIDI control,
    and more.
    \textsl{Sequencer64} can also be build to run as a "headless" application,
-   from the command-line or as a Linux daemon, controlled via MIDI control.
+   from the command-line or as a Linux daemon, controlled via MIDI.
 %  There is a Pause button/keystroke.
    More editing and navigation can be done using keystrokes,
    for faster editing.
@@ -185,16 +185,17 @@
 \subsection{Improvements}
 \label{subsec:improvements}
 
-   The following improvements are just some that have been made in
+   The following improvements are some that have been made in
    \textsl{Sequencer64}.
 
    \begin{itemize}
       \item Native JACK MIDI support!  At last!
       \item Tempo events are recordable and editable, in the first track.
       \item A "Tap" button sets the BPM by tapping a button or a key.
-      \item Supports more than one visible screen-set (multi-set, or, in the Qt
-         version of the user-interface, multiple screen-set/live-frame windows),
-         or more patterns in a single set (variset).
+      \item Supports more than one visible screen-set ("multi-set", or
+         multiple live-frame windows).
+
+      \item Supports screen-sets other than 8x4 ("variset").
       \item The \textsl{event editor}
          provides basic viewing and editing of MIDI events as text.
       \item \textsl{Sequencer64} reads SMF 0 MIDI files, split
@@ -203,7 +204,7 @@
       \item Support for basic reading (not writing) of
          \index{Cakewalk}
          \textsl{Cakewalk} "WRK" files.
-      \item Play-list support, with the option to control it via MIDI events.
+      \item Play-list support which can be controlled via MIDI.
       \item Some features ported from \textsl{Stazed}'s
          \textsl{Seq32} \cite{seq32} project:
          \begin{itemize}
@@ -221,7 +222,7 @@
       \item Set Tempo and Time Signature events are handled,
          shown, and saved as standard MIDI data.
       \item Scale, key, and background sequences
-         are saved to the \textsl{Sequencer64} MIDI file.
+         saved to the \textsl{Sequencer64} MIDI file format.
       \item Pattern coloring, saved in the sequence.
       \item Piano roll scrolling to keep up with the progress bar.
       \item Additional mouse and keystroke support for faster editing.
@@ -378,90 +379,82 @@
 %  New features (post version 0.9.2) will be noted with the tag
 %  "\textbf{New:}".
 
-\subsection{Let's Get Started!}
+\subsection{Let's Go!}
 \label{subsec:introduction_lets_get_started}
 
-   Let's run \textsl{Sequencer64}!
-   Make sure no other sound application is running
-   (unless one wants to risk blocking \textsl{Sequencer64} or hearing two
-   applications simultaneously, depending on one's operating system,
-   sound card, and audio setup).
-   Start \textsl{Sequencer64} so that it uses JACK for MIDI.
-   On \textsl{Windows} just run it (\texttt{qpseq64.exe}), JACK is not
-   supported on \textsl{Windows}.
-   Provide a MIDI file so that all elements of the user-interface can come
-   into play.  On \textsl{Linux}, the "\&" character get us back to the
-   command-line prompt.  Finally, on our system the main synthesizer
-   (\textsl{Yoshimi}) comes up on MIDI buss 5, so we add an option to remap
+   Make sure no other sound application is running, for the first run.
+   Start \textsl{Sequencer64} to use JACK for MIDI, or
+   on \textsl{Windows}, just run it (\texttt{qpseq64.exe};
+   on \textsl{Windows}, PortMidi is used). The port
+   settings will be different.  Provide a MIDI file.
+   On our system, the synthesizer
+   (\textsl{Yoshimi}) comes up on MIDI buss 5; an option remaps
    all events to that buss:
 
 \begin{verbatim}
-   $ seq64 --jack-midi --bus 5 contrib/midi/b4uacuse-seq24.midi &
-   C:\> qpseq64 --bus 1  contrib/midi/b4uacuse-seq24.midi
+   $ seq64 --jack-midi --buss 5 contrib/midi/b4uacuse-seq24.midi
+   C:\> qpseq64 --buss 1  contrib/midi/b4uacuse-seq24.midi
 \end{verbatim}
 
    If the \texttt{--alsa} option is used instead of
    \texttt{--jack-midi}, then the "JACK" button shows "ALSA" instead
-   (Linux 'rtmidi' build only).
+   (Linux only).  The following figure is for the Linux
+   version.
 
 \begin{figure}[H]
    \centering 
-%  \includegraphics[scale=0.75]{seq64-first-screen.png}
-%  \includegraphics[scale=0.75]{new/seq64_first_screen.png}
-%  \includegraphics[scale=0.75]{seq64-first-screen-new-buttons.png}
-%  \includegraphics[scale=0.75]{new/seq64-first-screen-jack.png}
-%  \caption{Sequencer64 Main Screen, Native JACK MIDI}
-%  \includegraphics[scale=0.75]{new/seq64-first-screen-alsa.png}
-%  \includegraphics[scale=0.75]{new/seq64-first-screen-alsa-panic.png}
    \includegraphics[scale=0.5]{new/seq64-first-screen-0-94.png}
-   \caption{Sequencer64 Main Screen, ALSA MIDI}
+   \caption{Sequencer64 Main Screen, Linux ALSA MIDI}
    \label{fig:seq64_main_screen}
 \end{figure}
 
+   The following figure shows the user-interface used for
+   \textsl{Windows}.  It uses the Qt 5 framework.
+
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{new/seq64-first-screen-0-96-qt.png}
-   \caption{Sequencer64 Main Screen, Qt 5 Interface}
+   \includegraphics[scale=0.65]{new/seq64-first-screen-0-96-qt.png}
+   \caption{Sequencer64 Main Screen, Qt 5 Interface, With Colors}
    \label{fig:seq64_main_screen_qt}
 \end{figure}
 
-   The \textsl{Sequencer64} main window appears, as shown in
-   \figureref{fig:seq64_main_screen} and
-   \figureref{fig:seq64_main_screen_qt}.
+   The \textsl{Sequencer64} main window appears, as shown above.
+%  \figureref{fig:seq64_main_screen}, and
+%  \figureref{fig:seq64_main_screen_qt}.
    These figures have some differences from the \textsl{Seq24} main window
-   and from each other, but the functionality is roughly the same.
-   Most features can be configured via the "rc" and "user"
+   and from each other, but the functionality is about the same.
+   Most features, including the "look" of the application,
+   can be configured via the "rc" and "user"
    configuration files or command-line options.
-   There are many new front-panel items in \textsl{Sequencer64}, but only for
-   the Gtkmm-2.4 version:
+   There are many new front-panel items in \textsl{Sequencer64}, but
+   the Qt and Gtkmm user-interfaces differ in details.
 
    \begin{itemize}
-      \item Top panel control buttons:
+      \item Control buttons:
       \begin{itemize}
+         \item Start, Stop, and Pause.
          \item Toggle and show the status of "Live" mode versus "Song" mode.
          \item Mute/show the mute status of all tracks.
          \item Enable/disable the menu bar and show its status.
-         \item Set/show JACK "Slave" transport, "Master" transport,
-            "ALSA" mode, or "JACK" (native JACK) mode.
+         \item Set JACK Slave/Master transport, and
+            ALSA/JACK (native) mode.
          \item Set the kind of time display, between "bars:beat:ticks"
             and "hours:minute:seconds".
+         \item Panic button, to stop all tracks and turn off all notes.
+         \item Song-recording snap, the \textbf{S} button.
+         \item Tap Tempo, the \textbf{0} (zero) button.
+         \item Keep-queue toggling and status.
       \end{itemize}
       \item Current time in bars, beats, and ticks.
-      \item Panic button, to stop all tracks and turn off all notes.
-      \item Start, Stop, and Pause.
       \item Song recording records all muting changes to the Song Editor.
-      \item Song-recording snap, the \textbf{S} button.
-      \item Tap Tempo, the \textbf{0} (zero) button.
       \item Log Tempo, which inserts the current tempo into the tempo track
-         as an event. Gtkmm-2.4 only.
+         as an event.
       \item Tempo recording, which inserts all tempo changes as tempo events.
-         Gtkmm-2.4 only.
-      \item Keep-queue toggling and status.
    \end{itemize}
 
-   Many (but not all) of these buttons have configurable keystrokes as well.
+   Many of these buttons have configurable keystrokes as well.
    See \sectionref{subsec:seq64_patterns_panel_bottom}.
-   Some of these items are not in the Qt interface.
+   Some of these items are not present in the Qt interface.
 
 % This Tip needs to be put elsewhere.
 %
@@ -497,6 +490,10 @@
 
 \input{seq64_event_editor}
 
+% Import/Export
+
+\input{seq64_midi_export}
+
 % Tables of keyboard and mouse actions
 
 \input{seq64_kbd_mouse}
@@ -517,13 +514,13 @@
 
 \input{seq64_playlist}
 
-% Man page
-
-\input{seq64_manpage}
-
 % Qt / PortMidi / Windows version
 
 \input{seq64_qt_portmidi}
+
+% Man page
+
+\input{seq64_manpage}
 
 % Headless version
 
