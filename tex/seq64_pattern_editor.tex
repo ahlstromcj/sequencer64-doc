@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-01-31
+% \update      2018-10-27
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -29,23 +29,24 @@
    \centering 
 %  \includegraphics[scale=0.75]{pattern/pattern-edit-window.png}
 %  \includegraphics[scale=0.75]{new/pattern_editor_chords-0_9_14.png}
-   \includegraphics[scale=0.75]{new/pattern_editor_transpose-0_9_15.png}
+%  \includegraphics[scale=0.75]{new/pattern_editor_transpose-0_9_15.png}
+   \includegraphics[scale=0.65]{gtkmm/pattern_editor/pattern_editor_0_96_1.png}
    \caption{Pattern Edit Window}
    \label{fig:pattern_edit_window}
 \end{figure}
 
-   Not shown in this figure are:
-   \begin{itemize}
-      \item The sequence number show as part of the updated window title, which
-         now shows the application name (e.g. "seq64" versus the old
-         "Sequencer64" title.
-      \item The sequencer number is now shown to the left of the
-         sequence/track name.
-      \item The new \textbf{LFO} button in the bottom panel.
-      \item The new \textbf{Rec Type}button in the bottom panel.
-   \end{itemize}
-   Both are described later. See
-   \figureref{fig:pattern_editor_bottom_panel_items}.
+%  Not shown in this figure are:
+%  \begin{itemize}
+%     \item The sequence number show as part of the updated window title, which
+%        now shows the application name (e.g. "seq64" versus the old
+%        "Sequencer64" title.
+%     \item The sequencer number is now shown to the left of the
+%        sequence/track name.
+%     \item The new \textbf{LFO} button in the bottom panel.
+%     \item The new \textbf{Rec Type}button in the bottom panel.
+%  \end{itemize}
+%  Both are described later. See
+%  \figureref{fig:pattern_editor_bottom_panel_items}.
 
    This dialog is complex.
    For exposition, we break it into some common actions, a first panel, a
@@ -61,38 +62,41 @@
 
    Before we describe this window, there are some things to recognize.
    First, if the pattern is empty when play is started, the progress bar will
-   still move.  This is necessary to help the user key in a new pattern.
-   Second, to add a note, one must press the right mouse button (the pointer
-   changes to a pencil) and, while holding it, press the left mouse button.
-   Or, to use a keystroke, click in the pattern editor, press
+   still move, that the user can key in new notes.
+   Second, to add a note, one must press the \textsl{right}
+   mouse button (the pointer changes to a pencil) and,
+   \textsl{while holding it}, press the left mouse button.
+   Or click in the pattern editor, press the
    \index{keys!p}
-   \texttt{p} to select the "pencil" or "paint" mode, then
+   \texttt{p} key to select the "pencil" or "paint" mode, then
    \index{mouse!left-click}
    left-click to add a note or
    \index{mouse!left-click-drag}
-   left-click-drag to add multiple notes as the mouse moves..
+   left-click-drag to add multiple notes as the mouse moves.
    \index{keys!x}
    Press or release the right mouse button, or press
-   \texttt{x} to "eXit" or "eXscape" from that mode.  Also remember
-   that notes are drawn only with the length selected by the "notes" button
-   near the top of the pattern window.  There are some other tricks to
+   \texttt{x} to "eXit" or "eXscape" from paint mode.
+   Third, notes are drawn only with the length selected by the "notes" button
+   near the top of the pattern window.  There are tricks to
    modifying the new notes that are described later.
 
-   Also new with \textsl{Sequencer64}, and not in \textsl{Seq24}, is the
-   automatic horizontal scrolling of the sequence/pattern editor window when
+   \textsl{Sequencer64} automatically scrolls
+   horizontally through the sequence/pattern editor window when
    playback moves the progress bar outside of the current frame of data.  This
    feature makes it easier to follow patterns that are longer than a measure or
    two.
    
-   Note that \textsl{Sequencer64} also provides a way to restart the progress
+   \textsl{Sequencer64} also provides a way to restart the progress
    bar within the pattern without resetting it to the beginning of the pattern.
-   \index{pause} This new feature is called "pause".  It can be accessed by the
+   \index{pause}
+   This "pause" feature is accessed by the
    \index{keys!.}
    \index{keys!pause}
-   new pause key (which defaults to the period character) or by the pause
-   button, which appears when playback is underway.  (This feature
-   can be disabled if the application is built via source code.  Note that
-   it works only in ALSA mode at present.)
+   pause key (which defaults to the period character) or by the pause
+   button, which appears when playback is underway.
+%  (This feature
+%  can be disabled if the application is built via source code.  Note that
+%  it works only in ALSA mode at present.)
 
 \subsection{Pattern Editor / First Panel}
 \label{subsec:seq64_pattern_editor_first}
@@ -133,7 +137,7 @@
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Pattern Number}{pattern editor!number}
-   This item is a read-only item that shows the sequence/track/pattern/loop
+   This item shows the sequence/track/pattern/loop
    number, to make it easier to pick it out when a lot of patterns are being
    edited at once.
 
@@ -142,19 +146,20 @@
    This name should be short and memorable.
    It is displayed in the Patterns window, on the top line of its pattern
    box/slot.
-   Unfortunately, there is no edit cursor in this field (not sure why yet), so
+   There is no edit cursor in this field (not sure why yet), so
    one has to edit blind.
 
    \itempar{Beats Per Bar}{pattern editor!beats/bar}
-   Part of the time signature, and specifies the number of beat units per bar.
+   Specifies the number of beat units per bar in the time signature.
    The possible values range from 1 to 16, if the drop-down menu is used.
-   As of version 0.90.6, the numeric value can be directly edited, to achieve
+   The numeric value can be directly edited, to achieve
    non-standard values, thanks to an update from Jean-Emmanuel.
+   But be careful!
 
    \itempar{Beat Unit (Beat Width)}{pattern editor!beat unit}
    \index{pattern editors!beat width}
    \index{beat width}
-   Part of the time signature, and specifies the size of the beat unit:
+   Specifies the size of the bottom beat unit of the time signature:
    1 for whole notes; 2 for half notes; 4 for quarter notes; 8 for eight notes;
    16 for sixteenth notes; and 32 for thirty-second notes.
    The whole time signature is display at the bottom center of a pattern
@@ -162,37 +167,38 @@
 
    \itempar{Pattern Length}{pattern editor!length}
    Sets the length of the current pattern, in measures.
-   The possible values range from 1 to 16, then 32, and 64.
+   The possible values range from 1 to 64.
    \textsl{However}, when opening or importing a non-\textsl{Sequencer64}
    MIDI tune, the length of each track will be used, and so other values
    are possible; they just cannot be set via the user-interface.
-   However, as of version 0.90.6, the numeric value can be directly edited, to
-   achieve non-standard values, thanks to an update from Jean-Emmanuel.
+   The numeric value can be directly edited, to
+   achieve non-standard values, thanks again to Jean-Emmanuel.
 
-   Note that bringing up a short sequence (one less than one measure or bar in
-   length) in the pattern editor will adjust the sequence to pad it to the
-   length of one measure.  For example, a sequence containing just one program
-   change will be padded to the size of a full measure.
-   This adjustment makes it show progress more smoothly in the main window when
-   the sequence is playing.
+   Bringing up a short pattern (one less than one measure or bar in
+   length) in the pattern editor will adjust the pattern to pad it to the
+   length of one measure.
    \index{pattern editor!progress bar}
-   \textsl{Sequencer64} will, when it reads such a short sequence
-   from a MIDI file (whether foreign or native to \textsl{Sequencer64}),
+   \textsl{Sequencer64} will, when it reads such a short pattern
+   from a MIDI file,
+%  (whether foreign or native to \textsl{Sequencer64}),
    pre-pad it to the length of a measure, so that it will always show smooth
    progress.
+   For example, a pattern containing just one program
+   change will be padded to the size of a full measure.
+%  This adjustment makes it show progress more smoothly in the main window when
+%  the pattern is playing.
 
    It would be nice to have a value that represents
    "indefinite", so that the loop or pattern would be more like a track,
    and not be repeatable.  We have part of that functionality:
-   as of version 0.90.5, we have incorporated changes from user
-   Stazed that allow the pattern to expand indefinitely while the user inputs
-   MIDI from a controller.
+   a feature from user Stazed allows the pattern to expand
+   indefinitely while the user inputs MIDI from a controller.
    See \sectionref{subsec:seq64_pattern_editor_bottom} below.
-   Also nice would be a "one-shot"
+   (Also nice would be a "one-shot"
    pattern, useful for live intro patterns, for example.)
 
    \itempar{Transpose Toggle}{pattern editor!transpose toggle}
-   This item, if enabled in the build, allows the sequence to be transposed by
+   This setting allows the sequence to be transposed by
    the global transpose selection made in the song editor.  If transpose is
    enabled for that pattern, the button will be highlighted as per the current
    desktop theme.  Patterns for drums should, in general, not be transposable.
@@ -223,7 +229,7 @@
    \label{fig:pattern_editor_main_panel_items}
 \end{figure}
 
-   We show a new screen-shot, because there is a new button to the right
+   There is a new button to the right
    of the \textbf{Tools} ("hammer" button).  This button toggles the "follow
    progress" feature; it is the active button in the diagram above.
 
@@ -234,9 +240,10 @@
 %    \label{fig:pattern_editor_main_panel_update}
 % \end{figure}
 
-   If \textsl{Sequencer64} is built with the new chord-generation option
-   built in (the default), then the second panel is wider to make room for an
-   addition user-interface item, shown at the right of the figure above.
+   \textsl{Sequencer64} includes a chord-generation option.
+
+%  built in (the default), then the second panel is wider to make room for an
+%  addition user-interface item, shown at the right of the figure above.
 
 % \begin{figure}[H]
 %    \centering 
@@ -263,9 +270,8 @@
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Undo}{pattern editor!undo}
-   The Undo button will roll back any changes to the pattern from this
-   session.
-   It will roll back one change each time it is pressed.
+   The Undo button rolls back any changes to the pattern from this session.
+   It will roll back one change each time pressed.
    It is not certain what the undo limit (if any) is, however.
    \index{keys!ctrl-z}
    Pressing \texttt{Ctrl-Z} is the same as using the \textbf{Undo} button.
@@ -275,10 +281,10 @@
    session.
    It will restore one change each time it is pressed.
    It is not certain what the redo limit is, however.
-   There is no "Redo" key in the pattern editor.
+%  There is no "Redo" key in the pattern editor.
 
    \itempar{Quantize Selection}{pattern editor!quantize}
-   Pressing this button will quantize the selected events, as per
+   This button quantizes the selected events as per
    the \textbf{Grid Snap} setting.
 
    \itempar{Tools}{pattern editor!tools}
@@ -286,7 +292,7 @@
    events and notes.
 
    \itempar{Follow Progress}{pattern editor!tools}
-   Pressing this button toggles whether or not the progress bar follows
+   This button toggles whether or not the progress bar follows
    progress in long patterns.  Turning off this feature is useful when
    one wants to concentrate on the current measure without the paging to
    subsequent measures that occurs with the "follow progess" feature.
@@ -304,7 +310,8 @@
       \item \textbf{Modify Pitch}
    \end{enumber}
 
-   $\bullet$ \textbf{Select} provides two sets of selections for notes:
+%  $\bullet$
+   \textbf{Select} provides two sets of selections for notes:
    \begin{itemize}
       \item \textbf{All Notes}, which selects all notes in the pattern;
          Note that \index{keys!ctrl-a} \texttt{Ctrl-A} will also select
@@ -339,12 +346,12 @@
          \end{itemize}
    \end{itemize}
 
-   There are many things that can be done with selected notes, as will be seen
-   in the following paragraphs.
+   There are many things that can be done with selected notes:
 
    \index{modify event-data}
-   $\bullet$ \textbf{Modify Event Data} offers a way to change the event data
-   (the lower pane of the pattern editor, the "data pane").
+   $\bullet$ \textbf{Modify Event Data} offers a way to
+   alter the event data values in 
+   the lower pane of the pattern editor, the "data pane".
    By left-dragging the mouse in the data pane across the value lines that are
    shown, the values are chopped or set to the height of the mouse pointer at
    each event.
@@ -423,7 +430,7 @@
    1/3, 1/6, 1/12/, 1/24, 1/48, 1/96, and 1/192.
 
    \itempar{Note Length}{pattern editor!note length}
-   Note Length determines the duration of the inserted notes.
+   Note length determines the duration of the inserted notes.
    Like the \textbf{Grid Snap} values,
    the following values are supported:
    1, 1/2, 1/4, 1/8, 1/16, 1/32, 1/64, and 1/128.
@@ -431,77 +438,79 @@
    1/3, 1/6, 1/12/, 1/24, 1/48, 1/96, and 1/192.
 
    \itempar{Zoom}{pattern editor!zoom}
-   Zoom is the relation between MIDI pixels and ticks, written as
-   "pixels:ticks", where "ticks" is really the "pulses" in "PPQN".
+   Horizontal zoom is the ratio between MIDI pixels and ticks, written as
+   "pixels:ticks", where "ticks" is the "pulses" in "PPQN".
    For example, 1:4 = 4 ticks per pixel.
    Supported values are 1:1, 1:2, 1:4, 1:8, 1:16, and 1:32, along with
    more new values to support higher PPQN tunes: 1:64, 1:128, 1:256, and
    1:512.
    The default zoom is 2 for the standard PPQN value, 192, but it
-   increases for higher PPQN values.
-   This is the zoom of the Pattern Editor.  As the right number goes higher,
-   the effect is to zoom out, and show more of the pattern at once.
-   In fact, it is probably better to list them as ticks (pulses) per pixel:
+   increases for higher PPQN values, so that the zoom looks sensible.
+   As the right number (ticks) goes higher,
+   the effect is to zoom out, and show more of the pattern.
+   In fact, it might be better to list them as ticks (pulses) per pixel.
+   Legacy stuff.
 
-   \begin{itemize}
-      \item 1 pulse per pixel
-      \item 2 pulses per pixel (default value)
-      \item 4 pulses per pixel
-      \item 8 pulses per pixel
-      \item 16 pulses per pixel
-      \item 32 pulses per pixel (same as Song Editor)
-      \item . . .
-      \item 512 pulses per pixel
-   \end{itemize}
+%  \begin{itemize}
+%     \item 1 pulse per pixel
+%     \item 2 pulses per pixel (default value)
+%     \item 4 pulses per pixel
+%     \item 8 pulses per pixel
+%     \item 16 pulses per pixel
+%     \item 32 pulses per pixel (same as Song Editor)
+%     \item . . .
+%     \item 512 pulses per pixel
+%  \end{itemize}
 
-   \textbf{New:}
-   \index{new!zoom keys}
+   \index{zoom keys}
    \index{keys!0}
    \index{keys!z}
    \index{keys!shift-z}
-   After one has left-clicked in the piano roll, the "z", "Z", and "0"
-   can be used to zoom the piano-roll view.  The "z" key zooms out, the "Z" key
-   zooms in, and the "0" key resets the zoom to the default value.
-   The zoom feature also modifies the time-line (measures indicator) and
-   the data area.
-   If, for some reason, the data area and piano-roll get out of sync, click on
-   the horizontal scroll bar to force the views to redraw properly.
+   After a left-click in the piano roll, the
+   \textbf{z}, \textbf{Z}, and \textbf{0}
+   can be used to zoom the piano-roll view horizontally.
+   The \textbf{z} key zooms out (smaller),
+   the \textbf{Z} key zooms in (larger),
+   and the \textbf{0} key resets the zoom to the default value.
+   The horizontal zoom feature also affects the time-line
+   (measures indicator) and the data area.
+%  If, for some reason, the data area and piano-roll get out of sync, click on
+%  the horizontal scroll bar to force the views to redraw properly.
 
    \index{song editor!zoom}
-   Note that the Song Editor, which now has zoom functionality (through
-   the "z", "Z", and "0" keystrokes only),
+   (Note that the Song Editor, which now has zoom functionality,
+%  (through the "z", "Z", and "0" keystrokes only),
    has a default resolution of 32 pulses per pixel, so, by default, it has
-   16 times the resolution of the Pattern Editor.
+   16 times the resolution of the Pattern Editor.)
 
    \itempar{Key of Sequence}{pattern editor!key}
-   Selects the desired key for the pattern.  The following scales are
+   Selects the desired musical key for the pattern.  The following keys are
    supported:  C, C\#, D, D\#, E, F, F\#, G, G\#, A, A\#, and B.
-   Note that changing the \textbf{Key} will also shift the marked notes
+   Changing the \textbf{Key} will also shifts the marked note-rows
    for the \textbf{Musical Scale} setting.
 
-   \textbf{New:}
-   \index{new!save musical key}
-   As of version 0.9.9.8, the key that a sequence is set to is
-   now saved in the MIDI file along with the rest of the data for the sequence.
+   \index{save musical key}
+   The musical key that a sequence/pattern is set to is
+   saved in the MIDI file along with the rest of the data for the sequence.
    \textbf{However},
    it turns out that a change made to the key, scale, or background sequence in
-   the sequence editor is saved in that editor, so that opening another sequence
+   the pattern editor is saved in that editor, so that opening another sequence
    will apply the same settings to that sequence.  This is an optional feature,
    now more rigorously supported, as noted below.
 
    \index{global-sequence}
-   If the global-sequence-feature is enabled, and the user selects
-   a different key, scale, or background sequence in the sequence editor, 
-   then \textsl{all} sequences will share the selected key, scale, or background
+   If the global-sequence feature is enabled, and the user selects
+   a different key, scale, or background sequence in the pattern editor, 
+   then \textsl{all} patterns share the selected key, scale, or background
    sequence.  Furthermore, these settings are saved in the "proprietary"
-   section of the MIDI file, where they are available for all sequences.
+   section of the MIDI file, where they are available for all patterns.
 
-   If the global-sequence-feature is \textsl{no}t enabled, and the user selects
-   a different key, scale, or background sequence in the sequence editor, 
-   then only that sequence will use the selected key, scale, or background.
+   If the global-sequence feature is \textsl{not} enabled, and the user selects
+   a different key, scale, or background sequence in the pattern editor, 
+   then only that pattern will use the selected key, scale, or background.
    The key, scale, or background sequence change will be saved in the MIDI file
-   only for that sequence, as a SeqSpec meta event.
-   The global-sequence-feature setting can be made in the "user" configuration
+   only for that pattern, as a SeqSpec meta event.
+   The global-sequence feature setting can be made in the "user" configuration
    file.
 
    \itempar{Musical Scale}{pattern editor!scale}
@@ -512,16 +521,14 @@
       \item The notes that are \textsl{not}
          in the scale are shown as grey in the piano
          roll, to make it easier to key all notes in-scale.
-      \item When harmonic transposition is performed, the notes are shifted
+      \item For harmonic transposition, the notes are shifted
          so that they remain in the selected scale.
       \item The exact notes that are considered "in-scale" depend also on the 
          exact value of the \textbf{Key of Sequence} setting.
    \end{itemize}
 
-   \textbf{New:}
-   \index{new!musical scales}
-   Originally, only the following scales were supported: Off, Major, and Minor.
-   Now, the following scales are supported:
+   \index{musical scales}
+   The following musical scales are supported:
 
    \begin{itemize}
       \item \textbf{Off (Chromatic)}
@@ -535,50 +542,47 @@
       \item \textbf{Minor Pentatonic}
    \end{itemize}
 
-   Please let us know of any mistakes found in the new scales.
-   Also please note that the \textbf{Melodic Minor} scale is supposed to
+   Please let us know of any mistakes in the new scales.
+   Please note that the \textbf{Melodic Minor} scale is supposed to
    descend in the same was as the natural \textbf{Minor} scale, but
-   there is no way to support that trick in
-   \textsl{Sequencer64}.
+   there is no way to support that trick in \textsl{Sequencer64}.
 
-\begin{figure}[H]
-   \centering 
-%  \includegraphics[scale=0.75]{pattern/scales-menu.png}
-   \includegraphics[scale=1.0]{new/scales-menu.png}
-   \caption{Scales Currently Supported in Sequencer64}
-   \label{fig:pattern_editor_available_scales}
-\end{figure}
+% \begin{figure}[H]
+%    \centering 
+% %  \includegraphics[scale=0.75]{pattern/scales-menu.png}
+%    \includegraphics[scale=1.0]{new/scales-menu.png}
+%    \caption{Scales Currently Supported in Sequencer64}
+%    \label{fig:pattern_editor_available_scales}
+% \end{figure}
 
    One can select which \textbf{Musical Scale} and
    \textbf{Key} the piece is in,
    and \textsl{Sequencer64} will grey those keys on the piano-roll that
    are \textsl{not} in the selected scale for the selected key.
-   This is purely a visual thing; a user can still add off-key notes.
+   This is purely visual; a user can still add off-key notes.
    This effect is shown for the C Major scale in the following figure:
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/major-scale-masking.png}
+   \includegraphics[scale=0.65]{pattern/major-scale-masking.png}
    \caption{C Major Scale Masking}
    \label{fig:pattern_editor_major_scale_masking}
 \end{figure}
 
-   This feature makes it a bit easier to stay in key while playing and
+   This feature makes it easier to stay in key while playing and
    recording.  Note that the scale will shift when a different
    \textbf{Key} is selected.
 
-   \textbf{New:}
-   \index{new!save musical scale}
-   The scale that a sequence is set to is
-   now saved in the MIDI file along with the rest of the data for the sequence.
+   \index{save musical scale}
+   The scale that a pattern is set to is
+   now saved in the MIDI file along with the rest of the data for the pattern.
    \textbf{However},
-   it turns out that a change made to the key, scale, or background sequence in
-   the sequence editor is saved in the editor, so that opening another sequence
-   will apply the same settings to that sequence.  This is a feature.
-   The feature had some quirks, which are fixed, and it is now
-   an optional feature.
-   Also, the user has the option of applying the key/scale/background-sequence
-   either globally (all sequences) or locally, per-sequence, with each sequence
+   a change made to the key, scale, or background pattern in
+   the pattern editor is saved in the editor, so that opening another pattern
+   will apply the same settings to that pattern.  This is a feature.
+   The feature had some quirks, which are fixed, and it is now optional.
+   The user has the option of applying the key/scale/background-sequence
+   either globally (all patterns) or locally, per-pattern, with each pattern
    holding its key, scale, and background-sequence settings in
    SeqSpec meta events.
 
@@ -612,15 +616,13 @@
    The dark cyan notes shown represent the rhythm pattern that was selected as
    the background pattern.
 
-   \textbf{New:}
-   \index{new!save background seqeuence}
-   The background sequence that a sequence shows is saved in the MIDI file
-   along with the rest of the data for the sequence.
-   \textbf{However},
-   it turns out that a change made to the key, scale, or background sequence in
-   the sequence editor is saved in the editor, so that opening another sequence
+   \index{save background sequence}
+   The background sequence that shows is saved in the MIDI file
+   along with the rest of the data for the sequence/pattern.
+   A change made to the key, scale, or background sequence in
+   the pattern editor is saved in the editor, so that opening another sequence
    will apply the same settings to that sequence.  This is an optional feature,
-   now more rigorously supported, as noted earlier.
+   now supported, as noted earlier.
 
    \itempar{Chord Generation}{pattern editor!chord generation}
    The ability to insert chords with one click has been added.
@@ -642,16 +644,16 @@
 \subsection{Pattern Editor / Piano Roll}
 \label{subsec:seq64_pattern_editor_piano_roll}
 
-   The piano roll is the center of the pattern (loop, track, sequence) editor.
+   The piano roll is the center of the pattern/loop/track/sequence editor.
    It is accompanied by a
    \index{event area}
-   thin "event bar" (or "event area", or "event strip") just below it,
+   thin "event bar" ("event area", "event strip") just below it,
    \index{data area}
    and a taller "data bar" or "data area" just below that.  While the pattern
    editor is very similar to note editors in other sequencers, it is a bit
    different in feel.  A good mouse with 3 or more buttons is practically a
-   necessity for editing (though we have made \textsl{Sequencer64} more usable
-   with some crummy trackpads now common on modern laptops, and also usable
+   necessity for editing (though \textsl{Sequencer64} is usable
+   with some crummy trackpads common on modern laptops, and
    with keystrokes.) We tend to like the Logitech Marble Mouse, an ambidextrous
    USB trackball.  It has four buttons, and we use the
    \texttt{contrib/scripts/marblemouse} script to set up the left small button
@@ -661,33 +663,37 @@
       xmodmap -e "pointer = 1 8 3 4 9 6 7 2 5 10 11"
    \end{verbatim}
 
-   Editing is much easier after making that setting.   Of course, keystrokes
-   and additional mouse configuration have been added to make editing easier
-   even without a good mouse.
-   For example, one can page up and down vertically in the piano roll using the
+%  Editing is much easier after making that setting.   Of course, keystrokes
+%  and additional mouse configuration have been added to make editing easier
+%  even without a good mouse.
+
+   One can page vertically in the piano roll using the
    \index{keys!page-up} Page Up and 
    \index{keys!page-down} Page Down keys.
    One can go to the top using the 
    \index{keys!home} Home key, and
    to the bottom using the
    \index{keys!end} End key.
-   One can page left and right horizontally in the piano roll using the
+   One can page left and right in the piano roll using the
    \index{keys!shift-page-up} Shift Page Up and 
    \index{keys!shift-page-down} Shift Page Down keys.
    One can go to the leftmost position using the 
    \index{keys!shift-home} Home key,
    and to the rightmost position using the
    \index{keys!shift-end} End key,
-   And there are more keystroke actions to be described later.
+   There are more keystrokes to be described later.
 
    \index{step}
    \index{note step}
-   Also, do not forget the note-step option.  If one paints notes with the mouse,
-   the note is previewed, and the note position advances with each click.  If
-   one paints notes via an external MIDI keyboard, the notes are painted and
-   advanced, but they are not previewed.  To preview them, click the
+   Do not forget the note-step option.
+   If one paints notes with the mouse,
+%  the note is previewed, and
+   the note position advances with each click.
+   If one paints notes via an external MIDI keyboard, the notes are painted and
+   advanced, but not previewed.
+   To preview them, click the
    \textbf{pass MIDI in to output} button to activate so that they will be
-   passed to one's sound generator or software synthesizer.
+   passed to the sound generator or software synthesizer.
 
 \subsubsection{Pattern Editor / Piano Roll Items}
 \label{subsubsec:seq64_pattern_editor_piano_roll_items}
@@ -698,7 +704,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/pattern-edit-piano-roll-items.png}
+   \includegraphics[scale=0.65]{pattern/pattern-edit-piano-roll-items.png}
    \caption{Pattern Editor, Piano Roll Items}
    \label{fig:pattern_editor_piano_roll_items}
 \end{figure}
@@ -706,7 +712,7 @@
    \begin{enumber}
       \item \textbf{Beat}
       \item \textbf{Measure}
-      \item \textbf{Virtual Keyboard}
+      \item \textbf{Virtual Piano Keyboard}
       \item \textbf{Notes}
       \item \textbf{Events}
       \item \textbf{Event Values}
@@ -727,7 +733,7 @@
    occurs at the end of a measure, and is marked by a blocky \textbf{END}
    marker.
 
-   \itempar{Virtual Keyboard}{piano roll!virtual keyboard}
+   \itempar{Virtual Piano Keyboard}{piano roll!virtual piano keyboard}
    The virtual keyboard is a fairly powerful interface.  It shows,
    by shadowing, which note on the keyboard will be drawn. It can be
    played with a mouse, using left-clicks, to preview a short motif.
@@ -755,11 +761,13 @@
    a visual representation of the pitch of a note and the length of a note.
 
    \itempar{Events}{piano roll!events}
-   \index{events pane}
+   \index{events strip}
    Also known as the "events pane" or "events panel".
-   The small (just a few pixels high) events strip shows discrete events,
-   such as Note On and Note Off and their velocities, or various Controller
-   items and their values.  We recommend not editing or selecting events
+   The narrow (a few pixels high) events strip shows discrete events,
+   such as Note On and Note Off
+%  Shows their velocities, or various Controller
+%  items and their values.
+   We recommend not editing or selecting events
    in that pane (feel free to disobey), but it is a good way to add events.
    Either
    \index{mouse!left-click}
@@ -793,22 +801,24 @@
 \label{subsubsec:seq64_pattern_editor_event_editing}
 
    When we say "editing" in the context of the piano roll, in part we mean that
-   we will "draw" \index{draw mode}
-   or "paint" \index{paint mode} notes.
+   we will "draw"
+   \index{draw mode}
+   or "paint"
+   \index{paint mode} notes.
    Drawing, modifying, copying, and deleting
    notes is actually very elegant in \textsl{Sequencer64} and in
    \textsl{Seq24}.
 
-   Note editing is a bit different with \textsl{Sequencer64}, since it
-   requires two mouse buttons in many cases.  There are some new
-   laptop touchpads that really have only one mouse button, and
-   use positioning to determine if the click is a left-click or a right-click.
-   Two-fingered actions are devoted to scrolling, so that there is no way
-   to generate a Linux middle-click.
-   One solution is to use a four-button USB trackball
-   configued with an easy middle-button setup.
-   It's easier than a touchpad, anyway.
-   So we've coded up a couple of solutions to this middle-click problem.
+%  Note editing is a bit different with \textsl{Sequencer64}, since it
+%  requires two mouse buttons in many cases.  There are some new
+%  laptop touchpads that really have only one mouse button, and
+%  use positioning to determine if the click is a left-click or a right-click.
+%  Two-fingered actions are devoted to scrolling, so that there is no way
+%  to generate a Linux middle-click.
+%  One solution is to use a four-button USB trackball
+%  configued with an easy middle-button setup.
+%  It's easier than a touchpad, anyway.
+%  So we've coded up a couple of solutions to this middle-click problem.
 
    Note that, if only a middle-button is needed,
    \texttt{Ctrl-left} will simulate that button.
@@ -817,16 +827,15 @@
 %  \texttt{p} and \texttt{x} keys for getting in and out of "paint mode",
 %  discussed elsewhere.
 
-   \textbf{New:}
    \index{keys!mod4}
    There is a feature to allow the Mod4
    \index{pattern editor!mod4}
    (the Super or Windows) key to keep the
    right-click in force even after it is released.  See \ref{new_mod4_mode}.
-   Basically, pressing Mod4 before releasing the right-click that allows
+   Pressing \texttt{Mod4} before releasing the right-click that allows
    note-adding, keeps note-adding in force after the right-click is released.
-   Now notes can be added at will with the left mouse button.  Right-click
-   again to leave the note-adding mode.
+   Now notes can be added at will with the left mouse button.
+   Right-click again to leave the note-adding mode.
 
    \textbf{New:}
    \index{new!paint mode}
@@ -834,23 +843,24 @@
    To turn on the paint mode, first make sure that the piano roll has the
    keyboard focus by left-clicking in it, then press the
    \index{keys!p}
-   \texttt{p} key while in the sequence editor.
+   \texttt{p} key while in the pattern editor.
    This is just like pressing the right mouse button, but the draw/paint mode
-   sticks (as if the Mod4 mode were in force).
-   To get out of the paint mode, press the
+   sticks (as if the \texttt{Mod4} mode were in force).
+   To get out of paint mode, press the
    \index{keys!x}
-   \texttt{x} key while in the sequence editor, to "x-scape" (get it? get it?)
+   \texttt{x} key while in the pattern editor, to "x-scape" (get it? get it?)
    from the paint mode.
    These keys also work while the sequence is playing.
 
    The \texttt{p} and \texttt{x} keys also works in the small event strip just
-   above the white data area.  The Mod4-right-click feature does not
-   yet work in that aread of the user-interface, but the \texttt{p} key does.
+   above the white data area.
+   The Mod4-right-click feature does not
+   yet work in that area of the user-interface, but the \texttt{p} key does.
 
 \paragraph{Editing Note Events}
 \label{paragraph:seq64_pattern_editor_note_events}
 
-   The Piano Roll pane provides for a quite sophisticated set of note-editing
+   The piano roll provides for a quite sophisticated set of note-editing
    actions.  Not only is there a native mouse-interaction mode, but there is a
    "fruity" mouse-interaction mode that works more like the application
    \textsl{Fruity Loops}, its follow-on \textsl{FL Studio},
@@ -870,8 +880,7 @@
    mode of mouse-interaction.
    For now, \sectionref{paragraph:seq64_menu_file_options_mouse}, such as it
    is, will have to do.
-
-   Please study the following paragraphs carefully, ideally while
+   Study the following paragraphs carefully, ideally while
    trying them out in \textsl{Sequencer64}.
 
    \itempar{Enter Draw Mode}{pattern editor!draw mode}
@@ -884,20 +893,20 @@
    \index{paint mode}
    To exit the draw mode, release the right mouse button, and the cursor will
    turn back into an arrow.
-
    Another way to enter paint mode is to make sure the piano roll has focus
    (left click in it), and then press the \texttt{p} key.
-   To exit the draw mode, press the \texttt{Shift-p} key.
+   To exit the draw mode, press the \texttt{x} key.
 
    \itempar{Add Notes}{pattern editor!add notes}
    \index{pattern editor!right hold left click}
-   Then, while still \textbf{holding} the \textbf{right} mouse button, click
-   the \textbf{left} mouse button to \textbf{insert} new notes.  Many people
-   find this combination strange at first, but once one gets used to it, it
-   becomes a very fast method of note manipulation.  An new option is to
-   hold the Mod4 key while releasing the right button, which keeps the mouse
-   in draw mode.  Another new option is to press the \texttt{p} to enter draw
-   mode, and stay in it until \texttt{Shift-p} is pressed.
+   If using the mouse, while \textbf{holding} the \textbf{right} mouse button,
+   click the \textbf{left} mouse button to \textbf{insert} new notes.
+   Many people find this combination strange at first, but once one gets used
+   to it, it becomes a very fast method of note manipulation.
+   Holding the \texttt{Mod4} key while releasing the right button keeps the
+   mouse in draw mode.
+%  Another new option is to press the \texttt{p} to enter draw
+%  mode, and stay in it until \texttt{Shift-p} is pressed.
    \index{notes!inserting}
    Note that this click will add a single note, and the length of the note will
    be that specified in the note-length setting (e.g. "1/16").
@@ -911,10 +920,9 @@
    Dragging left or right adds new notes, while dragging upward or
    downward moves the current note to a different pitch.
    \index{auto-note}
-   We call this the "auto-note" feature.
+   This is the "auto-note" feature.
    Please note that the auto-note feature does \textsl{not} work with
-   the chord-generation feature.
-
+   chord-generation.
    The draw mode has the following features:
 
    \begin{itemize}
@@ -975,8 +983,7 @@
    \index{selection!deselect}
    To deselect the notes, click somewhere else in the piano roll, and the notes
    should change back to white.
-
-   There is no way to deselect a single note, with, say a shift-click
+   There is no way to deselect a single note, with, say, a shift-click
    or ctrl-click action.
 
 %  \index{notes!lengthen}
@@ -988,9 +995,8 @@
    \itempar{Move Notes in Pitch}{pattern editor!move notes in pitch}
    To move notes in pitch, once selected, grab one of the notes in the
    selection and drag it upward or downward.
-   \textbf{New:}
-   \index{new!down arrow}
-   \index{new!up arrow}
+   \index{down arrow}
+   \index{up arrow}
    Also, since a selection is in force, the Up and Down arrow keys can also
    be used to change the pitch of every note in the selection.
    The smallest unit of pitch change is one MIDI note value.
@@ -1021,9 +1027,9 @@
    a note disappears at one end of the pattern boundary, it wraps around to the
    other end.  Cool.
 
-   (There is another feature of the arrow keys when no selection is made, that
-   supposedly moves an "origin" for playback, but we haven't been able to
-   figure out exactly if it does anything.)
+%  (There is another feature of the arrow keys when no selection is made, that
+%  supposedly moves an "origin" for playback, but we haven't been able to
+%  figure out exactly if it does anything.)
 
    \itempar{Change Note Length}{pattern editor!change note length}
    \index{pattern editor!ctrl left click drag}
@@ -1040,13 +1046,12 @@
    \index{event!stretch}
    \index{stretch events}
    Once a selection of notes is made, one can use the
-   shift-middle-click-drag (true?) or ctrl-left-click-drag
+   shift-middle-click-drag or ctrl-left-click-drag
    sequence over the selected notes to
    draw a box beyond the extent of the notes.  When the mouse is released,
    each of the events is moved and lengthed to be proportionally longer to
    fit exactly within the box one drew.
    This feature is called \textsl{event stretch}.
-
    \index{pattern editor!event compression}
    \index{event!compression}
    \index{compress events}
@@ -1056,15 +1061,15 @@
    This feature is called \textsl{event compression}.
    
    \index{warning!wrap-around notes}
-   \textbf{Warning}:  If one reduces or increases the length of a note selection
-   by too much, the note or notes will "wrap-around" to the end of the sequence
-   boundary and grow more from the beginning of the sequence. 
+   \textbf{Warning}:  Reducing or increasing the length of a note selection
+   by too much causes the note or notes to "wrap-around" to the end
+   of the pattern boundary and grow more from the beginning of the sequence. 
    It is not clear if this new note has an ending time that is less than its
    beginning time.  If it happens, one probably ought to undo it.
 
-   Note that notes can be shortened below the default note length by event
-   compression.  Note that there is currently no way to change the length of
-   the note using a keystroke.
+%  Note that notes can be shortened below the default note length by event
+%  compression.  Note that there is currently no way to change the length of
+%  the note using a keystroke.
 
    \itempar{Copy/Paste}{pattern editor!copy/paste}
    Copying, cutting, and pasting is supported by selecting a number of events
@@ -1092,30 +1097,30 @@
    selected-and-copied notes appears, and the user should move the box (note)
    to the desired location and then left-click.
 
-   \textsl{
-   (Warning:  We've had temporary issues where the selection box flickers, and
-   this seems to be due to updates in the graphics library used by
-   \textsl{Sequencer64}.  This issue might depend on the Linux distro one
-   uses.)
-   }
+%  \textsl{
+%  (Warning:  We've had temporary issues where the selection box flickers, and
+%  this seems to be due to updates in the graphics library used by
+%  \textsl{Sequencer64}.  This issue might depend on the Linux distro one
+%  uses.)
+%  }
 
-   Additionally, one can move the orange box using the arrow keys, to the
+   One can move the orange box using the arrow keys, to the
    desired location, and then hit the
    \index{keys!enter} \texttt{Enter} key to
    drop the notes at that location.
 
-   Finally, note that selected notes that are cut or copied can then be
+   Selected notes that are cut or copied can then be
    pasted into \textsl{other} pattern editor dialogs; that is, they can be
    pasted into other sequences.
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{pattern/selection-paste-box.png}
+   \includegraphics[scale=0.65]{pattern/selection-paste-box.png}
    \caption{Piano Roll, Paste-Box for Cut Notes}
    \label{fig:pattern_editor_selection_paste_box}
 \end{figure}
    
-   Note that the selection box is now orange, not black.
+%  Note that the selection box is now orange, not black.
    Move this box to where pasting is
    desired, and left-click.  The moved notes appear, still selected,
    and they can then be moved further, if desired, by using the arrow keys, or
@@ -1127,30 +1132,30 @@
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{pattern/pattern-edit-selected-events-0-9-10.png}
-   \includegraphics[scale=0.75]{new/pattern-edit-selected-events.png}
+   \includegraphics[scale=0.65]{new/pattern-edit-selected-events.png}
    \caption{Piano Roll, Selected Notes and Events}
    \label{fig:pattern_editor_selected_events}
 \end{figure}
 
-   \textbf{New:}
-   \index{new!selected data coloring}
+   \index{selected data coloring}
    The selection, shown in
    \figureref{fig:pattern_editor_selected_events},
-   illustrates the new style of event selection, which colors the data
+   illustrates the style of event selection, which colors the data
    bars as well as the event and note bars.  This selection was made by first
    selecting one set of events by the
    \index{mouse!left-click-drag}
    left-click-drag action, then
    \index{mouse!ctrl-left-click-drag}
-   selecting more events by holding the Ctrl key for the next left-click drag
-   action.  The second selection left out some events, which are thus still
+   selecting more events by holding the \texttt{Ctrl}
+   key for the next left-click drag action.
+   The second selection left out some events, which are thus still
    shown as black bars in the data area.
 
-   As an aside, note that the event strip is gray.  \textsl{Sequencer64}
-   now shows this strip as gray when the selected event (the \textbf{Event}
-   button) is Note On, Note Off, or Aftertouch.  This color is purely a
-   reminder that moving these events can really screw up the notes, for example
-   by moving Note Off to before the Note On event.
+%  As an aside, note that the event strip is gray.  \textsl{Sequencer64}
+%  now shows this strip as gray when the selected event (the \textbf{Event}
+%  button) is Note On, Note Off, or Aftertouch.  This color is purely a
+%  reminder that moving these events can really screw up the notes, for example
+%  by moving Note Off to before the Note On event.
    
 \paragraph{Event and Data Panels / Editing Other Events}
 \label{paragraph:seq64_pattern_editor_other_events}
@@ -1167,9 +1172,9 @@
    representation of that value.
    Note events do not need to be inserted in the event strip.
    \index{warning!unterminated notes}
-   (\textsl{Note events can be inserted there, but they end up as short
+   \textsl{They can be inserted there, but they end up as short
    events of the lowest possible note, 0 or C1, and they don't have a Note
-   Off event.  So don't do that!})
+   Off event.  Don't do that!})
 
    \index{events!insert}
    Other event types can be inserted via the event strip.  To do that, first
@@ -1192,7 +1197,6 @@
 
    Once the event positions are set, the next step is to modify the
    data values of the events.
-
    \index{event data}
 	The event value (data) editor (directly under the event strip) is used 
 	to change note velocities, channel pressure, control codes,
@@ -1228,8 +1232,8 @@
 \label{subsec:seq64_pattern_editor_bottom}
 
    The bottom horizontal panel of the Pattern Editor provides for
-   selecting events for viewing and edition, and the MIDI playback,
-   pass-through, and recording options of \textsl{Sequencer64}.
+   selecting events for viewing and editing, MIDI playback,
+   pass-through, and recording.
 
 \begin{figure}[H]
    \centering 
@@ -1239,7 +1243,7 @@
    \label{fig:pattern_editor_bottom_panel_items}
 \end{figure}
 
-   Missing from this diagram is the new "Existing Event Selector" which zeroes
+   Missing from this diagram is the "Existing Event Selector" which zeroes
    in only on events already present in the pattern.
 
 %  Until we can get a completely labelled screenshot, here is the
@@ -1288,35 +1292,30 @@
    The sub-menus of this context menu show 128 controller messages,
    so we won't try to show all of them here.  They also use the squares to
    indicate if there are any events of the type shown in the menu.
-
    These sub-menus can be modified by editing the file
    
    \begin{verbatim}
       $HOME/.config/sequencer64/sequencer64.usr
    \end{verbatim}
 
-   (legacy mode: \texttt{\$HOME/.seq24usr}), to make it match one's
-   instrument.  See \sectionref{sec:seq64_usr_file}.
+   to make it match one's instrument.  See \sectionref{sec:seq64_usr_file}.
 
    \itempar{Existing Event Selector}{pattern editor!existing events}
-   Not yet shown in the figure above is a small button that will contain either
+   Not shown in the figure above is a small button that will contain either
    an empty square (no editable events) or a black square (at least one
    editable event).  Unlike the event-selector described above, this one
    shows only the actual events existing in the track, for quicker selection.
-   The event-selector above is more useful for creating new events.
+%  The event-selector above is more useful for creating new events.
 
    \itempar{Event Selection}{pattern editor!event selection}
    Shows the selection event, with its number shown in hexadecimal notation,
    and the name of the event shown.
 
-   \textbf{New:}
-   \index{new!LFO control}
-
    \itempar{LFO}{pattern editor!LFO}
-   If \textsl{Sequencer64} is built with the \texttt{--enable-lfo} option,
-   then a low-frequency oscillator functionality is built so that data events
+%  If \textsl{Sequencer64} is built with the \texttt{--enable-lfo} option, then
+   A low-frequency oscillator allows data events
    can be modulated by some rudimentary wave functions.
-   This feature is now enabled by default.
+%  This feature is now enabled by default.
    By clicking on the \textbf{LFO} button or using the \texttt{Ctrl-L} key,
    the following window appears, shown as the set of 5 vertical sliders:
 
@@ -1327,7 +1326,7 @@
    \label{fig:pattern_editor_bottom_lfo_support}
 \end{figure}
 
-   Note the controls in this window:
+%  Note the controls in this window:
 
    \begin{enumber}
       \item \textbf{Value}:
@@ -1367,24 +1366,25 @@
    the window horizontally.
 
    \itempar{Data To MIDI Buss}{pattern editor!data to midi buss}
-   Activating this button will cause the pattern to be output to the MIDI
-   output buss, which will normally be connected to a software or hardware
+   This button causes the pattern to be output to the
+   selected MIDI output buss,
+   which will normally be connected to a software or hardware
    synthesizer, to be heard.
    Generally, this control should always be activated.
 
    \itempar{MIDI Data Pass-Through}{pattern editor!midi data pass-through}
-   Activating this button will route incoming MIDI data through
-   \textsl{Sequencer64}, which will then write it to the MIDI output buss.
+   This button routes incoming MIDI data through
+   \textsl{Sequencer64}, which then writes it to the MIDI output buss.
 
    \itempar{Record MIDI Data}{pattern editor!record midi data}
-   Activating this button will route incoming MIDI data into
-   \textsl{Sequencer64}, which will then save the data to its buffer, and also
-   display the new information (notes) in the piano roll view.
+   This button routes incoming MIDI data into
+   \textsl{Sequencer64}, which then saves the data to its buffer, and also
+   displays the new information (notes) in the piano roll view.
 
    \itempar{Quantized Record}{pattern editor!quantized record}
-   Activating this button will also cause MIDI data to be recorded, but it
-   will be quantized on the fly before recording it.  The quantization is
-   to the current snap value.
+   This button will causes MIDI data to be recorded, but be
+   quantized on the fly before recording it.
+   The quantization is to the current snap value.
 
    \itempar{Recording Type}{pattern editor!recording type}
    In \textsl{Seq24}, the pattern recording worked by merging new notes played
@@ -1394,28 +1394,31 @@
 
    \begin{enumber}
       \item \textbf{Merge}. \index{merge}
-      \index{recording type!merge}
-      This is the "legacy" style of recording loops, where notes can
-      accumulate.
-      \item \textbf{Replace.} \index{replace}
+         \index{recording type!merge}
+         This is the "legacy" style of recording loops, where notes can
+         accumulate.
+      \item \textbf{Replace.}
+      \index{replace}
       \index{recording type!replace}
-      In this method of recording, whenever the loop starts over, and a note is
-      pressed, then the existing notes in that loop are erased, and the new
-      note is added.  This provides a good way of correcting major mistakes,
-      live.  Note that this method will not work if adding notes while not
-      recording.  Also note that this mode can cause incomplete notes if one
-      holds the note and releases it in the next iteration, leaving a
-      partially-drawn note behind.  The workaround is to try again.
-      \item \textbf{Expand}. \index{expand}
-      \index{recording type!expand}
-      In this method of recording, once the end of the loop is near, whether or
-      not any notes are being input, another measure is added to the length of
-      the loop.  This continues indefinitely, whether or not any notes are
-      being played/recorded.
+         When the loop starts over, and a note is pressed,
+         then the existing notes in that loop are erased,
+         and the new note is added.
+         This provides a good way of correcting major mistakes, live.
+         It will not work if adding notes while not recording.
+         This mode can cause incomplete notes if one
+         holds the note and releases it in the next iteration, leaving a
+         partially-drawn note behind.  The workaround is to try again.
+      \item \textbf{Expand}.
+         \index{expand}
+         \index{recording type!expand}
+         Once the end of the loop is near, whether or
+         not any notes are being input, another measure is added to the length of
+         the loop.  This continues indefinitely, whether or not any notes are
+         being played/recorded.
    \end{enumber}
 
    \itempar{Vol}{pattern editor!vol}
-   This button allows controlling the volume of the recording.
+   This button allows setting the volume of the recording.
    The velocity of the notes will be set to the selected value upon recording.
    If the \textbf{Free} item is selected, then the incoming note velocity is
    preserved.
@@ -1431,11 +1434,11 @@
    These values correspond to MIDI volume levels from 127 down to 16, as
    shown in the figure.
 
-   One thing fixed in the 0.90.x version is the ability to store MIDI note-on
-   events with the actual velocity provided by the MIDI keyboard used to
-   generate the notes.  Previously, even in \textsl{seq24},
-   the \textbf{Free} option in the \textbf{Vol} menu option did not work.
-   This is fixed.
+%  One thing fixed in the 0.90.x version is the ability to store MIDI note-on
+%  events with the actual velocity provided by the MIDI keyboard used to
+%  generate the notes.  Previously, even in \textsl{seq24},
+%  the \textbf{Free} option in the \textbf{Vol} menu option did not work.
+%  This is fixed.
 
 \subsection{Pattern Editor / Common Actions}
 \label{subsec:seq64_pattern_editor_common}
@@ -1488,9 +1491,9 @@
          \texttt{0} \index{keys!0} keys to change the timeline zoom.
    \end{itemize}
 
-   The actions of this scrolling are surprisingly smooth and fast.
+   The actions of this scrolling are smooth and fast.
    If an event is selected in the piano-roll area or the (thin) event area,
-   then the scrolling action increases or decreases the value of the event.
+   then the scrolling increases or decreases the value of the event.
    In the case of a note, this increases or decreases the velocity of the note.
    For all events, this increases or decreases the length of the vertical line
    that represents the value of the event.
@@ -1501,11 +1504,9 @@
    There is no \textbf{Close} button in the pattern editor.  One can use
    window-manager actions, such as clicking on the X button of the window
    frame, or pressing the exit key defined in the window manager.
-
+   \index{window!close}
    \textsl{Sequencer64} also provides the Ctrl-W key to close the pattern
    editor window.
-   \index{window!close}
-
    However, be aware that this convention does not apply to the other
    application windows of \textsl{Sequencer64}.
 

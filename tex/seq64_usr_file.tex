@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-10-02
+% \update      2018-10-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -20,7 +20,7 @@
    There are two \textsl{Sequencer64} configuration files:
    \texttt{sequencer64.rc} and \texttt{sequencer64.usr}.
    See \sectionref{sec:seq64_rc_file}; it describes the "rc" file.
-   They are a bit different in how they are handled.
+   It is a bit different in how it is handled.
 
    The \textsl{Sequencer64} "usr" (or "user")
    configuration file provides a way to give more
@@ -61,7 +61,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{buss/manual-0-buss-dropdown.png}
+   \includegraphics[scale=0.65]{buss/manual-0-buss-dropdown.png}
    \caption{Sequencer64 Composite View of Native Devices}
    \label{fig:seq64_manual_0_buss_dropdown}
 \end{figure}
@@ -75,7 +75,7 @@
    events are in the loaded MIDI file, of course; a solid black square
    indicates that such an event was found in the pattern.
 
-   Now let's assume we have 3 MIDI "buss" devices hooked to our system:
+   Assume we have 3 MIDI "buss" devices hooked to our system:
    two Model "2x2" MIDI port devices, and an old PCR-30 MIDI controller
    keyboard.  Let's number them:
 
@@ -272,8 +272,7 @@
 
    Note that these user-instrument entries can be quickly disabled by changing
    the count values to 0.
-
-   Please note that, as of version 0.9.10.1, these instrument-definition
+   Also, these instrument-definition
    sections are read from the "user" configuration file only if
    the \texttt{--reveal-alsa-ports} option is \textsl{off} ("0");
    this command-line option can also be specified in the
@@ -340,8 +339,7 @@
 
    Above, the "reveal" ports option overrides the device names given in the
    "usr" file, so that the native system names of the input ports are shown.
-
-   However, note that \textsl{Sequencer64} no longer overrides the
+   However, \textsl{Sequencer64} no longer overrides the
    names of the input ports via the "usr" file.  This is done to
    save some trouble in displaying the input port names, which are shown
    only in this dialog.  We may consider offering a separate override section
@@ -483,10 +481,16 @@
       # the Sequencer64 user-interface elements.
 
       # Specifies the style of the main-window grid of patterns.
-      # 0 = normal style, matches the GTK theme, has brackets.
-      # 1 = white grid boxes that have brackets.
-      # 2 = black grid boxes.
-      2       # grid_style
+      #
+      # GTK:
+      #   0 = Normal style, matches the GTK theme, has brackets.
+      #   1 = White grid boxes that have brackets.
+      #   2 = Black grid boxes (no brackets, our favorite).
+      #
+      # Qt:
+      #   0 = Slot coloring matches Kepler34.
+      #   1 = Slot coloring more like GTK.
+      1       # grid_style
    \end{verbatim}
 
    \index{usr!grid-brackets}
@@ -835,7 +839,7 @@
    To obtain these new settings, remember to backup the existing
    \textsl{sequencer64.usr}, then run \textsl{Sequencer64} with the
    \texttt{--user-save} option, and then do a "diff" on the new file and the
-   original to merge any old value that need to be preserved.  Then make any
+   original to merge any old values that need to be preserved.  Then make any
    further tweaks to the new values.
 
 \subsection{"usr" File / User Options}
@@ -896,7 +900,7 @@
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{buss/manual-0-userfile-buss-dropdown.png}
+   \includegraphics[scale=0.65]{buss/manual-0-userfile-buss-dropdown.png}
    \caption{Sequencer64 Composite View of Non-Native Devices}
    \label{fig:seq64_manual_0_userfile_buss_dropdown}
 \end{figure}
@@ -909,27 +913,24 @@
 
    Look at the selected buss, "[0]".  It's 16 channels are now associated with
    the devices to which the channels have been assigned.
-
    Thus, when we have a new pattern we've created in \textsl{Sequencer64},
-   can assign it to exactly the buss and device we want.
+   we can assign it to exactly the buss and device we want.
 
    If we don't have port-mappers installed, and thus have only one playback
    device plugged into the buss, we can still create a setup that
    shows the device and a specific program setup.  Doing so would be tedious,
    but perhaps there's some automated way to do it?
-
    Lastly, note the following figure.
 
 \begin{figure}[H]
    \centering 
-   \includegraphics[scale=0.75]{buss/manual-0-userfile-seq-buss-dropdowns.png}
+   \includegraphics[scale=0.65]{buss/manual-0-userfile-seq-buss-dropdowns.png}
    \caption{The MIDI Bus Menu for a Specific Pattern}
    \label{fig:seq64_manual_0_userfile_seq_buss_dropdown}
 \end{figure}
 
    This figure shows that we can also select the desired port and channel
    directly from the main window.
-
    There's more to the "user" configuration file than we've exposed here.
 %  but finding more information about this file has proven a bit tricky.
 

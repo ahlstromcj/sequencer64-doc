@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2017-12-26
+% \update      2018-10-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -17,40 +17,44 @@
 \section{Song Editor}
 \label{sec:seq64_song_editor}
 
-   The \textsl{Sequencer64 Song Editor} is used to combine all of the patterns
-   into a complete tune.  It works by showing one row per
-   pattern/loop/sequence in numbered columns, and the placement of each
-   pattern at various musical bars in the song.
+   The \textsl{Sequencer64 Song Editor} combines all patterns
+   into a complete tune with specified repetitions of each pattern.
+   It shows one row per pattern/loop/sequence in numbered columns,
+   with the placement of each pattern at various time locations in the song.
    \index{performance}
-   In \textsl{Sequencer64} parlance, the Song Editor creates a
-   \textsl{performance}.
-   \index{song mode}
+   In \textsl{Sequencer64} parlance, the song editor creates a
+   \textsl{performance}, and the performance is implemented by a set of
+   triggers (see \sectionref{subsubsec:concepts_terms_trigger}).
 
-   \textbf{New:}
+   \index{song mode}
    \index{new!dual song editors}
    As an option in the \texttt{[user-interface]}
    section of the "user" configuration file, two song editor windows can be
    brought onscreen, as a convenience for arranging projects with a large
    number of sequences/patterns.
-   It also provides the \textbf{Song} mode of \textsl{Sequencert64},
-   as opposed to the \textbf{Live} mode provided by the Patterns Panel, when
-   \textsl{Sequencer64} is running in ALSA mode.
-   (In JACK mode, the live versus song mode is controlled by the JACK
-   start-mode flag.)
+   (In the Qt user-interface, a Song tab and a Song window can be shown at the
+   same time.)
+   The Song window, when in focus, also activates
+   the \textbf{Song} mode of \textsl{Sequencert64},
+   as opposed to the \textbf{Live} mode activated by the Patterns panel when it
+   is in focus.
+%  , when \textsl{Sequencer64} is running in ALSA mode.
+%  (In JACK mode, the live versus song mode is controlled by the JACK
+%  start-mode flag.)
 
-   When the Song Editor has the focus of the application, it
-   takes over control from the Patterns Panel.  The Song Editor then
-   controls playback.  Once playback is started in the Song Editor, some actions
-   in the Patterns Panel no longer have effect, effectively disabling live
-   mode.  The Song Editor takes over the arming/unarming (unmuting/muting)
-   shown in the Patterns Panel.  The highlighting of armed/unarmed patterns
-   changes according to whether the pattern is playing in the Song Editor, or
+   When the song editor has the focus of the application, it
+   takes over control from the patterns panel.  The song editor then
+   controls playback.
+   Once playback is started in the song editor, some actions
+   in the patterns panel no longer have effect, effectively disabling live
+   mode.  The song editor takes over the arming/unarming (unmuting/muting)
+   shown in the patterns panel.  The highlighting of armed/unarmed patterns
+   changes according to whether the pattern is playing in the song editor, or
    not.  If one tries to change the muting using a hot-key (or even a click) in
-   the Patterns Panel, the Song Editor immediately returns the pattern to the
-   state it has in the Song Editor.  The only way to manually change the muting
-   then is to click the pattern's label in the Song Editor.
-   
-   Both the Song Editor and the Patterns Panel both reflect the change in
+   the patterns panel, the song editor immediately returns the pattern to the
+   state it has in the song editor.  The only way to manually change the muting
+   then is to click the pattern's label in the song editor.
+   Both the song editor and the patterns panel both reflect the change in
    muting in the user-interface, though with \textsl{opposite colors}.
 
 \begin{figure}[H]
@@ -62,60 +66,58 @@
    \label{fig:song_editor_window}
 \end{figure}
 
-   \textbf{New:}
-   There are some new features for the song editor, as
+   Here are some features for the song editor, as
    seen above and in the following figure:
 
 \begin{figure}[H]
    \centering 
    \includegraphics[scale=0.75]{new/song-editor-0_9_10_1.png}
-   \caption{Song Editor Window, New Features}
+   \caption{Song Editor Window, Features}
    \label{fig:song_editor_window_new_features}
 \end{figure}
 
    \begin{itemize}
       \index{shift left click}
       \item Toggling of the mute state of multiple patterns by holding the
-         Shift key while left-clicking on the M or a pattern name;
+         Shift key while left-clicking on the M or a pattern name.
       \index{pause}
-      \item The new Pause button functionality;
+      \item Pause button functionality.
       \index{progress bar}
-      \item The optional coloring (about 7 color values are selectable)
+      \item Optional coloring (selected in the Patterns panel)
          and thickening of the progress bar.
       \index{redo}
-      \item A new Redo button (not shown).
+      \item A Redo button (not shown).
       \index{transpose}
-      \item A new Transpose button (not shown).
+      \item A Transpose button (not shown).
       \index{untransposable color}
       \item Red coloring of events for patterns that are not transposable, such
          as drum tracks.
    \end{itemize}
 
-   \index{new!empty pattern}
-   \textbf{New:} 
-   This dialog (in \textsl{Sequencer64}) shows any empty patterns
-   highlighted in yellow.  An empty pattern is one that exists, but
+   \index{empty pattern}
+   This window (in \textsl{Sequencer64}) shows any empty patterns
+   highlighted in yellow (Gtkmm only).
+   An empty pattern is one that exists, but
    contains only meta information, and contains no MIDI events that
    can be played.  For example, some tracks just serve as name tracks or
    information tracks.
    
-   The Song Editor is not too complex, but for exposition, we break it into
+   The song editor is not too complex, but for exposition, we break it into
    the top panel, the bottom panel, and the rest of the window.
 
-   \textbf{New:}
-   There are still more features of the song editor in
-   pending version 0.9.15, as seen in the following
-   figure:
-
-\begin{figure}[H]
-   \centering 
-   \includegraphics[scale=0.75]{new/song_editor_top_panel_transpose-0_9_15.png}
-   \caption{Song Editor Window, Transpose Song}
-   \label{fig:song_editor_window_transpose_song}
-\end{figure}
+%  There are still more features of the song editor in
+%  pending version 0.9.15, as seen in the following
+%  figure:
+%
+% \begin{figure}[H]
+%    \centering 
+%    \includegraphics[scale=0.75]{new/song_editor_top_panel_transpose-0_9_15.png}
+%    \caption{Song Editor Window, Transpose Song}
+%    \label{fig:song_editor_window_transpose_song}
+% \end{figure}
 
    \index{transpose}
-   Notice the additional button that allows the whole song (except for
+   There is a button that allows the whole song (except for
    exempt, non-transposable sequences) to be transposed up or down by up to an
    octave in either direction.
 
@@ -163,7 +165,7 @@
    \index{L marker}
    Starts the playback of the song, starting at the \textbf{L marker}.
    The \textbf{L marker} serves as the start position for playback
-   in the Song Editor.  One can change the start position only when the
+   in the song editor.  One can change the start position only when the
    performance is not playing.
    \index{keys!space (play)}
    The default keystroke for starting playback is the \texttt{Space} character.
@@ -175,15 +177,15 @@
 
    \itempar{Play Loop}{song editor!play loop}
    \index{loop mode}
-   Activate loop mode. When Play is activated,  play the song and loop
+   Activates loop mode. When Play is activated,  play the song and loop
    between the
    \index{L marker}
    \index{R marker}
    \textbf{L marker} and the \textbf{R marker}.
    This button is a state button, and its appearance indicates when it is
    depressed, and thus active.
-   If this button is deactivated during playback, then playback will
-   continue past the \textbf{R marker}.
+   If this button is deactivated during playback, then playback
+   continues past the \textbf{R marker}.
 
    \itempar{Beats Per Bar}{song editor!beats/bar}
    Part of the time signature, and specifies the number of beat units per bar.
@@ -196,23 +198,22 @@
    and 16 for sixteenth notes.
 
    \itempar{Grid Snap}{song editor!grid snap}
-   Grid snap selects where the patterns will be drawn.
-   Unlike the \textbf{Grid Snap} of the Pattern Editor, the units
-   of the Song Editor snap value are in fractions of a measure length.
+   Grid snap selects where the patterns are drawn.
+   Unlike the \textbf{Grid Snap} of the pattern editor, the units
+   of the song editor snap value are in fractions of a measure length.
    The following values are supported:
    1, 1/2, 1/4, 1/8, 1/16, 1/32, and 1/3, 1/6, 1/12, and 1/24.
 
    \itempar{Redo}{song editor!redo}
-   The Redo button will reapply the last change that was "undone" by
-   the Undo button.
-   It will be inactive if there is nothing to redo.
+   The Redo button reapplies the last change undone by
+   the Undo button.  It is inactive if there is nothing to redo.
 
    \itempar{Undo}{song editor!undo}
-   The Undo button will roll back the last change in the layout of a
-   pattern.  Each time it is clicked, the most recent change will be undone.
-   It will roll back one change each time it is pressed.
-   It is not certain what the undo limit is, however.
-   It will be inactive if there is nothing to undo.
+   The Undo button rolls back the last change in the layout of a
+   pattern.  Each time it is clicked, the most recent change is undone.
+   It rolls back one change each time pressed.
+%  It is not certain what the undo limit is, however.
+   It is inactive if there is nothing to undo.
 
    \itempar{Collapse}{song editor!collapse}
    This button collapses the song between the \textbf{L marker} and the
@@ -220,10 +221,10 @@
    What this means is that, if there is song material (patterns) before the
    \textbf{L marker} and after the \textbf{R marker},
    and the \textbf{Collapse} button is
-   pressed, any song material between the L and R markers is wiped out, and
+   pressed, any song material between the L and R markers is erased, and
    the song material after the \textbf{R marker} is moved leftward to
    the \textbf{L marker}.
-   Collapsing occurs in all tracks present in the Song Editor.
+   Collapsing occurs in all tracks present in the song editor.
 
    \itempar{Expand}{song editor!expand}
    This button expands the song between the
@@ -231,7 +232,7 @@
    It inserts blank space between these markers, moving the song material
    that is after the \textbf{R marker}
    to the right by the duration of the blank space.
-   Expansion occurs in all tracks present in the Song Editor.
+   Expansion occurs in all tracks present in the song editor.
 
    \itempar{Expand and copy}{song editor!expand and copy}
    This button expands the song between the \textbf{L marker} and the
@@ -271,14 +272,14 @@
    with a few long tracks, rather than a large number of smaller patterns.
    In other words, the patterns used here are very long, and used only once
    in the song.
-   (We will provide an example that shows off \textsl{Sequencer64}'s
-   pattern features better, at some point.)
+%  (We will provide an example that shows off \textsl{Sequencer64}'s
+%  pattern features better, at some point.)
 
-   Please note that, if playback is started with the Song Editor as the
-   active window, then the pattern boxes in the patterns panel will
+   If playback is started with the song editor as the
+   active window, then the pattern boxes in the patterns panel
    show as armed/unarmed (unmuted/muted) depending upon whether or not the
    pattern is shown as playing (or not) at the current playback position in
-   the Song Editor piano roll.
+   the song editor piano roll.
 
    The following figure highlights the main features of the center panel of the
    song editor.
@@ -308,8 +309,7 @@
    consists of a \textsl{measures ruler} (bar indicator) at the top, a
    numbered patterns column at the left with a muting indicator, and the
    grid or roll section.  There are a lot of hidden details in the
-   arrangement panel, as the figure shows.  Here are the main sections we
-   will deal with:
+   arrangement panel, as the figure shows.  Here are the main sections:
 
    \begin{enumber}
       \item \textbf{Patterns Column}
@@ -348,7 +348,7 @@
          The letter M is in a black box if the track/pattern is muted, and a
          white box if it is unmuted.
          Left-clicking on the "M" (or the name of the pattern)
-         will mute/unmute the pattern.
+         mutes/unmutes the pattern.
          \index{shift left click}
          If the Shift key is held while left-clicking on the M or the pattern
          name, then
@@ -394,7 +394,7 @@
 
    The "Piano Roll" section of the arrangement panel is where patterns or
    subsections are inserted, deleted, shrunk, lengthened, or moved.
-   Here are the items to note in the annotated Piano Roll area
+   Here are features to note in the annotated piano roll area
    shown in \figureref{fig:song_editor_window_full_items}:
 
    \begin{enumber}
@@ -413,16 +413,17 @@
          marker in it, breaking the pattern into two equal pieces.
          We call each piece a \textsl{pattern subsection}.
          This division can be done over and over.
-         (Note that, in the Song Editor, a middle-click
+         In the song editor, a middle-click
           \textsl{cannot} be simulated by ctrl-left-click.)
       \item \textbf{Selection Position}.
          A selection position is a marker that divides a pattern into two
          pieces, called \textsl{pattern subsections}.  This makes it easy to
          select smaller portions of a pattern for editing or deleting.  It
-         is especially useful for making holes in a pattern.  There may be
-         other uses of a selection position that we have not yet discovered.
+         is especially useful for making holes in a pattern.
+%        There may be
+%        other uses of a selection position that we have not yet discovered.
       \item \textbf{Selection}.
-         By clicking inside a pattern or a pattern subsection, it darkens
+         Clicking inside a pattern or a pattern subsection darkens it
          (gray) to denote that it is selected.
          A pattern subsection can be deleted by the
          \index{keys!delete}
@@ -435,12 +436,14 @@
          \texttt{Ctrl-V} key.  When inserted, each insert goes immediately
          after the current item or the previous insertion.  The same can be
          done for whole patterns.
-      \item \textbf{Section Length}.
+      \item \textbf{Section Length ("handle")}.
          \index{song editor!handle}
          \index{song editor!section length}
          Looking closely at the diagram where the arrows point, small
-         squares in two corners of the patterns can be seen.  By grabbing
-         that square with a left-click, the square can be moved horizontally
+         squares in two corners of the patterns can be seen.
+         Call them "handles".
+         By grabbing
+         a handle with a left-click, the handle can be moved horizontally
          to either lengthen or shorted the pattern or pattern subsection, if
          there is room to move in the desired direction.
          It doesn't matter if the item is selected or not.
@@ -448,17 +451,16 @@
          \index{song editor!section movement}
          If, instead of grabbing the section length handle, one grabs inside
          the pattern or pattern subsection, that item can be moved
-         horizontally, as long as their is room.  Or course, left-clicking
-         inside the item will also cause it to show as selected.
+         horizontally, as long as there is room.  A left-click
+         inside the item shows it as selected.
          One can also highlight a pattern section (making it gray),
          then click the \texttt{p} key to enter "paint" mode, and move the
          pattern left or right with the arrow keys.
-         In the near future, movement of selected trigger segments will not
-         require the paint mode to be active just to move the segments left or
-         right.
+%        In the near future, movement of selected trigger segments will not
+%        require the paint mode to be active just to move the segments left or
+%        right.
       \item \textbf{Expansion}.
          \index{song editor!section expansion}
-         If, instead of grabbing the section length handle, one grabs inside
          Originally, all the long patterns of this sample song were continuous.
          But, by setting the L and R markers, and using the \textbf{Expand}
          button, we opened up some silent space in the song, just to be able
@@ -466,21 +468,22 @@
    \end{enumber}
 
    \index{song editor!split pattern}
-   A feature not yet noted is the ability to split a pattern section in the
-   song editor, either in half or at the nearest snap point to the mouse
-   pointer.  The kind of split that is done is determined by the
+   A useful feature is to split a pattern section in the
+   song editor, either in half, or at the nearest snap point to the mouse
+   pointer.
+   The location of the split is determined by the
    setting of the \textbf{File / Options / Mouse / Sequencer64 Options /
-   Middle click splits song trigger at nearest snap (instead of halfway point)}
+   Middle-click splits song trigger at nearest snap (instead of halfway point)}
    setting.  To split a pattern, left-click it to highlight it, move
-   the mouse (if not splitting in half) to the desired pointer, and press
-   \texttt{Ctrl-left} on the mouse.
+   the mouse (if not splitting in half) to the desired pointer, and
+   ctrl-left-click with the mouse.
 
-   The \textsl{Seq24} help files refer to work in the Song Editor as the
+   The \textsl{Seq24} help files refer to work in the song editor as the
    "Performance Editor" or "Performance Mode".  Adding a pattern in this
-   window is a bit like adding a note in the Pattern Editor.
-   One clicks, holds, and drags the mouse to insert a copy of the pattern
-   associated with the row in which one is dragging.  The longer one drags,
-   the more copies of the pattern that are inserted.
+   window is a bit like adding a note in the pattern editor.
+   One clicks, holds, and drags the mouse to insert a copy or copies of the
+   pattern associated with the row in which one is dragging.
+   The longer one drags, the more copies of the pattern that are inserted.
 
    \index{song editor!right-click-hold}
    \index{song editor!draw}
@@ -489,59 +492,54 @@
    \index{new!mod4 mode}
    \index{keys!mod4}
    \index{song editor!mod4}
-   \textbf{New:}
-   Just like the Patterns Panel, there is a feature to allow the Mod4 (the
+   Just like the patterns panel, there is a feature to allow the Mod4 (the
    Super or Windows) key to keep the right-click in force even after it is
-   released.  See \ref{new_mod4_mode}.  Basically, pressing Mod4 before
-   releasing the right-click that allows pattern-adding, keeps
+   released.  See \ref{new_mod4_mode}.  Pressing Mod4 before
+   releasing the right-click that allows pattern-adding ("painting"), keeps
    pattern-adding in force after the right-click is released.  Now pattern
    can be entered at will with the left mouse button.  Right-click again to
    leave the pattern-adding mode.
 
-   \textbf{New:}
    \index{new!paint mode}
-   Another way to turn on the paint mode has been added.
-   To turn on the paint mode, first make sure that the piano roll has the
+   Another way to turn on painting:
+   make sure that the performance editor piano roll has the
    keyboard focus by left-clicking in it, then press the
    \index{keys!p}
-   \texttt{p} key while in the performance editor.
-   This is just like pressing the right mouse button, but the draw/paint mode
-   sticks (as if the Mod4 mode were in force).
+   \texttt{p} key.
+%  This is just like pressing the right mouse button, but the draw/paint mode
+%  sticks (as if the Mod4 mode were in force).
    While in the paint mode, one can add pattern clips with the left mouse
    button, via click or drag, and one can highlight a pattern clip and move it
    with the left and right arrow keys.
 
-   In the near future, movement of selected trigger segments will not
-   require the paint mode to be active just to move the segments left or
-   right.
+%  In the near future, movement of selected trigger segments will not
+%  require the paint mode to be active just to move the segments left or
+%  right.
 
    To get out of the paint mode, press the
    \index{keys!x}
-   \texttt{x} key while in the sequence editor, to "x-scape" (get it?  get it?)
+   \texttt{x} key while in the sequence editor, to "x-scape"
    from the paint mode.
-   These keys, however, do not work (currently) while the sequence is playing.
+   These keys, however, do not work while the sequence is playing.
 
-   \textbf{New:}
-   \index{new!zoom keys}
+   \index{zoom keys}
    \index{keys!0}
    \index{keys!z}
    \index{keys!shift-z}
-   \textsl{Sequencer64}, as of version 0.9.10, now supports zoom in the song
-   editor's piano roll.  This feature is not accessible via a button or a menu
+   The song editor supports zoom in the piano roll.
+   This feature is not accessible via a button or a menu
    entry -- it is accessible only via keystrokes.
    After one has left-clicked in the piano roll, the \texttt{z}, \texttt{Z},
    and \texttt{0} can be used to zoom the piano-roll view.  The \texttt{z} key
    zooms out, the \texttt{Z} key zooms in, and the \texttt{0} key resets the
-   zoom to the default value.  The zoom feature also modifies the time-line
-   (measures indicator).
+   zoom to the default value.  The zoom feature also modifies the time-line.
 
    \index{song editor!left-click-right-hold}
    \index{song editor!insert}
-   Then simultaneously left-click the mouse to insert one copy of the
-   pattern.  The inserted pattern will show up as a box with a tiny
-   representation of the notes visible inside.  (Some patterns, however, can
-   be less than a measure in length, resulting in a tiny box.)
-
+   A left-click with a simultaneous right-click-hold inserts one copy of the
+   pattern.  The inserted pattern shows up as a box with a tiny
+   representation of the notes visible inside.  Some patterns can
+   be less than a measure in length, resulting in a tiny box.
    \index{song editor!right-left-hold-drag}
    \index{song editor!multiple insert}
    To keep adding more copies of the pattern, continue to hold both buttons
@@ -592,10 +590,9 @@
    placement of the pattern events.
 
    Note that the \textbf{L marker} serves as the start position for playback
-   in the Song Editor.  One can change the start position only when the
+   in the song editor.  One can change the start position only when the
    performance is not playing.
 
-   \textbf{New:}
    \index{new!marker mode}
    \index{new!movement mode}
    Another way to move the L and R markers, a so-called "movement mode"
@@ -612,17 +609,16 @@
    Then press the left or right arrow key to move the "L" or "R" (depending
    whether \texttt{l} or \texttt{r} was used to enter the movement mode)
    markers by one snap value at a time.
-
    To get out of the movement mode, press the
    \index{keys!x}
-   \texttt{x} key while in the performance editor, to "x-scape" from the
-   movement mode.
+   \texttt{x} key while in the performance editor, to "x-scape".
 
 \subsection{Song Editor / Bottom Panel}
 \label{subsec:seq64_song_editor_bottom}
 
    The bottom panel is simple, consisting of a stock horizontal scroll bar
-   and a small button, called the \textbf{Grow} button.
+   and a small button, called the \textbf{Grow} button, labelled with a
+   "\textbf{$>$}".
 
    \index{grow button}
    \index{song editor!grow}

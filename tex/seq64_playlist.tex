@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2018-09-15
-% \update      2018-09-30
+% \update      2018-10-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -18,9 +18,7 @@
 \section{Sequencer64 Play-Lists}
 \label{sec:playlist}
 
-   We have added a play-list feature to \textsl{Sequencer64}.
-   This section consolidates the description of the play-list support.
-
+   \textsl{Sequencer64} now supports play-lists.
    A play-list is a variation on the "rc" file, conventionally ending with the
    extension \texttt{.playlist}.  It contains a number of "playlist" sections,
    each with a human-readable title, selectable via a MIDI control number.
@@ -39,7 +37,8 @@
    The playlist can be specified on the command-line, or in
    the "rc" file (see \sectionref{subsec:seq64_rc_file_playlist}).
    If it is specified on the command line, that playlist setup will
-   be written to the "rc" file.
+   be written to the "rc" file.  It can be removed by specifying a blank
+   play-list name.
 
    The play-list format is defined in the following section.
    Later sections describe the various user-interfaces.

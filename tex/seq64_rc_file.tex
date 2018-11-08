@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2015-08-31
-% \update      2018-10-02
+% \update      2018-10-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -385,6 +385,45 @@
    that, as the controller data increases (as the modulation-wheel knob is
    turned, so to speak), patterns 0 through 7 come on one at a time until
    all are running.
+
+\subsubsection{"rc" File / MIDI Control / Pattern Group Multiples}
+\label{subsubsec:seq64_rc_file_midi_ctrl_pattern_mult}
+
+   This section describes a feature of the pattern-group that needs it own
+   section for emphasis.  This section describes using a single MIDI control to
+   control a number of operations at one time.  Essentially, if a particular
+   MIDI control row is repeated, each repetition has its own effect on the
+   patterns, which permits one MIDI control event to control multiple patterns
+   at once.
+
+   This control can be used, for example, to emulate the \textsl{Ableton Live
+   row control} functionality.  Here is a sample that uses the lowest range of
+   MIDI notes to control the muting and unmuting of patterns:
+
+   \begin{verbatim}
+      # Pattern-group section:
+      0 [0 0 0 0 0 0]   [1 0 144  0   0 127]  [1 0 128    0   0 127]
+      1 [0 0 0 0 0 0]   [1 0 144  1   0 127]  [1 0 128    1   0 127]
+      2 [0 0 0 0 0 0]   [1 0 144  2   0 127]  [1 0 128    2   0 127]
+      3 [0 0 0 0 0 0]   [1 0 144  3   0 127]  [1 0 128    3   0 127]
+      4 [0 0 0 0 0 0]   [1 0 144  0   0 127]  [1 0 128    0   0 127]
+      5 [0 0 0 0 0 0]   [1 0 144  1   0 127]  [1 0 128    1   0 127]
+      6 [0 0 0 0 0 0]   [1 0 144  2   0 127]  [1 0 128    2   0 127]
+      7 [0 0 0 0 0 0]   [1 0 144  3   0 127]  [1 0 128    3   0 127]
+      8 [0 0 0 0 0 0]   [1 0 144  0   0 127]  [1 0 128    0   0 127]
+      9 [0 0 0 0 0 0]   [1 0 144  1   0 127]  [1 0 128    1   0 127]
+      10 [0 0 0 0 0 0]  [1 0 144  2   0 127]  [1 0 128    2   0 127]
+      11 [0 0 0 0 0 0]  [1 0 144  3   0 127]  [1 0 128    3   0 127]
+      12 [0 0 0 0 0 0]  [1 0 144  0   0 127]  [1 0 128    0   0 127]
+      13 [0 0 0 0 0 0]  [1 0 144  1   0 127]  [1 0 128    1   0 127]
+      14 [0 0 0 0 0 0]  [1 0 144  2   0 127]  [1 0 128    2   0 127]
+      15 [0 0 0 0 0 0]  [1 0 144  3   0 127]  [1 0 128    3   0 127]
+   \end{verbatim}
+
+   Observer that MIDI On (144) and Off (128) events appear four times for
+   each note value of 0, 1, 2, and 3.  Each note value thus controls four
+   patterns -- one whole row in a 4x8 pattern.  When note 0 is pressed,
+   patterns 0, 4, 8, and 12 turn on.  When note 0 is released, they turn off.
 
 \subsubsection{"rc" File / MIDI Control / Mute-In Group}
 \label{subsubsec:seq64_rc_file_midi_ctrl_mutein}

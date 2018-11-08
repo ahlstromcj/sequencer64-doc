@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2016-01-02
-% \update      2018-01-15
+% \update      2018-10-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -17,43 +17,42 @@
 
    The \textsl{Sequencer64 Event Editor} is used to view and edit,
    in detail, the events present in a sequence/pattern/track.
-
-   \textbf{Warning:}
-   \index{warning!event editor}
-   This dialog is a new feature of \textsl{Sequencer64}, and is
-   still a work-in-progress.  Basic viewing and scrolling generally work well,
-   and editing, deleting, and inserting events does work.
+   This editor is not very sophisticated.
+   It is a basic editor for simple edits and viewing.
+   Viewing and scrolling generally work;
+   editing, deleting, and inserting events work.
    But there are many possible interactions between event links (Note Off
    events linked to Note On events), performance triggers, and the pattern,
    performance, and event editor dialogs.
    Surely some bugs still lurk.
    If anything bad happens, do \textsl{not} press the
    \textbf{Save to Sequence} button!
-   If the application aborts, let the programmer know!
+   If the application aborts, let us know!
 
-   Also note that this editor is not very sophisticated:
+   Here are the major "issues":
 
    \begin{enumerate}
       \item It requires the user to know the details
          about MIDI events and data values.
       \item It does not present handy dropdown lists for various items.
       \item It does not detect any changes made to the sequence in the
-         pattern editor.
-      \item It does not have any undo function.
+         pattern editor, and so both editors cannot be brought on screen at the
+         same time for the same pattern.
+      \item It does not have an undo function.
       \item It cannot mark more than one event for deletion or modification.
       \item There is no support for dragging and dropping of events.
    \end{enumerate}
 
-   If, some day, we find ourselves needing
-   that kind of functionality, then we can add it.
-   There may also be issues with interactions between the event editor and
-   things like the performance editor and triggers.
-   For now, the event editor is a good way to see the events in a sequence,
+%  If, some day, we find ourselves needing
+%  that kind of functionality, then we can add it.
+%  There may also be issues with interactions between the event editor and
+%  things like the performance editor and triggers.
+   The event editor is a good way to see the events in a sequence,
    and to delete or modify problematic events.
    Additionally, it can be used to add \textbf{Set Tempo} meta events.
    \index{sequence extension}
    \index{pattern extension}
-   Furthermore, if an event is added that has a time-stamp beyond the current
+   If an event is added that has a time-stamp beyond the current
    length of the sequence, then the length of the sequence is extended.
    Unlike the event pane in the pattern editor, the event-editor
    dialog shows all types of events at once.
@@ -61,7 +60,7 @@
 \begin{figure}[H]
    \centering 
 %  \includegraphics[scale=0.75]{event-editor/preliminary-event-editor.png}
-   \includegraphics[scale=0.75]{new/event-editor-updated.png}
+   \includegraphics[scale=0.65]{new/event-editor-updated.png}
    \caption{Event Editor Window}
    \label{fig:event_editor_window}
 \end{figure}
@@ -76,14 +75,13 @@
       \item \textbf{Bottom Buttons}
    \end{enumber}
 
-   The event frame consists of a list of events, which can be viewed,
-   traversed, and edited.  The info fields in the info panel show the name of
-   the sequence containing the events, and some other information about the
-   sequence.  The edit fields provide four text fields for viewing and entering
+   The event frame is a list of events, which can be traversed, and edited.
+   The fields in the right panel show the name of
+   the pattern containing the events and other information about the
+   pattern.  The edit fields provide text fields for viewing and entering
    information about the current event, and buttons to delete, insert, and
    modify events.  The bottom buttons allow changes to be saved and the editor
    to be closed.  
-
    The following sections described these items in detail.
 
 \subsection{Event Editor / Event Frame}
@@ -92,8 +90,7 @@
    The event frame is the event-list shown on the left side of the
    event editor.  It is accompanied by a vertical scroll-bar, for moving one
    line or one page at a time.
-
-   Also note that mouse or touchpad scrolling can be used to move up and down
+   Mouse or touchpad scrolling can be used to move up and down
    in the event list.  This movement is even easier than reaching for the
    scrollbars.
 
@@ -122,14 +119,15 @@
 
    \itempar{Index Number}{event editor!index number}
    Displays the index number of the event.
-   This number is purely for the reference of the user, and is not part
+   This number is purely for reference, and is not part
    of the event.  Events in the pattern are numbered from 0 to the number of
-   events in the pattern.  They serve as a way to better know where one is in
-   the sequence.
+   events in the pattern.
+%  They serve as a way to better know where one is in
+%  the sequence.
 
    \itempar{Time Stamp}{event editor!time stamp}
-   Displays the time stamp of the event.
-   This value indicates the cumulative time of the event in the pattern.
+   Displays the time stamp of the event,
+   which indicates the cumulative time of the event in the pattern.
    It is displayed in the format of "measure:beat:divisions".
    The measure values start from 1, and range up to the number of measures in
    the pattern.
@@ -155,16 +153,17 @@
       \item \textbf{Program Change}
       \item \textbf{Channel Pressure}
       \item \textbf{Pitch Wheel}
+      \item \textbf{Tempo}
    \end{enumber}
 
-   \textbf{Note that these are all MIDI \textsl{channel events}.
-   Support for MIDI \textsl{system events} is in place, but is not
-   ready for exposure to the user.}
+%  \textbf{Note that these are all MIDI \textsl{channel events}.
+%  Support for MIDI \textsl{system events} is in place, but is not
+%  ready for exposure to the user.}
 
    \itempar{Channel Number}{event editor!channel number}
-   Shows the channel number (for channel-events only).
-   Be sure to note that, for the user, MIDI channels always range from
-   1 to 16.  (Internally, they range from 0 to 15).
+   Shows the channel number (for channel-events only) re 0, not 1.
+   For the user, of course, MIDI channels always range from
+   1 to 16.  Internally, they range from 0 to 15.
 
    \itempar{Data Bytes}{event editor!data bytes}
    Shows the one or two data bytes for the event.
@@ -174,22 +173,21 @@
    Control Change events require a control code and a value for that control
    code.  Pitch wheel events require two bytes to encode the full range of
    pitch changes.
-
    Program change events require only a byte value to pick the patch or program
    (instrument) to be used for the sequence.  The Channel Pressure event
    requires only a one-byte value.
+   Tempo requires a number (e.g. "120.3") to be typed in.
 
 \subsubsection{Event Frame / Navigation}
 \label{subsec:seq64_event_frame_navigation}
 
-   Moving about in the event frame is fairly straightforward, but has some
-   wrinkles to note.  (It was more difficult to get working than expected!)
-
+   Moving about in the event frame is straightforward, but has some
+   wrinkles to note.
+%  (It was more difficult to get working than expected!)
    Navigation with the mouse is done by moving to the desired event and
    clicking on it.  The event becomes highlighted, and its data items are shown
-   in the "info panel" (discussed in the next section).
-   There is currently no support for dragging and dropping events in the event
-   frame.
+   in the "info panel".
+   There is no support for dragging and dropping events in the event frame.
 
    The scrollbar can be used to move within the frame, either by one line at a
    time, or by a page at a time.  A page is defined as one frame's worth of
@@ -205,27 +203,28 @@
 \label{subsec:seq64_event_editor_info}
 
    The "info panel" is simply a read-only list of properties on the top right
-   of the event editor.  It serves to remind the used of the sequence being
-   edited and some characteristics of the sequence and the whole song.
-   Currently, five items are shown:
+   of the event editor.  It serves to remind the used of the pattern being
+   edited and some characteristics of the pattern and the whole song.
+   Five items are shown:
 
    \begin{enumber}
-      \item \textbf{Sequence Name}.
-         This item is redundant, as the window caption for the event editor
-         also shows the sequence name.  It can be set in the pattern editor.
+      \item \textbf{Sequence Number and Name}.
+         A bit redundant, as the window caption for the event editor
+         also shows the pattern name.
+         It can be set in the pattern editor.
       \item \textbf{Time Signature}.
-         This item is a sequence property.  It can be set in the pattern
-         editor.
+         A pattern property, shown only as a reminder.
+         It can be set in the pattern editor.
       \item \textbf{PPQN}
-         This item shows the "parts per quarter note", or resolution of the
+         Shows the "parts per quarter note", or resolution of the
          whole song.  The default PPQN of \textsl{Sequencer64} is 192.
       \item \textbf{Sequence Channel}
          In \textsl{Sequencer64}, the channel number is a property of the
-         sequence.  All channel events in the sequence get routed to the same
+         pattern.  All channel events in the pattern get routed to the same
          channel, even if somehow the event itself specifies a different
          channel.
       \item \textbf{Sequence Count}
-         Displays the current number of events in the sequence.
+         Displays the current number of events in the pattern.
          This number changes as events are inserted or deleted.
    \end{enumber}
 
@@ -247,7 +246,7 @@
       \item \textbf{Modify Current Event}
    \end{enumber}
 
-   It is important to note that changes made in the event editor
+   \textbf{Important}: changes made in the event editor
    are \textsl{not} written to the sequence until the \textbf{Save to Sequence}
    button is clicked.  If one messes up an edit field, just click on the event
    again; all the fields will be filled in again.
@@ -288,20 +287,18 @@
       \item \textbf{Program Change}
       \item \textbf{Channel Pressure}
       \item \textbf{Pitch Wheel}
+      \item \textbf{Tempo}
    \end{enumber}
 
-   Typing in one of these names should change the kind of event if the event is
+   Typing in one of these names changes the kind of event if the event is
    modified.  Abbreviations and case-insensitivity can be used to reduce the
    effort of typing.
-
-   \textbf{Bug:}
-   \index{bugs!event name change}
-   Currently, the handling of the editing of the event name is a bit clumsy.
-   Also, it would be better to provide a drop-down list for more painless
-   selection of events.
+   This handling of the editing of the event name is still a bit clumsy.
+   It would be better to provide a drop-down list for more painless
+   selection of events.  Some day.
 
    \itempar{Data Byte 1}{event editor!data byte 1}
-   Allows the modification of the first data byte of the event.
+   Allows modification of the first data byte of the event.
    One must know what one is doing.
    The scanning of the digits is very simple:  start with the first digit, and
    convert until a non-digit is encountered.  The data-byte value can be
@@ -309,25 +306,23 @@
    notation.
 
    \itempar{Data Byte 2}{event editor!data byte 2}
-   Allows the modification of the second data byte of the event (if applicable
+   Allows modification of the second data byte of the event (if applicable
    to the event).
    One must know what one is doing.
-   The scanning of the digits is very simple:  start with the first digit, and
-   convert until a non-digit is encountered.  The data-byte value can be
-   entered in decimal notation, or, if prepended with "0x", in hexadecimal
-   notation.
+   The scanning of the digits is as noted above.
 
    \itempar{Delete Current Event}{event editor!delete event}
-   Causes the currently-selected event to be deleted.
+   Causes the selected event to be deleted.
    The frame display is updated to move following events upward.
 
    \index{bugs!event delete key}
    \index{bugs!event insert key}
    \textsl{Sequencer64} would support using the Delete and Insert keys to
    supplement the buttons, but the Delete key is needed for editing the event
-   data fields.  The current structure of the dialog prevents using it for both
+   data fields.
+   The current structure of the dialog prevents using it for both
    the frame and the edit fields.  Therefore, \textsl{Sequencer64} allows the
-   usage of the asterisk keys (both regular and keypad) for
+   usage of the \textbf{asterisk} keys (regular and keypad) for
    deletion.
 
    \itempar{Insert New Event}{event editor!insert event}
@@ -341,8 +336,8 @@
    moves to show the new event, so be careful.
 
    \itempar{Modify Current Event}{event editor!modify event}
-   Deletes the current event, and inserts a new event.
-   The modified event is placed in the appropriate location for the given
+   Deletes the current event, and inserts the modified event,
+   which is placed in the appropriate location for the given
    timestamp.
 
 \subsection{Event Editor / Bottom Buttons}
@@ -359,18 +354,16 @@
    \setcounter{ItemCounter}{0}      % Reset the ItemCounter for this list.
 
    \itempar{Save to sequence}{event editor!save to sequence}
-   Saves the current state of the event container back to the sequence from
+   Saves the event container back to the sequence from
    whence the events came.  This button does not close the dialog; further
    editing can be performed.  The Save button is enabled only if
-   some unsaved changes to the events still exist.
+   some unsaved changes to the events exist.
+%  Note that there may still be some subtle bugs in the dialog editor, so be
+%  careful about pressing this button.
 
-   Note that there may still be some subtle bugs in the dialog editor, so be
-   careful about pressing this button.
-
-   Also note that any sequence/pattern editor that is open should be reflected
+   Any sequence/pattern editor that is open should be reflected
    in the pattern editor once this button is pressed.  However, at present,
    simultaneous use of the pattern editor and event editor has been disabled.
-
    \index{bugs!event delete segfault}
    If both the event editor and the pattern editor are open for a sequence
    (currently disabled), and

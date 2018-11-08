@@ -6,7 +6,7 @@
 % \library     Documents
 % \author      Chris Ahlstrom
 % \date        2018-10-20
-% \update      2018-10-20
+% \update      2018-10-28
 % \version     $Revision$
 % \license     $XPC_GPL_LICENSE$
 %
@@ -37,7 +37,7 @@
    Even long tracks, that aren't short loops, are imported.
    The difference from \textbf{File / Open} is that the destination screen-set
    (bank) for the import can be specified, and the existing data in the
-   currently-loaded MIDI file is preserved.
+   already-loaded MIDI file is preserved.
    If the imported file is a
    \textsl{Sequencer64} MIDI file, it's proprietary sections will
    \textsl{not} be imported, in order to preserve the performance setup.
@@ -49,9 +49,9 @@
    \label{fig:seq64_midi_export_file_import}
 \end{figure}
 
-   When imported, each track, whether a music track or an information track,
-   is entered into its own loop/pattern box (slot).  The import operation can
-   handle reasonably complex files.
+   When imported, each track, whether music or information,
+   is entered into its own loop/pattern box (slot).
+   The import operation can handle reasonably complex files.
 %  as shown in the following diagram, which shows an import of
 %  such as the \texttt{contrib/b4uacuse.mid} file, which contains
 %  a transcription of an Eric Clapton / Robert Cray tune made over 20 years ago.
@@ -59,19 +59,20 @@
 
    Note the additional file-dialog field,
    \textbf{Select Screen Offset}.
-   This field is present only in Gtkmm, but not Qt; in Qt, the current
-   selected screen-set/bank is where the import is loaded, and the patterns
-   are appended after any existing patterns.
    \index{import!select screen offset}
    \index{select screen offset}
    This setting is actually a set offset.
    It lets one place the imported data into a screen-set other than
-   the first screen-set (screen-set 0).
-   This field is not editable.  It requires using the scroll button to move the
+   the first screen-set (0).
+   This field is not editable.
+   It requires using the scroll button to move the
    screen set offset up or down in value, from 0 to 31.
+   This field is present only in Gtkmm, but not Qt;
+   in Qt, the current selected screen-set/bank is where the import is loaded,
+   and the patterns are appended after any existing patterns.
 
-   When the file is imported, the sequence number for each track read is
-   adjusted to put the track in the desired screen-set.
+   When the file is imported, the sequence number for each track is
+   adjusted to put the track into the desired screen-set.
    The import can place the imported data into any of the 32 available
    screen-sets.  Quite large songs can be built by importing patterns.
 
@@ -98,22 +99,21 @@
          track must be unmuted, and it must have triggers (see
          \sectionref{subsubsec:concepts_terms_trigger}).  That is,
          the track must have a layout entry in the \textbf{Song Editor}.
-         A track need not have any playable data to be exported.
-      \item All of the triggers for a given track are consolidated.  Each
-         trigger generates the events, including repeats and
-         offset-play of the track information.
-         If there is a gap in the layout (e.g.
-         due to an \textbf{Expand} operation in the Song Editor), then the
-         corresponding gap in the events is exported. The result is
-         a track that reconstructs the original
+%        A track need not have any playable data to be exported.
+      \item All triggers for a given track are consolidated.
+         Each trigger generates the events, including repeats and
+         offset-play of the events.
+         If there is a gap in the layout
+         (e.g. due to an \textbf{Expand} operation in the Song Editor),
+         then the corresponding gap in the events is exported.
+         The result is a track that reconstructs the original
          playback/performance layout of that pattern.
 %        This track is not needed (or even usable) in any
 %        non-Seq24-based MIDI sequencer;
          The events themselves are sufficient to play the performance exactly.
-         The triggers are useful
-         for further editing of the song/performance,
+         The triggers are useful for further editing of the song/performance,
          so they are preserved (in a \textbf{SeqSpec} section).
-      \item Any empty pattern slots between tracks are removed.
+      \item Empty pattern slots between tracks are removed.
       \item No matter what set the original track was in, it ends up in the
          first set.
       \item Other additions, such as time signature and tempo meta events, are
@@ -137,10 +137,11 @@
    \label{fig:seq64_midi_export_file_unexportable}
 \end{figure}
 
-   Once the file is exported, open it to see
-   the results of the export.  Both the main window and the
-   song performance window show the results of the export.
-   Here is a short song, in two sets, shown in a composite view of four windows,
+   Once the file is exported, reopen it to see the results of the export.
+   Both the main window and the song performance window show the results of the
+   export.
+   Here is a short song, in two sets, shown in a composite view of
+   four windows,
    showing each set and the performance layout of the tracks in the sets.
    (Note the second Song Editor window.)
 
@@ -163,7 +164,7 @@
    \label{fig:seq64_song_exported}
 \end{figure}
 
-   One sees that the two sets are now combined into the first set,
+   The two sets are combined into the first set,
    and all of the track layouts (triggers) have been exported.
    Had there been gaps in layouts or repeats of layouts in the song/performance
    data, these would have been reflected in the triggers.
@@ -183,10 +184,10 @@
    the SeqSpec data for each track, and does not include all the SeqSpec data
    (such as mute groups) that is normally written to the end of the
    \textsl{Sequencer64} MIDI file.
-   Note that the meta data for track name is still written, so that the
-   resulting file might be a little larger than the original
-   \texttt{.mid} file that was imported into \textsl{Sequencer64}.
-
+   Note that the meta data for track name is still written.
+%  , so that the
+%  resulting file might be a little larger than the original
+%  \texttt{.mid} file that was imported into \textsl{Sequencer64}.
 %  Also note that other meta data not handled by \textsl{Sequencer64},
 %  such as Meta \texttt{FF 21 01 pp} (MIDI port pp), are also lost.
 
